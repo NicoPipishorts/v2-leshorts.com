@@ -1,0 +1,157 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "experience": "Expérience",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+  },
+  "home": {
+    "greeting": "Bonjour, je suis",
+    "name": "Nicolas Pisar",
+    "subtitle": "Développeur Full Stack & Designer Créatif",
+    "description": "Je crée de belles expériences numériques avec des technologies modernes. Passionné par le code propre et les interfaces utilisateur intuitives.",
+    "viewWork": "Voir mon travail",
+    "getInTouch": "Me contacter"
+  },
+  "about": {
+    "title": "À propos de moi",
+    "paragraph1": "Ingénieur frontend et product builder, je suis animé depuis longtemps par la création d'expériences numériques rapides, claires et intuitives. J'ai commencé à coder en 2001 et j'ai construit ma carrière autour des écosystèmes JavaScript modernes, avec une expertise approfondie en React et React Native.",
+    "paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
+    "paragraph3": "Mon travail s'est élargi vers le full-stack, avec des services Node.js, la conception d'API, la mise en place d'infrastructure et des déploiements basés sur Docker. Je travaille avec des bases SQL/PostgreSQL ainsi qu'avec des outils comme Prisma et Sequelize pour créer des systèmes scalables et maintenables. Mon expérience précédente chez Apple en support technique et en tests produit a façonné une approche pragmatique et rigoureuse, centrée sur l'ergonomie, la fiabilité et l'impact concret.",
+    "skillsTitle": "Compétences & Technologies",
+    "softSkillsTitle": "Soft Skills",
+    "softSkills": {
+      "rigor": {
+        "title": "Rigueur",
+        "point1": "Méthodes de travail organisées pour plus d'efficacité",
+        "point2": "Forte attention à la qualité et aux standards",
+        "point3": "Maintien d'un niveau de qualité élevé"
+      },
+      "actionOriented": {
+        "title": "Orienté vers l'action",
+        "point1": "Trouve des solutions concrètes rapidement",
+        "point2": "Résolution rapide des problèmes",
+        "point3": "S'adapte vite aux changements"
+      },
+      "teamwork": {
+        "title": "Travail en équipe",
+        "point1": "Écoute active et respect des clients et collègues",
+        "point2": "Collabore pour atteindre les objectifs communs",
+        "point3": "Gestion constructive des conflits"
+      },
+      "adaptability": {
+        "title": "Adaptabilité",
+        "point1": "Accueille facilement le changement",
+        "point2": "Bonne capacité d'adaptation",
+        "point3": "Anticipe les évolutions et les défis"
+      },
+      "selfLearner": {
+        "title": "Autodidacte",
+        "point1": "Apprentissage continu et développement autonome des compétences"
+      }
+    },
+    "paragraph4": "Depuis deux ans, je suis également Président de l'association pour enfants Le Sou des Ecoles de La Batie Montgascon. Nous organisons 7 manifestations par année scolaire, ce qui permet de générer un budget de plus de 900 € par classe pour financer les sorties scolaires et d'autres activités pour les enfants."
+  },
+  "experience": {
+    "title": "Expérience",
+    "subtitle": "Vue type CV de mon parcours, de mes impacts et de mon stack technique.",
+    "rolesTitle": "Parcours Professionnel",
+    "hardSkillsTitle": "Hard Skills",
+    "skillGroups": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "dataInfra": "Data & Infrastructure",
+      "delivery": "Delivery & Produit"
+    },
+    "roles": {
+      "vuedesprit": {
+        "title": "Founder & Product Engineer",
+        "company": "Vue d'Esprit",
+        "period": "Actuel",
+        "summary": "Conception et livraison de solutions web et produit pour des clients, de l'idée à la mise en production.",
+        "point1": "Pilotage d'implémentations produit end-to-end avec React, TypeScript et Node.js.",
+        "point2": "Définition du périmètre, de l'architecture et des roadmaps de livraison avec les clients.",
+        "point3": "Garantie de la fiabilité en production via un code maintenable et des workflows de déploiement."
+      },
+      "kaast": {
+        "title": "Co-Founder & Full-Stack Product Builder",
+        "company": "Kaast",
+        "period": "Actuel",
+        "summary": "Conception d'une plateforme de communication média interne déjà utilisée par plusieurs entreprises.",
+        "point1": "Développement des fonctionnalités produit sur le frontend, le backend et les APIs.",
+        "point2": "Mise en place de l'infrastructure et d'environnements conteneurisés pour les releases.",
+        "point3": "Collaboration continue avec les utilisateurs pour itérer rapidement sur les priorités."
+      },
+      "intercloud": {
+        "title": "Frontend Developer",
+        "company": "InterCloud",
+        "period": "Précédent",
+        "summary": "Livraison d'interfaces frontend centrées sur la performance, la clarté et la maintenabilité.",
+        "point1": "Implémentation de fonctionnalités UI avec des frameworks JavaScript modernes.",
+        "point2": "Collaboration avec les équipes produit et engineering sur les améliorations user-facing.",
+        "point3": "Contribution à une architecture propre et à des composants réutilisables."
+      },
+      "apple": {
+        "title": "Support Technique & Tests Produit",
+        "company": "Apple",
+        "period": "Précédent",
+        "summary": "Développement d'une approche très pragmatique autour de la fiabilité, de l'ergonomie et du diagnostic.",
+        "point1": "Résolution de problèmes techniques avec une méthode structurée orientée utilisateur.",
+        "point2": "Participation aux tests produit et aux boucles de feedback qualité.",
+        "point3": "Renforcement des compétences de communication et de résolution en contexte soutenu."
+      },
+      "soudesecoles": {
+        "title": "Président",
+        "company": "Le Sou des Ecoles de La Batie Montgascon",
+        "period": "Depuis 2 ans",
+        "summary": "Pilotage d'une association à but non lucratif qui soutient les projets et activités scolaires des enfants.",
+        "point1": "Coordination de 7 manifestations par année scolaire avec bénévoles et familles.",
+        "point2": "Contribution à un budget de plus de 900 € par classe pour sorties et événements.",
+        "point3": "Gestion de la planification, de la communication et de l'exécution avec les acteurs locaux."
+      }
+    }
+  },
+  "portfolio": {
+    "title": "Mon Portfolio",
+    "subtitle": "Une collection de projets sur lesquels j'ai travaillé",
+    "projects": {
+      "ecommerce": {
+        "title": "Plateforme E-commerce",
+        "description": "Une plateforme d'achat en ligne complète avec panier, paiement et intégration de paiement."
+      },
+      "taskManager": {
+        "title": "Application de Gestion de Tâches",
+        "description": "Outil de gestion de tâches collaboratif avec mises à jour en temps réel et fonctionnalités d'équipe."
+      },
+      "analytics": {
+        "title": "Tableau de Bord Analytique",
+        "description": "Tableau de bord de visualisation de données avec graphiques interactifs et métriques en temps réel."
+      },
+      "socialMedia": {
+        "title": "Application de Médias Sociaux",
+        "description": "Plateforme de réseau social moderne avec publications, commentaires et profils utilisateurs."
+      }
+    }
+  },
+  "contact": {
+    "title": "Contactez-moi",
+    "subtitle": "Vous avez une question ou voulez travailler ensemble ? Envoyez-moi un message !",
+    "form": {
+      "name": "Nom",
+      "namePlaceholder": "Votre nom",
+      "email": "Email",
+      "emailPlaceholder": "votre.email@exemple.com",
+      "message": "Message",
+      "messagePlaceholder": "Votre message...",
+      "submit": "Envoyer le message"
+    },
+    "socialTitle": "Connectez-vous avec moi",
+    "social": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter",
+      "email": "Email"
+    }
+  }
+}

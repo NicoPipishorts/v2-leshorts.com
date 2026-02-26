@@ -1,0 +1,39 @@
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-background);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-logo-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.loading-logo {
+  width: 20vw;
+  height: 20vw;
+  min-width: 150px;
+  min-height: 150px;
+  max-width: 300px;
+  max-height: 300px;
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .loading-logo {
+    width: 30vw;
+    height: 30vw;
+    min-width: 120px;
+    min-height: 120px;
+  }
+}
