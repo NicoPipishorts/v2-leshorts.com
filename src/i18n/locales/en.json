@@ -1,157 +1,148 @@
 {
-  "nav": {
-    "home": "Home",
-    "about": "About",
-    "experience": "Experience",
-    "portfolio": "Portfolio",
-    "contact": "Contact"
-  },
-  "home": {
-    "greeting": "Hi, I'm",
-    "name": "Nicolas Pisar",
-    "subtitle": "Full Stack Developer & Creative Designer",
-    "description": "I craft beautiful digital experiences with modern technologies. Passionate about clean code and intuitive user interfaces.",
-    "viewWork": "View My Work",
-    "getInTouch": "Get In Touch"
-  },
-  "about": {
-    "title": "About Me",
-    "paragraph1": "Frontend engineer and product builder with a long-standing passion for creating digital experiences that are fast, clear, and intuitive. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with deep expertise in React and React Native.",
-    "paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by multiple clients.",
-    "paragraph3": "My work has expanded toward full-stack development, including Node.js services, API design, infrastructure setup, and Docker-based deployments. I work with SQL/PostgreSQL databases and tools such as Prisma and Sequelize to build scalable and maintainable systems. My earlier experience at Apple in technical support and product testing shaped a practical, detail-oriented approach focused on usability, reliability, and real-world impact.",
-    "skillsTitle": "Skills & Technologies",
-    "softSkillsTitle": "Soft Skills",
-    "softSkills": {
-      "rigor": {
-        "title": "Rigor",
-        "point1": "Organized work methods for efficiency",
-        "point2": "Strong focus on quality and standards",
-        "point3": "Maintains high levels of work quality"
-      },
-      "actionOriented": {
-        "title": "Action-Oriented",
-        "point1": "Finds concrete solutions quickly",
-        "point2": "Resolves issues efficiently",
-        "point3": "Adapts fast to changing situations"
-      },
-      "teamwork": {
-        "title": "Teamwork",
-        "point1": "Practices active listening and respect with clients and colleagues",
-        "point2": "Collaborates to achieve shared objectives",
-        "point3": "Handles conflict constructively"
-      },
-      "adaptability": {
-        "title": "Adaptability",
-        "point1": "Embraces change naturally",
-        "point2": "Adjusts quickly to new contexts",
-        "point3": "Anticipates shifts and challenges"
-      },
-      "selfLearner": {
-        "title": "Self-Learner",
-        "point1": "Continuous learning mindset with self-driven skill development"
-      }
-    },
-    "paragraph4": "For the past two years, I have also served as President of the kids nonprofit association Le Sou des Ecoles de La Batie Montgascon. We organize 7 events each school year, helping generate a budget of over €900 per classroom to support school trips and other activities for the children."
-  },
-  "experience": {
-    "title": "Experience",
-    "subtitle": "CV-style overview of my professional path, impact, and technical stack.",
-    "rolesTitle": "Professional Experience",
-    "hardSkillsTitle": "Hard Skills",
-    "skillGroups": {
-      "frontend": "Frontend",
-      "backend": "Backend",
-      "dataInfra": "Data & Infrastructure",
-      "delivery": "Delivery & Product"
-    },
-    "roles": {
-      "vuedesprit": {
-        "title": "Founder & Product Engineer",
-        "company": "Vue d'Esprit",
-        "period": "Current",
-        "summary": "Building and shipping web and product solutions for clients, from concept to deployment.",
-        "point1": "Lead end-to-end product implementation with React, TypeScript, and Node.js.",
-        "point2": "Define scope, architecture, and delivery roadmaps with clients.",
-        "point3": "Ensure production reliability with maintainable code and deployment workflows."
-      },
-      "kaast": {
-        "title": "Co-Founder & Full-Stack Product Builder",
-        "company": "Kaast",
-        "period": "Current",
-        "summary": "Designing a media communication platform for internal engagement used by multiple companies.",
-        "point1": "Built product features across frontend, backend, and APIs.",
-        "point2": "Set up infrastructure and containerized environments for releases.",
-        "point3": "Collaborated with users to iterate quickly on product priorities."
-      },
-      "intercloud": {
-        "title": "Frontend Developer",
-        "company": "InterCloud",
-        "period": "Previous",
-        "summary": "Delivered frontend interfaces focused on performance, clarity, and maintainability.",
-        "point1": "Implemented UI features in modern JavaScript frameworks.",
-        "point2": "Worked with product and engineering teams on user-facing improvements.",
-        "point3": "Contributed to clean architecture and reusable component practices."
-      },
-      "apple": {
-        "title": "Technical Support & Product Testing",
-        "company": "Apple",
-        "period": "Previous",
-        "summary": "Developed a strong practical mindset around reliability, usability, and troubleshooting.",
-        "point1": "Resolved technical issues with a structured, user-focused approach.",
-        "point2": "Contributed to product testing and quality feedback loops.",
-        "point3": "Strengthened communication and problem-solving in high-volume contexts."
-      },
-      "soudesecoles": {
-        "title": "President",
-        "company": "Le Sou des Ecoles de La Batie Montgascon",
-        "period": "Last 2 Years",
-        "summary": "Leading a nonprofit association supporting school projects and activities for children.",
-        "point1": "Coordinate 7 fundraising events per school year with volunteers and families.",
-        "point2": "Help secure a budget of over €900 per classroom for trips and events.",
-        "point3": "Manage planning, communication, and execution across local stakeholders."
-      }
-    }
-  },
-  "portfolio": {
-    "title": "My Portfolio",
-    "subtitle": "A collection of projects I've worked on",
-    "projects": {
-      "ecommerce": {
-        "title": "E-commerce Platform",
-        "description": "A full-featured online shopping platform with cart, checkout, and payment integration."
-      },
-      "taskManager": {
-        "title": "Task Management App",
-        "description": "Collaborative task management tool with real-time updates and team features."
-      },
-      "analytics": {
-        "title": "Analytics Dashboard",
-        "description": "Data visualization dashboard with interactive charts and real-time metrics."
-      },
-      "socialMedia": {
-        "title": "Social Media App",
-        "description": "Modern social networking platform with posts, comments, and user profiles."
-      }
-    }
-  },
-  "contact": {
-    "title": "Get In Touch",
-    "subtitle": "Have a question or want to work together? Drop me a message!",
-    "form": {
-      "name": "Name",
-      "namePlaceholder": "Your name",
-      "email": "Email",
-      "emailPlaceholder": "your.email@example.com",
-      "message": "Message",
-      "messagePlaceholder": "Your message...",
-      "submit": "Send Message"
-    },
-    "socialTitle": "Connect With Me",
-    "social": {
-      "github": "GitHub",
-      "linkedin": "LinkedIn",
-      "twitter": "Twitter",
-      "email": "Email"
-    }
-  }
+	"nav": {
+		"home": "About",
+		"portfolio": "Portfolio",
+		"contact": "Contact"
+	},
+	"about": {
+		"title": "About Me",
+		"heroHeading": "Product & Frontend Developer",
+		"heroRows": {
+			"row1Prefix": "I am a",
+			"row1Items": [
+				"geek",
+				"designer",
+				"programmer"
+			],
+			"row2Prefix": "I am a",
+			"row2Items": [
+				"paraglider pilot",
+				"skater",
+				"woodworker"
+			],
+			"row3Prefix": "I am an",
+			"row3Items": [
+				"adrenaline junky",
+				"perfectionist"
+			],
+			"row3Join": "and"
+		},
+		"heroStats": {
+			"codingValue": "20+",
+			"codingLabel": "Years Coding",
+			"productsValue": "2",
+			"productsLabel": "Products in Build",
+			"impactValue": "7/Year",
+			"impactLabel": "School Events Led"
+		},
+		"paragraph1": "Frontend engineer and product builder with a long-standing passion for creating digital experiences that are fast, clear, and intuitive. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with deep expertise in React and React Native.",
+		"paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by multiple clients.",
+		"paragraph3": "My work has expanded toward full-stack development, including Node.js services, API design, infrastructure setup, and Docker-based deployments. I work with SQL/PostgreSQL databases and tools such as Prisma and Sequelize to build scalable and maintainable systems. My earlier experience at Apple in technical support and product testing shaped a practical, detail-oriented approach focused on usability, reliability, and real-world impact.",
+		"hardSkillsIntro": "Core technologies and delivery capabilities I use to design, build, and ship products.",
+		"skillsTitle": "Skills & Technologies",
+		"hobbiesTitle": "Hobbies",
+		"hobbiesIntro": "Outside of product work, I stay active in community projects and activities that reinforce creativity, consistency, and teamwork.",
+		"hobbies": {
+			"item1": "Community Fundraising",
+			"item2": "Family Activities",
+			"item3": "Product & Interface Research",
+			"item4": "Technology Watch",
+			"item5": "Event Organization",
+			"item6": "Local Association Work"
+		},
+		"paragraph4": "For the past two years, I have also served as President of the kids nonprofit association Le Sou des Ecoles de La Batie Montgascon. We organize 7 events each school year, helping generate a budget of over €900 per classroom to support school trips and other activities for the children."
+	},
+	"experience": {
+		"rolesTitle": "Professional Experience",
+		"skillGroups": {
+			"frontend": "Frontend",
+			"backend": "Backend",
+			"dataInfra": "Data & Infrastructure",
+			"delivery": "Delivery & Product"
+		},
+		"roles": {
+			"vuedesprit": {
+				"title": "Founder & Product Engineer",
+				"company": "Vue d'Esprit",
+				"period": "Current",
+				"summary": "Building and shipping web and product solutions for clients, from concept to deployment.",
+				"point1": "Lead end-to-end product implementation with React, TypeScript, and Node.js.",
+				"point2": "Define scope, architecture, and delivery roadmaps with clients.",
+				"point3": "Ensure production reliability with maintainable code and deployment workflows."
+			},
+			"kaast": {
+				"title": "Co-Founder & Full-Stack Product Builder",
+				"company": "Kaast",
+				"period": "Current",
+				"summary": "Designing a media communication platform for internal engagement used by multiple companies.",
+				"point1": "Built product features across frontend, backend, and APIs.",
+				"point2": "Set up infrastructure and containerized environments for releases.",
+				"point3": "Collaborated with users to iterate quickly on product priorities."
+			},
+			"intercloud": {
+				"title": "Frontend Developer",
+				"company": "InterCloud",
+				"period": "Previous",
+				"summary": "Delivered frontend interfaces focused on performance, clarity, and maintainability.",
+				"point1": "Implemented UI features in modern JavaScript frameworks.",
+				"point2": "Worked with product and engineering teams on user-facing improvements.",
+				"point3": "Contributed to clean architecture and reusable component practices."
+			},
+			"apple": {
+				"title": "Technical Support & Product Testing",
+				"company": "Apple",
+				"period": "Previous",
+				"summary": "Developed a strong practical mindset around reliability, usability, and troubleshooting.",
+				"point1": "Resolved technical issues with a structured, user-focused approach.",
+				"point2": "Contributed to product testing and quality feedback loops.",
+				"point3": "Strengthened communication and problem-solving in high-volume contexts."
+			},
+			"soudesecoles": {
+				"title": "President",
+				"company": "Le Sou des Ecoles de La Batie Montgascon",
+				"period": "Last 2 Years",
+				"summary": "Leading a nonprofit association supporting school projects and activities for children.",
+				"point1": "Coordinate 7 fundraising events per school year with volunteers and families.",
+				"point2": "Help secure a budget of over €900 per classroom for trips and events.",
+				"point3": "Manage planning, communication, and execution across local stakeholders."
+			}
+		}
+	},
+	"portfolio": {
+		"projects": {
+			"ecommerce": {
+				"title": "E-commerce Platform",
+				"description": "A full-featured online shopping platform with cart, checkout, and payment integration."
+			},
+			"taskManager": {
+				"title": "Task Management App",
+				"description": "Collaborative task management tool with real-time updates and team features."
+			},
+			"analytics": {
+				"title": "Analytics Dashboard",
+				"description": "Data visualization dashboard with interactive charts and real-time metrics."
+			},
+			"socialMedia": {
+				"title": "Social Media App",
+				"description": "Modern social networking platform with posts, comments, and user profiles."
+			}
+		}
+	},
+	"contact": {
+		"title": "Get In Touch",
+		"form": {
+			"name": "Name",
+			"namePlaceholder": "Your name",
+			"email": "Email",
+			"emailPlaceholder": "your.email@example.com",
+			"message": "Message",
+			"messagePlaceholder": "Your message...",
+			"submit": "Send Message"
+		},
+		"social": {
+			"github": "GitHub",
+			"linkedin": "LinkedIn",
+			"email": "Email"
+		}
+	}
 }

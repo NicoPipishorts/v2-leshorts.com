@@ -18,7 +18,7 @@ interface NavigationProps {
 	onCloseMobileMenu: () => void;
 }
 
-type NavTo = "/" | "/about" | "/experience" | "/portfolio" | "/contact";
+type NavTo = "/" | "/portfolio" | "/contact";
 
 const Navigation = ({
 	mobileMenuOpen,
@@ -41,14 +41,14 @@ const Navigation = ({
 	);
 	const [closingTextShift, setClosingTextShift] = useState<number>(0);
 	const [reversingTextShift, setReversingTextShift] = useState<number>(0);
-	const [hoveredDesktopNav, setHoveredDesktopNav] = useState<NavTo | null>(null);
+	const [hoveredDesktopNav, setHoveredDesktopNav] = useState<NavTo | null>(
+		null,
+	);
 	const closeTimeoutRef = useRef<number | null>(null);
 	const resetTimeoutRef = useRef<number | null>(null);
 
 	const navItems: Array<{ to: NavTo; label: string }> = [
 		{ to: "/", label: t("nav.home") },
-		{ to: "/about", label: t("nav.about") },
-		{ to: "/experience", label: t("nav.experience") },
 		{ to: "/portfolio", label: t("nav.portfolio") },
 		{ to: "/contact", label: t("nav.contact") },
 	];
@@ -171,7 +171,7 @@ const Navigation = ({
 			initial={{ y: -100, opacity: 0 }}
 			animate={{ y: 0, opacity: 1 }}
 			transition={{ duration: 0.6, ease: "easeOut" }}>
-				<div className='mt-0 mx-auto flex min-h-18 w-full items-center justify-between border-b border-white/15 bg-[rgba(9,13,22,0.66)] px-[0.6rem] py-[0.55rem] shadow-[0_6px_18px_rgba(0,0,0,0.18)] backdrop-blur-[6px] md:mt-3 md:w-[min(1080px,calc(100%-2rem))] md:rounded-full md:border md:border-white/20 md:bg-[rgba(9,13,22,0.5)] md:px-[1.15rem] md:py-2 md:shadow-[0_12px_35px_rgba(0,0,0,0.24)] md:backdrop-blur-[14px]'>
+			<div className='mt-0 mx-auto flex min-h-18 w-full items-center justify-between border-b border-white/15 bg-[rgba(9,13,22,0.66)] px-[0.6rem] py-[0.55rem] shadow-[0_6px_18px_rgba(0,0,0,0.18)] backdrop-blur-[6px] md:mt-3 md:w-[min(1080px,calc(100%-2rem))] md:rounded-full md:border md:border-white/20 md:bg-[rgba(9,13,22,0.5)] md:px-[1.15rem] md:py-2 md:shadow-[0_12px_35px_rgba(0,0,0,0.24)] md:backdrop-blur-[14px]'>
 				<Link to='/' className='flex items-center' onClick={closeMenuNow}>
 					<motion.div
 						className='flex cursor-pointer items-center justify-center'
@@ -182,65 +182,65 @@ const Navigation = ({
 				</Link>
 
 				<div className='ml-auto flex items-center gap-[0.65rem] md:gap-8'>
-						<LayoutGroup id='desktop-nav-pills'>
-							<ul
-								className='hidden list-none items-center gap-10 md:flex'
-								onMouseLeave={() => setHoveredDesktopNav(null)}
-								onBlur={(event: FocusEvent<HTMLUListElement>) => {
-									const nextTarget = event.relatedTarget as Node | null;
-									if (!nextTarget || !event.currentTarget.contains(nextTarget)) {
-										setHoveredDesktopNav(null);
-									}
-								}}>
-								{navItems.map((item, index) => {
-									const isActive = isNavItemActive(item.to);
-									const isHovered = hoveredDesktopNav === item.to;
+					<LayoutGroup id='desktop-nav-pills'>
+						<ul
+							className='hidden list-none items-center gap-10 md:flex'
+							onMouseLeave={() => setHoveredDesktopNav(null)}
+							onBlur={(event: FocusEvent<HTMLUListElement>) => {
+								const nextTarget = event.relatedTarget as Node | null;
+								if (!nextTarget || !event.currentTarget.contains(nextTarget)) {
+									setHoveredDesktopNav(null);
+								}
+							}}>
+							{navItems.map((item, index) => {
+								const isActive = isNavItemActive(item.to);
+								const isHovered = hoveredDesktopNav === item.to;
 
-									return (
-										<motion.li
-											key={item.to}
-											initial={{ y: -20, opacity: 0 }}
-											animate={{ y: 0, opacity: 1 }}
-											transition={{ delay: index * 0.1, duration: 0.4 }}>
-											<Link
-												to={item.to}
-												className={`relative inline-flex items-center justify-center overflow-hidden rounded-full px-4 py-2 font-bold transition-colors duration-200 ${
-													isActive || isHovered ? "text-white" : "text-white/90"
-												}`}
-												onMouseEnter={() => setHoveredDesktopNav(item.to)}
-												onFocus={() => setHoveredDesktopNav(item.to)}
-												onClick={closeMenuNow}>
-												{isHovered && (
-													<motion.span
-														layoutId='desktop-hover-pill'
-														className='absolute inset-0 z-0 rounded-full bg-brand-secondary'
-														transition={{
-															type: "spring",
-															stiffness: 420,
-															damping: 32,
-															mass: 0.75,
-														}}
-													/>
-												)}
-												{isActive && (
-													<motion.span
-														layoutId='desktop-active-pill'
-														className='absolute inset-0 z-[1] rounded-full bg-brand-primary'
-														transition={{
-															type: "spring",
-															stiffness: 440,
-															damping: 34,
-															mass: 0.8,
-														}}
-													/>
-												)}
-												<span className='relative z-[2]'>{item.label}</span>
-											</Link>
-										</motion.li>
-									);
-								})}
-							</ul>
-						</LayoutGroup>
+								return (
+									<motion.li
+										key={item.to}
+										initial={{ y: -20, opacity: 0 }}
+										animate={{ y: 0, opacity: 1 }}
+										transition={{ delay: index * 0.1, duration: 0.4 }}>
+										<Link
+											to={item.to}
+											className={`relative inline-flex items-center justify-center overflow-hidden rounded-full px-4 py-2 font-bold transition-colors duration-200 ${
+												isActive || isHovered ? "text-white" : "text-white/90"
+											}`}
+											onMouseEnter={() => setHoveredDesktopNav(item.to)}
+											onFocus={() => setHoveredDesktopNav(item.to)}
+											onClick={closeMenuNow}>
+											{isHovered && (
+												<motion.span
+													layoutId='desktop-hover-pill'
+													className='absolute inset-0 z-0 rounded-full bg-brand-secondary'
+													transition={{
+														type: "spring",
+														stiffness: 420,
+														damping: 32,
+														mass: 0.75,
+													}}
+												/>
+											)}
+											{isActive && (
+												<motion.span
+													layoutId='desktop-active-pill'
+													className='absolute inset-0 z-1 rounded-full bg-brand-primary'
+													transition={{
+														type: "spring",
+														stiffness: 440,
+														damping: 34,
+														mass: 0.8,
+													}}
+												/>
+											)}
+											<span className='relative z-2'>{item.label}</span>
+										</Link>
+									</motion.li>
+								);
+							})}
+						</ul>
+					</LayoutGroup>
 
 					<motion.div
 						className='relative flex h-8 w-18 cursor-pointer items-center rounded-[20px] border-2 border-white/25 bg-white/10 p-1 transition-all duration-300 hover:border-white/50 hover:shadow-[0_2px_8px_rgba(0,0,0,0.2)] md:h-9 md:w-20'
@@ -299,11 +299,11 @@ const Navigation = ({
 				<ul className='mobile-nav-links relative z-1 flex list-none flex-col gap-4'>
 					{navItems.map((item) => (
 						<li key={`mobile-${item.to}`}>
-								<Link
-									to={item.to}
-									className={`mobile-nav-link relative flex items-center justify-start overflow-hidden border-b border-white/15 px-[0.2rem] py-[0.85rem] text-[1.15rem] font-bold text-white/90 [--cta-reverse-shift:0px] [--cta-sweep-color:rgba(220,92,72,0.86)] [--cta-text-shift:0px] ${
-											isNavItemActive(item.to) ? " active" : ""
-										}${closingTarget === item.to ? " exiting" : ""}${reversingTarget === item.to ? " reversing" : ""}`}
+							<Link
+								to={item.to}
+								className={`mobile-nav-link relative flex items-center justify-start overflow-hidden border-b border-white/15 px-[0.2rem] py-[0.85rem] text-[1.15rem] font-bold text-white/90 [--cta-reverse-shift:0px] [--cta-sweep-color:rgba(220,92,72,0.86)] [--cta-text-shift:0px] ${
+									isNavItemActive(item.to) ? " active" : ""
+								}${closingTarget === item.to ? " exiting" : ""}${reversingTarget === item.to ? " reversing" : ""}`}
 								onClick={(event) => handleMobileLinkClick(event, item.to)}
 								data-nav-to={item.to}
 								style={
@@ -316,10 +316,10 @@ const Navigation = ({
 											} as CSSProperties)
 										: undefined
 								}>
-									<span className='mobile-nav-link-label relative z-1 inline-block'>
-										{item.label}
-									</span>
-								</Link>
+								<span className='mobile-nav-link-label relative z-1 inline-block'>
+									{item.label}
+								</span>
+							</Link>
 						</li>
 					))}
 				</ul>

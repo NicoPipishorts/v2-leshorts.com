@@ -1,152 +1,209 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
-import { IconType } from 'react-icons'
-import { FiBookOpen, FiCheckCircle, FiRefreshCw, FiUsers, FiZap } from 'react-icons/fi'
-import AmbientGlows from './AmbientGlows'
-
-interface SoftSkill {
-  title: string
-  points: string[]
-  icon: IconType
-}
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { FiBriefcase, FiFolder, FiLayers, FiServer } from "react-icons/fi";
+import {
+	SiDocker,
+	SiGit,
+	SiJavascript,
+	SiNodedotjs,
+	SiPostgresql,
+	SiPrisma,
+	SiReact,
+	SiReactquery,
+	SiRedis,
+	SiSequelize,
+	SiStrapi,
+	SiTailwindcss,
+	SiTypescript,
+	SiVite,
+} from "react-icons/si";
+import AmbientGlows from "./AmbientGlows";
+import AboutHero from "./about/AboutHero";
+import AboutHobbies from "./about/AboutHobbies";
+import AboutIntro from "./about/AboutIntro";
+import AboutSkills from "./about/AboutSkills";
+import AboutTimeline from "./about/AboutTimeline";
+import { ExperienceRole, SkillGroup } from "./about/types";
 
 const About = () => {
-  const { t } = useTranslation()
+	const { t } = useTranslation();
 
-  const softSkills: SoftSkill[] = [
-    {
-      title: t('about.softSkills.rigor.title'),
-      points: [
-        t('about.softSkills.rigor.point1'),
-        t('about.softSkills.rigor.point2'),
-        t('about.softSkills.rigor.point3'),
-      ],
-      icon: FiCheckCircle,
-    },
-    {
-      title: t('about.softSkills.actionOriented.title'),
-      points: [
-        t('about.softSkills.actionOriented.point1'),
-        t('about.softSkills.actionOriented.point2'),
-        t('about.softSkills.actionOriented.point3'),
-      ],
-      icon: FiZap,
-    },
-    {
-      title: t('about.softSkills.teamwork.title'),
-      points: [
-        t('about.softSkills.teamwork.point1'),
-        t('about.softSkills.teamwork.point2'),
-        t('about.softSkills.teamwork.point3'),
-      ],
-      icon: FiUsers,
-    },
-    {
-      title: t('about.softSkills.adaptability.title'),
-      points: [
-        t('about.softSkills.adaptability.point1'),
-        t('about.softSkills.adaptability.point2'),
-        t('about.softSkills.adaptability.point3'),
-      ],
-      icon: FiRefreshCw,
-    },
-    {
-      title: t('about.softSkills.selfLearner.title'),
-      points: [t('about.softSkills.selfLearner.point1')],
-      icon: FiBookOpen,
-    },
-  ]
+	const roles: ExperienceRole[] = [
+		{
+			key: "vuedesprit",
+			title: t("experience.roles.vuedesprit.title"),
+			company: t("experience.roles.vuedesprit.company"),
+			period: t("experience.roles.vuedesprit.period"),
+			summary: t("experience.roles.vuedesprit.summary"),
+			bullets: [
+				t("experience.roles.vuedesprit.point1"),
+				t("experience.roles.vuedesprit.point2"),
+				t("experience.roles.vuedesprit.point3"),
+			],
+		},
+		{
+			key: "kaast",
+			title: t("experience.roles.kaast.title"),
+			company: t("experience.roles.kaast.company"),
+			period: t("experience.roles.kaast.period"),
+			summary: t("experience.roles.kaast.summary"),
+			bullets: [
+				t("experience.roles.kaast.point1"),
+				t("experience.roles.kaast.point2"),
+				t("experience.roles.kaast.point3"),
+			],
+		},
+		{
+			key: "intercloud",
+			title: t("experience.roles.intercloud.title"),
+			company: t("experience.roles.intercloud.company"),
+			period: t("experience.roles.intercloud.period"),
+			summary: t("experience.roles.intercloud.summary"),
+			bullets: [
+				t("experience.roles.intercloud.point1"),
+				t("experience.roles.intercloud.point2"),
+				t("experience.roles.intercloud.point3"),
+			],
+		},
+		{
+			key: "apple",
+			title: t("experience.roles.apple.title"),
+			company: t("experience.roles.apple.company"),
+			period: t("experience.roles.apple.period"),
+			summary: t("experience.roles.apple.summary"),
+			bullets: [
+				t("experience.roles.apple.point1"),
+				t("experience.roles.apple.point2"),
+				t("experience.roles.apple.point3"),
+			],
+		},
+		{
+			key: "soudesecoles",
+			title: t("experience.roles.soudesecoles.title"),
+			company: t("experience.roles.soudesecoles.company"),
+			period: t("experience.roles.soudesecoles.period"),
+			summary: t("experience.roles.soudesecoles.summary"),
+			bullets: [
+				t("experience.roles.soudesecoles.point1"),
+				t("experience.roles.soudesecoles.point2"),
+				t("experience.roles.soudesecoles.point3"),
+			],
+		},
+	];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
+	const skillGroups: SkillGroup[] = [
+		{
+			key: "frontend",
+			title: t("experience.skillGroups.frontend"),
+			icon: FiLayers,
+			skills: [
+				{ name: "React", icon: SiReact },
+				{ name: "React Native", icon: SiReact },
+				{ name: "TypeScript", icon: SiTypescript },
+				{ name: "JavaScript", icon: SiJavascript },
+				{ name: "TailwindCSS", icon: SiTailwindcss },
+				{ name: "TanStack Query", icon: SiReactquery },
+				{ name: "Vite", icon: SiVite },
+			],
+		},
+		{
+			key: "backend",
+			title: t("experience.skillGroups.backend"),
+			icon: FiServer,
+			skills: [
+				{ name: "Node.js", icon: SiNodedotjs },
+				{ name: "Strapi", icon: SiStrapi },
+				{ name: "Prisma", icon: SiPrisma },
+				{ name: "Sequelize", icon: SiSequelize },
+			],
+		},
+		{
+			key: "dataInfra",
+			title: t("experience.skillGroups.dataInfra"),
+			icon: FiBriefcase,
+			skills: [
+				{ name: "PostgreSQL", icon: SiPostgresql },
+				{ name: "Redis", icon: SiRedis },
+				{ name: "Docker", icon: SiDocker },
+			],
+		},
+		{
+			key: "delivery",
+			title: t("experience.skillGroups.delivery"),
+			icon: FiFolder,
+			skills: [
+				{ name: "Git", icon: SiGit },
+				{ name: "API Design", icon: FiServer },
+				{ name: "Product Discovery", icon: FiLayers },
+				{ name: "Technical Leadership", icon: FiBriefcase },
+			],
+		},
+	];
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 },
-    },
-  }
+	const hobbies = [
+		t("about.hobbies.item1"),
+		t("about.hobbies.item2"),
+		t("about.hobbies.item3"),
+		t("about.hobbies.item4"),
+		t("about.hobbies.item5"),
+		t("about.hobbies.item6"),
+	];
 
-  return (
-    <motion.div
-      className="page relative isolate min-h-screen px-4 pb-8 pt-24 md:px-8 md:pb-16 md:pt-32"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <AmbientGlows />
+	return (
+		<motion.div
+			className='page relative isolate min-h-screen overflow-x-clip pt-24 md:pt-32'
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+			transition={{ duration: 0.45 }}>
+			<AmbientGlows />
 
-      <div className="relative z-10 mx-auto max-w-[1000px]">
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="mb-12 text-[clamp(2.5rem,5vw,3.5rem)] font-bold text-[var(--color-text)]">
-            {t('about.title')}
-          </h1>
-        </motion.div>
+			<div className='relative z-10'>
+				<AboutHero
+					title={t("about.title")}
+					heading={t("about.heroHeading")}
+					row1Prefix={t("about.heroRows.row1Prefix")}
+					row1Items={t("about.heroRows.row1Items", { returnObjects: true }) as string[]}
+					row2Prefix={t("about.heroRows.row2Prefix")}
+					row2Items={t("about.heroRows.row2Items", { returnObjects: true }) as string[]}
+					row3Prefix={t("about.heroRows.row3Prefix")}
+					row3Items={t("about.heroRows.row3Items", { returnObjects: true }) as string[]}
+					row3Join={t("about.heroRows.row3Join")}
+					paragraph={t("about.paragraph1")}
+					stats={{
+						codingValue: t("about.heroStats.codingValue"),
+						codingLabel: t("about.heroStats.codingLabel"),
+						productsValue: t("about.heroStats.productsValue"),
+						productsLabel: t("about.heroStats.productsLabel"),
+						impactValue: t("about.heroStats.impactValue"),
+						impactLabel: t("about.heroStats.impactLabel"),
+					}}
+				/>
 
-        <div className="grid gap-12">
-          <motion.div
-            className="flex flex-col gap-6"
-            initial={{ x: -30, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            <p className="text-lg leading-[1.8] text-[var(--color-text-light)]">{t('about.paragraph1')}</p>
-            <p className="text-lg leading-[1.8] text-[var(--color-text-light)]">{t('about.paragraph2')}</p>
-            <p className="text-lg leading-[1.8] text-[var(--color-text-light)]">{t('about.paragraph3')}</p>
-            <p className="text-lg leading-[1.8] text-[var(--color-text-light)]">{t('about.paragraph4')}</p>
-          </motion.div>
+				<AboutIntro
+					paragraphs={[
+						t("about.paragraph2"),
+						t("about.paragraph3"),
+						t("about.paragraph4"),
+					]}
+				/>
 
-          <motion.div
-            className="mt-2"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <h2 className="mb-8 text-[2rem] text-[var(--color-text)]">{t('about.softSkillsTitle')}</h2>
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-              {softSkills.map((softSkill) => {
-                const Icon = softSkill.icon
-                return (
-                  <motion.div
-                    key={softSkill.title}
-                    className="rounded-xl border border-[var(--color-border)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-300 hover:border-brand-secondary hover:shadow-[0_4px_16px_rgba(72,139,155,0.15)]"
-                    variants={itemVariants}
-                  >
-                    <div className="mb-4 flex items-center gap-3">
-                      <Icon className="text-[1.2rem] text-brand-secondary" />
-                      <h3 className="text-[1.05rem] font-semibold text-[var(--color-text)]">{softSkill.title}</h3>
-                    </div>
-                    <ul className="space-y-2">
-                      {softSkill.points.map((point) => (
-                        <li key={point} className="flex items-start gap-2 text-[0.95rem] text-[var(--color-text-light)]">
-                          <span className="mt-[0.45rem] inline-block h-1.5 w-1.5 rounded-full bg-brand-secondary" />
-                          <span>{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )
-              })}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
+				<AboutTimeline title={t("experience.rolesTitle")} roles={roles} />
 
-export default About
+				<AboutSkills
+					title={t("about.skillsTitle")}
+					intro={t("about.hardSkillsIntro")}
+					skillGroups={skillGroups}
+				/>
+
+				<AboutHobbies
+					title={t("about.hobbiesTitle")}
+					intro={t("about.hobbiesIntro")}
+					hobbies={hobbies}
+				/>
+			</div>
+		</motion.div>
+	);
+};
+
+export default About;
