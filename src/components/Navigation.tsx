@@ -54,8 +54,13 @@ const Navigation = ({
 		{ to: "/contact", label: t("nav.contact") },
 	];
 
+	const currentLanguage =
+		i18n.resolvedLanguage?.startsWith("fr") || i18n.language?.startsWith("fr")
+			? "fr"
+			: "en";
+
 	const toggleLanguage = () => {
-		const newLang = i18n.language === "en" ? "fr" : "en";
+		const newLang = currentLanguage === "en" ? "fr" : "en";
 		i18n.changeLanguage(newLang);
 	};
 
@@ -292,13 +297,13 @@ const Navigation = ({
 							<div className='relative z-2 flex w-full'>
 								<span
 									className={`flex-1 py-1 text-center text-[0.8rem] font-semibold transition-colors duration-300 ${
-										i18n.language === "en" ? "text-white" : "text-white/70"
+										currentLanguage === "en" ? "text-white" : "text-white/70"
 									}`}>
 									EN
 								</span>
 								<span
 									className={`flex-1 py-1 text-center text-[0.8rem] font-semibold transition-colors duration-300 ${
-										i18n.language === "fr" ? "text-white" : "text-white/70"
+										currentLanguage === "fr" ? "text-white" : "text-white/70"
 									}`}>
 									FR
 								</span>
@@ -306,7 +311,7 @@ const Navigation = ({
 							<motion.div
 								className='absolute left-1 top-1 z-1 h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] rounded-2xl bg-brand-primary shadow-[0_2px_4px_rgba(220,92,72,0.3)]'
 								animate={{
-									x: i18n.language === "en" ? 0 : "100%",
+									x: currentLanguage === "en" ? 0 : "100%",
 								}}
 								transition={{ type: "spring", stiffness: 500, damping: 30 }}
 							/>
@@ -324,13 +329,13 @@ const Navigation = ({
 						<div className='relative z-2 flex w-full'>
 							<span
 								className={`flex-1 py-1 text-center text-[0.74rem] font-semibold transition-colors duration-300 ${
-									i18n.language === "en" ? "text-white" : "text-white/70"
+									currentLanguage === "en" ? "text-white" : "text-white/70"
 								}`}>
 								EN
 							</span>
 							<span
 								className={`flex-1 py-1 text-center text-[0.74rem] font-semibold transition-colors duration-300 ${
-									i18n.language === "fr" ? "text-white" : "text-white/70"
+									currentLanguage === "fr" ? "text-white" : "text-white/70"
 								}`}>
 								FR
 							</span>
@@ -338,7 +343,7 @@ const Navigation = ({
 						<motion.div
 							className='absolute left-1 top-1 z-1 h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] rounded-2xl bg-brand-primary shadow-[0_2px_4px_rgba(220,92,72,0.3)]'
 							animate={{
-								x: i18n.language === "en" ? 0 : "100%",
+								x: currentLanguage === "en" ? 0 : "100%",
 							}}
 							transition={{ type: "spring", stiffness: 500, damping: 30 }}
 						/>
