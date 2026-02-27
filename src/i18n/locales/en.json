@@ -21,6 +21,66 @@
 		"paragraph3": "My work has expanded toward full-stack development, including Node.js services, API design, infrastructure setup, and Docker-based deployments. I work with SQL/PostgreSQL databases and tools such as Prisma and Sequelize to build scalable and maintainable systems. My earlier experience at Apple in technical support and product testing shaped a practical, detail-oriented approach focused on usability, reliability, and real-world impact.",
 		"hardSkillsIntro": "Core technologies and delivery capabilities I use to design, build, and ship products.",
 		"skillsTitle": "Skills & Technologies",
+		"softSkillsTitle": "Soft Skills",
+		"softSkillsIntro": "How I collaborate, prioritize, and drive product delivery in real-world contexts.",
+		"softSkills": {
+			"groups": [
+				{
+					"title": "Rigor",
+					"bullets": [
+						"Works methodically and with clear organization to maximize efficiency.",
+						"Stays attentive to detail and overall work quality.",
+						"Maintains high standards and consistent execution quality."
+					]
+				},
+				{
+					"title": "Action-oriented",
+					"bullets": [
+						"Finds concrete, viable solutions to solve problems.",
+						"Adapts quickly when priorities or constraints change."
+					]
+				},
+				{
+					"title": "Team collaboration",
+					"bullets": [
+						"Practices active listening and respects different viewpoints.",
+						"Collaborates proactively to help teams reach shared goals.",
+						"Handles conflicts constructively and keeps momentum."
+					]
+				},
+				{
+					"title": "Adaptability",
+					"bullets": [
+						"Embraces change and adjusts quickly to new contexts.",
+						"Anticipates changes and prepares for upcoming challenges."
+					]
+				},
+				{
+					"title": "Self-learner",
+					"bullets": [
+						"Continuous-learning mindset with autonomous skill growth.",
+						"Proactively explores new tools, patterns, and practices."
+					]
+				}
+			]
+		},
+		"education": {
+			"title": "Education",
+			"intro": "Academic background and formal training.",
+			"entries": [
+				{
+					"title": "High School Diploma",
+					"institution": "PVPHS (USA)",
+					"period": "2004"
+				},
+				{
+					"title": "Web & Mobile Developer Program",
+					"institution": "École O'Clock",
+					"period": "2021 - 2022",
+					"bullets": ["Fullstack core curriculum", "React.js specialization"]
+				}
+			]
+		},
 		"hobbiesTitle": "Hobbies",
 		"hobbiesIntro": "Outside of product work, I stay active in community projects and activities that reinforce creativity, consistency, and teamwork.",
 		"hobbies": {

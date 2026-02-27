@@ -1,0 +1,29 @@
+{
+  "contact": {
+    "phone": "+33 6 58 77 93 65",
+    "email": "me@nicolaspisar.com",
+    "website": "www.nicolaspisar.com",
+    "addressLine1": "110 rue d'Evrieu",
+    "addressLine2": "38110, La Batie Montgascon"
+  },
+  "languages": [
+    "Français (langue maternelle)",
+    "Anglais (courant, 10 ans aux USA)"
+  ],
+  "educationDraft": [
+    {
+      "title": "Baccalauréat",
+      "school": "PVPHS (USA)",
+      "year": "2004"
+    },
+    {
+      "title": "Développeur Web et Web Mobile",
+      "school": "École O'Clock",
+      "period": "2021-2022",
+      "highlights": ["Socle Fullstack", "Spécialisation React.js"]
+    }
+  ],
+  "notes": {
+    "visibility": "Private data store for future CV export work. Not imported by frontend."
+  }
+}

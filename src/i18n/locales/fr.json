@@ -21,6 +21,66 @@
 		"paragraph3": "Mon travail s'est élargi vers le full-stack, avec des services Node.js, la conception d'API, la mise en place d'infrastructure et des déploiements basés sur Docker. Je travaille avec des bases SQL/PostgreSQL ainsi qu'avec des outils comme Prisma et Sequelize pour créer des systèmes scalables et maintenables. Mon expérience précédente chez Apple en support technique et en tests produit a façonné une approche pragmatique et rigoureuse, centrée sur l'ergonomie, la fiabilité et l'impact concret.",
 		"hardSkillsIntro": "Technologies clés et capacités de delivery que j'utilise pour concevoir, construire et livrer des produits.",
 		"skillsTitle": "Compétences & Technologies",
+		"softSkillsTitle": "Soft Skills",
+		"softSkillsIntro": "Ma façon de collaborer, prioriser et livrer des produits dans des contextes concrets.",
+		"softSkills": {
+			"groups": [
+				{
+					"title": "Rigueur",
+					"bullets": [
+						"Travaille de manière méthodique et organisée pour maximiser l'efficacité.",
+						"Reste attentif aux détails et à la qualité du travail.",
+						"Maintient un niveau d'exigence élevé et des standards constants."
+					]
+				},
+				{
+					"title": "Orienté vers l'action",
+					"bullets": [
+						"Trouve des solutions concrètes et viables pour résoudre les problèmes.",
+						"S'adapte rapidement aux changements de contexte et de priorités."
+					]
+				},
+				{
+					"title": "Travail en équipe",
+					"bullets": [
+						"Pratique l'écoute active et respecte les idées et perspectives d'autrui.",
+						"Collabore activement avec l'équipe pour atteindre les objectifs.",
+						"Gère les conflits de manière constructive."
+					]
+				},
+				{
+					"title": "Adaptation aux changements",
+					"bullets": [
+						"Accepte facilement le changement et s'adapte rapidement.",
+						"Anticipe les évolutions et se prépare aux challenges."
+					]
+				},
+				{
+					"title": "Autodidacte",
+					"bullets": [
+						"Développe en continu ses compétences de façon autonome.",
+						"Explore proactivement de nouveaux outils, pratiques et méthodes."
+					]
+				}
+			]
+		},
+		"education": {
+			"title": "Éducation",
+			"intro": "Parcours académique et formations.",
+			"entries": [
+				{
+					"title": "Baccalauréat",
+					"institution": "PVPHS (USA)",
+					"period": "2004"
+				},
+				{
+					"title": "Développeur Web et Web Mobile",
+					"institution": "École O'Clock",
+					"period": "2021 - 2022",
+					"bullets": ["Socle fullstack", "Spécialisation React.js"]
+				}
+			]
+		},
 		"hobbiesTitle": "Centres d'intérêt",
 		"hobbiesIntro": "En dehors du produit, je reste engagé dans des activités qui renforcent la créativité, la régularité et le travail collectif.",
 		"hobbies": {

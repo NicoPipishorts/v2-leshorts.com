@@ -30,3 +30,15 @@ export interface SkillGroup {
 	icon: IconType;
 	skills: SkillItem[];
 }
+
+export interface SoftSkillGroup {
+	title: string;
+	bullets: string[];
+}
+
+export interface EducationEntry {
+	title: string;
+	institution: string;
+	period: string;
+	bullets?: string[];
+}

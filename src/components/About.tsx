@@ -21,13 +21,17 @@ import AmbientGlows from "./AmbientGlows";
 import Contact from "./Contact";
 import AboutHero from "./about/AboutHero";
 import AboutHobbies from "./about/AboutHobbies";
+import AboutEducation from "./about/AboutEducation";
 import AboutIntro from "./about/AboutIntro";
 import AboutSkills from "./about/AboutSkills";
+import AboutSoftSkills from "./about/AboutSoftSkills";
 import AboutTimeline from "./about/AboutTimeline";
 import {
+	EducationEntry,
 	ExperienceProjectHighlight,
 	ExperienceRole,
 	SkillGroup,
+	SoftSkillGroup,
 } from "./about/types";
 
 const About = () => {
@@ -133,6 +137,12 @@ const About = () => {
 			],
 		},
 	];
+	const softSkillGroups = t("about.softSkills.groups", {
+		returnObjects: true,
+	}) as SoftSkillGroup[];
+	const educationEntries = t("about.education.entries", {
+		returnObjects: true,
+	}) as EducationEntry[];
 
 	const skillGroups: SkillGroup[] = [
 		{
@@ -235,6 +245,16 @@ const About = () => {
 					title={t("about.skillsTitle")}
 					intro={t("about.hardSkillsIntro")}
 					skillGroups={skillGroups}
+				/>
+				<AboutSoftSkills
+					title={t("about.softSkillsTitle")}
+					intro={t("about.softSkillsIntro")}
+					skillGroups={softSkillGroups}
+				/>
+				<AboutEducation
+					title={t("about.education.title")}
+					intro={t("about.education.intro")}
+					entries={educationEntries}
 				/>
 
 				<AboutHobbies
