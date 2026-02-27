@@ -1,5 +1,5 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "../components/LoadingScreen";
@@ -57,21 +57,28 @@ const RootComponent = () => {
 	}, []);
 
 	return (
-		<>
+		<LayoutGroup id='root-logo'>
 			<AnimatePresence>
 				{showLoader && <LoadingScreen onComplete={handleLoadingComplete} />}
 			</AnimatePresence>
 			{showContent && (
 				<>
-					<div
+					<motion.div
 						className='absolute left-3 top-3 z-[1100] flex items-center md:left-5 md:top-4'
-						aria-hidden='true'>
+						layoutId='app-shared-logo'
+						aria-hidden='true'
+						transition={{
+							type: "spring",
+							stiffness: 120,
+							damping: 22,
+							mass: 1,
+						}}>
 						<Logo
 							className='h-[3.9rem] w-[3.9rem] text-brand-primary drop-shadow-[0_10px_24px_rgba(0,0,0,0.24)] md:h-[5.1rem] md:w-[5.1rem]'
 							animateOnMount={false}
 							hoverEraseBorder={!isMobileViewport}
 						/>
-					</div>
+					</motion.div>
 					<div className='absolute right-3 top-3 z-[1100] md:right-5 md:top-4'>
 						<button
 							type='button'
@@ -109,7 +116,7 @@ const RootComponent = () => {
 					</main>
 				</>
 			)}
-		</>
+		</LayoutGroup>
 	);
 };
 
