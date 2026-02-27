@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { FiBriefcase, FiFolder, FiLayers, FiServer } from "react-icons/fi";
 import {
@@ -19,9 +20,9 @@ import {
 } from "react-icons/si";
 import AmbientGlows from "./AmbientGlows";
 import Contact from "./Contact";
+import AboutEducation from "./about/AboutEducation";
 import AboutHero from "./about/AboutHero";
 import AboutHobbies from "./about/AboutHobbies";
-import AboutEducation from "./about/AboutEducation";
 import AboutIntro from "./about/AboutIntro";
 import AboutSkills from "./about/AboutSkills";
 import AboutSoftSkills from "./about/AboutSoftSkills";
@@ -35,7 +36,11 @@ import {
 } from "./about/types";
 
 const About = () => {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
+	const currentLanguage =
+		i18n.resolvedLanguage?.startsWith("fr") || i18n.language?.startsWith("fr")
+			? "fr"
+			: "en";
 	const freelanceProjectHighlights = (
 		t("experience.roles.freelance.projects", { returnObjects: true }) as Array<{
 			name: string;
@@ -210,6 +215,16 @@ const About = () => {
 			exit={{ opacity: 0 }}
 			transition={{ duration: 0.45 }}>
 			<AmbientGlows />
+			{createPortal(
+				<div className='pointer-events-none fixed inset-x-0 bottom-5 z-1300 flex justify-center px-4 md:justify-start md:px-8'>
+					<a
+						href={`/api/cv-pdf?lang=${currentLanguage}`}
+						className='pointer-events-auto inline-flex items-center rounded-none bg-brand-primary px-4 py-2 text-[0.84rem] font-semibold tracking-[0.01em] text-white shadow-[0_8px_20px_rgba(16,22,34,0.28)] transition-colors duration-200 hover:bg-(--color-primary-dark)'>
+						{t("about.downloadCvCta")}
+					</a>
+				</div>,
+				document.body,
+			)}
 
 			<div className='relative z-10'>
 				<AboutHero
