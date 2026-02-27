@@ -5,7 +5,6 @@ import {
 	useRef,
 	useState,
 	type CSSProperties,
-	type FocusEvent,
 	type MouseEvent,
 } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,6 +13,7 @@ import Logo from "./Logo";
 
 interface NavigationProps {
 	mobileMenuOpen: boolean;
+	enableLogoTransition: boolean;
 	onToggleMobileMenu: () => void;
 	onCloseMobileMenu: () => void;
 }
@@ -22,6 +22,7 @@ type NavTo = "/" | "/portfolio" | "/contact";
 
 const Navigation = ({
 	mobileMenuOpen,
+	enableLogoTransition,
 	onToggleMobileMenu,
 	onCloseMobileMenu,
 }: NavigationProps) => {
@@ -171,22 +172,61 @@ const Navigation = ({
 			initial={{ y: -100, opacity: 0 }}
 			animate={{ y: 0, opacity: 1 }}
 			transition={{ duration: 0.6, ease: "easeOut" }}>
-			<div className='mt-0 mx-auto flex min-h-18 w-full items-center justify-between border-b border-white/15 bg-[rgba(9,13,22,0.66)] px-[0.6rem] py-[0.55rem] shadow-[0_6px_18px_rgba(0,0,0,0.18)] backdrop-blur-[6px] md:mt-3 md:w-[min(1080px,calc(100%-2rem))] md:rounded-full md:border md:border-white/20 md:bg-[rgba(9,13,22,0.5)] md:px-[1.15rem] md:py-2 md:shadow-[0_12px_35px_rgba(0,0,0,0.24)] md:backdrop-blur-[14px]'>
-				<Link to='/' className='flex items-center' onClick={closeMenuNow}>
+			<Link
+				to='/'
+				className='fixed left-5 top-3 z-1010 hidden items-center md:flex'
+				onClick={closeMenuNow}>
+				<motion.div
+					className='flex cursor-pointer items-center justify-center'
+					layoutId={enableLogoTransition ? "app-shared-logo" : undefined}
+					whileHover={{ scale: 1.05, rotate: 5 }}
+					transition={{
+						layout: {
+							type: "spring",
+							stiffness: 145,
+							damping: 24,
+							mass: 1,
+						},
+						duration: 0.2,
+					}}>
+					<Logo
+						className='h-[5.4rem] w-[5.4rem] text-brand-primary drop-shadow-[0_12px_26px_rgba(0,0,0,0.28)] transition-all duration-300'
+						animateOnMount={false}
+					/>
+				</motion.div>
+			</Link>
+
+			<div className='mt-0 mx-auto flex min-h-16 w-full items-center justify-between border-b border-white/15 bg-[rgba(9,13,22,0.66)] px-[0.6rem] py-[0.38rem] shadow-[0_6px_18px_rgba(0,0,0,0.18)] backdrop-blur-[6px] md:mt-3 md:w-[60vw] md:max-w-[60vw] md:rounded-full md:border md:border-white/20 md:bg-[rgba(9,13,22,0.5)] md:px-[1.15rem] md:py-[0.6rem] md:shadow-[0_12px_35px_rgba(0,0,0,0.24)] md:backdrop-blur-[14px]'>
+				<Link
+					to='/'
+					className='flex items-center md:hidden'
+					onClick={closeMenuNow}>
 					<motion.div
 						className='flex cursor-pointer items-center justify-center'
 						whileHover={{ scale: 1.05, rotate: 5 }}
-						transition={{ duration: 0.2 }}>
-						<Logo className='h-11 w-11 text-white transition-all duration-300 md:h-13.75 md:w-13.75' />
+						transition={{
+							layout: {
+								type: "spring",
+								stiffness: 145,
+								damping: 24,
+								mass: 1,
+							},
+							duration: 0.2,
+						}}>
+						<Logo
+							className='h-10 w-10 text-brand-primary transition-all duration-300'
+							animateOnMount={false}
+						/>
 					</motion.div>
 				</Link>
 
-				<div className='ml-auto flex items-center gap-[0.65rem] md:gap-8'>
+				<div
+					className='hidden w-full items-center justify-between md:flex'
+					onMouseLeave={() => setHoveredDesktopNav(null)}>
 					<LayoutGroup id='desktop-nav-pills'>
 						<ul
-							className='hidden list-none items-center gap-10 md:flex'
-							onMouseLeave={() => setHoveredDesktopNav(null)}
-							onBlur={(event: FocusEvent<HTMLUListElement>) => {
+							className='list-none items-center gap-10 md:flex'
+							onBlur={(event) => {
 								const nextTarget = event.relatedTarget as Node | null;
 								if (!nextTarget || !event.currentTarget.contains(nextTarget)) {
 									setHoveredDesktopNav(null);
@@ -243,20 +283,53 @@ const Navigation = ({
 					</LayoutGroup>
 
 					<motion.div
-						className='relative flex h-8 w-18 cursor-pointer items-center rounded-[20px] border-2 border-white/25 bg-white/10 p-1 transition-all duration-300 hover:border-white/50 hover:shadow-[0_2px_8px_rgba(0,0,0,0.2)] md:h-9 md:w-20'
+						initial={{ y: -20, opacity: 0 }}
+						animate={{ y: 0, opacity: 1 }}
+						transition={{ delay: 0.4, duration: 0.4 }}>
+						<div
+							className='relative flex h-9 w-20 cursor-pointer items-center rounded-[20px] bg-white/10 p-1 transition-all duration-300 hover:shadow-[0_2px_8px_rgba(0,0,0,0.2)]'
+							onClick={toggleLanguage}>
+							<div className='relative z-2 flex w-full'>
+								<span
+									className={`flex-1 py-1 text-center text-[0.8rem] font-semibold transition-colors duration-300 ${
+										i18n.language === "en" ? "text-white" : "text-white/70"
+									}`}>
+									EN
+								</span>
+								<span
+									className={`flex-1 py-1 text-center text-[0.8rem] font-semibold transition-colors duration-300 ${
+										i18n.language === "fr" ? "text-white" : "text-white/70"
+									}`}>
+									FR
+								</span>
+							</div>
+							<motion.div
+								className='absolute left-1 top-1 z-1 h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] rounded-2xl bg-brand-primary shadow-[0_2px_4px_rgba(220,92,72,0.3)]'
+								animate={{
+									x: i18n.language === "en" ? 0 : "100%",
+								}}
+								transition={{ type: "spring", stiffness: 500, damping: 30 }}
+							/>
+						</div>
+					</motion.div>
+				</div>
+
+				<div className='ml-auto flex items-center gap-[0.65rem] md:hidden'>
+					<motion.div
+						className='relative flex h-8 w-18 cursor-pointer items-center rounded-[20px] bg-white/10 p-1 transition-all duration-300 hover:shadow-[0_2px_8px_rgba(0,0,0,0.2)]'
 						onClick={toggleLanguage}
 						initial={{ y: -20, opacity: 0 }}
 						animate={{ y: 0, opacity: 1 }}
 						transition={{ delay: 0.4, duration: 0.4 }}>
 						<div className='relative z-2 flex w-full'>
 							<span
-								className={`flex-1 py-1 text-center text-[0.74rem] font-semibold transition-colors duration-300 md:text-[0.8rem] ${
+								className={`flex-1 py-1 text-center text-[0.74rem] font-semibold transition-colors duration-300 ${
 									i18n.language === "en" ? "text-white" : "text-white/70"
 								}`}>
 								EN
 							</span>
 							<span
-								className={`flex-1 py-1 text-center text-[0.74rem] font-semibold transition-colors duration-300 md:text-[0.8rem] ${
+								className={`flex-1 py-1 text-center text-[0.74rem] font-semibold transition-colors duration-300 ${
 									i18n.language === "fr" ? "text-white" : "text-white/70"
 								}`}>
 								FR
@@ -273,7 +346,7 @@ const Navigation = ({
 
 					<button
 						type='button'
-						className={`relative h-9.5 w-9.5 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white transition-all duration-300 md:hidden ${
+						className={`relative h-9.5 w-9.5 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white transition-all duration-300 ${
 							mobileMenuOpen ? "hidden" : "inline-flex"
 						}`}
 						onClick={onToggleMobileMenu}

@@ -9,31 +9,12 @@
 		"heroHeading": "Développeur Produit & Frontend",
 		"heroRows": {
 			"row1Prefix": "Je suis",
-			"row1Items": [
-				"geek",
-				"designer",
-				"programmeur"
-			],
+			"row1Items": ["geek", "designer", "programmeur"],
 			"row2Prefix": "Je suis",
-			"row2Items": [
-				"pilote de parapente",
-				"skateur",
-				"ébéniste"
-			],
+			"row2Items": ["pilote de parapente", "skateur", "ébéniste"],
 			"row3Prefix": "Je suis",
-			"row3Items": [
-				"accro à l'adrénaline",
-				"perfectionniste"
-			],
+			"row3Items": ["accro à l'adrénaline", "perfectionniste"],
 			"row3Join": "et"
-		},
-		"heroStats": {
-			"codingValue": "20+",
-			"codingLabel": "Ans de code",
-			"productsValue": "2",
-			"productsLabel": "Produits en construction",
-			"impactValue": "7/An",
-			"impactLabel": "Événements scolaires pilotés"
 		},
 		"paragraph1": "Ingénieur frontend et product builder, je suis animé depuis longtemps par la création d'expériences numériques rapides, claires et intuitives. J'ai commencé à coder en 2001 et j'ai construit ma carrière autour des écosystèmes JavaScript modernes, avec une expertise approfondie en React et React Native.",
 		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
@@ -43,14 +24,14 @@
 		"hobbiesTitle": "Centres d'intérêt",
 		"hobbiesIntro": "En dehors du produit, je reste engagé dans des activités qui renforcent la créativité, la régularité et le travail collectif.",
 		"hobbies": {
-			"item1": "Événementiel associatif",
-			"item2": "Activités familiales",
-			"item3": "Veille produit & UX",
+			"item1": "Activités communautaires",
+			"item2": "Expéditions familiales",
+			"item3": "Recherche produit & interface",
 			"item4": "Veille technologique",
-			"item5": "Organisation de manifestations",
-			"item6": "Engagement local associatif"
+			"item5": "Travail du bois et rénovations maison",
+			"item6": "Parapente, vélo et course à pied"
 		},
-		"paragraph4": "Depuis deux ans, je suis également Président de l'association pour enfants Le Sou des Ecoles de La Batie Montgascon. Nous organisons 7 manifestations par année scolaire, ce qui permet de générer un budget de plus de 900 € par classe pour financer les sorties scolaires et d'autres activités pour les enfants."
+		"paragraph4": "Depuis deux ans, je suis également Président de l'association pour enfants Le Sou des Ecoles de La Bâtie Montgascon. Nous organisons 7 manifestations par année scolaire, ce qui permet de générer un budget de plus de 900 € par classe pour financer les sorties scolaires et d'autres activités pour les enfants."
 	},
 	"experience": {
 		"rolesTitle": "Parcours Professionnel",
@@ -61,13 +42,13 @@
 			"delivery": "Livraison & Produit"
 		},
 		"roles": {
-			"vuedesprit": {
+			"synqit": {
 				"title": "Fondateur & Ingénieur Produit",
-				"company": "Vue d'Esprit",
+				"company": "Synqit",
 				"period": "Actuel",
-				"summary": "Conception et livraison de solutions web et produit pour des clients, de l'idée à la mise en production.",
-				"point1": "Pilotage d'implémentations produit de bout en bout avec React, TypeScript et Node.js.",
-				"point2": "Définition du périmètre, de l'architecture et des roadmaps de livraison avec les clients.",
+				"summary": "Partage simple de playlists entre services pour vos événements ou le suivi musical entre amis.",
+				"point1": "Pilotage d'une implémentation produit de bout en bout avec React, TypeScript, Node.js et Prisma.",
+				"point2": "Définition du périmètre, de l'architecture et des roadmaps de livraison.",
 				"point3": "Garantie de la fiabilité en production via un code maintenable et des workflows de déploiement."
 			},
 			"kaast": {
@@ -78,6 +59,15 @@
 				"point1": "Développement des fonctionnalités produit sur le frontend, le backend et les APIs.",
 				"point2": "Mise en place de l'infrastructure et d'environnements conteneurisés pour les releases.",
 				"point3": "Collaboration continue avec les utilisateurs pour itérer rapidement sur les priorités."
+			},
+			"freelance": {
+				"title": "Développeur Front-end & Produit Freelance",
+				"company": "Indépendant",
+				"period": "2001 - En cours",
+				"summary": "Réalisation de solutions web et produit pour des clients en tant qu'indépendant, entre identité, interfaces et développement frontend moderne.",
+				"point1": "Conception de sites sur mesure et de produits digitaux pour startups et entreprises locales, notamment sur des projets comme asbadrums.com et comacademy.fr.",
+				"point2": "Pilotage de la livraison de bout en bout, de la découverte et du design à la mise en production.",
+				"point3": "Priorité donnée à l'UX, à la maintenabilité du code et à des résultats business concrets sur le long terme."
 			},
 			"intercloud": {
 				"title": "Développeur Front-end",
@@ -99,7 +89,7 @@
 			},
 			"soudesecoles": {
 				"title": "Président",
-				"company": "Le Sou des Ecoles de La Batie Montgascon",
+				"company": "Le Sou des Ecoles de La Bâtie Montgascon",
 				"period": "Depuis 2 ans",
 				"summary": "Pilotage d'une association à but non lucratif qui soutient les projets et activités scolaires des enfants.",
 				"point1": "Coordination de 7 manifestations par année scolaire avec bénévoles et familles.",

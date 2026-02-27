@@ -7,6 +7,7 @@ export interface ExperienceRole {
 	period: string;
 	summary: string;
 	bullets: string[];
+	links?: string[];
 }
 
 export interface SkillItem {

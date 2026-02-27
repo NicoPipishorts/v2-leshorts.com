@@ -6,6 +6,17 @@ interface AboutTimelineProps {
 	roles: ExperienceRole[];
 }
 
+const getDomainLabel = (link: string) => {
+	try {
+		return new URL(link).hostname.replace(/^www\./i, "");
+	} catch {
+		return link
+			.replace(/^https?:\/\//i, "")
+			.replace(/^www\./i, "")
+			.split("/")[0];
+	}
+};
+
 const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 	return (
 		<motion.section
@@ -41,6 +52,20 @@ const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 									</li>
 								))}
 							</ul>
+							{role.links && role.links.length > 0 && (
+								<div className='mt-4 flex flex-wrap items-center gap-2'>
+									{role.links.map((link) => (
+										<a
+											key={`${role.key}-${link}`}
+											href={link}
+											target='_blank'
+											rel='noreferrer'
+											className='inline-flex items-center rounded-none bg-brand-primary px-3 py-1 text-[0.76rem] font-semibold tracking-[0.01em] text-white transition-colors duration-200 hover:bg-(--color-primary-dark)'>
+											{getDomainLabel(link)}
+										</a>
+									))}
+								</div>
+							)}
 						</article>
 					))}
 				</div>

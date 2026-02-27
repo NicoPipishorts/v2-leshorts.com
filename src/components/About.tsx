@@ -23,6 +23,7 @@ import AboutHobbies from "./about/AboutHobbies";
 import AboutIntro from "./about/AboutIntro";
 import AboutSkills from "./about/AboutSkills";
 import AboutTimeline from "./about/AboutTimeline";
+import Contact from "./Contact";
 import { ExperienceRole, SkillGroup } from "./about/types";
 
 const About = () => {
@@ -30,16 +31,17 @@ const About = () => {
 
 	const roles: ExperienceRole[] = [
 		{
-			key: "vuedesprit",
-			title: t("experience.roles.vuedesprit.title"),
-			company: t("experience.roles.vuedesprit.company"),
-			period: t("experience.roles.vuedesprit.period"),
-			summary: t("experience.roles.vuedesprit.summary"),
+			key: "synqit",
+			title: t("experience.roles.synqit.title"),
+			company: t("experience.roles.synqit.company"),
+			period: t("experience.roles.synqit.period"),
+			summary: t("experience.roles.synqit.summary"),
 			bullets: [
-				t("experience.roles.vuedesprit.point1"),
-				t("experience.roles.vuedesprit.point2"),
-				t("experience.roles.vuedesprit.point3"),
+				t("experience.roles.synqit.point1"),
+				t("experience.roles.synqit.point2"),
+				t("experience.roles.synqit.point3"),
 			],
+			links: ["https://synqit.fr"],
 		},
 		{
 			key: "kaast",
@@ -51,6 +53,25 @@ const About = () => {
 				t("experience.roles.kaast.point1"),
 				t("experience.roles.kaast.point2"),
 				t("experience.roles.kaast.point3"),
+			],
+			links: ["https://kaa.st"],
+		},
+		{
+			key: "freelance",
+			title: t("experience.roles.freelance.title"),
+			company: t("experience.roles.freelance.company"),
+			period: t("experience.roles.freelance.period"),
+			summary: t("experience.roles.freelance.summary"),
+			bullets: [
+				t("experience.roles.freelance.point1"),
+				t("experience.roles.freelance.point2"),
+				t("experience.roles.freelance.point3"),
+			],
+			links: [
+				"https://asbadrums.com/",
+				"https://comacademy.fr/",
+				"https://soulbm.fr",
+				"https://domainedesfournelles.com/",
 			],
 		},
 		{
@@ -151,7 +172,7 @@ const About = () => {
 
 	return (
 		<motion.div
-			className='page relative isolate min-h-screen overflow-x-clip pt-24 md:pt-32'
+			className='page relative isolate min-h-screen overflow-x-clip pt-8 md:pt-10'
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			exit={{ opacity: 0 }}
@@ -163,21 +184,19 @@ const About = () => {
 					title={t("about.title")}
 					heading={t("about.heroHeading")}
 					row1Prefix={t("about.heroRows.row1Prefix")}
-					row1Items={t("about.heroRows.row1Items", { returnObjects: true }) as string[]}
+					row1Items={
+						t("about.heroRows.row1Items", { returnObjects: true }) as string[]
+					}
 					row2Prefix={t("about.heroRows.row2Prefix")}
-					row2Items={t("about.heroRows.row2Items", { returnObjects: true }) as string[]}
+					row2Items={
+						t("about.heroRows.row2Items", { returnObjects: true }) as string[]
+					}
 					row3Prefix={t("about.heroRows.row3Prefix")}
-					row3Items={t("about.heroRows.row3Items", { returnObjects: true }) as string[]}
+					row3Items={
+						t("about.heroRows.row3Items", { returnObjects: true }) as string[]
+					}
 					row3Join={t("about.heroRows.row3Join")}
 					paragraph={t("about.paragraph1")}
-					stats={{
-						codingValue: t("about.heroStats.codingValue"),
-						codingLabel: t("about.heroStats.codingLabel"),
-						productsValue: t("about.heroStats.productsValue"),
-						productsLabel: t("about.heroStats.productsLabel"),
-						impactValue: t("about.heroStats.impactValue"),
-						impactLabel: t("about.heroStats.impactLabel"),
-					}}
 				/>
 
 				<AboutIntro
@@ -201,6 +220,8 @@ const About = () => {
 					intro={t("about.hobbiesIntro")}
 					hobbies={hobbies}
 				/>
+
+				<Contact embedded />
 			</div>
 		</motion.div>
 	);

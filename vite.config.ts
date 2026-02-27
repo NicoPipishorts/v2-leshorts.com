@@ -9,4 +9,13 @@ export default defineConfig({
     tailwindcss(),
     react(),
   ],
+  server: {
+    port: 6686,
+    strictPort: true,
+    open: true,
+  },
+  preview: {
+    port: 6686,
+    strictPort: true,
+  },
 })

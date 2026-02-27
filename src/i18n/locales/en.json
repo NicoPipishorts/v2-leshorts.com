@@ -9,31 +9,12 @@
 		"heroHeading": "Product & Frontend Developer",
 		"heroRows": {
 			"row1Prefix": "I am a",
-			"row1Items": [
-				"geek",
-				"designer",
-				"programmer"
-			],
+			"row1Items": ["geek", "designer", "programmer"],
 			"row2Prefix": "I am a",
-			"row2Items": [
-				"paraglider pilot",
-				"skater",
-				"woodworker"
-			],
+			"row2Items": ["paraglider pilot", "skater", "woodworker"],
 			"row3Prefix": "I am an",
-			"row3Items": [
-				"adrenaline junky",
-				"perfectionist"
-			],
+			"row3Items": ["adrenaline junky", "perfectionist"],
 			"row3Join": "and"
-		},
-		"heroStats": {
-			"codingValue": "20+",
-			"codingLabel": "Years Coding",
-			"productsValue": "2",
-			"productsLabel": "Products in Build",
-			"impactValue": "7/Year",
-			"impactLabel": "School Events Led"
 		},
 		"paragraph1": "Frontend engineer and product builder with a long-standing passion for creating digital experiences that are fast, clear, and intuitive. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with deep expertise in React and React Native.",
 		"paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by multiple clients.",
@@ -43,14 +24,14 @@
 		"hobbiesTitle": "Hobbies",
 		"hobbiesIntro": "Outside of product work, I stay active in community projects and activities that reinforce creativity, consistency, and teamwork.",
 		"hobbies": {
-			"item1": "Community Fundraising",
-			"item2": "Family Activities",
+			"item2": "Family Expiditions",
 			"item3": "Product & Interface Research",
 			"item4": "Technology Watch",
-			"item5": "Event Organization",
-			"item6": "Local Association Work"
+			"item5": "Woodworking and home rennovations",
+			"item6": "Paragliding,Biking and Running",
+			"item1": "Community Activities"
 		},
-		"paragraph4": "For the past two years, I have also served as President of the kids nonprofit association Le Sou des Ecoles de La Batie Montgascon. We organize 7 events each school year, helping generate a budget of over €900 per classroom to support school trips and other activities for the children."
+		"paragraph4": "For the past two years, I have also served as President of the kids nonprofit association Le Sou des Ecoles de La Bâtie Montgascon. We organize 7 events each school year, helping generate a budget of over €900 per classroom to support school trips and other activities for the children."
 	},
 	"experience": {
 		"rolesTitle": "Professional Experience",
@@ -61,23 +42,32 @@
 			"delivery": "Delivery & Product"
 		},
 		"roles": {
-			"vuedesprit": {
+			"synqit": {
 				"title": "Founder & Product Engineer",
-				"company": "Vue d'Esprit",
+				"company": "Synqit",
 				"period": "Current",
-				"summary": "Building and shipping web and product solutions for clients, from concept to deployment.",
-				"point1": "Lead end-to-end product implementation with React, TypeScript, and Node.js.",
-				"point2": "Define scope, architecture, and delivery roadmaps with clients.",
+				"summary": "Easy cross service playlist sharing for your events or friends music tracking.",
+				"point1": "Lead end-to-end product implementation with React, TypeScript, Node.js and Prisma.",
+				"point2": "Define scope, architecture, and delivery roadmaps.",
 				"point3": "Ensure production reliability with maintainable code and deployment workflows."
 			},
 			"kaast": {
 				"title": "Co-Founder & Full-Stack Product Builder",
 				"company": "Kaast",
 				"period": "Current",
-				"summary": "Designing a media communication platform for internal engagement used by multiple companies.",
+				"summary": "Designing a media communication platform for internal engagement used by multiple companies.Such as Group OMNES and Sanofi",
 				"point1": "Built product features across frontend, backend, and APIs.",
 				"point2": "Set up infrastructure and containerized environments for releases.",
 				"point3": "Collaborated with users to iterate quickly on product priorities."
+			},
+			"freelance": {
+				"title": "Freelance Frontend & Product Developer",
+				"company": "Independent",
+				"period": "2001 - Ongoing",
+				"summary": "Delivered web and product solutions for clients as an independent consultant, through branding, interfaces, and modern frontend development.",
+				"point1": "Built custom websites and digital products for startups and local businesses, including projects like asbadrums.com and comacademy.fr.",
+				"point2": "Handled end-to-end delivery from discovery and design to implementation and deployment.",
+				"point3": "Focused on clear UX, maintainable code, and practical business outcomes with long-term client partnerships."
 			},
 			"intercloud": {
 				"title": "Frontend Developer",
@@ -99,7 +89,7 @@
 			},
 			"soudesecoles": {
 				"title": "President",
-				"company": "Le Sou des Ecoles de La Batie Montgascon",
+				"company": "Le Sou des Ecoles de La Bâtie Montgascon",
 				"period": "Last 2 Years",
 				"summary": "Leading a nonprofit association supporting school projects and activities for children.",
 				"point1": "Coordinate 7 fundraising events per school year with volunteers and families.",
