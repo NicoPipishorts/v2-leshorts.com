@@ -67,7 +67,26 @@
 				"summary": "Réalisation de solutions web et produit pour des clients en tant qu'indépendant, entre identité, interfaces et développement frontend moderne.",
 				"point1": "Conception de sites sur mesure et de produits digitaux pour startups et entreprises locales, notamment sur des projets comme asbadrums.com et comacademy.fr.",
 				"point2": "Pilotage de la livraison de bout en bout, de la découverte et du design à la mise en production.",
-				"point3": "Priorité donnée à l'UX, à la maintenabilité du code et à des résultats business concrets sur le long terme."
+				"point3": "Priorité donnée à l'UX, à la maintenabilité du code et à des résultats business concrets sur le long terme.",
+				"projectHighlightsTitle": "Projets détaillés",
+				"projects": [
+					{
+						"name": "Com'Academy",
+						"summary": "Conception et mise en production d'une application mobile React Native complète sur iOS et Android, avec un backend sur mesure.",
+						"point1": "Architecture et développement d'une application React Native complète, avec des parcours utilisateurs robustes.",
+						"point2": "Intégration des achats intégrés pour le contenu premium sur l'Apple App Store et le Google Play Store.",
+						"point3": "Développement de services backend personnalisés et d'une structure de notifications adaptée à l'engagement utilisateur.",
+						"link": "https://comacademy.fr/"
+					},
+					{
+						"name": "Soulbm.fr",
+						"summary": "Livraison d'une plateforme entièrement sur mesure pour une association, avec site public et back office opérationnel.",
+						"point1": "Mise en place de workflows de gestion des membres et d'une administration par rôles.",
+						"point2": "Développement de modules de suivi financier pour l'association et les dépenses des enseignants.",
+						"point3": "Ajout d'un suivi d'inventaire par événement et global pour les manifestations récurrentes.",
+						"link": "https://soulbm.fr"
+					}
+				]
 			},
 			"intercloud": {
 				"title": "Développeur Front-end",

@@ -67,7 +67,26 @@
 				"summary": "Delivered web and product solutions for clients as an independent consultant, through branding, interfaces, and modern frontend development.",
 				"point1": "Built custom websites and digital products for startups and local businesses, including projects like asbadrums.com and comacademy.fr.",
 				"point2": "Handled end-to-end delivery from discovery and design to implementation and deployment.",
-				"point3": "Focused on clear UX, maintainable code, and practical business outcomes with long-term client partnerships."
+				"point3": "Focused on clear UX, maintainable code, and practical business outcomes with long-term client partnerships.",
+				"projectHighlightsTitle": "Project Highlights",
+				"projects": [
+					{
+						"name": "Com'Academy",
+						"summary": "Built and shipped a complete React Native mobile app for iOS and Android with a custom backend architecture.",
+						"point1": "Designed and implemented a full React Native app with production-ready navigation and feature flows.",
+						"point2": "Integrated in-app purchases for premium content across both Apple App Store and Google Play Store.",
+						"point3": "Developed custom backend services and a tailored notification structure for user engagement.",
+						"link": "https://comacademy.fr/"
+					},
+					{
+						"name": "Soulbm.fr",
+						"summary": "Delivered a fully custom nonprofit platform with a public site and a back office for day-to-day operations.",
+						"point1": "Implemented member management workflows and role-based administration.",
+						"point2": "Built finance management modules for nonprofit operations and teacher expense tracking.",
+						"point3": "Added per-event and global inventory tracking to support recurring school events.",
+						"link": "https://soulbm.fr"
+					}
+				]
 			},
 			"intercloud": {
 				"title": "Frontend Developer",

@@ -18,16 +18,37 @@ import {
 	SiVite,
 } from "react-icons/si";
 import AmbientGlows from "./AmbientGlows";
+import Contact from "./Contact";
 import AboutHero from "./about/AboutHero";
 import AboutHobbies from "./about/AboutHobbies";
 import AboutIntro from "./about/AboutIntro";
 import AboutSkills from "./about/AboutSkills";
 import AboutTimeline from "./about/AboutTimeline";
-import Contact from "./Contact";
-import { ExperienceRole, SkillGroup } from "./about/types";
+import {
+	ExperienceProjectHighlight,
+	ExperienceRole,
+	SkillGroup,
+} from "./about/types";
 
 const About = () => {
 	const { t } = useTranslation();
+	const freelanceProjectHighlights = (
+		t("experience.roles.freelance.projects", { returnObjects: true }) as Array<{
+			name: string;
+			summary: string;
+			point1: string;
+			point2: string;
+			point3: string;
+			link?: string;
+		}>
+	).map(
+		(project): ExperienceProjectHighlight => ({
+			name: project.name,
+			summary: project.summary,
+			bullets: [project.point1, project.point2, project.point3],
+			link: project.link,
+		}),
+	);
 
 	const roles: ExperienceRole[] = [
 		{
@@ -67,6 +88,7 @@ const About = () => {
 				t("experience.roles.freelance.point2"),
 				t("experience.roles.freelance.point3"),
 			],
+			projectHighlights: freelanceProjectHighlights,
 			links: [
 				"https://asbadrums.com/",
 				"https://comacademy.fr/",

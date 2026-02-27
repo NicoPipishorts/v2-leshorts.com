@@ -1,5 +1,12 @@
 import type { IconType } from "react-icons";
 
+export interface ExperienceProjectHighlight {
+	name: string;
+	summary: string;
+	bullets: string[];
+	link?: string;
+}
+
 export interface ExperienceRole {
 	key: string;
 	title: string;
@@ -8,6 +15,8 @@ export interface ExperienceRole {
 	summary: string;
 	bullets: string[];
 	links?: string[];
+	projectHighlightsTitle?: string;
+	projectHighlights?: ExperienceProjectHighlight[];
 }
 
 export interface SkillItem {

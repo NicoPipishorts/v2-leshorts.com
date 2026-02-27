@@ -40,18 +40,50 @@ const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 									{role.period}
 								</span>
 							</div>
-							<p className='mt-1 text-sm font-medium text-brand-primary'>{role.company}</p>
+							<p className='mt-1 text-sm font-medium text-brand-primary'>
+								{role.company}
+							</p>
 							<p className='mt-3 text-[0.95rem] leading-[1.74] text-(--color-text-light)'>
 								{role.summary}
 							</p>
 							<ul className='mt-3 space-y-2'>
 								{role.bullets.map((point) => (
-									<li key={point} className='flex items-start gap-2 text-[0.9rem] text-(--color-text-light)'>
+									<li
+										key={point}
+										className='flex items-start gap-2 text-[0.9rem] text-(--color-text-light)'>
 										<span className='mt-[0.45rem] inline-block h-1.5 w-1.5 rounded-full bg-brand-secondary' />
 										<span>{point}</span>
 									</li>
 								))}
 							</ul>
+							{role.projectHighlights && role.projectHighlights.length > 0 && (
+								<div className='mt-5 space-y-4'>
+									{role.projectHighlights.map((project) => (
+										<div
+											key={`${role.key}-${project.name}`}
+											className='border-l-2 border-brand-secondary/35 pl-3 mb-4'>
+											<div className='flex flex-wrap items-center gap-2'>
+												<h4 className='text-[0.92rem] font-semibold text-brand-secondary pb-0'>
+													{project.name}
+												</h4>
+											</div>
+											<p className='text-[0.86rem] leading-[1.68] text-(--color-text-light)'>
+												{project.summary}
+											</p>
+											<ul className='space-y-1.5'>
+												{project.bullets.map((point) => (
+													<li
+														key={`${project.name}-${point}`}
+														className='flex items-start gap-2 text-[0.82rem] text-(--color-text-light)'>
+														<span className='mt-[0.36rem] inline-block h-1.25 w-1.25 rounded-full bg-brand-secondary' />
+														<span>{point}</span>
+													</li>
+												))}
+											</ul>
+										</div>
+									))}
+								</div>
+							)}
 							{role.links && role.links.length > 0 && (
 								<div className='mt-4 flex flex-wrap items-center gap-2'>
 									{role.links.map((link) => (
