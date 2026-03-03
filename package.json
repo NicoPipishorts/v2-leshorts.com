@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-router": "^1.87.0",
+    "@vercel/analytics": "^1.6.1",
     "framer-motion": "^11.11.17",
     "i18next": "^25.7.1",
     "pdfkit": "^0.17.2",
