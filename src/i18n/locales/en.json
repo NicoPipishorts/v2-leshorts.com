@@ -1,19 +1,25 @@
 {
-	"nav": {
-		"home": "About",
-		"portfolio": "Portfolio",
-		"contact": "Contact"
-	},
 	"about": {
 		"title": "About Me",
 		"heroHeading": "Product & Frontend Developer",
 		"heroRows": {
 			"row1Prefix": "I am a",
-			"row1Items": ["geek", "designer", "programmer"],
+			"row1Items": [
+				"geek",
+				"designer",
+				"programmer"
+			],
 			"row2Prefix": "I am a",
-			"row2Items": ["paraglider pilot", "skater", "woodworker"],
+			"row2Items": [
+				"paraglider pilot",
+				"skater",
+				"woodworker"
+			],
 			"row3Prefix": "I am an",
-			"row3Items": ["adrenaline junky", "perfectionist"],
+			"row3Items": [
+				"adrenaline junky",
+				"perfectionist"
+			],
 			"row3Join": "and"
 		},
 		"paragraph1": "Frontend engineer and product builder with a long-standing passion for creating digital experiences that are fast, clear, and intuitive. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with deep expertise in React and React Native.",
@@ -77,7 +83,10 @@
 					"title": "Web & Mobile Developer Program",
 					"institution": "École O'Clock",
 					"period": "2021 - 2022",
-					"bullets": ["Fullstack core curriculum", "React.js specialization"]
+					"bullets": [
+						"Fullstack core curriculum",
+						"React.js specialization"
+					]
 				}
 			]
 		},
@@ -129,7 +138,6 @@
 				"point1": "Built custom websites and digital products for startups and local businesses, including projects like asbadrums.com and comacademy.fr.",
 				"point2": "Handled end-to-end delivery from discovery and design to implementation and deployment.",
 				"point3": "Focused on clear UX, maintainable code, and practical business outcomes with long-term client partnerships.",
-				"projectHighlightsTitle": "Project Highlights",
 				"projects": [
 					{
 						"name": "Com'Academy",
@@ -178,37 +186,7 @@
 			}
 		}
 	},
-	"portfolio": {
-		"projects": {
-			"ecommerce": {
-				"title": "E-commerce Platform",
-				"description": "A full-featured online shopping platform with cart, checkout, and payment integration."
-			},
-			"taskManager": {
-				"title": "Task Management App",
-				"description": "Collaborative task management tool with real-time updates and team features."
-			},
-			"analytics": {
-				"title": "Analytics Dashboard",
-				"description": "Data visualization dashboard with interactive charts and real-time metrics."
-			},
-			"socialMedia": {
-				"title": "Social Media App",
-				"description": "Modern social networking platform with posts, comments, and user profiles."
-			}
-		}
-	},
 	"contact": {
-		"title": "Get In Touch",
-		"form": {
-			"name": "Name",
-			"namePlaceholder": "Your name",
-			"email": "Email",
-			"emailPlaceholder": "your.email@example.com",
-			"message": "Message",
-			"messagePlaceholder": "Your message...",
-			"submit": "Send Message"
-		},
 		"social": {
 			"github": "GitHub",
 			"linkedin": "LinkedIn",

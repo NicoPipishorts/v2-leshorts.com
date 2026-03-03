@@ -53,18 +53,6 @@ a {
 
 .app-content {
   min-height: 100vh;
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-
-@media (max-width: 768px) {
-  body.mobile-nav-open {
-    overflow: hidden;
-  }
-
-  .app-content.mobile-menu-open {
-    transform: translateX(-80vw);
-  }
 }
 
 /* Smooth scroll */

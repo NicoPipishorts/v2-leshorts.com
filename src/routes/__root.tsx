@@ -64,7 +64,6 @@ const RootComponent = () => {
 		return () => {
 			if (contentFadeTimeoutRef.current !== null)
 				window.clearTimeout(contentFadeTimeoutRef.current);
-			document.body.classList.remove("mobile-nav-open");
 		};
 	}, []);
 
@@ -92,8 +91,8 @@ const RootComponent = () => {
 						left: "50vw",
 						x: "-50%",
 						y: "-50%",
-						width: isMobileViewport ? "30vw" : "20vw",
-						height: isMobileViewport ? "30vw" : "20vw",
+						width: isMobileViewport ? "60vw" : "20vw",
+						height: isMobileViewport ? "60vw" : "20vw",
 					}}
 					animate={logoControls}>
 					<Logo

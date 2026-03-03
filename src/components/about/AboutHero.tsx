@@ -45,7 +45,7 @@ const AboutHero = ({
 
 			<div className='relative ml-auto grid w-full max-w-350 items-center gap-9 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10'>
 				<motion.div
-					className='relative z-10 w-full max-w-full'
+					className='sm:pl-10 relative z-10 w-full max-w-full'
 					initial={{ x: -24, opacity: 0 }}
 					animate={{ x: 0, opacity: 1 }}
 					transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}>

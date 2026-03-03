@@ -1,19 +1,25 @@
 {
-	"nav": {
-		"home": "À propos",
-		"portfolio": "Portfolio",
-		"contact": "Contact"
-	},
 	"about": {
 		"title": "À propos de moi",
 		"heroHeading": "Développeur Produit & Frontend",
 		"heroRows": {
 			"row1Prefix": "Je suis",
-			"row1Items": ["geek", "designer", "programmeur"],
+			"row1Items": [
+				"geek",
+				"designer",
+				"programmeur"
+			],
 			"row2Prefix": "Je suis",
-			"row2Items": ["pilote de parapente", "skateur", "ébéniste"],
+			"row2Items": [
+				"pilote de parapente",
+				"skateur",
+				"ébéniste"
+			],
 			"row3Prefix": "Je suis",
-			"row3Items": ["accro à l'adrénaline", "perfectionniste"],
+			"row3Items": [
+				"accro à l'adrénaline",
+				"perfectionniste"
+			],
 			"row3Join": "et"
 		},
 		"paragraph1": "Ingénieur frontend et product builder, je suis animé depuis longtemps par la création d'expériences numériques rapides, claires et intuitives. J'ai commencé à coder en 2001 et j'ai construit ma carrière autour des écosystèmes JavaScript modernes, avec une expertise approfondie en React et React Native.",
@@ -77,7 +83,10 @@
 					"title": "Développeur Web et Web Mobile",
 					"institution": "École O'Clock",
 					"period": "2021 - 2022",
-					"bullets": ["Socle fullstack", "Spécialisation React.js"]
+					"bullets": [
+						"Socle fullstack",
+						"Spécialisation React.js"
+					]
 				}
 			]
 		},
@@ -129,7 +138,6 @@
 				"point1": "Conception de sites sur mesure et de produits digitaux pour startups et entreprises locales, notamment sur des projets comme asbadrums.com et comacademy.fr.",
 				"point2": "Pilotage de la livraison de bout en bout, de la découverte et du design à la mise en production.",
 				"point3": "Priorité donnée à l'UX, à la maintenabilité du code et à des résultats business concrets sur le long terme.",
-				"projectHighlightsTitle": "Projets détaillés",
 				"projects": [
 					{
 						"name": "Com'Academy",
@@ -178,37 +186,7 @@
 			}
 		}
 	},
-	"portfolio": {
-		"projects": {
-			"ecommerce": {
-				"title": "Plateforme E-commerce",
-				"description": "Une plateforme d'achat en ligne complète avec panier, paiement et intégration de paiement."
-			},
-			"taskManager": {
-				"title": "Application de Gestion de Tâches",
-				"description": "Outil de gestion de tâches collaboratif avec mises à jour en temps réel et fonctionnalités d'équipe."
-			},
-			"analytics": {
-				"title": "Tableau de Bord Analytique",
-				"description": "Tableau de bord de visualisation de données avec graphiques interactifs et métriques en temps réel."
-			},
-			"socialMedia": {
-				"title": "Application de Médias Sociaux",
-				"description": "Plateforme de réseau social moderne avec publications, commentaires et profils utilisateurs."
-			}
-		}
-	},
 	"contact": {
-		"title": "Contactez-moi",
-		"form": {
-			"name": "Nom",
-			"namePlaceholder": "Votre nom",
-			"email": "Email",
-			"emailPlaceholder": "votre.email@exemple.com",
-			"message": "Message",
-			"messagePlaceholder": "Votre message...",
-			"submit": "Envoyer le message"
-		},
 		"social": {
 			"github": "GitHub",
 			"linkedin": "LinkedIn",

@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import type { TFunction } from "i18next";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
+import type { IconType } from "react-icons";
 import { FiBriefcase, FiFolder, FiLayers, FiServer } from "react-icons/fi";
 import {
 	SiDocker,
@@ -28,12 +30,164 @@ import AboutSkills from "./about/AboutSkills";
 import AboutSoftSkills from "./about/AboutSoftSkills";
 import AboutTimeline from "./about/AboutTimeline";
 import {
-	EducationEntry,
-	ExperienceProjectHighlight,
-	ExperienceRole,
-	SkillGroup,
-	SoftSkillGroup,
+	type EducationEntry,
+	type ExperienceProjectHighlight,
+	type ExperienceRole,
+	type SkillGroup,
+	type SoftSkillGroup,
 } from "./about/types";
+
+type RoleKey =
+	| "synqit"
+	| "kaast"
+	| "freelance"
+	| "intercloud"
+	| "apple"
+	| "soudesecoles";
+
+interface FreelanceProjectTranslation {
+	name: string;
+	summary: string;
+	point1: string;
+	point2: string;
+	point3: string;
+	link?: string;
+}
+
+interface SkillGroupConfig {
+	key: SkillGroup["key"];
+	titleKey: string;
+	icon: IconType;
+	skills: SkillGroup["skills"];
+}
+
+const ROLE_KEYS: RoleKey[] = [
+	"synqit",
+	"kaast",
+	"freelance",
+	"intercloud",
+	"apple",
+	"soudesecoles",
+];
+
+const ROLE_LINKS: Partial<Record<RoleKey, string[]>> = {
+	synqit: ["https://synqit.fr"],
+	kaast: ["https://kaa.st"],
+	freelance: [
+		"https://asbadrums.com/",
+		"https://comacademy.fr/",
+		"https://soulbm.fr",
+		"https://domainedesfournelles.com/",
+	],
+};
+
+const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
+	{
+		key: "frontend",
+		titleKey: "experience.skillGroups.frontend",
+		icon: FiLayers,
+		skills: [
+			{ name: "React", icon: SiReact },
+			{ name: "React Native", icon: SiReact },
+			{ name: "TypeScript", icon: SiTypescript },
+			{ name: "JavaScript", icon: SiJavascript },
+			{ name: "TailwindCSS", icon: SiTailwindcss },
+			{ name: "TanStack Query", icon: SiReactquery },
+			{ name: "Vite", icon: SiVite },
+		],
+	},
+	{
+		key: "backend",
+		titleKey: "experience.skillGroups.backend",
+		icon: FiServer,
+		skills: [
+			{ name: "Node.js", icon: SiNodedotjs },
+			{ name: "Strapi", icon: SiStrapi },
+			{ name: "Prisma", icon: SiPrisma },
+			{ name: "Sequelize", icon: SiSequelize },
+		],
+	},
+	{
+		key: "dataInfra",
+		titleKey: "experience.skillGroups.dataInfra",
+		icon: FiBriefcase,
+		skills: [
+			{ name: "PostgreSQL", icon: SiPostgresql },
+			{ name: "Redis", icon: SiRedis },
+			{ name: "Docker", icon: SiDocker },
+		],
+	},
+	{
+		key: "delivery",
+		titleKey: "experience.skillGroups.delivery",
+		icon: FiFolder,
+		skills: [
+			{ name: "Git", icon: SiGit },
+			{ name: "API Design", icon: FiServer },
+			{ name: "Product Discovery", icon: FiLayers },
+			{ name: "Technical Leadership", icon: FiBriefcase },
+		],
+	},
+];
+
+const getRoleBullets = (t: TFunction, rolePath: string): string[] => {
+	return ["point1", "point2", "point3"]
+		.map((pointKey) => t(`${rolePath}.${pointKey}`))
+		.filter((point) => point.trim().length > 0);
+};
+
+const getFreelanceProjectHighlights = (
+	t: TFunction,
+): ExperienceProjectHighlight[] => {
+	const projects = t("experience.roles.freelance.projects", {
+		returnObjects: true,
+	}) as FreelanceProjectTranslation[];
+
+	return projects.map((project) => ({
+		name: project.name,
+		summary: project.summary,
+		bullets: [project.point1, project.point2, project.point3].filter(
+			(bullet) => bullet.trim().length > 0,
+		),
+		link: project.link,
+	}));
+};
+
+const buildRoles = (t: TFunction): ExperienceRole[] => {
+	const freelanceProjectHighlights = getFreelanceProjectHighlights(t);
+
+	return ROLE_KEYS.map((key) => {
+		const rolePath = `experience.roles.${key}`;
+		const links = ROLE_LINKS[key];
+
+		return {
+			key,
+			title: t(`${rolePath}.title`),
+			company: t(`${rolePath}.company`),
+			period: t(`${rolePath}.period`),
+			summary: t(`${rolePath}.summary`),
+			bullets: getRoleBullets(t, rolePath),
+			links,
+			projectHighlights:
+				key === "freelance" ? freelanceProjectHighlights : undefined,
+		};
+	});
+};
+
+const getOrderedHobbies = (t: TFunction): string[] => {
+	const rawHobbies = t("about.hobbies", {
+		returnObjects: true,
+	}) as Record<string, string>;
+
+	return Object.entries(rawHobbies)
+		.sort(([keyA], [keyB]) => {
+			const numberA = Number.parseInt(keyA.replace(/\D/g, ""), 10) || 0;
+			const numberB = Number.parseInt(keyB.replace(/\D/g, ""), 10) || 0;
+			return numberA - numberB;
+		})
+		.map(([, value]) => value)
+		.filter((hobby) => hobby.trim().length > 0);
+};
 
 const About = () => {
 	const { t, i18n } = useTranslation();
@@ -41,171 +195,19 @@ const About = () => {
 		i18n.resolvedLanguage?.startsWith("fr") || i18n.language?.startsWith("fr")
 			? "fr"
 			: "en";
-	const freelanceProjectHighlights = (
-		t("experience.roles.freelance.projects", { returnObjects: true }) as Array<{
-			name: string;
-			summary: string;
-			point1: string;
-			point2: string;
-			point3: string;
-			link?: string;
-		}>
-	).map(
-		(project): ExperienceProjectHighlight => ({
-			name: project.name,
-			summary: project.summary,
-			bullets: [project.point1, project.point2, project.point3],
-			link: project.link,
-		}),
-	);
 
-	const roles: ExperienceRole[] = [
-		{
-			key: "synqit",
-			title: t("experience.roles.synqit.title"),
-			company: t("experience.roles.synqit.company"),
-			period: t("experience.roles.synqit.period"),
-			summary: t("experience.roles.synqit.summary"),
-			bullets: [
-				t("experience.roles.synqit.point1"),
-				t("experience.roles.synqit.point2"),
-				t("experience.roles.synqit.point3"),
-			],
-			links: ["https://synqit.fr"],
-		},
-		{
-			key: "kaast",
-			title: t("experience.roles.kaast.title"),
-			company: t("experience.roles.kaast.company"),
-			period: t("experience.roles.kaast.period"),
-			summary: t("experience.roles.kaast.summary"),
-			bullets: [
-				t("experience.roles.kaast.point1"),
-				t("experience.roles.kaast.point2"),
-				t("experience.roles.kaast.point3"),
-			],
-			links: ["https://kaa.st"],
-		},
-		{
-			key: "freelance",
-			title: t("experience.roles.freelance.title"),
-			company: t("experience.roles.freelance.company"),
-			period: t("experience.roles.freelance.period"),
-			summary: t("experience.roles.freelance.summary"),
-			bullets: [
-				t("experience.roles.freelance.point1"),
-				t("experience.roles.freelance.point2"),
-				t("experience.roles.freelance.point3"),
-			],
-			projectHighlights: freelanceProjectHighlights,
-			links: [
-				"https://asbadrums.com/",
-				"https://comacademy.fr/",
-				"https://soulbm.fr",
-				"https://domainedesfournelles.com/",
-			],
-		},
-		{
-			key: "intercloud",
-			title: t("experience.roles.intercloud.title"),
-			company: t("experience.roles.intercloud.company"),
-			period: t("experience.roles.intercloud.period"),
-			summary: t("experience.roles.intercloud.summary"),
-			bullets: [
-				t("experience.roles.intercloud.point1"),
-				t("experience.roles.intercloud.point2"),
-				t("experience.roles.intercloud.point3"),
-			],
-		},
-		{
-			key: "apple",
-			title: t("experience.roles.apple.title"),
-			company: t("experience.roles.apple.company"),
-			period: t("experience.roles.apple.period"),
-			summary: t("experience.roles.apple.summary"),
-			bullets: [
-				t("experience.roles.apple.point1"),
-				t("experience.roles.apple.point2"),
-				t("experience.roles.apple.point3"),
-			],
-		},
-		{
-			key: "soudesecoles",
-			title: t("experience.roles.soudesecoles.title"),
-			company: t("experience.roles.soudesecoles.company"),
-			period: t("experience.roles.soudesecoles.period"),
-			summary: t("experience.roles.soudesecoles.summary"),
-			bullets: [
-				t("experience.roles.soudesecoles.point1"),
-				t("experience.roles.soudesecoles.point2"),
-				t("experience.roles.soudesecoles.point3"),
-			],
-		},
-	];
+	const roles = buildRoles(t);
 	const softSkillGroups = t("about.softSkills.groups", {
 		returnObjects: true,
 	}) as SoftSkillGroup[];
 	const educationEntries = t("about.education.entries", {
 		returnObjects: true,
 	}) as EducationEntry[];
-
-	const skillGroups: SkillGroup[] = [
-		{
-			key: "frontend",
-			title: t("experience.skillGroups.frontend"),
-			icon: FiLayers,
-			skills: [
-				{ name: "React", icon: SiReact },
-				{ name: "React Native", icon: SiReact },
-				{ name: "TypeScript", icon: SiTypescript },
-				{ name: "JavaScript", icon: SiJavascript },
-				{ name: "TailwindCSS", icon: SiTailwindcss },
-				{ name: "TanStack Query", icon: SiReactquery },
-				{ name: "Vite", icon: SiVite },
-			],
-		},
-		{
-			key: "backend",
-			title: t("experience.skillGroups.backend"),
-			icon: FiServer,
-			skills: [
-				{ name: "Node.js", icon: SiNodedotjs },
-				{ name: "Strapi", icon: SiStrapi },
-				{ name: "Prisma", icon: SiPrisma },
-				{ name: "Sequelize", icon: SiSequelize },
-			],
-		},
-		{
-			key: "dataInfra",
-			title: t("experience.skillGroups.dataInfra"),
-			icon: FiBriefcase,
-			skills: [
-				{ name: "PostgreSQL", icon: SiPostgresql },
-				{ name: "Redis", icon: SiRedis },
-				{ name: "Docker", icon: SiDocker },
-			],
-		},
-		{
-			key: "delivery",
-			title: t("experience.skillGroups.delivery"),
-			icon: FiFolder,
-			skills: [
-				{ name: "Git", icon: SiGit },
-				{ name: "API Design", icon: FiServer },
-				{ name: "Product Discovery", icon: FiLayers },
-				{ name: "Technical Leadership", icon: FiBriefcase },
-			],
-		},
-	];
-
-	const hobbies = [
-		t("about.hobbies.item1"),
-		t("about.hobbies.item2"),
-		t("about.hobbies.item3"),
-		t("about.hobbies.item4"),
-		t("about.hobbies.item5"),
-		t("about.hobbies.item6"),
-	];
+	const skillGroups: SkillGroup[] = SKILL_GROUP_CONFIG.map((group) => ({
+		...group,
+		title: t(group.titleKey),
+	}));
+	const hobbies = getOrderedHobbies(t);
 
 	return (
 		<motion.div
@@ -216,7 +218,7 @@ const About = () => {
 			transition={{ duration: 0.45 }}>
 			<AmbientGlows />
 			{createPortal(
-				<div className='pointer-events-none fixed inset-x-0 bottom-5 z-1300 flex justify-center px-4 md:justify-start md:px-8'>
+				<div className='pointer-events-none fixed bottom-[-10px] left-1/2 z-[1300] -translate-x-1/2'>
 					<a
 						href={`/api/cv-pdf?lang=${currentLanguage}`}
 						className='pointer-events-auto inline-flex items-center rounded-none bg-brand-primary px-4 py-2 text-[0.84rem] font-semibold tracking-[0.01em] text-white shadow-[0_8px_20px_rgba(16,22,34,0.28)] transition-colors duration-200 hover:bg-(--color-primary-dark)'>
@@ -247,15 +249,16 @@ const About = () => {
 				/>
 
 				<AboutIntro
-					paragraphs={[
-						t("about.paragraph2"),
-						t("about.paragraph3"),
-						t("about.paragraph4"),
-					]}
+					paragraphs={[t("about.paragraph2"), t("about.paragraph3"), t("about.paragraph4")]}
 				/>
 
 				<AboutTimeline title={t("experience.rolesTitle")} roles={roles} />
 
+				<AboutEducation
+					title={t("about.education.title")}
+					intro={t("about.education.intro")}
+					entries={educationEntries}
+				/>
 				<AboutSkills
 					title={t("about.skillsTitle")}
 					intro={t("about.hardSkillsIntro")}
@@ -266,12 +269,6 @@ const About = () => {
 					intro={t("about.softSkillsIntro")}
 					skillGroups={softSkillGroups}
 				/>
-				<AboutEducation
-					title={t("about.education.title")}
-					intro={t("about.education.intro")}
-					entries={educationEntries}
-				/>
-
 				<AboutHobbies
 					title={t("about.hobbiesTitle")}
 					intro={t("about.hobbiesIntro")}

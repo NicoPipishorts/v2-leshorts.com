@@ -15,7 +15,6 @@ export interface ExperienceRole {
 	summary: string;
 	bullets: string[];
 	links?: string[];
-	projectHighlightsTitle?: string;
 	projectHighlights?: ExperienceProjectHighlight[];
 }
 
