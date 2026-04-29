@@ -5,9 +5,11 @@ import { useTranslation } from "react-i18next";
 import type { IconType } from "react-icons";
 import { FiBriefcase, FiFolder, FiLayers, FiServer } from "react-icons/fi";
 import {
+	SiAmazonwebservices,
 	SiApplemusic,
 	SiDocker,
 	SiGit,
+	SiGooglecloud,
 	SiJavascript,
 	SiNodedotjs,
 	SiPostgresql,
@@ -76,12 +78,6 @@ const ROLE_KEYS: RoleKey[] = [
 const ROLE_LINKS: Partial<Record<RoleKey, string[]>> = {
 	synqit: ["https://synqit.fr"],
 	kaast: ["https://kaa.st"],
-	freelance: [
-		"https://asbadrums.com/",
-		"https://comacademy.fr/",
-		"https://soulbm.fr",
-		"https://domainedesfournelles.com/",
-	],
 };
 
 const ROLE_TECHNOLOGIES: Partial<Record<RoleKey, SkillItem[]>> = {
@@ -97,6 +93,8 @@ const ROLE_TECHNOLOGIES: Partial<Record<RoleKey, SkillItem[]>> = {
 	kaast: [
 		{ name: "React", icon: SiReact },
 		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "Express", icon: SiNodedotjs },
+		{ name: "PostgreSQL", icon: SiPostgresql },
 		{ name: "API Design", icon: FiServer },
 		{ name: "Back Office", icon: FiFolder },
 		{ name: "Docker", icon: SiDocker },
@@ -107,22 +105,34 @@ const FREELANCE_PROJECT_TECHNOLOGIES: Record<string, SkillItem[]> = {
 	"https://comacademy.fr/": [
 		{ name: "React Native", icon: SiReact },
 		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "Express.js", icon: SiNodedotjs },
 		{ name: "Strapi", icon: SiStrapi },
 		{ name: "API Design", icon: FiServer },
 		{ name: "Back Office", icon: FiFolder },
 	],
 	"https://soulbm.fr": [
 		{ name: "React", icon: SiReact },
+		{ name: "TanStack Query", icon: SiReactquery },
 		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "Strapi", icon: SiStrapi },
 		{ name: "PostgreSQL", icon: SiPostgresql },
+		{ name: "Docker", icon: SiDocker },
 		{ name: "API Design", icon: FiServer },
 		{ name: "Back Office", icon: FiFolder },
 	],
 	"https://asbadrums.com/": [
 		{ name: "React", icon: SiReact },
 		{ name: "JavaScript", icon: SiJavascript },
-		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "Strapi", icon: SiStrapi },
 		{ name: "API Design", icon: FiServer },
+		{ name: "Bio Back Office", icon: FiFolder },
+		{ name: "Vite", icon: SiVite },
+	],
+	"https://domainedesfournelles.com/": [
+		{ name: "React", icon: SiReact },
+		{ name: "JavaScript", icon: SiJavascript },
+		{ name: "API Design", icon: FiServer },
+		{ name: "Back Office", icon: FiFolder },
 		{ name: "Vite", icon: SiVite },
 	],
 };
@@ -171,7 +181,22 @@ const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
 			{ name: "Git", icon: SiGit },
 			{ name: "API Design", icon: FiServer },
 			{ name: "Product Discovery", icon: FiLayers },
+			{ name: "AWS IAM", icon: SiAmazonwebservices },
+			{ name: "Google Cloud IAM", icon: SiGooglecloud },
 			{ name: "Technical Leadership", icon: FiBriefcase },
+		],
+	},
+	{
+		key: "agentic",
+		titleKey: "experience.skillGroups.agentic",
+		icon: FiLayers,
+		skills: [
+			{ name: "Agentic Coding", icon: FiLayers },
+			{ name: "OpenAI", icon: FiBriefcase },
+			{ name: "Claude", icon: FiBriefcase },
+			{ name: "Gemini", icon: FiBriefcase },
+			{ name: "Cursor", icon: FiFolder },
+			{ name: "VS Code AI Tooling", icon: FiFolder },
 		],
 	},
 ];

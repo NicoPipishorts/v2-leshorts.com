@@ -25,7 +25,7 @@
 		"paragraph1": "Frontend engineer and product builder with a long-standing passion for creating digital experiences that are fast, clear, and intuitive. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with deep expertise in React and React Native.",
 		"paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by multiple clients.",
 		"paragraph3": "My work has expanded toward full-stack development, including Node.js services, API design, infrastructure setup, and Docker-based deployments. I work with SQL/PostgreSQL databases and tools such as Prisma and Sequelize to build scalable and maintainable systems. My earlier experience at Apple in technical support and product testing shaped a practical, detail-oriented approach focused on usability, reliability, and real-world impact.",
-		"hardSkillsIntro": "Core technologies and delivery capabilities I use to design, build, and ship products.",
+		"hardSkillsIntro": "Core technologies, delivery capabilities, and agentic tools I use to design, build, and ship products while staying current with newer development workflows.",
 		"skillsTitle": "Skills & Technologies",
 		"softSkillsTitle": "Soft Skills",
 		"softSkillsIntro": "How I collaborate, prioritize, and drive product delivery in real-world contexts.",
@@ -109,7 +109,8 @@
 			"frontend": "Frontend",
 			"backend": "Backend",
 			"dataInfra": "Data & Infrastructure",
-			"delivery": "Delivery & Product"
+			"delivery": "Delivery & Product",
+			"agentic": "Agentic & AI Tools"
 		},
 		"roles": {
 			"synqit": {
@@ -126,9 +127,9 @@
 				"company": "Kaast",
 				"period": "Current",
 				"summary": "Designing a media communication platform for internal engagement used by multiple companies.Such as Group OMNES and Sanofi",
-				"point1": "Built product features across frontend, backend, and APIs.",
+				"point1": "Built product features across the frontend, an Express backend, and APIs.",
 				"point2": "Set up infrastructure and containerized environments for releases.",
-				"point3": "Collaborated with users to iterate quickly on product priorities."
+				"point3": "Collaborated with users to iterate quickly on product priorities, with PostgreSQL supporting the data layer."
 			},
 			"freelance": {
 				"title": "Freelance Frontend & Product Developer",
@@ -144,24 +145,32 @@
 						"summary": "Built and shipped a complete React Native mobile app for iOS and Android with a custom backend architecture.",
 						"point1": "Designed and implemented a full React Native app with production-ready navigation and feature flows.",
 						"point2": "Integrated in-app purchases for premium content across both Apple App Store and Google Play Store.",
-						"point3": "Developed custom backend services and a tailored notification structure for user engagement.",
+						"point3": "Developed a custom Express.js backend and a tailored notification structure for user engagement.",
 						"link": "https://comacademy.fr/"
 					},
 					{
 						"name": "Soulbm.fr",
 						"summary": "Delivered a fully custom nonprofit platform with a public site and a back office for day-to-day operations.",
 						"point1": "Implemented member management workflows and role-based administration.",
-						"point2": "Built finance management modules for nonprofit operations and teacher expense tracking.",
-						"point3": "Added per-event and global inventory tracking to support recurring school events.",
+						"point2": "Built finance management modules for nonprofit operations and teacher expense tracking, backed by PostgreSQL and a Strapi backend.",
+						"point3": "Added per-event and global inventory tracking to support recurring school events, with the full infrastructure dockerized.",
 						"link": "https://soulbm.fr"
 					},
 					{
 						"name": "ASBA Drums",
-						"summary": "Designed and shipped a custom showcase website backed by a dedicated API layer for structured content and administration.",
+						"summary": "Designed and shipped a custom showcase website backed by a bio back office and a Strapi backend for structured content and administration.",
 						"point1": "Built a clear, performant frontend experience to present the project's identity, services, and editorial content.",
-						"point2": "Implemented a dedicated API layer to centralize content, simplify updates, and keep the platform maintainable over time.",
+						"point2": "Implemented a Strapi backend and a dedicated bio back office to centralize content, simplify updates, and keep the platform maintainable over time.",
 						"point3": "Delivered a cohesive web foundation aligning brand, content, and day-to-day operational updates.",
 						"link": "https://asbadrums.com/"
+					},
+					{
+						"name": "Domaine des Fournelles",
+						"summary": "Designed a custom website to present the estate, its wines, and its identity through a clear, content-driven experience.",
+						"point1": "Built a frontend interface focused on showcasing the estate, the wine range, and practical information around the business.",
+						"point2": "Structured an admin-friendly content base to simplify editorial updates and ongoing content management.",
+						"point3": "Delivered a cohesive web foundation aligning brand image, product content, and the estate's online presence.",
+						"link": "https://domainedesfournelles.com/"
 					}
 				]
 			},

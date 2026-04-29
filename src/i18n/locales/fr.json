@@ -25,7 +25,7 @@
 		"paragraph1": "Ingénieur frontend et product builder, je suis animé depuis longtemps par la création d'expériences numériques rapides, claires et intuitives. J'ai commencé à coder en 2001 et j'ai construit ma carrière autour des écosystèmes JavaScript modernes, avec une expertise approfondie en React et React Native.",
 		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
 		"paragraph3": "Mon travail s'est élargi vers le full-stack, avec des services Node.js, la conception d'API, la mise en place d'infrastructure et des déploiements basés sur Docker. Je travaille avec des bases SQL/PostgreSQL ainsi qu'avec des outils comme Prisma et Sequelize pour créer des systèmes scalables et maintenables. Mon expérience précédente chez Apple en support technique et en tests produit a façonné une approche pragmatique et rigoureuse, centrée sur l'ergonomie, la fiabilité et l'impact concret.",
-		"hardSkillsIntro": "Technologies clés et capacités de delivery que j'utilise pour concevoir, construire et livrer des produits.",
+		"hardSkillsIntro": "Technologies clés, capacités de delivery et outils agentiques que j'utilise pour concevoir, construire et livrer des produits en restant à jour sur les workflows récents.",
 		"skillsTitle": "Compétences & Technologies",
 		"softSkillsTitle": "Soft Skills",
 		"softSkillsIntro": "Ma façon de collaborer, prioriser et livrer des produits dans des contextes concrets.",
@@ -109,7 +109,8 @@
 			"frontend": "Front-end",
 			"backend": "Back-end",
 			"dataInfra": "Données & Infrastructure",
-			"delivery": "Livraison & Produit"
+			"delivery": "Livraison & Produit",
+			"agentic": "Agentic & AI Tools"
 		},
 		"roles": {
 			"synqit": {
@@ -126,9 +127,9 @@
 				"company": "Kaast",
 				"period": "Actuel",
 				"summary": "Conception d'une plateforme de communication média interne déjà utilisée par plusieurs entreprises.",
-				"point1": "Développement des fonctionnalités produit sur le frontend, le backend et les APIs.",
+				"point1": "Développement des fonctionnalités produit sur le frontend, un backend Express et les APIs.",
 				"point2": "Mise en place de l'infrastructure et d'environnements conteneurisés pour les releases.",
-				"point3": "Collaboration continue avec les utilisateurs pour itérer rapidement sur les priorités."
+				"point3": "Collaboration continue avec les utilisateurs pour itérer rapidement sur les priorités, avec une base PostgreSQL maintenable côté données."
 			},
 			"freelance": {
 				"title": "Développeur Front-end & Produit Freelance",
@@ -144,24 +145,32 @@
 						"summary": "Conception et mise en production d'une application mobile React Native complète sur iOS et Android, avec un backend sur mesure.",
 						"point1": "Architecture et développement d'une application React Native complète, avec des parcours utilisateurs robustes.",
 						"point2": "Intégration des achats intégrés pour le contenu premium sur l'Apple App Store et le Google Play Store.",
-						"point3": "Développement de services backend personnalisés et d'une structure de notifications adaptée à l'engagement utilisateur.",
+						"point3": "Développement d'un backend Express.js sur mesure et d'une structure de notifications adaptée à l'engagement utilisateur.",
 						"link": "https://comacademy.fr/"
 					},
 					{
 						"name": "Soulbm.fr",
 						"summary": "Livraison d'une plateforme entièrement sur mesure pour une association, avec site public et back office opérationnel.",
 						"point1": "Mise en place de workflows de gestion des membres et d'une administration par rôles.",
-						"point2": "Développement de modules de suivi financier pour l'association et les dépenses des enseignants.",
-						"point3": "Ajout d'un suivi d'inventaire par événement et global pour les manifestations récurrentes.",
+						"point2": "Développement de modules de suivi financier pour l'association et les dépenses des enseignants, appuyés sur une base PostgreSQL et un backend Strapi.",
+						"point3": "Ajout d'un suivi d'inventaire par événement et global pour les manifestations récurrentes, avec une infrastructure entièrement dockerisée.",
 						"link": "https://soulbm.fr"
 					},
 					{
 						"name": "ASBA Drums",
-						"summary": "Conception d'un site vitrine sur mesure accompagné d'une couche API dédiée pour structurer les contenus et l'administration.",
+						"summary": "Conception d'un site vitrine sur mesure accompagné d'un back office bio et d'un backend Strapi pour structurer les contenus et l'administration.",
 						"point1": "Développement d'une expérience frontend claire et performante pour présenter l'univers, les services et les contenus du projet.",
-						"point2": "Mise en place d'une API dédiée pour centraliser les contenus, simplifier les évolutions et garder une base maintenable.",
+						"point2": "Mise en place d'un backend Strapi et d'un back office bio pour centraliser les contenus, simplifier les évolutions et garder une base maintenable.",
 						"point3": "Livraison d'un socle web cohérent entre identité, contenu et mise à jour opérationnelle sur le long terme.",
 						"link": "https://asbadrums.com/"
+					},
+					{
+						"name": "Domaine des Fournelles",
+						"summary": "Conception d'un site sur mesure pour présenter le domaine, ses cuvées et son identité avec une expérience claire et orientée contenu.",
+						"point1": "Mise en place d'une interface frontend pensée pour valoriser le domaine, les vins et l'information pratique autour de l'exploitation.",
+						"point2": "Structuration d'une base administrable pour faciliter les mises à jour éditoriales et la gestion continue du contenu.",
+						"point3": "Livraison d'un socle web cohérent entre image de marque, contenu produit et présence en ligne du domaine.",
+						"link": "https://domainedesfournelles.com/"
 					}
 				]
 			},
