@@ -116,10 +116,10 @@
 				"title": "Founder & Product Engineer",
 				"company": "Synqit",
 				"period": "Current",
-				"summary": "Easy cross service playlist sharing for your events or friends music tracking.",
-				"point1": "Lead end-to-end product implementation with React, TypeScript, Node.js and Prisma.",
-				"point2": "Define scope, architecture, and delivery roadmaps.",
-				"point3": "Ensure production reliability with maintainable code and deployment workflows."
+				"summary": "Collaborative playlist platform for events and cross-service sharing between Spotify and Apple Music through a single magic link.",
+				"point1": "Led end-to-end product design and development, from the web app to mobile-first guest pages, with Spotify and Apple Music API integrations.",
+				"point2": "Built the event playlist flow with no-signup guest submissions, live host moderation, event closing, and guest-link management.",
+				"point3": "Designed cross-platform playlist sharing that lets users import a playlist from one streaming service into another with a simple, reliable experience."
 			},
 			"kaast": {
 				"title": "Co-Founder & Full-Stack Product Builder",
@@ -154,6 +154,14 @@
 						"point2": "Built finance management modules for nonprofit operations and teacher expense tracking.",
 						"point3": "Added per-event and global inventory tracking to support recurring school events.",
 						"link": "https://soulbm.fr"
+					},
+					{
+						"name": "ASBA Drums",
+						"summary": "Designed and shipped a custom showcase website backed by a dedicated API layer for structured content and administration.",
+						"point1": "Built a clear, performant frontend experience to present the project's identity, services, and editorial content.",
+						"point2": "Implemented a dedicated API layer to centralize content, simplify updates, and keep the platform maintainable over time.",
+						"point3": "Delivered a cohesive web foundation aligning brand, content, and day-to-day operational updates.",
+						"link": "https://asbadrums.com/"
 					}
 				]
 			},

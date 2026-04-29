@@ -5,6 +5,7 @@ export interface ExperienceProjectHighlight {
 	summary: string;
 	bullets: string[];
 	link?: string;
+	technologies?: SkillItem[];
 }
 
 export interface ExperienceRole {
@@ -15,6 +16,7 @@ export interface ExperienceRole {
 	summary: string;
 	bullets: string[];
 	links?: string[];
+	technologies?: SkillItem[];
 	projectHighlights?: ExperienceProjectHighlight[];
 }
 

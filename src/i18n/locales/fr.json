@@ -116,10 +116,10 @@
 				"title": "Fondateur & Ingénieur Produit",
 				"company": "Synqit",
 				"period": "Actuel",
-				"summary": "Partage simple de playlists entre services pour vos événements ou le suivi musical entre amis.",
-				"point1": "Pilotage d'une implémentation produit de bout en bout avec React, TypeScript, Node.js et Prisma.",
-				"point2": "Définition du périmètre, de l'architecture et des roadmaps de livraison.",
-				"point3": "Garantie de la fiabilité en production via un code maintenable et des workflows de déploiement."
+				"summary": "Plateforme de playlists collaboratives pour événements et partage cross-service entre Spotify et Apple Music via un magic link.",
+				"point1": "Conception et développement du produit de bout en bout, de l'application web aux pages invité mobile-first, avec intégration des APIs Spotify et Apple Music.",
+				"point2": "Mise en place d'un flux événementiel avec ajout de titres sans création de compte, modération hôte en direct, fermeture d'événement et gestion des liens invités.",
+				"point3": "Conception d'une logique de partage cross-plateforme permettant d'importer une playlist d'un service vers un autre avec une expérience simple, fluide et fiable."
 			},
 			"kaast": {
 				"title": "Co-fondateur & Product Builder Full-Stack",
@@ -154,6 +154,14 @@
 						"point2": "Développement de modules de suivi financier pour l'association et les dépenses des enseignants.",
 						"point3": "Ajout d'un suivi d'inventaire par événement et global pour les manifestations récurrentes.",
 						"link": "https://soulbm.fr"
+					},
+					{
+						"name": "ASBA Drums",
+						"summary": "Conception d'un site vitrine sur mesure accompagné d'une couche API dédiée pour structurer les contenus et l'administration.",
+						"point1": "Développement d'une expérience frontend claire et performante pour présenter l'univers, les services et les contenus du projet.",
+						"point2": "Mise en place d'une API dédiée pour centraliser les contenus, simplifier les évolutions et garder une base maintenable.",
+						"point3": "Livraison d'un socle web cohérent entre identité, contenu et mise à jour opérationnelle sur le long terme.",
+						"link": "https://asbadrums.com/"
 					}
 				]
 			},

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { FiExternalLink } from "react-icons/fi";
 import { ExperienceRole } from "./types";
 
 interface AboutTimelineProps {
@@ -80,6 +81,34 @@ const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 													</li>
 												))}
 											</ul>
+											{project.link && (
+												<div className='mt-3 flex flex-wrap items-center gap-2'>
+													<a
+														href={project.link}
+														target='_blank'
+														rel='noreferrer'
+														className='inline-flex items-center rounded-none bg-brand-primary px-3 py-1 text-[0.76rem] font-semibold tracking-[0.01em] text-white transition-colors duration-200 hover:bg-(--color-primary-dark)'>
+														<FiExternalLink className='mr-1.5 h-3.5 w-3.5 shrink-0' />
+														{getDomainLabel(project.link)}
+													</a>
+												</div>
+											)}
+											{project.technologies &&
+												project.technologies.length > 0 && (
+													<div className='mt-3 flex flex-wrap items-center gap-2'>
+														{project.technologies.map((technology) => {
+															const TechnologyIcon = technology.icon;
+															return (
+																<span
+																	key={`${project.name}-${technology.name}`}
+																	className='inline-flex items-center gap-2 rounded-md bg-white/56 px-3 py-1.5 text-[0.82rem] text-(--color-text) shadow-[0_4px_12px_rgba(16,22,34,0.1)]'>
+																	<TechnologyIcon className='text-[0.9rem] text-brand-secondary' />
+																	<span>{technology.name}</span>
+																</span>
+															);
+														})}
+													</div>
+												)}
 										</div>
 									))}
 								</div>
@@ -93,9 +122,25 @@ const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 											target='_blank'
 											rel='noreferrer'
 											className='inline-flex items-center rounded-none bg-brand-primary px-3 py-1 text-[0.76rem] font-semibold tracking-[0.01em] text-white transition-colors duration-200 hover:bg-(--color-primary-dark)'>
+											<FiExternalLink className='mr-1.5 h-3.5 w-3.5 shrink-0' />
 											{getDomainLabel(link)}
 										</a>
 									))}
+								</div>
+							)}
+							{role.technologies && role.technologies.length > 0 && (
+								<div className='mt-3 flex flex-wrap items-center gap-2'>
+									{role.technologies.map((technology) => {
+										const TechnologyIcon = technology.icon;
+										return (
+											<span
+												key={`${role.key}-${technology.name}`}
+												className='inline-flex items-center gap-2 rounded-md bg-white/56 px-3 py-1.5 text-[0.82rem] text-(--color-text) shadow-[0_4px_12px_rgba(16,22,34,0.1)]'>
+												<TechnologyIcon className='text-[0.9rem] text-brand-secondary' />
+												<span>{technology.name}</span>
+											</span>
+										);
+									})}
 								</div>
 							)}
 						</article>

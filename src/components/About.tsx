@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import type { IconType } from "react-icons";
 import { FiBriefcase, FiFolder, FiLayers, FiServer } from "react-icons/fi";
 import {
+	SiApplemusic,
 	SiDocker,
 	SiGit,
 	SiJavascript,
@@ -15,6 +16,7 @@ import {
 	SiReactquery,
 	SiRedis,
 	SiSequelize,
+	SiSpotify,
 	SiStrapi,
 	SiTailwindcss,
 	SiTypescript,
@@ -33,6 +35,7 @@ import {
 	type EducationEntry,
 	type ExperienceProjectHighlight,
 	type ExperienceRole,
+	type SkillItem,
 	type SkillGroup,
 	type SoftSkillGroup,
 } from "./about/types";
@@ -78,6 +81,49 @@ const ROLE_LINKS: Partial<Record<RoleKey, string[]>> = {
 		"https://comacademy.fr/",
 		"https://soulbm.fr",
 		"https://domainedesfournelles.com/",
+	],
+};
+
+const ROLE_TECHNOLOGIES: Partial<Record<RoleKey, SkillItem[]>> = {
+	synqit: [
+		{ name: "React", icon: SiReact },
+		{ name: "TypeScript", icon: SiTypescript },
+		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "Prisma", icon: SiPrisma },
+		{ name: "PostgreSQL", icon: SiPostgresql },
+		{ name: "Spotify API", icon: SiSpotify },
+		{ name: "Apple Music API", icon: SiApplemusic },
+	],
+	kaast: [
+		{ name: "React", icon: SiReact },
+		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "API Design", icon: FiServer },
+		{ name: "Back Office", icon: FiFolder },
+		{ name: "Docker", icon: SiDocker },
+	],
+};
+
+const FREELANCE_PROJECT_TECHNOLOGIES: Record<string, SkillItem[]> = {
+	"https://comacademy.fr/": [
+		{ name: "React Native", icon: SiReact },
+		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "Strapi", icon: SiStrapi },
+		{ name: "API Design", icon: FiServer },
+		{ name: "Back Office", icon: FiFolder },
+	],
+	"https://soulbm.fr": [
+		{ name: "React", icon: SiReact },
+		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "PostgreSQL", icon: SiPostgresql },
+		{ name: "API Design", icon: FiServer },
+		{ name: "Back Office", icon: FiFolder },
+	],
+	"https://asbadrums.com/": [
+		{ name: "React", icon: SiReact },
+		{ name: "JavaScript", icon: SiJavascript },
+		{ name: "Node.js", icon: SiNodedotjs },
+		{ name: "API Design", icon: FiServer },
+		{ name: "Vite", icon: SiVite },
 	],
 };
 
@@ -150,6 +196,9 @@ const getFreelanceProjectHighlights = (
 			(bullet) => bullet.trim().length > 0,
 		),
 		link: project.link,
+		technologies: project.link
+			? FREELANCE_PROJECT_TECHNOLOGIES[project.link]
+			: undefined,
 	}));
 };
 
@@ -159,6 +208,7 @@ const buildRoles = (t: TFunction): ExperienceRole[] => {
 	return ROLE_KEYS.map((key) => {
 		const rolePath = `experience.roles.${key}`;
 		const links = ROLE_LINKS[key];
+		const technologies = ROLE_TECHNOLOGIES[key];
 
 		return {
 			key,
@@ -168,6 +218,7 @@ const buildRoles = (t: TFunction): ExperienceRole[] => {
 			summary: t(`${rolePath}.summary`),
 			bullets: getRoleBullets(t, rolePath),
 			links,
+			technologies,
 			projectHighlights:
 				key === "freelance" ? freelanceProjectHighlights : undefined,
 		};
@@ -218,7 +269,7 @@ const About = () => {
 			transition={{ duration: 0.45 }}>
 			<AmbientGlows />
 			{createPortal(
-				<div className='pointer-events-none fixed bottom-[-10px] left-1/2 z-[1300] -translate-x-1/2'>
+				<div className='pointer-events-none fixed bottom-[15px] left-1/2 z-[1300] -translate-x-1/2'>
 					<a
 						href={`/api/cv-pdf?lang=${currentLanguage}`}
 						className='pointer-events-auto inline-flex items-center rounded-none bg-brand-primary px-4 py-2 text-[0.84rem] font-semibold tracking-[0.01em] text-white shadow-[0_8px_20px_rgba(16,22,34,0.28)] transition-colors duration-200 hover:bg-(--color-primary-dark)'>
