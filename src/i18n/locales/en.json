@@ -1,8 +1,8 @@
 {
 	"about": {
 		"title": "About Me",
-		"heroHeading": "Frontend & Mobile Engineer",
-		"heroSubheading": "building scalable products end-to-end",
+		"heroHeading": "Full-Stack Web Engineer",
+		"heroSubheading": "building scalable products across frontend, backend, and API architecture",
 		"heroRows": {
 			"row1Prefix": "I am a",
 			"row1Items": [
