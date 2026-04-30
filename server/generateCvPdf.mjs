@@ -158,11 +158,16 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	const contentBottom = pageHeight - margin;
 
 	const headerTitle = locale.about?.heroHeading ?? "Curriculum Vitae";
+	const fullName = [
+		privateProfile?.identity?.firstName,
+		privateProfile?.identity?.lastName,
+	]
+		.filter(Boolean)
+		.join(" ");
 	const ownershipTitle = locale.experience?.ownershipTitle ?? "What I Owned";
 	const leftDetails = [
 		privateProfile?.contact?.phone,
 		privateProfile?.contact?.email,
-		privateProfile?.contact?.website,
 		privateProfile?.contact?.addressLine1,
 		privateProfile?.contact?.addressLine2,
 	].filter(Boolean);
@@ -177,6 +182,15 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	const imageX = pageWidth - margin - imageSize;
 	const imageY = headerTopY;
 
+	const nameHeight = fullName
+		? estimateTextHeight(doc, fullName, {
+				width: infoWidth,
+				font: "Helvetica-Bold",
+				size: 12,
+				color: COLORS.text,
+				gapAfter: 3,
+			})
+		: 0;
 	const detailsHeight = leftDetails.reduce(
 		(total, line) =>
 			total +
@@ -187,9 +201,20 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 			}),
 		0,
 	);
-	const detailsStartY = headerTopY + Math.max(0, (headerRowHeight - detailsHeight) / 2);
+	const detailsStartY = headerTopY + Math.max(0, (headerRowHeight - (nameHeight + detailsHeight)) / 2);
 	doc.font("Helvetica").fontSize(10).fillColor(COLORS.muted);
 	let detailsY = detailsStartY;
+	if (fullName) {
+		detailsY = drawText(doc, fullName, {
+			x: margin,
+			y: detailsY,
+			width: infoWidth,
+			font: "Helvetica-Bold",
+			size: 12,
+			color: COLORS.text,
+			gapAfter: 3,
+		});
+	}
 	for (const line of leftDetails) {
 		detailsY = drawText(doc, line, {
 			x: margin,
