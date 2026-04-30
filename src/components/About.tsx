@@ -34,6 +34,7 @@ import AboutSkills from "./about/AboutSkills";
 import AboutSoftSkills from "./about/AboutSoftSkills";
 import AboutTimeline from "./about/AboutTimeline";
 import {
+	type ArchitectureDiagramNode,
 	type EducationEntry,
 	type ExperienceProjectHighlight,
 	type ExperienceRole,
@@ -56,7 +57,14 @@ interface FreelanceProjectTranslation {
 	point1: string;
 	point2: string;
 	point3: string;
+	ownership?: string[];
+	diagram?: ArchitectureDiagramNodeTranslation[];
 	link?: string;
+}
+
+interface ArchitectureDiagramNodeTranslation {
+	label: string;
+	value: string;
 }
 
 interface SkillGroupConfig {
@@ -161,6 +169,9 @@ const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
 			{ name: "Strapi", icon: SiStrapi },
 			{ name: "Prisma", icon: SiPrisma },
 			{ name: "Sequelize", icon: SiSequelize },
+			{ name: "REST API Development", icon: FiServer },
+			{ name: "Backend Architecture", icon: FiLayers },
+			{ name: "Data Modeling", icon: FiFolder },
 		],
 	},
 	{
@@ -181,6 +192,7 @@ const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
 			{ name: "Git", icon: SiGit },
 			{ name: "API Design", icon: FiServer },
 			{ name: "Product Discovery", icon: FiLayers },
+			{ name: "System Design", icon: FiBriefcase },
 			{ name: "AWS IAM", icon: SiAmazonwebservices },
 			{ name: "Google Cloud IAM", icon: SiGooglecloud },
 			{ name: "Technical Leadership", icon: FiBriefcase },
@@ -220,6 +232,10 @@ const getFreelanceProjectHighlights = (
 		bullets: [project.point1, project.point2, project.point3].filter(
 			(bullet) => bullet.trim().length > 0,
 		),
+		ownership: project.ownership?.filter((item) => item.trim().length > 0),
+		diagram: project.diagram?.filter(
+			(node) => node.label.trim().length > 0 && node.value.trim().length > 0,
+		),
 		link: project.link,
 		technologies: project.link
 			? FREELANCE_PROJECT_TECHNOLOGIES[project.link]
@@ -242,6 +258,14 @@ const buildRoles = (t: TFunction): ExperienceRole[] => {
 			period: t(`${rolePath}.period`),
 			summary: t(`${rolePath}.summary`),
 			bullets: getRoleBullets(t, rolePath),
+			ownership: t(`${rolePath}.ownership`, {
+				returnObjects: true,
+				defaultValue: [],
+			}) as string[],
+			diagram: t(`${rolePath}.diagram`, {
+				returnObjects: true,
+				defaultValue: [],
+			}) as ArchitectureDiagramNode[],
 			links,
 			technologies,
 			projectHighlights:
@@ -308,6 +332,7 @@ const About = () => {
 				<AboutHero
 					title={t("about.title")}
 					heading={t("about.heroHeading")}
+					subheading={t("about.heroSubheading")}
 					row1Prefix={t("about.heroRows.row1Prefix")}
 					row1Items={
 						t("about.heroRows.row1Items", { returnObjects: true }) as string[]
@@ -328,7 +353,11 @@ const About = () => {
 					paragraphs={[t("about.paragraph2"), t("about.paragraph3"), t("about.paragraph4")]}
 				/>
 
-				<AboutTimeline title={t("experience.rolesTitle")} roles={roles} />
+				<AboutTimeline
+					title={t("experience.rolesTitle")}
+					roles={roles}
+					ownershipTitle={t("experience.ownershipTitle")}
+				/>
 
 				<AboutEducation
 					title={t("about.education.title")}

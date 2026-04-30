@@ -99,6 +99,11 @@ const makeRoleModels = (locale) =>
 					bullets: ["point1", "point2", "point3"]
 						.map((projectKey) => project[projectKey])
 						.filter((value) => typeof value === "string" && value.trim().length > 0),
+					ownership: Array.isArray(project.ownership)
+						? project.ownership.filter(
+								(value) => typeof value === "string" && value.trim().length > 0,
+							)
+						: [],
 			  }))
 			: [];
 
@@ -108,6 +113,11 @@ const makeRoleModels = (locale) =>
 			period: role.period,
 			summary: role.summary,
 			bullets: extractRoleBullets(role),
+			ownership: Array.isArray(role.ownership)
+				? role.ownership.filter(
+						(value) => typeof value === "string" && value.trim().length > 0,
+					)
+				: [],
 			projects,
 		};
 	}).filter(Boolean);
@@ -148,6 +158,7 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	const contentBottom = pageHeight - margin;
 
 	const headerTitle = locale.about?.heroHeading ?? "Curriculum Vitae";
+	const ownershipTitle = locale.experience?.ownershipTitle ?? "What I Owned";
 	const leftDetails = [
 		privateProfile?.contact?.phone,
 		privateProfile?.contact?.email,
@@ -411,7 +422,28 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 				}),
 			0,
 		);
-		ensureRightSpace(34 + roleSummaryEstimate + roleBulletsEstimate);
+		const roleOwnershipEstimate =
+			(role.ownership ?? []).length > 0
+				? estimateTextHeight(doc, ownershipTitle, {
+						width: rightColumn.width,
+						font: "Helvetica-Bold",
+						size: 8.4,
+						color: COLORS.accent,
+						gapAfter: 2,
+					}) +
+					(role.ownership ?? []).reduce(
+						(total, item) =>
+							total +
+							estimateTextHeight(doc, item, {
+								width: rightColumn.width - 9,
+								size: 8.7,
+								color: COLORS.muted,
+								gapAfter: 1,
+							}),
+						0,
+					)
+				: 0;
+		ensureRightSpace(34 + roleSummaryEstimate + roleBulletsEstimate + roleOwnershipEstimate);
 
 		rightColumn.y = drawText(doc, roleTitleLine, {
 			x: rightColumn.x,
@@ -449,6 +481,28 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 				color: COLORS.muted,
 			});
 		}
+		if ((role.ownership ?? []).length > 0) {
+			rightColumn.y += 2;
+			rightColumn.y = drawText(doc, ownershipTitle, {
+				x: rightColumn.x,
+				y: rightColumn.y,
+				width: rightColumn.width,
+				font: "Helvetica-Bold",
+				size: 8.4,
+				color: COLORS.accent,
+				gapAfter: 2,
+			});
+			for (const item of role.ownership ?? []) {
+				rightColumn.y = drawBullet(doc, item, {
+					x: rightColumn.x,
+					y: rightColumn.y,
+					width: rightColumn.width,
+					size: 8.7,
+					color: COLORS.muted,
+					gapAfter: 1,
+				});
+			}
+		}
 
 		for (const project of role.projects ?? []) {
 			const projectEstimate =
@@ -475,7 +529,27 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 							gapAfter: 1,
 						}),
 					0,
-				);
+				) +
+				((project.ownership ?? []).length > 0
+					? estimateTextHeight(doc, ownershipTitle, {
+							width: rightColumn.width,
+							font: "Helvetica-Bold",
+							size: 8.1,
+							color: COLORS.accent,
+							gapAfter: 2,
+						}) +
+						(project.ownership ?? []).reduce(
+							(total, item) =>
+								total +
+								estimateTextHeight(doc, item, {
+									width: rightColumn.width - 9,
+									size: 8.5,
+									color: COLORS.muted,
+									gapAfter: 1,
+								}),
+							0,
+						)
+					: 0);
 			ensureRightSpace(projectEstimate + 6);
 			rightColumn.y += 1;
 			rightColumn.y = drawText(doc, project.name, {
@@ -503,6 +577,28 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 					size: 8.7,
 					color: COLORS.muted,
 				});
+			}
+			if ((project.ownership ?? []).length > 0) {
+				rightColumn.y += 1;
+				rightColumn.y = drawText(doc, ownershipTitle, {
+					x: rightColumn.x,
+					y: rightColumn.y,
+					width: rightColumn.width,
+					font: "Helvetica-Bold",
+					size: 8.1,
+					color: COLORS.accent,
+					gapAfter: 2,
+				});
+				for (const item of project.ownership ?? []) {
+					rightColumn.y = drawBullet(doc, item, {
+						x: rightColumn.x,
+						y: rightColumn.y,
+						width: rightColumn.width,
+						size: 8.5,
+						color: COLORS.muted,
+						gapAfter: 1,
+					});
+				}
 			}
 		}
 

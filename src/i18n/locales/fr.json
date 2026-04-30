@@ -1,7 +1,8 @@
 {
 	"about": {
 		"title": "À propos de moi",
-		"heroHeading": "Développeur Produit & Frontend",
+		"heroHeading": "Frontend & Mobile Engineer",
+		"heroSubheading": "building scalable products end-to-end",
 		"heroRows": {
 			"row1Prefix": "Je suis",
 			"row1Items": [
@@ -22,10 +23,10 @@
 			],
 			"row3Join": "et"
 		},
-		"paragraph1": "Ingénieur frontend et product builder, je suis animé depuis longtemps par la création d'expériences numériques rapides, claires et intuitives. J'ai commencé à coder en 2001 et j'ai construit ma carrière autour des écosystèmes JavaScript modernes, avec une expertise approfondie en React et React Native.",
+		"paragraph1": "Ingénieur frontend et mobile senior avec une expérience concrète en architecture full-stack. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une expertise approfondie en React et React Native, enrichie par un travail de plus en plus centré sur la conception d'API, les systèmes backend et la livraison de produits scalables.",
 		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
-		"paragraph3": "Mon travail s'est élargi vers le full-stack, avec des services Node.js, la conception d'API, la mise en place d'infrastructure et des déploiements basés sur Docker. Je travaille avec des bases SQL/PostgreSQL ainsi qu'avec des outils comme Prisma et Sequelize pour créer des systèmes scalables et maintenables. Mon expérience précédente chez Apple en support technique et en tests produit a façonné une approche pragmatique et rigoureuse, centrée sur l'ergonomie, la fiabilité et l'impact concret.",
-		"hardSkillsIntro": "Technologies clés, capacités de delivery et outils agentiques que j'utilise pour concevoir, construire et livrer des produits en restant à jour sur les workflows récents.",
+		"paragraph3": "Sur des produits comme Synqit, Soulbm, ASBA et Kaast, j'ai conçu des architectures backend, défini des structures d'API, modélisé des relations de données et mis en place des infrastructures maintenables en parallèle des expériences frontend. Je travaille avec des services Node.js, Strapi, SQL/PostgreSQL, Prisma, Sequelize et Docker pour construire des systèmes clairs, pragmatiques et durables dans le temps.",
+		"hardSkillsIntro": "Technologies clés et capacités de delivery que j'utilise pour concevoir des interfaces, définir des APIs, modéliser des données et livrer des produits complets, du parcours utilisateur à l'architecture backend.",
 		"skillsTitle": "Compétences & Technologies",
 		"softSkillsTitle": "Soft Skills",
 		"softSkillsIntro": "Ma façon de collaborer, prioriser et livrer des produits dans des contextes concrets.",
@@ -105,6 +106,145 @@
 	},
 	"experience": {
 		"rolesTitle": "Parcours Professionnel",
+		"ownershipTitle": "Ce que j'ai piloté",
+		"architecture": {
+			"title": "Architecture & Systèmes Backend",
+			"intro": "Une sélection de projets sur lesquels j'ai conçu ou directement influencé le design système, la couche API, la modélisation des données et la structure opérationnelle derrière l'expérience produit.",
+			"caseStudies": {
+				"synqit": {
+					"name": "Synqit",
+					"summary": "Produit de playlists événementielles combinant des parcours mobile-first très simples avec un backend qui orchestre modération, partage et interopérabilité entre services musicaux.",
+					"bullets": [
+						"Conception de l'architecture de bout en bout reliant dashboard hôte, flux invités, logique d'import de playlists et APIs musicales tierces.",
+						"Définition de la structure d'API et des entités métier pour gérer la modération, le cycle de vie d'un événement et les opérations cross-service.",
+						"Mise en place de la fondation backend autour de Node.js, Prisma et PostgreSQL pour garantir la fiabilité des états, permissions et données playlist."
+					],
+					"ownership": [
+						"Design système",
+						"Structure d'API",
+						"Modélisation des données",
+						"Implémentation frontend"
+					],
+					"diagram": [
+						{
+							"label": "Frontend",
+							"value": "Application React + pages invité mobile-first"
+						},
+						{
+							"label": "Couche API",
+							"value": "Services Node.js pour les événements, la modération et les imports de playlists"
+						},
+						{
+							"label": "Données",
+							"value": "Prisma + PostgreSQL pour les entités événement, invité et playlist"
+						},
+						{
+							"label": "Services",
+							"value": "Intégrations Spotify API + Apple Music API"
+						}
+					]
+				},
+				"asba": {
+					"name": "ASBA Drums",
+					"summary": "Site vitrine éditorial soutenu par un backend Strapi structuré et des workflows d'administration dédiés.",
+					"bullets": [
+						"Définition d'une structure backend séparant clairement contenu éditorial, gestion de la bio et présentation publique.",
+						"Implémentation d'une API Strapi et d'un workflow d'administration dédié pour faire évoluer le contenu sans toucher au frontend.",
+						"Conception du content model pour garder une narration de marque souple tout en conservant un flux de publication maintenable."
+					],
+					"ownership": [
+						"Architecture backend",
+						"Modélisation de contenu",
+						"Implémentation Strapi",
+						"Delivery frontend"
+					],
+					"diagram": [
+						{
+							"label": "Frontend",
+							"value": "Site vitrine React"
+						},
+						{
+							"label": "Couche API",
+							"value": "Endpoints Strapi pour servir le contenu éditorial structuré"
+						},
+						{
+							"label": "Données",
+							"value": "Collections de contenu pour bio, pages et mises à jour"
+						},
+						{
+							"label": "Admin",
+							"value": "Back office dédié pour la maintenance du contenu"
+						}
+					]
+				},
+				"soulbm": {
+					"name": "Soulbm",
+					"summary": "Plateforme associative sur mesure avec site public et back office opérationnel couvrant membres, finances et inventaire.",
+					"bullets": [
+						"Conception et implémentation de l'architecture backend pour la gestion des membres, les opérations événementielles et l'administration par rôles.",
+						"Définition de l'API et du modèle relationnel pour le suivi financier, les dépenses enseignants et les opérations d'inventaire.",
+						"Mise en place du socle opérationnel avec Strapi, PostgreSQL et Docker pour garder un système maintenable au quotidien."
+					],
+					"ownership": [
+						"Architecture backend",
+						"Design d'API",
+						"Structure de base de données",
+						"Mise en place d'infrastructure"
+					],
+					"diagram": [
+						{
+							"label": "Frontend",
+							"value": "Site public + back office métier sur mesure"
+						},
+						{
+							"label": "Couche API",
+							"value": "Endpoints Strapi pour membres, finances et stock"
+						},
+						{
+							"label": "Données",
+							"value": "Relations PostgreSQL pour membres, événements, dépenses et inventaire"
+						},
+						{
+							"label": "Ops",
+							"value": "Déploiement dockerisé et workflows admin maintenables"
+						}
+					]
+				},
+				"kaast": {
+					"name": "Kaast",
+					"summary": "Plateforme de communication média interne sur laquelle je contribue entre architecture produit, implémentation frontend et collaboration backend.",
+					"bullets": [
+						"Contribution aux décisions d'architecture backend autour de la structure produit, des APIs et des workflows de contenu.",
+						"Développement de fonctionnalités sur le frontend et la couche de services Express, en cohérence avec le modèle de données PostgreSQL.",
+						"Participation au cadrage des environnements de release et des choix d'intégration pour garder une livraison fiable pendant l'évolution de la plateforme."
+					],
+					"ownership": [
+						"Collaboration architecture",
+						"Participation design d'API",
+						"Implémentation frontend",
+						"Environnements de release"
+					],
+					"diagram": [
+						{
+							"label": "Frontend",
+							"value": "Interface React de communication interne"
+						},
+						{
+							"label": "Couche API",
+							"value": "Services Express et endpoints de contenu internes"
+						},
+						{
+							"label": "Données",
+							"value": "Entités média et plateforme soutenues par PostgreSQL"
+						},
+						{
+							"label": "Delivery",
+							"value": "Environnements conteneurisés et collaboration release"
+						}
+					]
+				}
+			}
+		},
 		"skillGroups": {
 			"frontend": "Front-end",
 			"backend": "Back-end",
@@ -118,58 +258,183 @@
 				"company": "Synqit",
 				"period": "Actuel",
 				"summary": "Plateforme de playlists collaboratives pour événements et partage cross-service entre Spotify et Apple Music via un magic link.",
-				"point1": "Conception et développement du produit de bout en bout, de l'application web aux pages invité mobile-first, avec intégration des APIs Spotify et Apple Music.",
-				"point2": "Mise en place d'un flux événementiel avec ajout de titres sans création de compte, modération hôte en direct, fermeture d'événement et gestion des liens invités.",
-				"point3": "Conception d'une logique de partage cross-plateforme permettant d'importer une playlist d'un service vers un autre avec une expérience simple, fluide et fiable."
+				"point1": "Conception de l'architecture full-stack entre dashboards hôtes, parcours invités, modération de playlists et intégrations musicales tierces.",
+				"point2": "Définition de la structure d'API et du modèle de données événement pour gérer l'ajout de titres sans compte, la modération live, la fermeture d'événement et les liens invités.",
+				"point3": "Développement de l'expérience frontend en parallèle de la logique backend qui permet l'import de playlists et le partage cross-service.",
+				"ownership": [
+					"Design système",
+					"Structure d'API",
+					"Modélisation des données",
+					"Implémentation frontend"
+				],
+				"diagram": [
+					{
+						"label": "Frontend",
+						"value": "Application React + pages invité mobile-first"
+					},
+					{
+						"label": "Couche API",
+						"value": "Services Node.js pour les événements, la modération et les imports de playlists"
+					},
+					{
+						"label": "Données",
+						"value": "Prisma + PostgreSQL pour les entités événement, invité et playlist"
+					},
+					{
+						"label": "Services",
+						"value": "Intégrations Spotify API + Apple Music API"
+					}
+				]
 			},
 			"kaast": {
 				"title": "Co-fondateur & Product Builder Full-Stack",
 				"company": "Kaast",
 				"period": "Actuel",
 				"summary": "Conception d'une plateforme de communication média interne déjà utilisée par plusieurs entreprises.",
-				"point1": "Développement des fonctionnalités produit sur le frontend, un backend Express et les APIs.",
-				"point2": "Mise en place de l'infrastructure et d'environnements conteneurisés pour les releases.",
-				"point3": "Collaboration continue avec les utilisateurs pour itérer rapidement sur les priorités, avec une base PostgreSQL maintenable côté données."
+				"point1": "Contribution à l'architecture produit entre frontend, backend Express et couche API.",
+				"point2": "Collaboration sur les structures de données et les environnements de release, avec PostgreSQL et des setups conteneurisés au service de la plateforme.",
+				"point3": "Travail étroit avec les utilisateurs et les parties backend pour aligner les décisions système avec les priorités produit et la vitesse de delivery.",
+				"ownership": [
+					"Collaboration architecture",
+					"Participation design d'API",
+					"Implémentation frontend",
+					"Environnements de release"
+				],
+				"diagram": [
+					{
+						"label": "Frontend",
+						"value": "Interface React de communication interne"
+					},
+					{
+						"label": "Couche API",
+						"value": "Services Express et endpoints de contenu internes"
+					},
+					{
+						"label": "Données",
+						"value": "Entités média et plateforme soutenues par PostgreSQL"
+					},
+					{
+						"label": "Delivery",
+						"value": "Environnements conteneurisés et collaboration release"
+					}
+				]
 			},
 			"freelance": {
 				"title": "Développeur Front-end & Produit Freelance",
 				"company": "Indépendant",
 				"period": "2001 - En cours",
-				"summary": "Réalisation de solutions web et produit pour des clients en tant qu'indépendant, entre identité, interfaces et développement frontend moderne.",
-				"point1": "Conception de sites sur mesure et de produits digitaux pour startups et entreprises locales, notamment sur des projets comme asbadrums.com et comacademy.fr.",
-				"point2": "Pilotage de la livraison de bout en bout, de la découverte et du design à la mise en production.",
-				"point3": "Priorité donnée à l'UX, à la maintenabilité du code et à des résultats business concrets sur le long terme.",
+				"summary": "Réalisation de solutions web et produit pour des clients en tant qu'indépendant, en combinant choix d'architecture, vision produit et implémentation.",
+				"point1": "Conception de systèmes et produits digitaux sur mesure pour startups et entreprises locales, notamment sur ASBA Drums, Soulbm et Com'Academy.",
+				"point2": "Pilotage de la livraison de bout en bout, de la découverte et la modélisation des données jusqu'au frontend et au déploiement.",
+				"point3": "Priorité donnée à l'UX, à la maintenabilité du code et à des structures backend réellement pratiques pour l'usage long terme des clients.",
 				"projects": [
 					{
 						"name": "Com'Academy",
 						"summary": "Conception et mise en production d'une application mobile React Native complète sur iOS et Android, avec un backend sur mesure.",
-						"point1": "Architecture et développement d'une application React Native complète, avec des parcours utilisateurs robustes.",
-						"point2": "Intégration des achats intégrés pour le contenu premium sur l'Apple App Store et le Google Play Store.",
-						"point3": "Développement d'un backend Express.js sur mesure et d'une structure de notifications adaptée à l'engagement utilisateur.",
+						"point1": "Conception et implémentation de l'architecture full-stack du produit mobile, incluant les flux API et la logique de notifications.",
+						"point2": "Développement de l'application React Native avec des parcours robustes, du contenu premium et les achats intégrés iOS / Android.",
+						"point3": "Création d'un backend Express.js sur mesure pour la diffusion de contenu, les notifications et la flexibilité opérationnelle.",
+						"ownership": [
+							"Architecture backend",
+							"Flux API",
+							"Application React Native",
+							"Déploiement stores"
+						],
+						"diagram": [
+							{
+								"label": "Frontend",
+								"value": "Application React Native iOS + Android"
+							},
+							{
+								"label": "Couche API",
+								"value": "Services Express.js sur mesure pour le contenu et les parcours utilisateurs"
+							},
+							{
+								"label": "Logique métier",
+								"value": "Accès premium, notifications et gestion des achats intégrés"
+							},
+							{
+								"label": "Distribution",
+								"value": "Déploiement Apple App Store + Google Play"
+							}
+						],
 						"link": "https://comacademy.fr/"
 					},
 					{
 						"name": "Soulbm.fr",
 						"summary": "Livraison d'une plateforme entièrement sur mesure pour une association, avec site public et back office opérationnel.",
-						"point1": "Mise en place de workflows de gestion des membres et d'une administration par rôles.",
-						"point2": "Développement de modules de suivi financier pour l'association et les dépenses des enseignants, appuyés sur une base PostgreSQL et un backend Strapi.",
-						"point3": "Ajout d'un suivi d'inventaire par événement et global pour les manifestations récurrentes, avec une infrastructure entièrement dockerisée.",
+						"point1": "Conception et implémentation de l'architecture backend pour la gestion des membres, les workflows financiers et l'administration par rôles.",
+						"point2": "Définition des structures PostgreSQL et Strapi derrière les dépenses enseignants, les opérations associatives et l'inventaire récurrent.",
+						"point3": "Mise en place d'une infrastructure dockerisée et de workflows admin pour garder la plateforme stable et maintenable au quotidien.",
+						"ownership": [
+							"Architecture backend",
+							"Structure de base de données",
+							"Workflows admin",
+							"Infrastructure dockerisée"
+						],
+						"diagram": [
+							{
+								"label": "Frontend",
+								"value": "Site public + back office métier sur mesure"
+							},
+							{
+								"label": "Couche API",
+								"value": "Endpoints Strapi pour membres, finances et stock"
+							},
+							{
+								"label": "Données",
+								"value": "Relations PostgreSQL pour membres, événements, dépenses et inventaire"
+							},
+							{
+								"label": "Ops",
+								"value": "Déploiement dockerisé et workflows admin maintenables"
+							}
+						],
 						"link": "https://soulbm.fr"
 					},
 					{
 						"name": "ASBA Drums",
 						"summary": "Conception d'un site vitrine sur mesure accompagné d'un back office bio et d'un backend Strapi pour structurer les contenus et l'administration.",
-						"point1": "Développement d'une expérience frontend claire et performante pour présenter l'univers, les services et les contenus du projet.",
-						"point2": "Mise en place d'un backend Strapi et d'un back office bio pour centraliser les contenus, simplifier les évolutions et garder une base maintenable.",
-						"point3": "Livraison d'un socle web cohérent entre identité, contenu et mise à jour opérationnelle sur le long terme.",
+						"point1": "Définition de l'architecture de contenu et de la structure backend pour séparer bio, éditorial et présentation publique.",
+						"point2": "Implémentation de l'API Strapi et d'un back office dédié pour centraliser les mises à jour et garder une base maintenable dans le temps.",
+						"point3": "Livraison de l'expérience frontend au-dessus de ce système pour aligner identité, contenu et mises à jour opérationnelles.",
+						"ownership": [
+							"Modélisation de contenu",
+							"Backend Strapi",
+							"Back office",
+							"Delivery frontend"
+						],
+						"diagram": [
+							{
+								"label": "Frontend",
+								"value": "Site vitrine React"
+							},
+							{
+								"label": "Couche API",
+								"value": "Endpoints Strapi pour servir le contenu éditorial structuré"
+							},
+							{
+								"label": "Données",
+								"value": "Collections de contenu pour bio, pages et mises à jour"
+							},
+							{
+								"label": "Admin",
+								"value": "Back office dédié pour la maintenance du contenu"
+							}
+						],
 						"link": "https://asbadrums.com/"
 					},
 					{
 						"name": "Domaine des Fournelles",
 						"summary": "Conception d'un site sur mesure pour présenter le domaine, ses cuvées et son identité avec une expérience claire et orientée contenu.",
-						"point1": "Mise en place d'une interface frontend pensée pour valoriser le domaine, les vins et l'information pratique autour de l'exploitation.",
-						"point2": "Structuration d'une base administrable pour faciliter les mises à jour éditoriales et la gestion continue du contenu.",
-						"point3": "Livraison d'un socle web cohérent entre image de marque, contenu produit et présence en ligne du domaine.",
+						"point1": "Structuration de la base de contenu et des flux de publication pour faciliter les évolutions dans le temps.",
+						"point2": "Développement d'une interface frontend pensée pour valoriser le domaine, les vins et les informations pratiques autour de l'exploitation.",
+						"point3": "Livraison d'un socle web cohérent entre image de marque, contenu produit et gestion éditoriale continue.",
+						"ownership": [
+							"Structure de contenu",
+							"Implémentation frontend",
+							"Workflows éditoriaux"
+						],
 						"link": "https://domainedesfournelles.com/"
 					}
 				]

@@ -9,6 +9,15 @@ interface ContactProps {
 	embedded?: boolean;
 }
 
+const socialHoverAnimation = {
+	y: -5,
+	scale: 1.035,
+	transition: {
+		duration: 0.22,
+		ease: [0.22, 1, 0.36, 1] as const,
+	},
+};
+
 const Contact = ({ embedded = false }: ContactProps) => {
 	const { t } = useTranslation();
 
@@ -74,23 +83,15 @@ const Contact = ({ embedded = false }: ContactProps) => {
 										rel='noreferrer noopener'
 										aria-label={social.name}
 										title={social.name}
-										className='group inline-flex h-14 w-14 items-center justify-center rounded-full bg-transparent text-[1.75rem] text-(--color-text) transition-all duration-300 hover:text-brand-primary md:h-16 md:w-16 md:text-[2rem]'
+										className='group inline-flex h-14 w-14 items-center justify-center rounded-full bg-transparent text-[1.75rem] text-(--color-text) transition-colors duration-250 hover:text-brand-primary md:h-16 md:w-16 md:text-[2rem]'
 										initial={{ y: 20, opacity: 0 }}
 										animate={{ y: 0, opacity: 1 }}
 										transition={{ delay: 0.45 + index * 0.08, duration: 0.35 }}
-										whileHover={{
-											y: [0, -11, 0, -7, 0, -4, 0],
-											scale: [1, 1.08, 1, 1.05, 1, 1.02, 1],
-											transition: {
-												duration: 0.88,
-												times: [0, 0.16, 0.31, 0.5, 0.66, 0.81, 1],
-												ease: "easeOut",
-											},
-										}}
+										whileHover={socialHoverAnimation}
 										whileTap={{ scale: 0.96 }}>
 										<Icon
 											aria-hidden='true'
-											className='drop-shadow-[0_6px_14px_rgba(16,22,34,0.24)] transition-[filter] duration-300 group-hover:drop-shadow-[0_7px_16px_rgba(220,92,72,0.26)]'
+											className='drop-shadow-[0_6px_14px_rgba(16,22,34,0.2)] transition-all duration-250 group-hover:scale-[1.06] group-hover:drop-shadow-[0_7px_16px_rgba(220,92,72,0.22)]'
 										/>
 									</motion.a>
 								);
@@ -100,20 +101,12 @@ const Contact = ({ embedded = false }: ContactProps) => {
 								onClick={handleEmailClick}
 								aria-label={t("contact.social.email")}
 								title={t("contact.social.email")}
-								className='group inline-flex h-14 w-14 appearance-none items-center justify-center rounded-full border-none bg-transparent p-0 text-[1.75rem] text-(--color-text) transition-all duration-300 hover:text-brand-primary md:h-16 md:w-16 md:text-[2rem]'
-								whileHover={{
-									y: [0, -11, 0, -7, 0, -4, 0],
-									scale: [1, 1.08, 1, 1.05, 1, 1.02, 1],
-									transition: {
-										duration: 0.88,
-										times: [0, 0.16, 0.31, 0.5, 0.66, 0.81, 1],
-										ease: "easeOut",
-									},
-								}}
+								className='group inline-flex h-14 w-14 appearance-none items-center justify-center rounded-full border-none bg-transparent p-0 text-[1.75rem] text-(--color-text) transition-colors duration-250 hover:text-brand-primary md:h-16 md:w-16 md:text-[2rem]'
+								whileHover={socialHoverAnimation}
 								whileTap={{ scale: 0.96 }}>
 								<FiSend
 									aria-hidden='true'
-									className='drop-shadow-[0_6px_14px_rgba(16,22,34,0.24)] transition-[filter] duration-300 group-hover:drop-shadow-[0_7px_16px_rgba(220,92,72,0.26)]'
+									className='drop-shadow-[0_6px_14px_rgba(16,22,34,0.2)] transition-all duration-250 group-hover:translate-x-[1px] group-hover:-translate-y-[1px] group-hover:scale-[1.06] group-hover:drop-shadow-[0_7px_16px_rgba(220,92,72,0.22)]'
 								/>
 							</motion.button>
 						</div>

@@ -5,6 +5,7 @@ import meImage from "../../assets/images/me.png";
 interface AboutHeroProps {
 	title: string;
 	heading: string;
+	subheading?: string;
 	row1Prefix: string;
 	row1Items: string[];
 	row2Prefix: string;
@@ -18,6 +19,7 @@ interface AboutHeroProps {
 const AboutHero = ({
 	title,
 	heading,
+	subheading,
 	row1Prefix,
 	row1Items,
 	row2Prefix,
@@ -52,9 +54,16 @@ const AboutHero = ({
 					<p className='mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-secondary'>
 						{title}
 					</p>
-					<h1 className='text-[clamp(1.15rem,3.25vw,2.55rem)] font-bold leading-[1.02] text-(--color-text) md:whitespace-nowrap'>
-						{heading}
-					</h1>
+					<div className='space-y-2'>
+						<h1 className='text-[clamp(1.15rem,3.25vw,2.55rem)] font-bold leading-[1.02] text-(--color-text) md:whitespace-nowrap'>
+							{heading}
+						</h1>
+						{subheading ? (
+							<p className='text-[clamp(0.98rem,1.7vw,1.25rem)] font-medium leading-[1.3] text-(--color-text-light)'>
+								{subheading}
+							</p>
+						) : null}
+					</div>
 					<div className='mt-6 space-y-4 text-[1.03rem] leading-[1.75] text-(--color-text-light)'>
 						<p className='mb-2 flex flex-wrap items-center gap-2'>
 							<span className='font-semibold text-(--color-text)'>

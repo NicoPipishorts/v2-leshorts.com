@@ -1,10 +1,17 @@
 import { motion } from "framer-motion";
 import { FiExternalLink } from "react-icons/fi";
-import { ExperienceRole } from "./types";
+import type { ArchitectureDiagramNode, ExperienceRole } from "./types";
 
 interface AboutTimelineProps {
 	title: string;
 	roles: ExperienceRole[];
+	ownershipTitle: string;
+}
+
+interface DiagramFlowProps {
+	nodes: ArchitectureDiagramNode[];
+	idPrefix: string;
+	compact?: boolean;
 }
 
 const getDomainLabel = (link: string) => {
@@ -18,7 +25,103 @@ const getDomainLabel = (link: string) => {
 	}
 };
 
-const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
+const DiagramFlow = ({
+	nodes,
+	idPrefix,
+	compact = false,
+}: DiagramFlowProps) => {
+	const cardClassName = compact
+		? "flex h-full flex-col justify-center rounded-[14px] border border-(--color-border)/60 bg-white/58 px-3 py-2.5 shadow-[0_8px_22px_rgba(16,22,34,0.06)] backdrop-blur-[4px]"
+		: "flex h-full flex-col justify-center rounded-[16px] border border-(--color-border)/60 bg-white/62 px-3 py-2.5 shadow-[0_10px_26px_rgba(16,22,34,0.07)] backdrop-blur-[4px]";
+	const labelClassName = compact
+		? "text-[0.66rem] font-semibold uppercase tracking-[0.11em] text-brand-secondary"
+		: "text-[0.67rem] font-semibold uppercase tracking-[0.11em] text-brand-secondary";
+	const valueClassName = compact
+		? "mt-1 text-[0.8rem] leading-[1.5] text-(--color-text)"
+		: "mt-1 text-[0.82rem] leading-[1.5] text-(--color-text)";
+
+	return (
+		<motion.div
+			className='mt-4'
+			initial='hidden'
+			whileInView='visible'
+			viewport={{ once: true, amount: 0.35 }}
+			variants={{
+				hidden: {},
+				visible: {
+					transition: {
+						staggerChildren: 0.12,
+						delayChildren: 0.06,
+					},
+				},
+			}}>
+			<div className='grid gap-2 sm:grid-cols-2 xl:hidden'>
+				{nodes.map((node) => (
+					<motion.div
+						key={`${idPrefix}-${node.label}-mobile`}
+						className={cardClassName}
+						variants={{
+							hidden: { opacity: 0, x: -24, scale: 0.98 },
+							visible: {
+								opacity: 1,
+								x: 0,
+								scale: 1,
+								transition: { duration: 0.48, ease: [0.22, 1, 0.36, 1] },
+							},
+						}}>
+						<p className={labelClassName}>{node.label}</p>
+						<p className={valueClassName}>{node.value}</p>
+					</motion.div>
+				))}
+			</div>
+
+			<div className='hidden xl:flex xl:items-stretch xl:gap-0'>
+				{nodes.map((node, index) => (
+					<div
+						key={`${idPrefix}-${node.label}-desktop`}
+						className='flex min-w-0 flex-1 items-center'>
+						<motion.div
+							className={`w-full ${cardClassName}`}
+							variants={{
+								hidden: { opacity: 0, x: -28, scale: 0.97 },
+								visible: {
+									opacity: 1,
+									x: 0,
+									scale: 1,
+									transition: { duration: 0.52, ease: [0.22, 1, 0.36, 1] },
+								},
+							}}>
+							<p className={labelClassName}>{node.label}</p>
+							<p className={valueClassName}>{node.value}</p>
+						</motion.div>
+						{index < nodes.length - 1 && (
+							<motion.div
+								className='relative mx-2 h-px flex-1 overflow-visible'
+								variants={{
+									hidden: { opacity: 0, scaleX: 0 },
+									visible: {
+										opacity: 1,
+										scaleX: 1,
+										transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+									},
+								}}
+								style={{ originX: 0 }}>
+								<div className='absolute inset-x-0 top-1/2 h-px -translate-y-1/2 border-t border-dashed border-brand-secondary/45' />
+								<div className='absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-brand-secondary/55 shadow-[0_0_0_4px_rgba(72,139,155,0.08)]' />
+							</motion.div>
+						)}
+					</div>
+				))}
+			</div>
+		</motion.div>
+	);
+};
+
+const AboutTimeline = ({
+	title,
+	roles,
+	ownershipTitle,
+}: AboutTimelineProps) => {
 	return (
 		<motion.section
 			className='mt-28 px-5 md:mt-36 md:px-10 lg:px-14'
@@ -57,6 +160,26 @@ const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 									</li>
 								))}
 							</ul>
+							{role.ownership && role.ownership.length > 0 && (
+								<div className='mt-4 border-l border-brand-secondary/20 pl-4 sm:pl-5'>
+									<p className='text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-brand-secondary'>
+										{ownershipTitle}
+									</p>
+									<ul className='mt-2 space-y-1.5'>
+										{role.ownership.map((item) => (
+											<li
+												key={`${role.key}-${item}`}
+												className='flex items-start gap-2 text-[0.82rem] leading-[1.6] text-(--color-text-light)'>
+												<span className='mt-[0.42rem] inline-block h-1.5 w-1.5 rounded-full bg-brand-secondary' />
+												<span>{item}</span>
+											</li>
+										))}
+									</ul>
+								</div>
+							)}
+							{role.diagram && role.diagram.length > 0 && (
+								<DiagramFlow nodes={role.diagram} idPrefix={role.key} />
+							)}
 							{role.projectHighlights && role.projectHighlights.length > 0 && (
 								<div className='mt-5 space-y-4'>
 									{role.projectHighlights.map((project) => (
@@ -81,8 +204,48 @@ const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 													</li>
 												))}
 											</ul>
+											{project.ownership && project.ownership.length > 0 && (
+												<div className='mt-3 border-l border-brand-secondary/20 pl-3.5 sm:pl-4'>
+													<p className='text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-brand-secondary'>
+														{ownershipTitle}
+													</p>
+													<ul className='mt-2 space-y-1.5'>
+														{project.ownership.map((item) => (
+															<li
+																key={`${project.name}-${item}`}
+																className='flex items-start gap-2 text-[0.8rem] leading-[1.6] text-(--color-text-light)'>
+																<span className='mt-[0.4rem] inline-block h-1.25 w-1.25 rounded-full bg-brand-secondary' />
+																<span>{item}</span>
+															</li>
+														))}
+													</ul>
+												</div>
+											)}
+											{project.diagram && project.diagram.length > 0 && (
+												<DiagramFlow
+													nodes={project.diagram}
+													idPrefix={`${role.key}-${project.name}`}
+													compact
+												/>
+											)}
+											{project.technologies &&
+												project.technologies.length > 0 && (
+													<div className='mt-5 flex flex-wrap items-center gap-2'>
+														{project.technologies.map((technology) => {
+															const TechnologyIcon = technology.icon;
+															return (
+																<span
+																	key={`${project.name}-${technology.name}`}
+																	className='inline-flex items-center gap-2 rounded-md bg-white/56 px-3 py-1.5 text-[0.82rem] text-(--color-text)'>
+																	<TechnologyIcon className='text-[0.9rem] text-brand-secondary' />
+																	<span>{technology.name}</span>
+																</span>
+															);
+														})}
+													</div>
+												)}
 											{project.link && (
-												<div className='mt-3 flex flex-wrap items-center gap-2'>
+												<div className='mt-4 flex flex-wrap items-center gap-2'>
 													<a
 														href={project.link}
 														target='_blank'
@@ -93,24 +256,23 @@ const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 													</a>
 												</div>
 											)}
-											{project.technologies &&
-												project.technologies.length > 0 && (
-													<div className='mt-3 flex flex-wrap items-center gap-2'>
-														{project.technologies.map((technology) => {
-															const TechnologyIcon = technology.icon;
-															return (
-																<span
-																	key={`${project.name}-${technology.name}`}
-																	className='inline-flex items-center gap-2 rounded-md bg-white/56 px-3 py-1.5 text-[0.82rem] text-(--color-text) shadow-[0_4px_12px_rgba(16,22,34,0.1)]'>
-																	<TechnologyIcon className='text-[0.9rem] text-brand-secondary' />
-																	<span>{technology.name}</span>
-																</span>
-															);
-														})}
-													</div>
-												)}
 										</div>
 									))}
+								</div>
+							)}
+							{role.technologies && role.technologies.length > 0 && (
+								<div className='mt-5 flex flex-wrap items-center gap-2'>
+									{role.technologies.map((technology) => {
+										const TechnologyIcon = technology.icon;
+										return (
+											<span
+												key={`${role.key}-${technology.name}`}
+												className='inline-flex items-center gap-2 rounded-md bg-white/56 px-3 py-1.5 text-[0.82rem] text-(--color-text)'>
+												<TechnologyIcon className='text-[0.9rem] text-brand-secondary' />
+												<span>{technology.name}</span>
+											</span>
+										);
+									})}
 								</div>
 							)}
 							{role.links && role.links.length > 0 && (
@@ -126,21 +288,6 @@ const AboutTimeline = ({ title, roles }: AboutTimelineProps) => {
 											{getDomainLabel(link)}
 										</a>
 									))}
-								</div>
-							)}
-							{role.technologies && role.technologies.length > 0 && (
-								<div className='mt-3 flex flex-wrap items-center gap-2'>
-									{role.technologies.map((technology) => {
-										const TechnologyIcon = technology.icon;
-										return (
-											<span
-												key={`${role.key}-${technology.name}`}
-												className='inline-flex items-center gap-2 rounded-md bg-white/56 px-3 py-1.5 text-[0.82rem] text-(--color-text) shadow-[0_4px_12px_rgba(16,22,34,0.1)]'>
-												<TechnologyIcon className='text-[0.9rem] text-brand-secondary' />
-												<span>{technology.name}</span>
-											</span>
-										);
-									})}
 								</div>
 							)}
 						</article>
