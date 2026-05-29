@@ -1,8 +1,8 @@
 {
 	"about": {
 		"title": "À propos de moi",
-		"heroHeading": "Full-Stack Web Engineer",
-		"heroSubheading": "conception de produits scalables entre frontend, backend et architecture d'API",
+		"heroHeading": "Senior Frontend Engineer",
+		"heroSubheading": "avec une expertise forte en React, une vraie expérience mobile et une base full-stack solide",
 		"heroRows": {
 			"row1Prefix": "Je suis",
 			"row1Items": [
@@ -23,10 +23,10 @@
 			],
 			"row3Join": "et"
 		},
-		"paragraph1": "Ingénieur frontend et mobile senior avec une expérience concrète en architecture full-stack. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une expertise approfondie en React et React Native, enrichie par un travail de plus en plus centré sur la conception d'API, les systèmes backend et la livraison de produits scalables.",
+		"paragraph1": "Développeur frontend confirmé avec de nombreuses années d'expérience concrète dans la création d'interfaces de production en React et React Native. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance et la maintenabilité du frontend.",
 		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
-		"paragraph3": "Sur des produits comme Synqit, Soulbm, ASBA et Kaast, j'ai conçu des architectures backend, défini des structures d'API, modélisé des relations de données et mis en place des infrastructures maintenables en parallèle des expériences frontend. Je travaille avec des services Node.js, Strapi, SQL/PostgreSQL, Prisma, Sequelize et Docker pour construire des systèmes clairs, pragmatiques et durables dans le temps.",
-		"hardSkillsIntro": "Technologies clés et capacités de delivery que j'utilise pour concevoir des interfaces, définir des APIs, modéliser des données et livrer des produits complets, du parcours utilisateur à l'architecture backend.",
+		"paragraph3": "Mon point fort reste le frontend, mais j'apporte aussi une expérience full-stack solide quand les produits l'exigent. Sur des projets comme Synqit, Soulbm, ASBA et Kaast, j'ai également travaillé sur la conception d'API, les systèmes backend, la modélisation des données et l'infrastructure, ce qui me permet de construire des interfaces cohérentes avec l'architecture globale du produit.",
+		"hardSkillsIntro": "Technologies frontend clés, outils de l'écosystème React et capacités de delivery que j'utilise pour concevoir, développer et livrer des expériences produit soignées à grande échelle.",
 		"skillsTitle": "Compétences & Technologies",
 		"softSkillsTitle": "Soft Skills",
 		"softSkillsIntro": "Ma façon de collaborer, prioriser et livrer des produits dans des contextes concrets.",
@@ -149,35 +149,35 @@
 				]
 			},
 			"kaast": {
-				"title": "Co-fondateur & Product Builder Full-Stack",
+				"title": "Co-fondateur & Lead Frontend Engineer",
 				"company": "Kaast",
 				"period": "Actuel",
-				"summary": "Conception d'une plateforme de communication média interne déjà utilisée par plusieurs entreprises.",
-				"point1": "Contribution à l'architecture produit entre frontend, backend Express et couche API.",
-				"point2": "Collaboration sur les structures de données et les environnements de release, avec PostgreSQL et des setups conteneurisés au service de la plateforme.",
-				"point3": "Travail étroit avec les utilisateurs et les parties backend pour aligner les décisions système avec les priorités produit et la vitesse de delivery.",
+				"summary": "Plateforme de communication média interne multi-tenant déjà utilisée par plusieurs entreprises, avec un fort enjeu de qualité frontend, de navigation métier, de recherche et de cohérence UI malgré des besoins spécifiques selon les tenants.",
+				"point1": "Pilotage de la structure frontend de l'application React, de la composition des pages aux flux de navigation et à la logique d'interaction produit, pour une plateforme devant s'adapter aux spécificités de chaque tenant.",
+				"point2": "Construction d'un socle UI maintenable via des composants partagés, des couches SCSS et Tailwind, l'écosystème TanStack et des expériences de recherche intégrées avec Meilisearch, tout en absorbant des variations propres à chaque client.",
+				"point3": "Travail dans une équipe de deux personnes, en Kanban, avec un rythme orienté features et des périodes d'audit serrées, en collaboration étroite avec le backend pour livrer rapidement les spécifications de chaque tenant sans sacrifier la clarté ni la maintenabilité du frontend.",
 				"ownership": [
-					"Collaboration architecture",
-					"Participation design d'API",
-					"Implémentation frontend",
-					"Environnements de release"
+					"Architecture frontend",
+					"Design system & bibliothèque de composants",
+					"Routing, recherche & state management",
+					"Intégrations plateforme"
 				],
 				"diagram": [
 					{
 						"label": "Frontend",
-						"value": "Interface React de communication interne"
+						"value": "Interface React dédiée aux workflows de communication interne"
 					},
 					{
-						"label": "Couche API",
-						"value": "Services Express et endpoints de contenu internes"
+						"label": "Système UI",
+						"value": "Bibliothèque de composants, SCSS, Tailwind et intégrations liées à Cloudflare"
 					},
 					{
-						"label": "Données",
-						"value": "Entités média et plateforme soutenues par PostgreSQL"
+						"label": "Recherche & routing",
+						"value": "TanStack Router, Meilisearch et flux de navigation structurés"
 					},
 					{
-						"label": "Delivery",
-						"value": "Environnements conteneurisés et collaboration release"
+						"label": "State & data",
+						"value": "TanStack Query, gestion du cache et du state, avec flux API connectés"
 					}
 				]
 			},
@@ -256,45 +256,45 @@
 					},
 					{
 						"name": "ASBA Drums",
-						"summary": "Conception d'un site vitrine sur mesure accompagné d'un back office bio et d'un backend Strapi pour structurer les contenus et l'administration.",
-						"point1": "Définition de l'architecture de contenu et de la structure backend pour séparer bio, éditorial et présentation publique.",
-						"point2": "Implémentation de l'API Strapi et d'un back office dédié pour centraliser les mises à jour et garder une base maintenable dans le temps.",
-						"point3": "Livraison de l'expérience frontend au-dessus de ce système pour aligner identité, contenu et mises à jour opérationnelles.",
+						"summary": "Site vitrine riche en contenu, conçu pour exprimer clairement l'univers de la marque à travers une expérience frontend soignée et un workflow éditorial facile à maintenir.",
+						"point1": "Conception de l'expérience frontend autour de la présentation de la marque, du rythme éditorial et d'une structure de composants maintenable dans le temps.",
+						"point2": "Définition de l'architecture de contenu et connexion à un système éditorial Strapi pour faire évoluer le site sans casser sa cohérence visuelle.",
+						"point3": "Livraison d'une couche d'interface cohérente pour aligner bio, sections éditoriales et mises à jour opérationnelles sur le site public.",
 						"ownership": [
-							"Modélisation de contenu",
-							"Backend Strapi",
-							"Back office",
-							"Delivery frontend"
+							"Delivery frontend",
+							"Architecture de contenu",
+							"Intégration du système éditorial",
+							"Structure de composants"
 						],
 						"diagram": [
 							{
 								"label": "Frontend",
-								"value": "Site vitrine React"
+								"value": "Site vitrine React pensé autour de la marque et de la présentation éditoriale"
 							},
 							{
-								"label": "Couche API",
-								"value": "Endpoints Strapi pour servir le contenu éditorial structuré"
+								"label": "Structure UI",
+								"value": "Sections réutilisables et composants content-driven pour une expérience publique cohérente"
 							},
 							{
-								"label": "Données",
-								"value": "Collections de contenu pour bio, pages et mises à jour"
+								"label": "Système de contenu",
+								"value": "Contenu Strapi structuré pour la bio, les pages et les mises à jour"
 							},
 							{
-								"label": "Admin",
-								"value": "Back office dédié pour la maintenance du contenu"
+								"label": "Flux éditorial",
+								"value": "Back office dédié pour une publication maintenable et des mises à jour simples"
 							}
 						],
 						"link": "https://asbadrums.com/"
 					},
 					{
 						"name": "Domaine des Fournelles",
-						"summary": "Conception d'un site sur mesure pour présenter le domaine, ses cuvées et son identité avec une expérience claire et orientée contenu.",
-						"point1": "Structuration de la base de contenu et des flux de publication pour faciliter les évolutions dans le temps.",
-						"point2": "Développement d'une interface frontend pensée pour valoriser le domaine, les vins et les informations pratiques autour de l'exploitation.",
-						"point3": "Livraison d'un socle web cohérent entre image de marque, contenu produit et gestion éditoriale continue.",
+						"summary": "Site sur mesure conçu pour présenter le domaine, ses cuvées et son identité à travers une expérience frontend raffinée et une hiérarchie de contenu solide.",
+						"point1": "Conception et développement de l'expérience frontend pour mettre en valeur le domaine, la gamme de vins et les informations pratiques avec clarté et cohérence visuelle.",
+						"point2": "Structuration de la base de contenu et des flux éditoriaux pour faire évoluer le site proprement sans perdre en qualité de présentation.",
+						"point3": "Livraison d'une couche d'interface orientée contenu alignant image de marque, récit produit et maintenabilité long terme du site.",
 						"ownership": [
-							"Structure de contenu",
 							"Implémentation frontend",
+							"UI orientée contenu",
 							"Workflows éditoriaux"
 						],
 						"link": "https://domainedesfournelles.com/"
@@ -305,10 +305,10 @@
 				"title": "Développeur Front-end",
 				"company": "InterCloud",
 				"period": "Précédent",
-				"summary": "Livraison d'interfaces front-end centrées sur la performance, la clarté et la maintenabilité.",
-				"point1": "Implémentation de fonctionnalités UI avec des frameworks JavaScript modernes.",
-				"point2": "Collaboration avec les équipes produit et ingénierie sur les améliorations orientées utilisateur.",
-				"point3": "Contribution à une architecture propre et à des composants réutilisables."
+				"summary": "Travail sur un dashboard SaaS conçu pour accompagner et automatiser des workflows de déploiement réseau bas niveau, en rejoignant le projet au stade proof of concept puis en aidant à le faire évoluer vers un MVP et une V1 customer-facing dans des délais serrés.",
+				"point1": "Développement et évolution d'interfaces React pour les opérations de déploiement réseau, afin de transformer des workflows techniques complexes en une expérience SaaS claire et maintenable.",
+				"point2": "Contribution au système de contenu UI et à la bibliothèque de composants partagés, tout en structurant la gestion du state et du cache avec Redux Toolkit pour garder une interface réactive et cohérente.",
+				"point3": "Travail dans un environnement agile rapide pour faire progresser le produit du proof of concept au MVP puis à une V1, avec des server-sent events, des outils de recherche comme Elasticsearch et Meilisearch, ainsi qu'un outillage Node de support pour garder les données opérationnelles à jour."
 			},
 			"apple": {
 				"title": "Support Technique & Tests Produit",

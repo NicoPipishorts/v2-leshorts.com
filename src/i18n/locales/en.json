@@ -1,8 +1,8 @@
 {
 	"about": {
 		"title": "About Me",
-		"heroHeading": "Full-Stack Web Engineer",
-		"heroSubheading": "building scalable products across frontend, backend, and API architecture",
+		"heroHeading": "Senior Frontend Engineer",
+		"heroSubheading": "with deep React expertise, strong mobile delivery, and full-stack experience",
 		"heroRows": {
 			"row1Prefix": "I am a",
 			"row1Items": [
@@ -23,10 +23,10 @@
 			],
 			"row3Join": "and"
 		},
-		"paragraph1": "Senior frontend and mobile engineer with hands-on full-stack architecture experience. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with deep expertise in React and React Native and a growing focus on API design, backend systems, and scalable product delivery.",
+		"paragraph1": "Seasoned frontend engineer with many years of hands-on experience building production interfaces in React and React Native. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with strong depth across component architecture, state management, responsive UI systems, performance, and maintainable frontend delivery.",
 		"paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by multiple clients.",
-		"paragraph3": "Across products such as Synqit, Soulbm, ASBA, and Kaast, I have designed backend architecture, defined API structures, modeled data relationships, and set up maintainable infrastructure alongside the frontend experiences. I work with Node.js services, Strapi, SQL/PostgreSQL, Prisma, Sequelize, and Docker to build systems that stay clear, practical, and maintainable as they grow.",
-		"hardSkillsIntro": "Core technologies and delivery capabilities I use to design interfaces, define APIs, model data, and ship complete products from user flows to backend architecture.",
+		"paragraph3": "My core strength is frontend execution, but I also bring solid full-stack experience when products require it. Across products such as Synqit, Soulbm, ASBA, and Kaast, I have worked on API design, backend systems, data modeling, and infrastructure alongside the frontend experiences, which helps me build interfaces that stay coherent within the broader product architecture.",
+		"hardSkillsIntro": "Core frontend technologies, React ecosystem tools, and delivery capabilities I use to design, build, and ship polished product experiences at scale.",
 		"skillsTitle": "Skills & Technologies",
 		"softSkillsTitle": "Soft Skills",
 		"softSkillsIntro": "How I collaborate, prioritize, and drive product delivery in real-world contexts.",
@@ -149,35 +149,35 @@
 				]
 			},
 			"kaast": {
-				"title": "Co-Founder & Full-Stack Product Builder",
+				"title": "Co-Founder & Lead Frontend Engineer",
 				"company": "Kaast",
 				"period": "Current",
-				"summary": "Designing a media communication platform for internal engagement used by multiple companies, including Group OMNES and Sanofi.",
-				"point1": "Contributed to product architecture across the frontend, Express backend, and API layer.",
-				"point2": "Collaborated on data structures and release environments, with PostgreSQL and containerized setups supporting the platform.",
-				"point3": "Worked closely with users and backend stakeholders to align system decisions with product priorities and delivery speed.",
+				"summary": "Multi-tenant internal media communication platform used by multiple companies, with a strong focus on frontend product quality, navigation, search, and shared UI consistency across tenant-specific needs.",
+				"point1": "Led the frontend structure of the React application, shaping page composition, navigation flows, and the overall product interaction model for a platform that had to adapt to each tenant's specific requirements.",
+				"point2": "Built a maintainable UI foundation through shared components, SCSS and Tailwind styling layers, TanStack tooling, and integrated search experiences with Meilisearch, while still accommodating customer-specific variations.",
+				"point3": "Worked in a two-person Kanban team, pushing customer-driven features within tight audit periods and collaborating closely with backend stakeholders so tenant specifications could be delivered quickly without compromising frontend clarity or maintainability.",
 				"ownership": [
-					"Architecture collaboration",
-					"API design participation",
-					"Frontend implementation",
-					"Release environments"
+					"Frontend architecture",
+					"Design system & component library",
+					"Routing, search & state management",
+					"Platform integrations"
 				],
 				"diagram": [
 					{
 						"label": "Frontend",
-						"value": "React product interface for internal communication"
+						"value": "React product interface for internal communication workflows"
 					},
 					{
-						"label": "API Layer",
-						"value": "Express services and internal content endpoints"
+						"label": "UI System",
+						"value": "Component library, SCSS, Tailwind, and Cloudflare-facing integrations"
 					},
 					{
-						"label": "Data Layer",
-						"value": "PostgreSQL-backed media and platform entities"
+						"label": "Search & Routing",
+						"value": "TanStack Router, Meilisearch, and structured navigation flows"
 					},
 					{
-						"label": "Delivery",
-						"value": "Containerized environments and release collaboration"
+						"label": "State & Data",
+						"value": "TanStack Query, cache and state management, plus connected API flows"
 					}
 				]
 			},
@@ -256,45 +256,45 @@
 					},
 					{
 						"name": "ASBA Drums",
-						"summary": "Designed and shipped a custom showcase website backed by a bio back office and a Strapi backend for structured content and administration.",
-						"point1": "Defined the content architecture and backend structure that separated biography, editorial content, and presentation layers.",
-						"point2": "Implemented the Strapi API and a dedicated back office to centralize updates and keep the platform maintainable over time.",
-						"point3": "Delivered the frontend experience on top of that system so brand, content, and day-to-day operational edits stayed aligned.",
+						"summary": "Custom content-rich showcase website designed to express the brand clearly through a polished frontend experience and an editorial workflow that stays easy to maintain.",
+						"point1": "Designed the frontend experience around brand presentation, editorial rhythm, and a clean component structure for long-term maintainability.",
+						"point2": "Defined the content architecture and connected a Strapi-backed editorial system so updates could happen without breaking visual consistency.",
+						"point3": "Delivered a cohesive interface layer that kept biography, content sections, and day-to-day updates aligned across the public site.",
 						"ownership": [
-							"Content modeling",
-							"Strapi backend",
-							"Back office",
-							"Frontend delivery"
+							"Frontend delivery",
+							"Content architecture",
+							"Editorial system integration",
+							"Component structure"
 						],
 						"diagram": [
 							{
 								"label": "Frontend",
-								"value": "React showcase website"
+								"value": "React showcase website shaped around brand and editorial presentation"
 							},
 							{
-								"label": "API Layer",
-								"value": "Strapi endpoints serving structured editorial content"
+								"label": "UI Structure",
+								"value": "Reusable sections and content-driven components for a coherent public experience"
 							},
 							{
-								"label": "Data Layer",
-								"value": "Content collections for biography, pages, and updates"
+								"label": "Content System",
+								"value": "Structured Strapi content for biography, pages, and ongoing updates"
 							},
 							{
-								"label": "Admin Flow",
-								"value": "Dedicated back office for content maintenance"
+								"label": "Editorial Flow",
+								"value": "Dedicated back office for maintainable publishing and site updates"
 							}
 						],
 						"link": "https://asbadrums.com/"
 					},
 					{
 						"name": "Domaine des Fournelles",
-						"summary": "Designed a custom website to present the estate, its wines, and its identity through a clear, content-driven experience.",
-						"point1": "Structured the content foundation and publishing flows so updates could happen cleanly over time.",
-						"point2": "Built the frontend interface focused on showcasing the estate, the wine range, and practical business information.",
-						"point3": "Delivered a cohesive web foundation aligning brand image, product content, and ongoing content management.",
+						"summary": "Custom website built to present the estate, its wines, and its identity through a refined frontend experience with strong content hierarchy.",
+						"point1": "Designed and built the frontend experience to highlight the estate, product range, and practical information with clarity and visual coherence.",
+						"point2": "Structured the content foundation and editorial flows so the site could evolve cleanly without losing presentation quality.",
+						"point3": "Delivered a content-driven interface layer aligning brand image, wine storytelling, and long-term site maintainability.",
 						"ownership": [
-							"Content structure",
 							"Frontend implementation",
+							"Content-driven UI",
 							"Editorial workflows"
 						],
 						"link": "https://domainedesfournelles.com/"
@@ -305,10 +305,10 @@
 				"title": "Frontend Developer",
 				"company": "InterCloud",
 				"period": "Previous",
-				"summary": "Delivered frontend interfaces focused on performance, clarity, and maintainability.",
-				"point1": "Implemented UI features in modern JavaScript frameworks.",
-				"point2": "Worked with product and engineering teams on user-facing improvements.",
-				"point3": "Contributed to clean architecture and reusable component practices."
+				"summary": "Worked on a SaaS dashboard designed to support and automate low-level network deployment workflows, joining the project at proof-of-concept stage and helping push it toward a customer-facing MVP and V1 under tight delivery constraints.",
+				"point1": "Built and evolved dashboard interfaces in React for network deployment operations, turning complex technical workflows into clear, maintainable SaaS product experiences.",
+				"point2": "Contributed to the UI content system and shared component library, while shaping state and cache management with Redux Toolkit to keep the interface responsive and consistent.",
+				"point3": "Worked in a fast-paced agile environment to help move the product from proof of concept to MVP and then V1, using real-time server-sent events, search tooling including Elasticsearch and Meilisearch, and supporting Node-based tooling to keep operational data current across the product."
 			},
 			"apple": {
 				"title": "Technical Support & Product Testing",
