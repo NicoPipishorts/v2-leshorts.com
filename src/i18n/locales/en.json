@@ -2,7 +2,8 @@
 	"about": {
 		"title": "About Me",
 		"heroHeading": "Senior Frontend Engineer",
-		"heroSubheading": "with deep React expertise, strong mobile delivery, and full-stack experience",
+		"heroSubheading": "React specialist with 10+ years building consumer-facing products and polished user experiences",
+		"profileSummary": "Senior Frontend Engineer with 10+ years of experience building React applications, streaming platforms, and consumer-facing products. Passionate about UI quality, performance, and creating intuitive user experiences through close collaboration with product and design-minded stakeholders.",
 		"heroRows": {
 			"row1Prefix": "I am a",
 			"row1Items": [
@@ -23,7 +24,7 @@
 			],
 			"row3Join": "and"
 		},
-		"paragraph1": "Seasoned frontend engineer with many years of hands-on experience building production interfaces in React and React Native. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with strong depth across component architecture, state management, responsive UI systems, performance, and maintainable frontend delivery.",
+		"paragraph1": "Senior Frontend Engineer specializing in React, TypeScript, and user-focused product development. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with strong depth across component architecture, state management, responsive UI systems, performance, and maintainable frontend delivery.",
 		"paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by multiple clients.",
 		"paragraph3": "My core strength is frontend execution, but I also bring solid full-stack experience when products require it. Across products such as Synqit, Soulbm, ASBA, and Kaast, I have worked on API design, backend systems, data modeling, and infrastructure alongside the frontend experiences, which helps me build interfaces that stay coherent within the broader product architecture.",
 		"hardSkillsIntro": "Core frontend technologies, React ecosystem tools, and delivery capabilities I use to design, build, and ship polished product experiences at scale.",
@@ -122,7 +123,7 @@
 				"summary": "Collaborative playlist platform for events and cross-service sharing between Spotify and Apple Music through a single magic link.",
 				"point1": "Designed the full-stack architecture across host dashboards, guest flows, playlist moderation, and third-party music integrations.",
 				"point2": "Defined the API structure and event data model for no-signup guest submissions, live moderation, event closing, and guest-link management.",
-				"point3": "Built the frontend product experience in parallel with the backend logic that powers playlist import and cross-service sharing.",
+				"point3": "Built the frontend product experience in parallel with the backend logic that powers playlist import and cross-service sharing, with particular attention to onboarding flows, user retention, and reducing friction throughout the user journey.",
 				"ownership": [
 					"System design",
 					"API structure",
@@ -155,7 +156,7 @@
 				"summary": "Multi-tenant internal media communication platform used by multiple companies, with a strong focus on frontend product quality, navigation, search, and shared UI consistency across tenant-specific needs.",
 				"point1": "Led the frontend structure of the React application, shaping page composition, navigation flows, and the overall product interaction model for a platform that had to adapt to each tenant's specific requirements.",
 				"point2": "Built a maintainable UI foundation through shared components, SCSS and Tailwind styling layers, TanStack tooling, and integrated search experiences with Meilisearch, while still accommodating customer-specific variations.",
-				"point3": "Worked in a two-person Kanban team, pushing customer-driven features within tight audit periods and collaborating closely with backend stakeholders so tenant specifications could be delivered quickly without compromising frontend clarity or maintainability.",
+				"point3": "Worked in a two-person Kanban team, pushing customer-driven features within tight audit periods and collaborating closely with stakeholders and product discussions to translate requirements into intuitive user experiences while maintaining consistency across tenant-specific needs.",
 				"ownership": [
 					"Frontend architecture",
 					"Design system & component library",

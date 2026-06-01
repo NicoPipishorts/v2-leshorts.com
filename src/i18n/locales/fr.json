@@ -2,7 +2,8 @@
 	"about": {
 		"title": "À propos de moi",
 		"heroHeading": "Senior Frontend Engineer",
-		"heroSubheading": "avec une expertise forte en React, une vraie expérience mobile et une base full-stack solide",
+		"heroSubheading": "spécialiste React avec 10+ ans d'expérience sur des produits grand public et des expériences soignées",
+		"profileSummary": "Senior Frontend Engineer avec plus de 10 ans d'expérience dans la création d'applications React, de plateformes de streaming et de produits orientés grand public. Attaché à la qualité UI, à la performance et à la création d'expériences intuitives grâce à une collaboration étroite avec les interlocuteurs produit et design.",
 		"heroRows": {
 			"row1Prefix": "Je suis",
 			"row1Items": [
@@ -23,7 +24,7 @@
 			],
 			"row3Join": "et"
 		},
-		"paragraph1": "Développeur frontend confirmé avec de nombreuses années d'expérience concrète dans la création d'interfaces de production en React et React Native. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance et la maintenabilité du frontend.",
+		"paragraph1": "Senior Frontend Engineer spécialisé en React, TypeScript et développement produit orienté utilisateur. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance et la maintenabilité du frontend.",
 		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
 		"paragraph3": "Mon point fort reste le frontend, mais j'apporte aussi une expérience full-stack solide quand les produits l'exigent. Sur des projets comme Synqit, Soulbm, ASBA et Kaast, j'ai également travaillé sur la conception d'API, les systèmes backend, la modélisation des données et l'infrastructure, ce qui me permet de construire des interfaces cohérentes avec l'architecture globale du produit.",
 		"hardSkillsIntro": "Technologies frontend clés, outils de l'écosystème React et capacités de delivery que j'utilise pour concevoir, développer et livrer des expériences produit soignées à grande échelle.",
@@ -122,7 +123,7 @@
 				"summary": "Plateforme de playlists collaboratives pour événements et partage cross-service entre Spotify et Apple Music via un magic link.",
 				"point1": "Conception de l'architecture full-stack entre dashboards hôtes, parcours invités, modération de playlists et intégrations musicales tierces.",
 				"point2": "Définition de la structure d'API et du modèle de données événement pour gérer l'ajout de titres sans compte, la modération live, la fermeture d'événement et les liens invités.",
-				"point3": "Développement de l'expérience frontend en parallèle de la logique backend qui permet l'import de playlists et le partage cross-service.",
+				"point3": "Développement de l'expérience frontend en parallèle de la logique backend qui permet l'import de playlists et le partage cross-service, avec une attention particulière portée aux parcours d'onboarding, à la rétention et à la réduction des frictions tout au long du parcours utilisateur.",
 				"ownership": [
 					"Design système",
 					"Structure d'API",
@@ -155,7 +156,7 @@
 				"summary": "Plateforme de communication média interne multi-tenant déjà utilisée par plusieurs entreprises, avec un fort enjeu de qualité frontend, de navigation métier, de recherche et de cohérence UI malgré des besoins spécifiques selon les tenants.",
 				"point1": "Pilotage de la structure frontend de l'application React, de la composition des pages aux flux de navigation et à la logique d'interaction produit, pour une plateforme devant s'adapter aux spécificités de chaque tenant.",
 				"point2": "Construction d'un socle UI maintenable via des composants partagés, des couches SCSS et Tailwind, l'écosystème TanStack et des expériences de recherche intégrées avec Meilisearch, tout en absorbant des variations propres à chaque client.",
-				"point3": "Travail dans une équipe de deux personnes, en Kanban, avec un rythme orienté features et des périodes d'audit serrées, en collaboration étroite avec le backend pour livrer rapidement les spécifications de chaque tenant sans sacrifier la clarté ni la maintenabilité du frontend.",
+				"point3": "Travail dans une équipe de deux personnes, en Kanban, avec un rythme orienté features et des périodes d'audit serrées, en collaboration étroite avec les parties prenantes et les échanges produit pour transformer les besoins en expériences utilisateur intuitives tout en gardant de la cohérence entre les besoins spécifiques de chaque tenant.",
 				"ownership": [
 					"Architecture frontend",
 					"Design system & bibliothèque de composants",

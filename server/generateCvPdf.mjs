@@ -15,7 +15,17 @@ const PRIVATE_PROFILE_PATH = path.join(
 const PROFILE_IMAGE_PATH = path.join(PROJECT_ROOT, "src", "assets", "images", "me-color.png");
 
 const HARD_SKILLS = {
-	frontend: ["React", "React Native", "TypeScript", "JavaScript", "TailwindCSS", "TanStack Query", "Vite"],
+	frontend: [
+		"React",
+		"React Native",
+		"TypeScript",
+		"JavaScript",
+		"GraphQL",
+		"TailwindCSS",
+		"TanStack Query",
+		"Vite",
+		"Web Performance Optimization",
+	],
 	backend: ["Node.js", "Strapi", "Prisma", "Sequelize"],
 	dataInfra: ["PostgreSQL", "Redis", "Docker"],
 	delivery: ["Git", "API Design", "Product Discovery", "Technical Leadership"],
@@ -158,6 +168,7 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	const contentBottom = pageHeight - margin;
 
 	const headerTitle = locale.about?.heroHeading ?? "Curriculum Vitae";
+	const profileSummary = locale.about?.profileSummary ?? "";
 	const fullName = [
 		privateProfile?.identity?.firstName,
 		privateProfile?.identity?.lastName,
@@ -253,7 +264,19 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	});
 	const dividerY = titleBottomY + 8;
 	doc.moveTo(margin, dividerY).lineTo(pageWidth - margin, dividerY).lineWidth(1).strokeColor(COLORS.border).stroke();
-	const columnsStartY = dividerY + 18;
+	let columnsStartY = dividerY + 18;
+	if (profileSummary) {
+		const summaryBottomY = drawText(doc, profileSummary, {
+			x: margin,
+			y: columnsStartY,
+			width: pageWidth - margin * 2,
+			size: 9.4,
+			color: COLORS.muted,
+			lineGap: 1.6,
+			gapAfter: 0,
+		});
+		columnsStartY = summaryBottomY + 12;
+	}
 	const contentWidth = pageWidth - margin * 2;
 	const columnGap = 22;
 	const leftColumnWidth = Math.floor((contentWidth - columnGap) * 0.33);
