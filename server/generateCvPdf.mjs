@@ -453,45 +453,7 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	for (const role of roles) {
 		const roleTitleLine = `${role.title}`;
 		const roleMeta = [role.company, role.period].filter(Boolean).join(" • ");
-		const roleSummaryEstimate = estimateTextHeight(doc, role.summary, {
-			width: rightColumn.width,
-			size: 9,
-			color: COLORS.muted,
-			gapAfter: 3,
-		});
-		const roleBulletsEstimate = (role.bullets ?? []).reduce(
-			(total, bullet) =>
-				total +
-				estimateTextHeight(doc, bullet, {
-					width: rightColumn.width - 9,
-					size: 8.8,
-					color: COLORS.muted,
-					gapAfter: 2,
-				}),
-			0,
-		);
-		const roleOwnershipEstimate =
-			(role.ownership ?? []).length > 0
-				? estimateTextHeight(doc, ownershipTitle, {
-						width: rightColumn.width,
-						font: "Helvetica-Bold",
-						size: 8.4,
-						color: COLORS.accent,
-						gapAfter: 2,
-					}) +
-					(role.ownership ?? []).reduce(
-						(total, item) =>
-							total +
-							estimateTextHeight(doc, item, {
-								width: rightColumn.width - 9,
-								size: 8.7,
-								color: COLORS.muted,
-								gapAfter: 1,
-							}),
-						0,
-					)
-				: 0;
-		ensureRightSpace(34 + roleSummaryEstimate + roleBulletsEstimate + roleOwnershipEstimate);
+		ensureRightSpace(26);
 
 		rightColumn.y = drawText(doc, roleTitleLine, {
 			x: rightColumn.x,
@@ -511,6 +473,14 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 			color: COLORS.primary,
 			gapAfter: 3,
 		});
+		ensureRightSpace(
+			estimateTextHeight(doc, role.summary, {
+				width: rightColumn.width,
+				size: 9,
+				color: COLORS.muted,
+				gapAfter: 3,
+			}) + 2,
+		);
 		rightColumn.y = drawText(doc, role.summary, {
 			x: rightColumn.x,
 			y: rightColumn.y,
@@ -521,6 +491,14 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		});
 
 		for (const bullet of role.bullets ?? []) {
+			ensureRightSpace(
+				estimateTextHeight(doc, bullet, {
+					width: rightColumn.width - 9,
+					size: 8.8,
+					color: COLORS.muted,
+					gapAfter: 2,
+				}) + 1,
+			);
 			rightColumn.y = drawBullet(doc, bullet, {
 				x: rightColumn.x,
 				y: rightColumn.y,
@@ -531,6 +509,15 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		}
 		if ((role.ownership ?? []).length > 0) {
 			rightColumn.y += 2;
+			ensureRightSpace(
+				estimateTextHeight(doc, ownershipTitle, {
+					width: rightColumn.width,
+					font: "Helvetica-Bold",
+					size: 8.4,
+					color: COLORS.accent,
+					gapAfter: 2,
+				}) + 2,
+			);
 			rightColumn.y = drawText(doc, ownershipTitle, {
 				x: rightColumn.x,
 				y: rightColumn.y,
@@ -541,6 +528,14 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 				gapAfter: 2,
 			});
 			for (const item of role.ownership ?? []) {
+				ensureRightSpace(
+					estimateTextHeight(doc, item, {
+						width: rightColumn.width - 9,
+						size: 8.7,
+						color: COLORS.muted,
+						gapAfter: 1,
+					}) + 1,
+				);
 				rightColumn.y = drawBullet(doc, item, {
 					x: rightColumn.x,
 					y: rightColumn.y,
@@ -553,53 +548,8 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		}
 
 		for (const project of role.projects ?? []) {
-			const projectEstimate =
-				estimateTextHeight(doc, project.name, {
-					width: rightColumn.width,
-					font: "Helvetica-Bold",
-					size: 9.2,
-					color: COLORS.accent,
-					gapAfter: 1,
-				}) +
-				estimateTextHeight(doc, project.summary, {
-					width: rightColumn.width,
-					size: 8.8,
-					color: COLORS.muted,
-					gapAfter: 2,
-				}) +
-				(project.bullets ?? []).reduce(
-					(total, bullet) =>
-						total +
-						estimateTextHeight(doc, bullet, {
-							width: rightColumn.width - 9,
-							size: 8.7,
-							color: COLORS.muted,
-							gapAfter: 1,
-						}),
-					0,
-				) +
-				((project.ownership ?? []).length > 0
-					? estimateTextHeight(doc, ownershipTitle, {
-							width: rightColumn.width,
-							font: "Helvetica-Bold",
-							size: 8.1,
-							color: COLORS.accent,
-							gapAfter: 2,
-						}) +
-						(project.ownership ?? []).reduce(
-							(total, item) =>
-								total +
-								estimateTextHeight(doc, item, {
-									width: rightColumn.width - 9,
-									size: 8.5,
-									color: COLORS.muted,
-									gapAfter: 1,
-								}),
-							0,
-						)
-					: 0);
-			ensureRightSpace(projectEstimate + 6);
 			rightColumn.y += 1;
+			ensureRightSpace(22);
 			rightColumn.y = drawText(doc, project.name, {
 				x: rightColumn.x,
 				y: rightColumn.y,
@@ -609,6 +559,14 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 				color: COLORS.accent,
 				gapAfter: 1,
 			});
+			ensureRightSpace(
+				estimateTextHeight(doc, project.summary, {
+					width: rightColumn.width,
+					size: 8.8,
+					color: COLORS.muted,
+					gapAfter: 2,
+				}) + 1,
+			);
 			rightColumn.y = drawText(doc, project.summary, {
 				x: rightColumn.x,
 				y: rightColumn.y,
@@ -618,6 +576,14 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 				gapAfter: 2,
 			});
 			for (const bullet of project.bullets ?? []) {
+				ensureRightSpace(
+					estimateTextHeight(doc, bullet, {
+						width: rightColumn.width - 9,
+						size: 8.7,
+						color: COLORS.muted,
+						gapAfter: 1,
+					}) + 1,
+				);
 				rightColumn.y = drawBullet(doc, bullet, {
 					x: rightColumn.x,
 					y: rightColumn.y,
@@ -628,6 +594,15 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 			}
 			if ((project.ownership ?? []).length > 0) {
 				rightColumn.y += 1;
+				ensureRightSpace(
+					estimateTextHeight(doc, ownershipTitle, {
+						width: rightColumn.width,
+						font: "Helvetica-Bold",
+						size: 8.1,
+						color: COLORS.accent,
+						gapAfter: 2,
+					}) + 1,
+				);
 				rightColumn.y = drawText(doc, ownershipTitle, {
 					x: rightColumn.x,
 					y: rightColumn.y,
@@ -638,6 +613,14 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 					gapAfter: 2,
 				});
 				for (const item of project.ownership ?? []) {
+					ensureRightSpace(
+						estimateTextHeight(doc, item, {
+							width: rightColumn.width - 9,
+							size: 8.5,
+							color: COLORS.muted,
+							gapAfter: 1,
+						}) + 1,
+					);
 					rightColumn.y = drawBullet(doc, item, {
 						x: rightColumn.x,
 						y: rightColumn.y,
