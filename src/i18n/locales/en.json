@@ -1,9 +1,9 @@
 {
 	"about": {
 		"title": "About Me",
-		"heroHeading": "Experienced Fullstack Developer",
-		"heroSubheading": "Full-stack product developer building modern web applications, SaaS platforms, and polished user experiences",
-		"profileSummary": "Experienced Fullstack Developer with over a decade of experience delivering web applications, SaaS products, and end-to-end digital systems. Comfortable across frontend architecture, API design, data modeling, and product delivery, with a strong focus on quality, performance, and usable interfaces.",
+		"heroHeading": "Senior Frontend Engineer",
+		"heroSubheading": "Frontend-focused product engineer building modern web applications, SaaS platforms, and polished user experiences",
+		"profileSummary": "Senior Frontend Engineer with over a decade of experience delivering web applications, SaaS products, and modern React systems. Strong in frontend architecture, UI quality, performance, and usable interfaces, with solid experience in API design, data modeling, and end-to-end product delivery.",
 		"heroRows": {
 			"row1Prefix": "I am a",
 			"row1Items": [
@@ -24,7 +24,7 @@
 			],
 			"row3Join": "and"
 		},
-		"paragraph1": "Experienced Fullstack Developer specializing in React, TypeScript, and user-focused product development. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with strong depth across component architecture, state management, responsive UI systems, performance, and maintainable frontend delivery.",
+		"paragraph1": "Senior Frontend Engineer specializing in React, TypeScript, and user-focused product development. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with strong depth across component architecture, state management, responsive UI systems, performance, and maintainable frontend delivery.",
 		"paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by multiple clients.",
 		"paragraph3": "My core strength is frontend execution, but I also bring solid full-stack experience when products require it. Across products such as Synqit, Soulbm, ASBA, and Kaast, I have worked on API design, backend systems, data modeling, and infrastructure alongside the frontend experiences, which helps me build interfaces that stay coherent within the broader product architecture.",
 		"hardSkillsIntro": "Core frontend technologies, React ecosystem tools, and delivery capabilities I use to design, build, and ship polished product experiences at scale.",
