@@ -37,18 +37,6 @@ const COMPACT_PROJECTS_LABEL = {
 	en: "Key projects:",
 	fr: "Projets clés :",
 };
-const HEADER_LINK_LABELS = {
-	en: {
-		linkedin: "LinkedIn",
-		website: "Portfolio",
-		github: "GitHub",
-	},
-	fr: {
-		linkedin: "LinkedIn",
-		website: "Portfolio",
-		github: "GitHub",
-	},
-};
 
 const COLORS = {
 	text: "#2c3e50",
@@ -162,14 +150,6 @@ const estimateBulletHeight = (doc, text, { width, size = 9, gapAfter = 2 }) =>
 		gapAfter,
 	});
 
-const formatHeaderLink = (label, value) => {
-	if (!value) {
-		return null;
-	}
-	const trimmedValue = `${value}`.replace(/^https?:\/\//, "").replace(/\/$/, "");
-	return `${label}: ${trimmedValue}`;
-};
-
 export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	const currentLanguage = normalizeLanguage(lang);
 	const [locale, privateProfile] = await Promise.all([
@@ -201,15 +181,9 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	]
 		.filter(Boolean)
 		.join(" ");
-	const headerLinkLabels = HEADER_LINK_LABELS[currentLanguage] ?? HEADER_LINK_LABELS.en;
 	const leftDetails = [
 		privateProfile?.contact?.phone,
 		privateProfile?.contact?.email,
-	].filter(Boolean);
-	const profileLinks = [
-		formatHeaderLink(headerLinkLabels.linkedin, privateProfile?.contact?.linkedin),
-		formatHeaderLink(headerLinkLabels.website, privateProfile?.contact?.website),
-		formatHeaderLink(headerLinkLabels.github, privateProfile?.contact?.github),
 	].filter(Boolean);
 
 	const headerRowHeight = 112;
@@ -465,36 +439,6 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 			size: 8.8,
 			color: COLORS.muted,
 		});
-	}
-	if (profileLinks.length > 0) {
-		const profileLinksTitle = currentLanguage === "fr" ? "Liens" : "Links";
-		ensureLeftSpace(30);
-		leftColumn.y += 10;
-		leftColumn.y = drawText(doc, profileLinksTitle, {
-			x: leftColumn.x,
-			y: leftColumn.y,
-			width: leftColumn.width,
-			font: "Helvetica-Bold",
-			size: 11,
-			color: COLORS.text,
-			gapAfter: 6,
-		});
-		for (const link of profileLinks) {
-			ensureLeftSpace(
-				estimateBulletHeight(doc, link, {
-					width: leftColumn.width,
-					size: 8.5,
-					gapAfter: 2,
-				}) + 1,
-			);
-			leftColumn.y = drawBullet(doc, link, {
-				x: leftColumn.x,
-				y: leftColumn.y,
-				width: leftColumn.width,
-				size: 8.5,
-				color: COLORS.muted,
-			});
-		}
 	}
 	const experienceTitle = locale.experience?.rolesTitle ?? "Professional Experience";
 	const roles = makeRoleModels(locale);

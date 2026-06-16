@@ -1,9 +1,9 @@
 {
 	"about": {
 		"title": "À propos de moi",
-		"heroHeading": "Senior Fullstack Developer",
+		"heroHeading": "Développeur Fullstack confirmé",
 		"heroSubheading": "Développeur produit full-stack sur des applications web modernes, des plateformes SaaS et des expériences soignées",
-		"profileSummary": "Senior Fullstack Developer avec plus de 10 ans d'expérience dans la livraison d'applications web, de produits SaaS et de systèmes digitaux de bout en bout. À l'aise sur l'architecture frontend, la conception d'API, la modélisation des données et la delivery produit, avec une attention forte portée à la qualité, à la performance et à l'utilisabilité.",
+		"profileSummary": "Développeur Fullstack confirmé avec plus de 10 ans d'expérience dans la livraison d'applications web, de produits SaaS et de systèmes digitaux de bout en bout. À l'aise sur l'architecture frontend, la conception d'API, la modélisation des données et la delivery produit, avec une attention forte portée à la qualité, à la performance et à l'utilisabilité.",
 		"heroRows": {
 			"row1Prefix": "Je suis",
 			"row1Items": [
@@ -24,7 +24,7 @@
 			],
 			"row3Join": "et"
 		},
-		"paragraph1": "Senior Fullstack Developer spécialisé en React, TypeScript et développement produit orienté utilisateur. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance et la maintenabilité du frontend.",
+		"paragraph1": "Développeur Fullstack confirmé spécialisé en React, TypeScript et développement produit orienté utilisateur. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance et la maintenabilité du frontend.",
 		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
 		"paragraph3": "Mon point fort reste le frontend, mais j'apporte aussi une expérience full-stack solide quand les produits l'exigent. Sur des projets comme Synqit, Soulbm, ASBA et Kaast, j'ai également travaillé sur la conception d'API, les systèmes backend, la modélisation des données et l'infrastructure, ce qui me permet de construire des interfaces cohérentes avec l'architecture globale du produit.",
 		"hardSkillsIntro": "Technologies frontend clés, outils de l'écosystème React et capacités de delivery que j'utilise pour concevoir, développer et livrer des expériences produit soignées à grande échelle.",
