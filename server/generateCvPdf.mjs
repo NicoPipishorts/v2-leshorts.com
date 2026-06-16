@@ -12,7 +12,7 @@ const PRIVATE_PROFILE_PATH = path.join(
 	"private",
 	"profile-details.json",
 );
-const PROFILE_IMAGE_PATH = path.join(PROJECT_ROOT, "src", "assets", "images", "me-color.png");
+const PROFILE_IMAGE_PATH = path.join(PROJECT_ROOT, "src", "assets", "images", "profile-pict.jpg");
 
 const HARD_SKILLS = {
 	frontend: [
@@ -32,6 +32,23 @@ const HARD_SKILLS = {
 };
 
 const EXPERIENCE_ORDER = ["synqit", "kaast", "freelance", "intercloud", "apple", "soudesecoles"];
+const COMPACT_PROJECT_ROLE_KEYS = new Set(["freelance"]);
+const COMPACT_PROJECTS_LABEL = {
+	en: "Key projects:",
+	fr: "Projets clés :",
+};
+const HEADER_LINK_LABELS = {
+	en: {
+		linkedin: "LinkedIn",
+		website: "Portfolio",
+		github: "GitHub",
+	},
+	fr: {
+		linkedin: "LinkedIn",
+		website: "Portfolio",
+		github: "GitHub",
+	},
+};
 
 const COLORS = {
 	text: "#2c3e50",
@@ -102,32 +119,26 @@ const makeRoleModels = (locale) =>
 			return null;
 		}
 
+		const usesCompactProjects = COMPACT_PROJECT_ROLE_KEYS.has(key);
 		const projects = Array.isArray(role.projects)
 			? role.projects.map((project) => ({
 					name: project.name,
 					summary: project.summary,
-					bullets: ["point1", "point2", "point3"]
-						.map((projectKey) => project[projectKey])
-						.filter((value) => typeof value === "string" && value.trim().length > 0),
-					ownership: Array.isArray(project.ownership)
-						? project.ownership.filter(
-								(value) => typeof value === "string" && value.trim().length > 0,
-							)
-						: [],
+					bullets: usesCompactProjects
+						? []
+						: ["point1", "point2", "point3"]
+								.map((projectKey) => project[projectKey])
+								.filter((value) => typeof value === "string" && value.trim().length > 0),
 			  }))
 			: [];
 
 		return {
+			key,
 			title: role.title,
 			company: role.company,
 			period: role.period,
 			summary: role.summary,
-			bullets: extractRoleBullets(role),
-			ownership: Array.isArray(role.ownership)
-				? role.ownership.filter(
-						(value) => typeof value === "string" && value.trim().length > 0,
-					)
-				: [],
+			bullets: usesCompactProjects ? extractRoleBullets(role).slice(0, 2) : extractRoleBullets(role),
 			projects,
 		};
 	}).filter(Boolean);
@@ -142,6 +153,21 @@ const estimateTextHeight = (
 	}
 	doc.font(font).fontSize(size);
 	return doc.heightOfString(text, { width, align, lineGap }) + gapAfter;
+};
+
+const estimateBulletHeight = (doc, text, { width, size = 9, gapAfter = 2 }) =>
+	estimateTextHeight(doc, text, {
+		width: width - 9,
+		size,
+		gapAfter,
+	});
+
+const formatHeaderLink = (label, value) => {
+	if (!value) {
+		return null;
+	}
+	const trimmedValue = `${value}`.replace(/^https?:\/\//, "").replace(/\/$/, "");
+	return `${label}: ${trimmedValue}`;
 };
 
 export const generateCvPdf = async ({ lang = "en" } = {}) => {
@@ -175,12 +201,15 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	]
 		.filter(Boolean)
 		.join(" ");
-	const ownershipTitle = locale.experience?.ownershipTitle ?? "What I Owned";
+	const headerLinkLabels = HEADER_LINK_LABELS[currentLanguage] ?? HEADER_LINK_LABELS.en;
 	const leftDetails = [
 		privateProfile?.contact?.phone,
 		privateProfile?.contact?.email,
-		privateProfile?.contact?.addressLine1,
-		privateProfile?.contact?.addressLine2,
+	].filter(Boolean);
+	const profileLinks = [
+		formatHeaderLink(headerLinkLabels.linkedin, privateProfile?.contact?.linkedin),
+		formatHeaderLink(headerLinkLabels.website, privateProfile?.contact?.website),
+		formatHeaderLink(headerLinkLabels.github, privateProfile?.contact?.github),
 	].filter(Boolean);
 
 	const headerRowHeight = 112;
@@ -276,6 +305,32 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 			gapAfter: 0,
 		});
 		columnsStartY = summaryBottomY + 12;
+	}
+
+	const highlightsTitle = locale.about?.highlightsTitle ?? "Highlights";
+	const highlights = Array.isArray(locale.about?.highlights)
+		? locale.about.highlights.filter((item) => typeof item === "string" && item.trim().length > 0)
+		: [];
+	if (highlights.length > 0) {
+		columnsStartY = drawText(doc, highlightsTitle, {
+			x: margin,
+			y: columnsStartY,
+			width: pageWidth - margin * 2,
+			font: "Helvetica-Bold",
+			size: 12,
+			color: COLORS.text,
+			gapAfter: 6,
+		});
+		for (const item of highlights) {
+			columnsStartY = drawBullet(doc, item, {
+				x: margin,
+				y: columnsStartY,
+				width: pageWidth - margin * 2,
+				size: 8.8,
+				color: COLORS.muted,
+			});
+		}
+		columnsStartY += 10;
 	}
 	const contentWidth = pageWidth - margin * 2;
 	const columnGap = 22;
@@ -377,14 +432,15 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		});
 	}
 
-	const softSkillsTitle = locale.about?.softSkillsTitle ?? "Soft Skills";
-	const softSkillGroups = Array.isArray(locale.about?.softSkills?.groups)
-		? locale.about.softSkills.groups
+	const strengthsTitle =
+		locale.about?.strengthsTitle ?? locale.about?.softSkillsTitle ?? "Strengths";
+	const strengths = Array.isArray(locale.about?.strengths)
+		? locale.about.strengths.filter((item) => typeof item === "string" && item.trim().length > 0)
 		: [];
 
 	ensureLeftSpace(40);
 	leftColumn.y += 14;
-	leftColumn.y = drawText(doc, softSkillsTitle, {
+	leftColumn.y = drawText(doc, strengthsTitle, {
 		x: leftColumn.x,
 		y: leftColumn.y,
 		width: leftColumn.width,
@@ -394,44 +450,51 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		gapAfter: 8,
 	});
 
-	for (const group of softSkillGroups) {
-		const headingEstimate = estimateTextHeight(doc, group.title, {
-			width: leftColumn.width,
-			font: "Helvetica-Bold",
-			size: 10,
-			gapAfter: 3,
-		});
-		const bulletsEstimate = (group.bullets ?? []).reduce(
-			(total, bullet) =>
-				total +
-				estimateTextHeight(doc, bullet, {
-					width: leftColumn.width - 9,
-					size: 8.8,
-					color: COLORS.muted,
-					gapAfter: 2,
-				}),
-			0,
+	for (const item of strengths) {
+		ensureLeftSpace(
+			estimateBulletHeight(doc, item, {
+				width: leftColumn.width,
+				size: 8.8,
+				gapAfter: 2,
+			}) + 1,
 		);
-		ensureLeftSpace(headingEstimate + bulletsEstimate + 8);
-		leftColumn.y = drawText(doc, group.title, {
+		leftColumn.y = drawBullet(doc, item, {
+			x: leftColumn.x,
+			y: leftColumn.y,
+			width: leftColumn.width,
+			size: 8.8,
+			color: COLORS.muted,
+		});
+	}
+	if (profileLinks.length > 0) {
+		const profileLinksTitle = currentLanguage === "fr" ? "Liens" : "Links";
+		ensureLeftSpace(30);
+		leftColumn.y += 10;
+		leftColumn.y = drawText(doc, profileLinksTitle, {
 			x: leftColumn.x,
 			y: leftColumn.y,
 			width: leftColumn.width,
 			font: "Helvetica-Bold",
-			size: 10,
-			color: COLORS.accent,
-			gapAfter: 3,
+			size: 11,
+			color: COLORS.text,
+			gapAfter: 6,
 		});
-		for (const bullet of group.bullets ?? []) {
-			leftColumn.y = drawBullet(doc, bullet, {
+		for (const link of profileLinks) {
+			ensureLeftSpace(
+				estimateBulletHeight(doc, link, {
+					width: leftColumn.width,
+					size: 8.5,
+					gapAfter: 2,
+				}) + 1,
+			);
+			leftColumn.y = drawBullet(doc, link, {
 				x: leftColumn.x,
 				y: leftColumn.y,
 				width: leftColumn.width,
-				size: 8.8,
+				size: 8.5,
 				color: COLORS.muted,
 			});
 		}
-		leftColumn.y += 2;
 	}
 	const experienceTitle = locale.experience?.rolesTitle ?? "Professional Experience";
 	const roles = makeRoleModels(locale);
@@ -507,47 +570,31 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 				color: COLORS.muted,
 			});
 		}
-		if ((role.ownership ?? []).length > 0) {
-			rightColumn.y += 2;
+		if (COMPACT_PROJECT_ROLE_KEYS.has(role.key) && (role.projects ?? []).length > 0) {
+			const projectNames = role.projects
+				.map((project) => project.name)
+				.filter((name) => typeof name === "string" && name.trim().length > 0)
+				.join(", ");
+			const projectLine = `${COMPACT_PROJECTS_LABEL[currentLanguage]} ${projectNames}`;
 			ensureRightSpace(
-				estimateTextHeight(doc, ownershipTitle, {
+				estimateTextHeight(doc, projectLine, {
 					width: rightColumn.width,
-					font: "Helvetica-Bold",
-					size: 8.4,
-					color: COLORS.accent,
+					size: 8.8,
+					color: COLORS.muted,
 					gapAfter: 2,
-				}) + 2,
+				}) + 1,
 			);
-			rightColumn.y = drawText(doc, ownershipTitle, {
+			rightColumn.y = drawText(doc, projectLine, {
 				x: rightColumn.x,
 				y: rightColumn.y,
 				width: rightColumn.width,
-				font: "Helvetica-Bold",
-				size: 8.4,
-				color: COLORS.accent,
+				size: 8.8,
+				color: COLORS.muted,
 				gapAfter: 2,
 			});
-			for (const item of role.ownership ?? []) {
-				ensureRightSpace(
-					estimateTextHeight(doc, item, {
-						width: rightColumn.width - 9,
-						size: 8.7,
-						color: COLORS.muted,
-						gapAfter: 1,
-					}) + 1,
-				);
-				rightColumn.y = drawBullet(doc, item, {
-					x: rightColumn.x,
-					y: rightColumn.y,
-					width: rightColumn.width,
-					size: 8.7,
-					color: COLORS.muted,
-					gapAfter: 1,
-				});
-			}
 		}
 
-		for (const project of role.projects ?? []) {
+		for (const project of COMPACT_PROJECT_ROLE_KEYS.has(role.key) ? [] : role.projects ?? []) {
 			rightColumn.y += 1;
 			ensureRightSpace(22);
 			rightColumn.y = drawText(doc, project.name, {
@@ -592,45 +639,6 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 					color: COLORS.muted,
 				});
 			}
-			if ((project.ownership ?? []).length > 0) {
-				rightColumn.y += 1;
-				ensureRightSpace(
-					estimateTextHeight(doc, ownershipTitle, {
-						width: rightColumn.width,
-						font: "Helvetica-Bold",
-						size: 8.1,
-						color: COLORS.accent,
-						gapAfter: 2,
-					}) + 1,
-				);
-				rightColumn.y = drawText(doc, ownershipTitle, {
-					x: rightColumn.x,
-					y: rightColumn.y,
-					width: rightColumn.width,
-					font: "Helvetica-Bold",
-					size: 8.1,
-					color: COLORS.accent,
-					gapAfter: 2,
-				});
-				for (const item of project.ownership ?? []) {
-					ensureRightSpace(
-						estimateTextHeight(doc, item, {
-							width: rightColumn.width - 9,
-							size: 8.5,
-							color: COLORS.muted,
-							gapAfter: 1,
-						}) + 1,
-					);
-					rightColumn.y = drawBullet(doc, item, {
-						x: rightColumn.x,
-						y: rightColumn.y,
-						width: rightColumn.width,
-						size: 8.5,
-						color: COLORS.muted,
-						gapAfter: 1,
-					});
-				}
-			}
 		}
 
 		rightColumn.y += 3;
@@ -662,63 +670,76 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 			gapAfter: 6,
 		});
 
-		for (const entry of educationEntries) {
-			const meta = [entry.institution, entry.period].filter(Boolean).join(" • ");
-			const estimate =
-				estimateTextHeight(doc, entry.title, {
-					width: rightColumn.width,
-					font: "Helvetica-Bold",
-					size: 10,
-					gapAfter: 1,
-				}) +
-				estimateTextHeight(doc, meta, {
-					width: rightColumn.width,
-					font: "Helvetica-Bold",
-					size: 8.4,
-					color: COLORS.primary,
-					gapAfter: 3,
-				}) +
-				(entry.bullets ?? []).reduce(
-					(total, bullet) =>
-						total +
-						estimateTextHeight(doc, bullet, {
-							width: rightColumn.width - 9,
-							size: 8.7,
-							color: COLORS.muted,
+		const educationColumnGap = 14;
+		const educationItemWidth = (rightColumn.width - educationColumnGap) / 2;
+		for (let index = 0; index < educationEntries.length; index += 2) {
+			const rowEntries = educationEntries.slice(index, index + 2);
+			const rowHeight = Math.max(
+				...rowEntries.map((entry) => {
+					const meta = [entry.institution, entry.period].filter(Boolean).join(" • ");
+					return (
+						estimateTextHeight(doc, entry.title, {
+							width: educationItemWidth,
+							font: "Helvetica-Bold",
+							size: 9.5,
 							gapAfter: 1,
-						}),
-					0,
-				);
-			ensureRightSpace(estimate + 4);
-
-			rightColumn.y = drawText(doc, entry.title, {
-				x: rightColumn.x,
-				y: rightColumn.y,
-				width: rightColumn.width,
-				font: "Helvetica-Bold",
-				size: 10,
-				color: COLORS.text,
-				gapAfter: 1,
-			});
-			rightColumn.y = drawText(doc, meta, {
-				x: rightColumn.x,
-				y: rightColumn.y,
-				width: rightColumn.width,
-				font: "Helvetica-Bold",
-				size: 8.4,
-				color: COLORS.primary,
-				gapAfter: 3,
-			});
-			for (const bullet of entry.bullets ?? []) {
-				rightColumn.y = drawBullet(doc, bullet, {
-					x: rightColumn.x,
-					y: rightColumn.y,
-					width: rightColumn.width,
-					size: 8.7,
-					color: COLORS.muted,
+						}) +
+						estimateTextHeight(doc, meta, {
+							width: educationItemWidth,
+							font: "Helvetica-Bold",
+							size: 8.1,
+							color: COLORS.primary,
+							gapAfter: 2,
+						}) +
+						(entry.bullets ?? []).reduce(
+							(total, bullet) =>
+								total +
+								estimateBulletHeight(doc, bullet, {
+									width: educationItemWidth,
+									size: 8.4,
+									gapAfter: 1,
+								}),
+							0,
+						)
+					);
+				}),
+			);
+			ensureRightSpace(rowHeight + 4);
+			const rowY = rightColumn.y;
+			for (const [rowIndex, entry] of rowEntries.entries()) {
+				const itemX = rightColumn.x + rowIndex * (educationItemWidth + educationColumnGap);
+				const meta = [entry.institution, entry.period].filter(Boolean).join(" • ");
+				let itemY = rowY;
+				itemY = drawText(doc, entry.title, {
+					x: itemX,
+					y: itemY,
+					width: educationItemWidth,
+					font: "Helvetica-Bold",
+					size: 9.5,
+					color: COLORS.text,
+					gapAfter: 1,
 				});
+				itemY = drawText(doc, meta, {
+					x: itemX,
+					y: itemY,
+					width: educationItemWidth,
+					font: "Helvetica-Bold",
+					size: 8.1,
+					color: COLORS.primary,
+					gapAfter: 2,
+				});
+				for (const bullet of entry.bullets ?? []) {
+					itemY = drawBullet(doc, bullet, {
+						x: itemX,
+						y: itemY,
+						width: educationItemWidth,
+						size: 8.4,
+						color: COLORS.muted,
+						gapAfter: 1,
+					});
+				}
 			}
-			rightColumn.y += 2;
+			rightColumn.y = rowY + rowHeight + 4;
 		}
 	}
 
@@ -736,15 +757,32 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 			color: COLORS.text,
 			gapAfter: 6,
 		});
-		for (const hobby of hobbies) {
-			ensureRightSpace(14);
-			rightColumn.y = drawBullet(doc, hobby, {
-				x: rightColumn.x,
-				y: rightColumn.y,
-				width: rightColumn.width,
-				size: 8.8,
-				color: COLORS.muted,
-			});
+
+		const hobbiesColumnGap = 14;
+		const hobbyWidth = (rightColumn.width - hobbiesColumnGap) / 2;
+		for (let index = 0; index < hobbies.length; index += 2) {
+			const rowHobbies = hobbies.slice(index, index + 2);
+			const rowHeight = Math.max(
+				...rowHobbies.map((hobby) =>
+					estimateBulletHeight(doc, hobby, {
+						width: hobbyWidth,
+						size: 8.6,
+						gapAfter: 2,
+					}),
+				),
+			);
+			ensureRightSpace(rowHeight + 1);
+			const rowY = rightColumn.y;
+			for (const [rowIndex, hobby] of rowHobbies.entries()) {
+				drawBullet(doc, hobby, {
+					x: rightColumn.x + rowIndex * (hobbyWidth + hobbiesColumnGap),
+					y: rowY,
+					width: hobbyWidth,
+					size: 8.6,
+					color: COLORS.muted,
+				});
+			}
+			rightColumn.y = rowY + rowHeight + 1;
 		}
 	}
 

@@ -1,9 +1,9 @@
 {
 	"about": {
 		"title": "À propos de moi",
-		"heroHeading": "Senior Frontend Engineer",
-		"heroSubheading": "spécialiste React avec 10+ ans d'expérience sur des produits grand public et des expériences soignées",
-		"profileSummary": "Senior Frontend Engineer avec plus de 10 ans d'expérience dans la création d'applications React, de plateformes de streaming et de produits orientés grand public. Attaché à la qualité UI, à la performance et à la création d'expériences intuitives grâce à une collaboration étroite avec les interlocuteurs produit et design.",
+		"heroHeading": "Senior Fullstack Developer",
+		"heroSubheading": "Développeur produit full-stack sur des applications web modernes, des plateformes SaaS et des expériences soignées",
+		"profileSummary": "Senior Fullstack Developer avec plus de 10 ans d'expérience dans la livraison d'applications web, de produits SaaS et de systèmes digitaux de bout en bout. À l'aise sur l'architecture frontend, la conception d'API, la modélisation des données et la delivery produit, avec une attention forte portée à la qualité, à la performance et à l'utilisabilité.",
 		"heroRows": {
 			"row1Prefix": "Je suis",
 			"row1Items": [
@@ -24,12 +24,28 @@
 			],
 			"row3Join": "et"
 		},
-		"paragraph1": "Senior Frontend Engineer spécialisé en React, TypeScript et développement produit orienté utilisateur. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance et la maintenabilité du frontend.",
+		"paragraph1": "Senior Fullstack Developer spécialisé en React, TypeScript et développement produit orienté utilisateur. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance et la maintenabilité du frontend.",
 		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
 		"paragraph3": "Mon point fort reste le frontend, mais j'apporte aussi une expérience full-stack solide quand les produits l'exigent. Sur des projets comme Synqit, Soulbm, ASBA et Kaast, j'ai également travaillé sur la conception d'API, les systèmes backend, la modélisation des données et l'infrastructure, ce qui me permet de construire des interfaces cohérentes avec l'architecture globale du produit.",
 		"hardSkillsIntro": "Technologies frontend clés, outils de l'écosystème React et capacités de delivery que j'utilise pour concevoir, développer et livrer des expériences produit soignées à grande échelle.",
 		"skillsTitle": "Compétences & Technologies",
+		"highlightsTitle": "Points forts",
+		"highlights": [
+			"10+ ans sur des expériences web et produit",
+			"Co-fondateur de Kaast, une plateforme média multi-tenant",
+			"Création de Synqit, produit collaboratif de playlists cross-service",
+			"Livraison de systèmes en production avec React, React Native, Node.js et Strapi"
+		],
 		"softSkillsTitle": "Soft Skills",
+		"strengthsTitle": "Forces",
+		"strengths": [
+			"Ingénierie orientée produit",
+			"Leadership technique",
+			"Collaboration transverse",
+			"Résolution de problèmes",
+			"Montée en compétence rapide",
+			"Forte autonomie"
+		],
 		"softSkillsIntro": "Ma façon de collaborer, prioriser et livrer des produits dans des contextes concrets.",
 		"softSkills": {
 			"groups": [
@@ -119,7 +135,7 @@
 			"synqit": {
 				"title": "Fondateur & Ingénieur Produit",
 				"company": "Synqit",
-				"period": "Actuel",
+				"period": "2024 - Aujourd'hui",
 				"summary": "Plateforme de playlists collaboratives pour événements et partage cross-service entre Spotify et Apple Music via un magic link.",
 				"point1": "Conception de l'architecture full-stack entre dashboards hôtes, parcours invités, modération de playlists et intégrations musicales tierces.",
 				"point2": "Définition de la structure d'API et du modèle de données événement pour gérer l'ajout de titres sans compte, la modération live, la fermeture d'événement et les liens invités.",
@@ -150,12 +166,12 @@
 				]
 			},
 			"kaast": {
-				"title": "Co-fondateur & Lead Frontend Engineer",
+				"title": "Co-fondateur & Lead Fullstack Developer",
 				"company": "Kaast",
-				"period": "Actuel",
+				"period": "2022 - Aujourd'hui",
 				"summary": "Plateforme de communication média interne multi-tenant déjà utilisée par plusieurs entreprises, avec un fort enjeu de qualité frontend, de navigation métier, de recherche et de cohérence UI malgré des besoins spécifiques selon les tenants.",
-				"point1": "Pilotage de la structure frontend de l'application React, de la composition des pages aux flux de navigation et à la logique d'interaction produit, pour une plateforme devant s'adapter aux spécificités de chaque tenant.",
-				"point2": "Construction d'un socle UI maintenable via des composants partagés, des couches SCSS et Tailwind, l'écosystème TanStack et des expériences de recherche intégrées avec Meilisearch, tout en absorbant des variations propres à chaque client.",
+				"point1": "Pilotage de l'architecture frontend d'une plateforme React multi-tenant utilisée par plusieurs entreprises, de la composition des pages aux flux de navigation et au modèle d'interaction produit.",
+				"point2": "Construction d'une architecture de composants partagés permettant des personnalisations par tenant tout en conservant une expérience produit cohérente.",
 				"point3": "Travail dans une équipe de deux personnes, en Kanban, avec un rythme orienté features et des périodes d'audit serrées, en collaboration étroite avec les parties prenantes et les échanges produit pour transformer les besoins en expériences utilisateur intuitives tout en gardant de la cohérence entre les besoins spécifiques de chaque tenant.",
 				"ownership": [
 					"Architecture frontend",
@@ -183,9 +199,9 @@
 				]
 			},
 			"freelance": {
-				"title": "Développeur Front-end & Produit Freelance",
+				"title": "Consultant indépendant",
 				"company": "Indépendant",
-				"period": "2001 - En cours",
+				"period": "2010 - Aujourd'hui",
 				"summary": "Réalisation de solutions web et produit pour des clients en tant qu'indépendant, en combinant choix d'architecture, vision produit et implémentation.",
 				"point1": "Conception de systèmes et produits digitaux sur mesure pour startups et entreprises locales, notamment sur ASBA Drums, Soulbm et Com'Academy.",
 				"point2": "Pilotage de la livraison de bout en bout, de la découverte et la modélisation des données jusqu'au frontend et au déploiement.",
@@ -305,7 +321,7 @@
 			"intercloud": {
 				"title": "Développeur Front-end",
 				"company": "InterCloud",
-				"period": "Précédent",
+				"period": "2021 - 2022",
 				"summary": "Travail sur un dashboard SaaS conçu pour accompagner et automatiser des workflows de déploiement réseau bas niveau, en rejoignant le projet au stade proof of concept puis en aidant à le faire évoluer vers un MVP et une V1 customer-facing dans des délais serrés.",
 				"point1": "Développement et évolution d'interfaces React pour les opérations de déploiement réseau, afin de transformer des workflows techniques complexes en une expérience SaaS claire et maintenable.",
 				"point2": "Contribution au système de contenu UI et à la bibliothèque de composants partagés, tout en structurant la gestion du state et du cache avec Redux Toolkit pour garder une interface réactive et cohérente.",
@@ -323,7 +339,7 @@
 			"soudesecoles": {
 				"title": "Président",
 				"company": "Le Sou des Ecoles de La Bâtie Montgascon",
-				"period": "Depuis 2 ans",
+				"period": "2024 - Aujourd'hui",
 				"summary": "Pilotage d'une association à but non lucratif qui soutient les projets et activités scolaires des enfants.",
 				"point1": "Coordination de 7 manifestations par année scolaire avec bénévoles et familles.",
 				"point2": "Contribution à un budget de plus de 900 € par classe pour sorties et événements.",
