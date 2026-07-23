@@ -30,6 +30,7 @@ import AmbientGlows from "./AmbientGlows";
 import Contact from "./Contact";
 import AboutEducation from "./about/AboutEducation";
 import AboutHero from "./about/AboutHero";
+import AboutHighlights from "./about/AboutHighlights";
 import AboutHobbies from "./about/AboutHobbies";
 import AboutIntro from "./about/AboutIntro";
 import AboutSkills from "./about/AboutSkills";
@@ -79,8 +80,8 @@ interface SkillGroupConfig {
 const ROLE_KEYS: RoleKey[] = [
 	"synqit",
 	"kaast",
-	"freelance",
 	"intercloud",
+	"freelance",
 	"apple",
 	"soudesecoles",
 ];
@@ -107,19 +108,14 @@ const ROLE_TECHNOLOGIES: Partial<Record<RoleKey, SkillItem[]>> = {
 		{ name: "TanStack Query", icon: SiReactquery },
 		{ name: "TanStack Router", icon: FiLayers },
 		{ name: "Meilisearch", icon: FiServer },
-		{ name: "Cloudflare Integration", icon: SiCloudflare },
-		{ name: "Component Library", icon: FiFolder },
-		{ name: "State & Cache Mgmt", icon: FiBriefcase },
+		{ name: "Cloudflare", icon: SiCloudflare },
 	],
 	intercloud: [
 		{ name: "React", icon: SiReact },
 		{ name: "Redux Toolkit", icon: FiLayers },
-		{ name: "Component Library", icon: FiFolder },
-		{ name: "SaaS Dashboard UI", icon: FiBriefcase },
 		{ name: "Server-Sent Events", icon: FiServer },
 		{ name: "Meilisearch", icon: FiServer },
 		{ name: "Elasticsearch", icon: FiServer },
-		{ name: "State & Cache Mgmt", icon: FiBriefcase },
 	],
 };
 
@@ -129,8 +125,6 @@ const FREELANCE_PROJECT_TECHNOLOGIES: Record<string, SkillItem[]> = {
 		{ name: "Node.js", icon: SiNodedotjs },
 		{ name: "Express.js", icon: SiNodedotjs },
 		{ name: "Strapi", icon: SiStrapi },
-		{ name: "API Design", icon: FiServer },
-		{ name: "Back Office", icon: FiFolder },
 	],
 	"https://soulbm.fr": [
 		{ name: "React", icon: SiReact },
@@ -139,26 +133,18 @@ const FREELANCE_PROJECT_TECHNOLOGIES: Record<string, SkillItem[]> = {
 		{ name: "Strapi", icon: SiStrapi },
 		{ name: "PostgreSQL", icon: SiPostgresql },
 		{ name: "Docker", icon: SiDocker },
-		{ name: "API Design", icon: FiServer },
-		{ name: "Back Office", icon: FiFolder },
 	],
 	"https://asbadrums.com/": [
 		{ name: "React", icon: SiReact },
 		{ name: "SCSS", icon: SiSass },
 		{ name: "JavaScript", icon: SiJavascript },
-		{ name: "Content Architecture", icon: FiLayers },
-		{ name: "Component Library", icon: FiFolder },
-		{ name: "Strapi CMS", icon: SiStrapi },
-		{ name: "Editorial Back Office", icon: FiFolder },
+		{ name: "Strapi", icon: SiStrapi },
 		{ name: "Vite", icon: SiVite },
 	],
 	"https://domainedesfournelles.com/": [
 		{ name: "React", icon: SiReact },
 		{ name: "SCSS", icon: SiSass },
 		{ name: "JavaScript", icon: SiJavascript },
-		{ name: "Content-Driven UI", icon: FiLayers },
-		{ name: "Editorial Workflows", icon: FiFolder },
-		{ name: "Design Integration", icon: FiBriefcase },
 		{ name: "Vite", icon: SiVite },
 	],
 };
@@ -174,8 +160,10 @@ const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
 			{ name: "TypeScript", icon: SiTypescript },
 			{ name: "JavaScript", icon: SiJavascript },
 			{ name: "GraphQL", icon: FiServer },
+			{ name: "REST API Integration", icon: FiServer },
 			{ name: "TailwindCSS", icon: SiTailwindcss },
 			{ name: "TanStack Query", icon: SiReactquery },
+			{ name: "Accessibility", icon: FiBriefcase },
 			{ name: "Web Performance Optimization", icon: FiBriefcase },
 			{ name: "Vite", icon: SiVite },
 		],
@@ -202,6 +190,7 @@ const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
 			{ name: "PostgreSQL", icon: SiPostgresql },
 			{ name: "Redis", icon: SiRedis },
 			{ name: "Docker", icon: SiDocker },
+			{ name: "Cloud Infrastructure Workflows", icon: FiBriefcase },
 		],
 	},
 	{
@@ -210,6 +199,9 @@ const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
 		icon: FiFolder,
 		skills: [
 			{ name: "Git", icon: SiGit },
+			{ name: "CI/CD", icon: FiBriefcase },
+			{ name: "Code Review", icon: FiFolder },
+			{ name: "Frontend Testing", icon: FiLayers },
 			{ name: "API Design", icon: FiServer },
 			{ name: "Product Discovery", icon: FiLayers },
 			{ name: "System Design", icon: FiBriefcase },
@@ -223,11 +215,11 @@ const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
 		titleKey: "experience.skillGroups.agentic",
 		icon: FiLayers,
 		skills: [
-			{ name: "Claude Code for frontend/UI acceleration", icon: FiLayers },
-			{ name: "Codex for logic, state management, and API flows", icon: FiBriefcase },
+			{ name: "Claude Code, Codex, Cursor workflows", icon: FiLayers },
+			{ name: "Prompting for UI, logic, and API flows", icon: FiBriefcase },
+			{ name: "AI-assisted code review and documentation", icon: FiFolder },
 			{ name: "REST & GraphQL request prototyping", icon: FiServer },
 			{ name: "POC-first feature validation", icon: FiFolder },
-			{ name: "HTML, Tailwind, and CSS scaffolding", icon: FiFolder },
 			{ name: "AI-assisted coding, not full delegation", icon: FiBriefcase },
 		],
 	},
@@ -328,6 +320,9 @@ const About = () => {
 		title: t(group.titleKey),
 	}));
 	const hobbies = getOrderedHobbies(t);
+	const highlights = t("about.highlights", {
+		returnObjects: true,
+	}) as string[];
 
 	return (
 		<motion.div
@@ -368,15 +363,19 @@ const About = () => {
 					row3Join={t("about.heroRows.row3Join")}
 					paragraph={t("about.paragraph1")}
 				/>
+				<AboutHighlights
+					title={t("about.highlightsTitle")}
+					items={highlights}
+				/>
 
 				<AboutIntro
 					paragraphs={[t("about.paragraph2"), t("about.paragraph3"), t("about.paragraph4")]}
 				/>
-
 				<AboutTimeline
 					title={t("experience.rolesTitle")}
 					roles={roles}
 					ownershipTitle={t("experience.ownershipTitle")}
+					projectsTitle={t("experience.projectsTitle")}
 				/>
 
 				<AboutEducation

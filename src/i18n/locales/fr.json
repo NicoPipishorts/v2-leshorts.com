@@ -2,8 +2,8 @@
 	"about": {
 		"title": "À propos de moi",
 		"heroHeading": "Senior Frontend Engineer",
-		"heroSubheading": "Ingénieur produit orienté frontend sur des applications web modernes, des plateformes SaaS et des expériences soignées",
-		"profileSummary": "Senior Frontend Engineer avec plus de 10 ans d'expérience dans la livraison d'applications web, de produits SaaS et de systèmes React modernes. Solide sur l'architecture frontend, la qualité UI, la performance et l'utilisabilité, avec une vraie expérience de la conception d'API, de la modélisation des données et de la delivery produit de bout en bout.",
+		"heroSubheading": "Ingénieur produit orienté frontend sur des applications web modernes, des plateformes SaaS et des produits techniques",
+		"profileSummary": "Senior Frontend Engineer avec plus de 10 ans d'expérience dans la livraison d'applications web, de produits SaaS et de systèmes React modernes. Solide sur l'architecture frontend, l'intégration d'API, la qualité UI, la performance, l'accessibilité et l'utilisabilité, avec une vraie expérience de la modélisation des données et de la delivery produit de bout en bout.",
 		"heroRows": {
 			"row1Prefix": "Je suis",
 			"row1Items": [
@@ -24,17 +24,18 @@
 			],
 			"row3Join": "et"
 		},
-		"paragraph1": "Senior Frontend Engineer spécialisé en React, TypeScript et développement produit orienté utilisateur. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance et la maintenabilité du frontend.",
+		"paragraph1": "Senior Frontend Engineer spécialisé en React, TypeScript et développement produit orienté utilisateur. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance, l'accessibilité, une delivery pensée qualité et la maintenabilité du frontend.",
 		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
-		"paragraph3": "Mon point fort reste le frontend, mais j'apporte aussi une expérience full-stack solide quand les produits l'exigent. Sur des projets comme Synqit, Soulbm, ASBA et Kaast, j'ai également travaillé sur la conception d'API, les systèmes backend, la modélisation des données et l'infrastructure, ce qui me permet de construire des interfaces cohérentes avec l'architecture globale du produit.",
-		"hardSkillsIntro": "Technologies frontend clés, outils de l'écosystème React et capacités de delivery que j'utilise pour concevoir, développer et livrer des expériences produit soignées à grande échelle.",
+		"paragraph3": "Mon point fort reste le frontend, mais j'apporte aussi une expérience full-stack solide quand les produits l'exigent. Sur des projets comme Synqit, Soulbm, ASBA, Kaast et InterCloud, j'ai également travaillé sur la conception d'API, les systèmes backend, la modélisation des données, des workflows proches de l'infrastructure et des pratiques de développement assisté par IA, ce qui me permet de construire des interfaces cohérentes avec l'architecture globale du produit.",
+		"hardSkillsIntro": "Technologies frontend clés, outils de l'écosystème React, capacités d'API et de delivery, et workflows assistés par IA que j'utilise pour livrer des produits techniques à grande échelle.",
 		"skillsTitle": "Compétences & Technologies",
 		"highlightsTitle": "Points forts",
 		"highlights": [
 			"10+ ans sur des expériences web et produit",
 			"Co-fondateur de Kaast, une plateforme média multi-tenant",
 			"Création de Synqit, produit collaboratif de playlists cross-service",
-			"Livraison de systèmes en production avec React, React Native, Node.js et Strapi"
+			"Livraison de systèmes en production avec React, React Native, Node.js et Strapi",
+			"Usage quotidien d'outils d'IA générative pour le développement, la revue et la documentation"
 		],
 		"softSkillsTitle": "Soft Skills",
 		"strengthsTitle": "Forces",
@@ -124,12 +125,14 @@
 	"experience": {
 		"rolesTitle": "Parcours Professionnel",
 		"ownershipTitle": "Ce que j'ai piloté",
+		"moreDetailsLabel": "Voir le détail",
+		"projectsTitle": "Projets sélectionnés",
 		"skillGroups": {
 			"frontend": "Front-end",
 			"backend": "Back-end",
 			"dataInfra": "Données & Infrastructure",
 			"delivery": "Livraison & Produit",
-			"agentic": "Agentic & AI Tools"
+			"agentic": "IA & workflows agentiques"
 		},
 		"roles": {
 			"synqit": {
@@ -166,7 +169,7 @@
 				]
 			},
 			"kaast": {
-				"title": "Co-fondateur & Lead Fullstack Developer",
+				"title": "Co-fondateur & Lead Frontend Engineer",
 				"company": "Kaast",
 				"period": "2022 - Aujourd'hui",
 				"summary": "Plateforme de communication média interne multi-tenant déjà utilisée par plusieurs entreprises, avec un fort enjeu de qualité frontend, de navigation métier, de recherche et de cohérence UI malgré des besoins spécifiques selon les tenants.",
@@ -199,7 +202,7 @@
 				]
 			},
 			"freelance": {
-				"title": "Consultant indépendant",
+				"title": "Freelance",
 				"company": "Indépendant",
 				"period": "2010 - Aujourd'hui",
 				"summary": "Réalisation de solutions web et produit pour des clients en tant qu'indépendant, en combinant choix d'architecture, vision produit et implémentation.",
@@ -322,10 +325,10 @@
 				"title": "Développeur Front-end",
 				"company": "InterCloud",
 				"period": "2021 - 2022",
-				"summary": "Travail sur un dashboard SaaS conçu pour accompagner et automatiser des workflows de déploiement réseau bas niveau, en rejoignant le projet au stade proof of concept puis en aidant à le faire évoluer vers un MVP et une V1 customer-facing dans des délais serrés.",
-				"point1": "Développement et évolution d'interfaces React pour les opérations de déploiement réseau, afin de transformer des workflows techniques complexes en une expérience SaaS claire et maintenable.",
-				"point2": "Contribution au système de contenu UI et à la bibliothèque de composants partagés, tout en structurant la gestion du state et du cache avec Redux Toolkit pour garder une interface réactive et cohérente.",
-				"point3": "Travail dans un environnement agile rapide pour faire progresser le produit du proof of concept au MVP puis à une V1, avec des server-sent events, des outils de recherche comme Elasticsearch et Meilisearch, ainsi qu'un outillage Node de support pour garder les données opérationnelles à jour."
+				"summary": "Travail sur un dashboard SaaS au service de workflows techniques de déploiement réseau, en rejoignant le projet au stade proof of concept puis en aidant à le faire évoluer vers un MVP et une V1 customer-facing dans des délais serrés.",
+				"point1": "Développement et évolution d'interfaces React pour des opérations d'infrastructure et de déploiement, afin de transformer des workflows techniques complexes en une expérience SaaS claire et maintenable.",
+				"point2": "Contribution à une couche UI partagée, à la gestion du state et du cache, et à des flux frontend connectés aux APIs pour garder le produit réactif, cohérent et fiable.",
+				"point3": "Travail dans un environnement agile rapide avec événements temps réel, outils de recherche et outillage Node de support pour garder les données opérationnelles justes sur l'ensemble du cycle produit."
 			},
 			"apple": {
 				"title": "Support Technique & Tests Produit",
