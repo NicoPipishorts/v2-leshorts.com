@@ -1,4 +1,4 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { Analytics } from "@vercel/analytics/react";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -14,15 +14,47 @@ const RootComponent = () => {
 	const [skipAnimation, setSkipAnimation] = useState(false);
 	const logoControls = useAnimation();
 	const contentFadeTimeoutRef = useRef<number | null>(null);
+	const pathname = useRouterState({
+		select: (state) => state.location.pathname,
+	});
+	const ownsItsIntro = pathname.startsWith("/v2");
+	const [hideCornerLogo, setHideCornerLogo] = useState<boolean>(() => {
+		if (typeof window === "undefined") return false;
+		if (!window.location.pathname.startsWith("/v2")) return false;
+		const seenIntro = sessionStorage.getItem("hasSeenV2Intro");
+		const prefersReducedMotion = window.matchMedia(
+			"(prefers-reduced-motion: reduce)",
+		).matches;
+		return !seenIntro && !prefersReducedMotion;
+	});
 
 	useEffect(() => {
+		const revealCornerLogo = () => setHideCornerLogo(false);
+		window.addEventListener("v2-intro-done", revealCornerLogo);
+		// Safety net: never leave the logo stuck hidden if the event is missed.
+		const fallback = window.setTimeout(revealCornerLogo, 3600);
+		return () => {
+			window.removeEventListener("v2-intro-done", revealCornerLogo);
+			window.clearTimeout(fallback);
+		};
+	}, []);
+
+	useEffect(() => {
+		// The /v2 route runs its own intro sequence, so the global loader
+		// steps aside and just shows the resting logo + content underneath it.
+		if (ownsItsIntro) {
+			setIsLoading(false);
+			setShowContent(true);
+			setSkipAnimation(true);
+			return;
+		}
 		const hasSeenLoading = sessionStorage.getItem("hasSeenLoading");
 		if (hasSeenLoading) {
 			setIsLoading(false);
 			setShowContent(true);
 			setSkipAnimation(true);
 		}
-	}, []);
+	}, [ownsItsIntro]);
 
 	const currentLanguage =
 		i18n.resolvedLanguage?.startsWith("fr") || i18n.language?.startsWith("fr")
@@ -108,6 +140,10 @@ const RootComponent = () => {
 			{skipAnimation && (
 				<div
 					className='pointer-events-none absolute left-3 top-3 z-1100 md:left-5 md:top-4'
+					style={{
+						opacity: hideCornerLogo ? 0 : 1,
+						transition: "opacity 0.25s ease",
+					}}
 					aria-hidden='true'>
 					<Logo
 						className='h-[3.9rem] w-[3.9rem] text-brand-primary drop-shadow-[0_10px_24px_rgba(0,0,0,0.24)] md:h-[5.1rem] md:w-[5.1rem]'

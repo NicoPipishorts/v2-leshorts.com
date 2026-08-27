@@ -77,3 +77,14 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary);
 }
+
+/* External-link CTAs: arrow lifts up on hover, the square stays put */
+.cta-external svg polyline,
+.cta-external svg line {
+  transition: transform 0.25s ease;
+}
+
+.cta-external:hover svg polyline,
+.cta-external:hover svg line {
+  transform: translate(2px, -2px);
+}

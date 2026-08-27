@@ -18,20 +18,22 @@ const HARD_SKILLS = {
 	frontend: [
 		"React",
 		"React Native",
-		"TypeScript",
-		"JavaScript",
+		"TS",
+		"JS",
 		"GraphQL",
+		"REST API",
 		"TailwindCSS",
 		"TanStack Query",
+		"Accessibility",
 		"Vite",
-		"Web Performance Optimization",
 	],
 	backend: ["Node.js", "Strapi", "Prisma", "Sequelize"],
 	dataInfra: ["PostgreSQL", "Redis", "Docker"],
-	delivery: ["Git", "API Design", "Product Discovery", "Technical Leadership"],
+	delivery: ["GitHub", "GitLab", "CI/CD", "Code Review"],
+	agentic: ["Claude Code", "Codex", "Prompt Engineering"],
 };
 
-const EXPERIENCE_ORDER = ["synqit", "kaast", "freelance", "intercloud", "apple", "soudesecoles"];
+const EXPERIENCE_ORDER = ["synqit", "kaast", "intercloud", "freelance", "apple", "soudesecoles"];
 const COMPACT_PROJECT_ROLE_KEYS = new Set(["freelance"]);
 const COMPACT_PROJECTS_LABEL = {
 	en: "Key projects:",
@@ -159,7 +161,7 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 
 	const profileImageBuffer = await fs.readFile(PROFILE_IMAGE_PATH).catch(() => null);
 
-	const doc = new PDFDocument({ size: "A4", margin: 36, bufferPages: true });
+	const doc = new PDFDocument({ size: "A4", margin: 28, bufferPages: true });
 	const chunks = [];
 	doc.on("data", (chunk) => chunks.push(chunk));
 
@@ -170,7 +172,7 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 
 	const pageWidth = doc.page.width;
 	const pageHeight = doc.page.height;
-	const margin = 36;
+	const margin = 28;
 	const contentBottom = pageHeight - margin;
 
 	const headerTitle = locale.about?.heroHeading ?? "Curriculum Vitae";
@@ -186,10 +188,10 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		privateProfile?.contact?.email,
 	].filter(Boolean);
 
-	const headerRowHeight = 112;
-	const imageSize = headerRowHeight;
-	const imageCircleRadius = imageSize / 2 - 8;
-	const infoGap = 24;
+	const headerRowHeight = 96;
+	const imageSize = 92;
+	const imageCircleRadius = imageSize / 2 - 5;
+	const infoGap = 18;
 	const infoWidth = pageWidth - margin * 2 - imageSize - infoGap;
 
 	const headerTopY = margin;
@@ -255,13 +257,13 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	}
 
 	const headerBottomY = headerTopY + headerRowHeight;
-	const titleTopY = headerBottomY + 12;
+	const titleTopY = headerBottomY + 10;
 	const titleBottomY = drawText(doc, headerTitle, {
 		x: margin,
 		y: titleTopY,
 		width: pageWidth - margin * 2,
 		font: "Helvetica-Bold",
-		size: 23,
+		size: 16,
 		color: COLORS.text,
 		gapAfter: 0,
 	});
@@ -285,30 +287,9 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	const highlights = Array.isArray(locale.about?.highlights)
 		? locale.about.highlights.filter((item) => typeof item === "string" && item.trim().length > 0)
 		: [];
-	if (highlights.length > 0) {
-		columnsStartY = drawText(doc, highlightsTitle, {
-			x: margin,
-			y: columnsStartY,
-			width: pageWidth - margin * 2,
-			font: "Helvetica-Bold",
-			size: 12,
-			color: COLORS.text,
-			gapAfter: 6,
-		});
-		for (const item of highlights) {
-			columnsStartY = drawBullet(doc, item, {
-				x: margin,
-				y: columnsStartY,
-				width: pageWidth - margin * 2,
-				size: 8.8,
-				color: COLORS.muted,
-			});
-		}
-		columnsStartY += 10;
-	}
 	const contentWidth = pageWidth - margin * 2;
-	const columnGap = 22;
-	const leftColumnWidth = Math.floor((contentWidth - columnGap) * 0.33);
+	const columnGap = 28;
+	const leftColumnWidth = Math.floor((contentWidth - columnGap) * 0.32);
 
 	const getColumnStartY = (pageIndex) => (pageIndex === 0 ? columnsStartY : margin);
 
@@ -355,8 +336,38 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		ensureColumnSpace(rightColumn, requiredHeight);
 	};
 
-	const hardSkillsTitle = locale.about?.skillsTitle ?? "Skills & Technologies";
 	switchToOrCreatePage(leftColumn.pageIndex);
+	if (highlights.length > 0) {
+		ensureLeftSpace(40);
+		leftColumn.y = drawText(doc, highlightsTitle, {
+			x: leftColumn.x,
+			y: leftColumn.y,
+			width: leftColumn.width,
+			font: "Helvetica-Bold",
+			size: 13,
+			color: COLORS.text,
+			gapAfter: 8,
+		});
+		for (const item of highlights) {
+			ensureLeftSpace(
+				estimateBulletHeight(doc, item, {
+					width: leftColumn.width,
+					size: 8.8,
+					gapAfter: 2,
+				}) + 1,
+			);
+			leftColumn.y = drawBullet(doc, item, {
+				x: leftColumn.x,
+				y: leftColumn.y,
+				width: leftColumn.width,
+				size: 8.8,
+				color: COLORS.muted,
+			});
+		}
+		leftColumn.y += 14;
+	}
+
+	const hardSkillsTitle = locale.about?.skillsTitle ?? "Skills & Technologies";
 	ensureLeftSpace(40);
 	leftColumn.y = drawText(doc, hardSkillsTitle, {
 		x: leftColumn.x,
@@ -407,7 +418,7 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	}
 
 	const strengthsTitle =
-		locale.about?.strengthsTitle ?? locale.about?.softSkillsTitle ?? "Strengths";
+		locale.about?.softSkillsTitle ?? locale.about?.strengthsTitle ?? "Soft Skills";
 	const strengths = Array.isArray(locale.about?.strengths)
 		? locale.about.strengths.filter((item) => typeof item === "string" && item.trim().length > 0)
 		: [];
@@ -440,6 +451,85 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 			color: COLORS.muted,
 		});
 	}
+
+	const educationTitle = locale.about?.education?.title ?? "Education";
+	const educationEntries = Array.isArray(locale.about?.education?.entries)
+		? locale.about.education.entries
+		: [];
+
+	if (educationEntries.length > 0) {
+		ensureLeftSpace(36);
+		leftColumn.y += 12;
+		leftColumn.y = drawText(doc, educationTitle, {
+			x: leftColumn.x,
+			y: leftColumn.y,
+			width: leftColumn.width,
+			font: "Helvetica-Bold",
+			size: 13,
+			color: COLORS.text,
+			gapAfter: 8,
+		});
+
+		for (const entry of educationEntries) {
+			const meta = [entry.institution, entry.period].filter(Boolean).join(" • ");
+			const entryHeight =
+				estimateTextHeight(doc, entry.title, {
+					width: leftColumn.width,
+					font: "Helvetica-Bold",
+					size: 9.4,
+					gapAfter: 1,
+				}) +
+				estimateTextHeight(doc, meta, {
+					width: leftColumn.width,
+					font: "Helvetica-Bold",
+					size: 8.1,
+					color: COLORS.primary,
+					gapAfter: 2,
+				}) +
+				(entry.bullets ?? []).reduce(
+					(total, bullet) =>
+						total +
+						estimateBulletHeight(doc, bullet, {
+							width: leftColumn.width,
+							size: 8.4,
+							gapAfter: 1,
+						}),
+					0,
+				) +
+				4;
+			ensureLeftSpace(entryHeight);
+			leftColumn.y = drawText(doc, entry.title, {
+				x: leftColumn.x,
+				y: leftColumn.y,
+				width: leftColumn.width,
+				font: "Helvetica-Bold",
+				size: 9.4,
+				color: COLORS.text,
+				gapAfter: 1,
+			});
+			leftColumn.y = drawText(doc, meta, {
+				x: leftColumn.x,
+				y: leftColumn.y,
+				width: leftColumn.width,
+				font: "Helvetica-Bold",
+				size: 8.1,
+				color: COLORS.primary,
+				gapAfter: 2,
+			});
+			for (const bullet of entry.bullets ?? []) {
+				leftColumn.y = drawBullet(doc, bullet, {
+					x: leftColumn.x,
+					y: leftColumn.y,
+					width: leftColumn.width,
+					size: 8.4,
+					color: COLORS.muted,
+					gapAfter: 1,
+				});
+			}
+			leftColumn.y += 4;
+		}
+	}
+
 	const experienceTitle = locale.experience?.rolesTitle ?? "Professional Experience";
 	const roles = makeRoleModels(locale);
 
@@ -462,24 +552,54 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		const roleMeta = [role.company, role.period].filter(Boolean).join(" • ");
 		ensureRightSpace(26);
 
-		rightColumn.y = drawText(doc, roleTitleLine, {
-			x: rightColumn.x,
-			y: rightColumn.y,
-			width: rightColumn.width,
-			font: "Helvetica-Bold",
-			size: 10.6,
-			color: COLORS.text,
-			gapAfter: 1,
-		});
-		rightColumn.y = drawText(doc, roleMeta, {
-			x: rightColumn.x,
-			y: rightColumn.y,
-			width: rightColumn.width,
-			font: "Helvetica-Bold",
-			size: 8.4,
-			color: COLORS.primary,
-			gapAfter: 3,
-		});
+		doc.font("Helvetica-Bold").fontSize(10.6);
+		const roleTitleWidth = doc.widthOfString(roleTitleLine);
+		doc.font("Helvetica-Bold").fontSize(8.4);
+		const roleMetaWidth = doc.widthOfString(roleMeta);
+		const metaFitsInline =
+			roleTitleWidth + roleMetaWidth + 12 <= rightColumn.width;
+
+		if (metaFitsInline) {
+			const titleBottomY = drawText(doc, roleTitleLine, {
+				x: rightColumn.x,
+				y: rightColumn.y,
+				width: rightColumn.width,
+				font: "Helvetica-Bold",
+				size: 10.6,
+				color: COLORS.text,
+				gapAfter: 0,
+			});
+			drawText(doc, roleMeta, {
+				x: rightColumn.x,
+				y: rightColumn.y + 2,
+				width: rightColumn.width,
+				font: "Helvetica-Bold",
+				size: 8.4,
+				color: COLORS.primary,
+				align: "right",
+				gapAfter: 0,
+			});
+			rightColumn.y = titleBottomY + 4;
+		} else {
+			rightColumn.y = drawText(doc, roleTitleLine, {
+				x: rightColumn.x,
+				y: rightColumn.y,
+				width: rightColumn.width,
+				font: "Helvetica-Bold",
+				size: 10.6,
+				color: COLORS.text,
+				gapAfter: 1,
+			});
+			rightColumn.y = drawText(doc, roleMeta, {
+				x: rightColumn.x,
+				y: rightColumn.y,
+				width: rightColumn.width,
+				font: "Helvetica-Bold",
+				size: 8.4,
+				color: COLORS.primary,
+				gapAfter: 3,
+			});
+		}
 		ensureRightSpace(
 			estimateTextHeight(doc, role.summary, {
 				width: rightColumn.width,
@@ -596,137 +716,37 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		rightColumn.y += 6;
 	}
 
-	const educationTitle = locale.about?.education?.title ?? "Education";
-	const educationEntries = Array.isArray(locale.about?.education?.entries)
-		? locale.about.education.entries
-		: [];
-
-	if (educationEntries.length > 0) {
-		ensureRightSpace(36);
-		rightColumn.y += 2;
-		rightColumn.y = drawText(doc, educationTitle, {
-			x: rightColumn.x,
-			y: rightColumn.y,
-			width: rightColumn.width,
-			font: "Helvetica-Bold",
-			size: 12,
-			color: COLORS.text,
-			gapAfter: 6,
-		});
-
-		const educationColumnGap = 14;
-		const educationItemWidth = (rightColumn.width - educationColumnGap) / 2;
-		for (let index = 0; index < educationEntries.length; index += 2) {
-			const rowEntries = educationEntries.slice(index, index + 2);
-			const rowHeight = Math.max(
-				...rowEntries.map((entry) => {
-					const meta = [entry.institution, entry.period].filter(Boolean).join(" • ");
-					return (
-						estimateTextHeight(doc, entry.title, {
-							width: educationItemWidth,
-							font: "Helvetica-Bold",
-							size: 9.5,
-							gapAfter: 1,
-						}) +
-						estimateTextHeight(doc, meta, {
-							width: educationItemWidth,
-							font: "Helvetica-Bold",
-							size: 8.1,
-							color: COLORS.primary,
-							gapAfter: 2,
-						}) +
-						(entry.bullets ?? []).reduce(
-							(total, bullet) =>
-								total +
-								estimateBulletHeight(doc, bullet, {
-									width: educationItemWidth,
-									size: 8.4,
-									gapAfter: 1,
-								}),
-							0,
-						)
-					);
-				}),
-			);
-			ensureRightSpace(rowHeight + 4);
-			const rowY = rightColumn.y;
-			for (const [rowIndex, entry] of rowEntries.entries()) {
-				const itemX = rightColumn.x + rowIndex * (educationItemWidth + educationColumnGap);
-				const meta = [entry.institution, entry.period].filter(Boolean).join(" • ");
-				let itemY = rowY;
-				itemY = drawText(doc, entry.title, {
-					x: itemX,
-					y: itemY,
-					width: educationItemWidth,
-					font: "Helvetica-Bold",
-					size: 9.5,
-					color: COLORS.text,
-					gapAfter: 1,
-				});
-				itemY = drawText(doc, meta, {
-					x: itemX,
-					y: itemY,
-					width: educationItemWidth,
-					font: "Helvetica-Bold",
-					size: 8.1,
-					color: COLORS.primary,
-					gapAfter: 2,
-				});
-				for (const bullet of entry.bullets ?? []) {
-					itemY = drawBullet(doc, bullet, {
-						x: itemX,
-						y: itemY,
-						width: educationItemWidth,
-						size: 8.4,
-						color: COLORS.muted,
-						gapAfter: 1,
-					});
-				}
-			}
-			rightColumn.y = rowY + rowHeight + 4;
-		}
-	}
-
 	const hobbiesTitle = locale.about?.hobbiesTitle ?? "Hobbies";
 	const hobbies = extractHobbies(locale);
 	if (hobbies.length > 0) {
-		ensureRightSpace(28);
-		rightColumn.y += 2;
-		rightColumn.y = drawText(doc, hobbiesTitle, {
-			x: rightColumn.x,
-			y: rightColumn.y,
-			width: rightColumn.width,
+		switchToOrCreatePage(leftColumn.pageIndex);
+		ensureLeftSpace(36);
+		leftColumn.y += 12;
+		leftColumn.y = drawText(doc, hobbiesTitle, {
+			x: leftColumn.x,
+			y: leftColumn.y,
+			width: leftColumn.width,
 			font: "Helvetica-Bold",
-			size: 12,
+			size: 13,
 			color: COLORS.text,
-			gapAfter: 6,
+			gapAfter: 8,
 		});
 
-		const hobbiesColumnGap = 14;
-		const hobbyWidth = (rightColumn.width - hobbiesColumnGap) / 2;
-		for (let index = 0; index < hobbies.length; index += 2) {
-			const rowHobbies = hobbies.slice(index, index + 2);
-			const rowHeight = Math.max(
-				...rowHobbies.map((hobby) =>
-					estimateBulletHeight(doc, hobby, {
-						width: hobbyWidth,
-						size: 8.6,
-						gapAfter: 2,
-					}),
-				),
-			);
-			ensureRightSpace(rowHeight + 1);
-			const rowY = rightColumn.y;
-			for (const [rowIndex, hobby] of rowHobbies.entries()) {
-				drawBullet(doc, hobby, {
-					x: rightColumn.x + rowIndex * (hobbyWidth + hobbiesColumnGap),
-					y: rowY,
-					width: hobbyWidth,
+		for (const hobby of hobbies) {
+			ensureLeftSpace(
+				estimateBulletHeight(doc, hobby, {
+					width: leftColumn.width,
 					size: 8.6,
-					color: COLORS.muted,
-				});
-			}
-			rightColumn.y = rowY + rowHeight + 1;
+					gapAfter: 2,
+				}) + 1,
+			);
+			leftColumn.y = drawBullet(doc, hobby, {
+				x: leftColumn.x,
+				y: leftColumn.y,
+				width: leftColumn.width,
+				size: 8.6,
+				color: COLORS.muted,
+			});
 		}
 	}
 

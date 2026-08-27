@@ -46,7 +46,7 @@ const AboutEducation = ({ title, intro, entries }: AboutEducationProps) => {
 										<li
 											key={`${entry.title}-${point}`}
 											className='flex items-start gap-2 text-[0.9rem] text-(--color-text-light)'>
-											<span className='mt-[0.45rem] inline-block h-1.5 w-1.5 rounded-full bg-brand-secondary' />
+											<span className='mt-[0.45rem] inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-brand-secondary' />
 											<span>{point}</span>
 										</li>
 									))}
