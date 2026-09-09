@@ -14,27 +14,61 @@ const PRIVATE_PROFILE_PATH = path.join(
 );
 const PROFILE_IMAGE_PATH = path.join(PROJECT_ROOT, "src", "assets", "images", "profile-pict.jpg");
 
-const HARD_SKILLS = {
-	frontend: [
-		"React",
-		"React Native",
-		"TS",
-		"JS",
-		"GraphQL",
-		"REST API",
-		"TailwindCSS",
-		"TanStack Query",
-		"Accessibility",
-		"Vite",
+export const CV_VARIANTS = ["sfd", "fd", "fs"];
+export const DEFAULT_CV_VARIANT = "sfd";
+
+const FRONTEND_CORE = [
+	"React",
+	"React Native",
+	"TS",
+	"JS",
+	"Redux / Redux Toolkit",
+	"TanStack Query",
+	"GraphQL",
+	"REST API",
+	"TailwindCSS",
+	"Vite",
+	"Accessibility",
+];
+
+const DELIVERY_SKILLS = ["GitHub", "GitLab", "CI/CD", "Code Review"];
+const AGENTIC_SKILLS = ["Claude Code", "Codex", "Prompt Engineering"];
+
+// Frontend-leaning exports keep the backend column short and spend the room on
+// React / UI architecture depth instead.
+const FRONTEND_SKILLS = {
+	frontend: [...FRONTEND_CORE, "TanStack Router", "SCSS"],
+	uiArchitecture: [
+		"Design system & component library",
+		"State & cache management",
+		"Routing & navigation",
+		"Responsive UI",
+		"Performance",
 	],
-	backend: ["Node.js", "Strapi", "Prisma", "Sequelize"],
+	backend: ["Node.js", "Strapi"],
+	dataInfra: ["PostgreSQL", "Docker"],
+	delivery: DELIVERY_SKILLS,
+	agentic: AGENTIC_SKILLS,
+};
+
+const FULLSTACK_SKILLS = {
+	frontend: FRONTEND_CORE,
+	backend: ["Node.js", "Express", "Strapi", "Prisma", "Sequelize"],
 	dataInfra: ["PostgreSQL", "Redis", "Docker"],
-	delivery: ["GitHub", "GitLab", "CI/CD", "Code Review"],
-	agentic: ["Claude Code", "Codex", "Prompt Engineering"],
+	delivery: DELIVERY_SKILLS,
+	agentic: AGENTIC_SKILLS,
+};
+
+const SKILL_SETS = {
+	sfd: FRONTEND_SKILLS,
+	fd: FRONTEND_SKILLS,
+	fs: FULLSTACK_SKILLS,
 };
 
 const EXPERIENCE_ORDER = ["synqit", "kaast", "intercloud", "freelance", "apple", "soudesecoles"];
 const COMPACT_PROJECT_ROLE_KEYS = new Set(["freelance"]);
+// Ongoing at the same time — flagged so the PDF does not read as three full-time jobs.
+const PARALLEL_ROLE_KEYS = new Set(["synqit", "kaast", "freelance"]);
 const COMPACT_PROJECTS_LABEL = {
 	en: "Key projects:",
 	fr: "Projets clés :",
@@ -51,20 +85,25 @@ const COLORS = {
 export const normalizeLanguage = (value) =>
 	typeof value === "string" && value.toLowerCase().startsWith("fr") ? "fr" : "en";
 
+export const normalizeVariant = (value) => {
+	const candidate = typeof value === "string" ? value.trim().toLowerCase() : "";
+	return CV_VARIANTS.includes(candidate) ? candidate : DEFAULT_CV_VARIANT;
+};
+
 const readJsonFile = async (filePath) =>
 	JSON.parse(await fs.readFile(filePath, "utf8"));
 
 const drawText = (
 	doc,
 	text,
-	{ x, y, width, font = "Helvetica", size = 10, color = COLORS.text, align = "left", lineGap = 1.5, gapAfter = 4 },
+	{ x, y, width, font = "Helvetica", size = 10, color = COLORS.text, align = "left", lineGap = 1.5, gapAfter = 4, link = null },
 ) => {
 	if (!text) {
 		return y;
 	}
 
 	doc.font(font).fontSize(size).fillColor(color);
-	doc.text(text, x, y, { width, align, lineGap });
+	doc.text(text, x, y, { width, align, lineGap, link });
 	const height = doc.heightOfString(text, { width, align, lineGap });
 	return y + height + gapAfter;
 };
@@ -85,6 +124,73 @@ const drawBullet = (
 		color,
 		gapAfter,
 	});
+};
+
+// Lays out short labels on one line, each carrying its own PDF link annotation,
+// wrapping to a new line when the row runs out of width.
+const drawInlineLinks = (
+	doc,
+	entries,
+	{ x, y, width, size = 8.6, color = COLORS.accent, separatorColor = COLORS.border, separator = "  \u00b7  ", gapAfter = 0 },
+) => {
+	const items = entries.filter((entry) => entry?.label);
+	if (items.length === 0) {
+		return y;
+	}
+
+	doc.font("Helvetica").fontSize(size);
+	const separatorWidth = doc.widthOfString(separator);
+	const lineHeight = doc.currentLineHeight() + 1.5;
+	let cursorX = x;
+	let cursorY = y;
+
+	items.forEach((entry, index) => {
+		const labelWidth = doc.widthOfString(entry.label);
+		if (index > 0) {
+			if (cursorX + separatorWidth + labelWidth > x + width) {
+				cursorX = x;
+				cursorY += lineHeight;
+			} else {
+				doc.fillColor(separatorColor).text(separator, cursorX, cursorY, {
+					width: separatorWidth + 1,
+					lineBreak: false,
+				});
+				cursorX += separatorWidth;
+			}
+		}
+		// pdfkit needs an explicit width to place the link annotation rect.
+		doc.fillColor(color).text(entry.label, cursorX, cursorY, {
+			width: labelWidth + 1,
+			lineBreak: false,
+			link: entry.link ?? null,
+		});
+		cursorX += labelWidth;
+	});
+
+	return cursorY + lineHeight + gapAfter;
+};
+
+const estimateInlineLinksHeight = (doc, entries, { width, size = 8.6, separator = "  \u00b7  ", gapAfter = 0 }) => {
+	const items = entries.filter((entry) => entry?.label);
+	if (items.length === 0) {
+		return 0;
+	}
+	doc.font("Helvetica").fontSize(size);
+	const separatorWidth = doc.widthOfString(separator);
+	const lineHeight = doc.currentLineHeight() + 1.5;
+	let used = 0;
+	let lines = 1;
+	items.forEach((entry, index) => {
+		const labelWidth = doc.widthOfString(entry.label);
+		const advance = index > 0 ? separatorWidth + labelWidth : labelWidth;
+		if (index > 0 && used + advance > width) {
+			lines += 1;
+			used = labelWidth;
+		} else {
+			used += advance;
+		}
+	});
+	return lines * lineHeight + gapAfter;
 };
 
 const extractRoleBullets = (role) =>
@@ -152,8 +258,9 @@ const estimateBulletHeight = (doc, text, { width, size = 9, gapAfter = 2 }) =>
 		gapAfter,
 	});
 
-export const generateCvPdf = async ({ lang = "en" } = {}) => {
+export const generateCvPdf = async ({ lang = "en", variant = DEFAULT_CV_VARIANT } = {}) => {
 	const currentLanguage = normalizeLanguage(lang);
+	const currentVariant = normalizeVariant(variant);
 	const [locale, privateProfile] = await Promise.all([
 		readJsonFile(path.join(LOCALES_DIR, `${currentLanguage}.json`)),
 		readJsonFile(PRIVATE_PROFILE_PATH),
@@ -175,17 +282,28 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	const margin = 28;
 	const contentBottom = pageHeight - margin;
 
-	const headerTitle = locale.about?.heroHeading ?? "Curriculum Vitae";
-	const profileSummary = locale.about?.profileSummary ?? "";
+	const variantCopy = locale.about?.cvVariants?.[currentVariant] ?? {};
+	const hardSkills = SKILL_SETS[currentVariant] ?? SKILL_SETS[DEFAULT_CV_VARIANT];
+	const headerTitle = variantCopy.heading ?? locale.about?.heroHeading ?? "Curriculum Vitae";
+	const profileSummary = variantCopy.summary ?? locale.about?.profileSummary ?? "";
 	const fullName = [
 		privateProfile?.identity?.firstName,
 		privateProfile?.identity?.lastName,
 	]
 		.filter(Boolean)
 		.join(" ");
+	const contact = privateProfile?.contact ?? {};
+	const stripProtocol = (value) => value.replace(/^https?:\/\//i, "").replace(/\/$/, "");
+	const toHref = (value) => `https://${stripProtocol(value)}`;
 	const leftDetails = [
-		privateProfile?.contact?.phone,
-		privateProfile?.contact?.email,
+		contact.phone && { text: contact.phone, link: `tel:${contact.phone.replace(/[^+\d]/g, "")}` },
+		contact.email && { text: contact.email, link: `mailto:${contact.email}` },
+	].filter(Boolean);
+	// Recruiters should be able to click straight through to the proof of work.
+	const profileLinks = [
+		contact.website && { label: stripProtocol(contact.website), link: toHref(contact.website) },
+		contact.linkedin && { label: stripProtocol(contact.linkedin), link: toHref(contact.linkedin) },
+		contact.github && { label: stripProtocol(contact.github), link: toHref(contact.github) },
 	].filter(Boolean);
 
 	const headerRowHeight = 96;
@@ -210,14 +328,21 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	const detailsHeight = leftDetails.reduce(
 		(total, line) =>
 			total +
-			estimateTextHeight(doc, line, {
+			estimateTextHeight(doc, line.text, {
 				width: infoWidth,
 				size: 10,
 				gapAfter: 1,
 			}),
 		0,
 	);
-	const detailsStartY = headerTopY + Math.max(0, (headerRowHeight - (nameHeight + detailsHeight)) / 2);
+	const linksHeight = estimateInlineLinksHeight(doc, profileLinks, {
+		width: infoWidth,
+		size: 8.6,
+		gapAfter: 0,
+	});
+	const detailsStartY =
+		headerTopY +
+		Math.max(0, (headerRowHeight - (nameHeight + detailsHeight + (linksHeight ? linksHeight + 3 : 0))) / 2);
 	doc.font("Helvetica").fontSize(10).fillColor(COLORS.muted);
 	let detailsY = detailsStartY;
 	if (fullName) {
@@ -232,13 +357,23 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		});
 	}
 	for (const line of leftDetails) {
-		detailsY = drawText(doc, line, {
+		detailsY = drawText(doc, line.text, {
 			x: margin,
 			y: detailsY,
 			width: infoWidth,
 			size: 10,
 			color: COLORS.muted,
 			gapAfter: 1,
+			link: line.link,
+		});
+	}
+	if (profileLinks.length > 0) {
+		detailsY = drawInlineLinks(doc, profileLinks, {
+			x: margin,
+			y: detailsY + 3,
+			width: infoWidth,
+			size: 8.6,
+			color: COLORS.accent,
 		});
 	}
 
@@ -380,7 +515,7 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	});
 
 	const skillGroupLabels = locale.experience?.skillGroups ?? {};
-	for (const [groupKey, entries] of Object.entries(HARD_SKILLS)) {
+	for (const [groupKey, entries] of Object.entries(hardSkills)) {
 		const title = skillGroupLabels[groupKey] ?? groupKey;
 		const content = entries.join(", ");
 		const estimated =
@@ -453,8 +588,10 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	}
 
 	const educationTitle = locale.about?.education?.title ?? "Education";
+	// Entries flagged pdfExclude (the high-school diploma) stay on the site but are
+	// dropped here — at 10+ years of experience the space is worth more elsewhere.
 	const educationEntries = Array.isArray(locale.about?.education?.entries)
-		? locale.about.education.entries
+		? locale.about.education.entries.filter((entry) => !entry?.pdfExclude)
 		: [];
 
 	if (educationEntries.length > 0) {
@@ -531,6 +668,8 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 	}
 
 	const experienceTitle = locale.experience?.rolesTitle ?? "Professional Experience";
+	const parallelNote = locale.experience?.parallelNote ?? "";
+	const parallelTag = locale.experience?.parallelTag ?? "";
 	const roles = makeRoleModels(locale);
 
 	rightColumn.pageIndex = 0;
@@ -544,12 +683,29 @@ export const generateCvPdf = async ({ lang = "en" } = {}) => {
 		font: "Helvetica-Bold",
 		size: 13,
 		color: COLORS.text,
-		gapAfter: 8,
+		gapAfter: parallelNote ? 3 : 8,
 	});
+	if (parallelNote) {
+		rightColumn.y = drawText(doc, parallelNote, {
+			x: rightColumn.x,
+			y: rightColumn.y,
+			width: rightColumn.width,
+			font: "Helvetica-Oblique",
+			size: 8.2,
+			color: COLORS.accent,
+			gapAfter: 8,
+		});
+	}
 
 	for (const role of roles) {
 		const roleTitleLine = `${role.title}`;
-		const roleMeta = [role.company, role.period].filter(Boolean).join(" • ");
+		const roleMeta = [
+			role.company,
+			role.period,
+			PARALLEL_ROLE_KEYS.has(role.key) && parallelTag ? parallelTag : null,
+		]
+			.filter(Boolean)
+			.join(" • ");
 		ensureRightSpace(26);
 
 		doc.font("Helvetica-Bold").fontSize(10.6);

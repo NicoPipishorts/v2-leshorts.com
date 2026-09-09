@@ -1,4 +1,10 @@
-import { generateCvPdf, normalizeLanguage } from "../server/generateCvPdf.mjs";
+import {
+	generateCvPdf,
+	normalizeLanguage,
+	normalizeVariant,
+} from "../server/generateCvPdf.mjs";
+
+const firstValue = (value) => (Array.isArray(value) ? value[0] : value);
 
 export default async function handler(req, res) {
 	if (req.method !== "GET") {
@@ -8,14 +14,14 @@ export default async function handler(req, res) {
 	}
 
 	try {
-		const rawLang = Array.isArray(req.query?.lang) ? req.query.lang[0] : req.query?.lang;
-		const lang = normalizeLanguage(rawLang);
-		const pdfBuffer = await generateCvPdf({ lang });
+		const lang = normalizeLanguage(firstValue(req.query?.lang));
+		const variant = normalizeVariant(firstValue(req.query?.variant));
+		const pdfBuffer = await generateCvPdf({ lang, variant });
 
 		res.setHeader("Content-Type", "application/pdf");
 		res.setHeader(
 			"Content-Disposition",
-			`attachment; filename="nicolas-pisar-cv-${lang}.pdf"`,
+			`attachment; filename="nicolas-pisar-cv-${variant}-${lang}.pdf"`,
 		);
 		res.setHeader("Cache-Control", "private, max-age=0, no-cache, no-store, must-revalidate");
 		res.status(200).send(pdfBuffer);

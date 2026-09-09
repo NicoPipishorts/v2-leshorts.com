@@ -12,6 +12,7 @@ import {
 	FiMail,
 } from "react-icons/fi";
 import meImage from "../../assets/images/me.png";
+import RoleShots, { ROLE_SHOTS } from "./RoleShots";
 import V2Intro from "./V2Intro";
 
 type V2RoleKey =
@@ -36,6 +37,13 @@ const ROLE_LINKS: Partial<Record<V2RoleKey, string>> = {
 	kaast: "https://kaa.st",
 };
 
+const CV_VARIANTS = ["sfd", "fd", "fs"] as const;
+const DEFAULT_CV_VARIANT = "sfd";
+
+// Ongoing at the same time — flagged so the timeline does not read as three
+// competing full-time commitments.
+const PARALLEL_ROLE_KEYS: V2RoleKey[] = ["synqit", "kaast", "freelance"];
+
 const SECTION_IDS = [
 	"profil",
 	"points-forts",
@@ -53,17 +61,30 @@ const SKILL_GROUPS: { labelKey: string; items: string[] }[] = [
 			"React Native",
 			"TypeScript",
 			"JavaScript",
+			"Redux / Redux Toolkit",
+			"TanStack Query",
+			"TanStack Router",
 			"GraphQL",
 			"REST API",
 			"TailwindCSS",
-			"TanStack Query",
+			"SCSS",
 			"Accessibility",
 			"Vite",
 		],
 	},
 	{
+		labelKey: "experience.skillGroups.uiArchitecture",
+		items: [
+			"Design system & component library",
+			"State & cache management",
+			"Routing & navigation",
+			"Responsive UI",
+			"Performance",
+		],
+	},
+	{
 		labelKey: "experience.skillGroups.backend",
-		items: ["Node.js", "Strapi", "Prisma", "Sequelize"],
+		items: ["Node.js", "Express", "Strapi", "Prisma", "Sequelize"],
 	},
 	{
 		labelKey: "experience.skillGroups.dataInfra",
@@ -291,7 +312,7 @@ const CvV2 = () => {
 		{ id: "parcours", label: t("experience.rolesTitle") },
 		{ id: "competences", label: t("about.skillsTitle") },
 		{ id: "education", label: t("about.education.title") },
-		{ id: "contact", label: "Contact" },
+		{ id: "contact", label: t("about.contactTitle") },
 	];
 
 	return (
@@ -364,12 +385,7 @@ const CvV2 = () => {
 								/>
 							</div>
 
-							<a
-								href={`/api/cv-pdf?lang=${currentLanguage}`}
-								className='group mt-10 inline-flex items-center gap-2 rounded-none bg-brand-primary px-4 py-2 text-[0.84rem] font-semibold tracking-[0.01em] text-white transition-colors duration-200 hover:bg-(--color-primary-dark)'>
-								<FiArrowDown className='h-4 w-4 shrink-0 transition-transform duration-250 group-hover:translate-y-0.5' />
-								{t("about.downloadCvCta")}
-							</a>
+
 						</motion.div>
 
 						<div className='hidden lg:block' />
@@ -393,7 +409,7 @@ const CvV2 = () => {
 				/>
 			</section>
 
-			<div className='mx-auto max-w-6xl px-6 pb-28 pt-20 md:px-10 md:pt-28'>
+			<div className='mx-auto max-w-6xl px-6 pb-20 pt-8 md:pt-12'>
 				<div className='lg:grid lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:gap-24'>
 					{/* Sticky rail */}
 					<aside className='lg:sticky lg:top-28 lg:h-fit lg:self-start'>
@@ -412,19 +428,28 @@ const CvV2 = () => {
 										<li key={item.id}>
 											<a
 												href={`#${item.id}`}
-												className={`group inline-flex items-center gap-3 text-[0.78rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-300 ${
+												className={`group inline-flex items-center gap-3 whitespace-nowrap text-[0.78rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-300 ${
 													isActive
 														? "text-(--color-text)"
 														: "text-(--color-text-light) hover:text-(--color-text)"
 												}`}>
+												<span className='flex h-px w-10 shrink-0 items-center'>
+													<span
+														className={`h-px transition-all duration-300 ${
+															isActive
+																? "w-10 bg-brand-primary"
+																: "w-6 bg-(--color-border) group-hover:w-10 group-hover:bg-brand-secondary"
+														}`}
+													/>
+												</span>
 												<span
-													className={`h-px transition-all duration-300 ${
+													className={`transition-transform duration-300 ${
 														isActive
-															? "w-10 bg-brand-primary"
-															: "w-6 bg-(--color-border) group-hover:w-10 group-hover:bg-brand-secondary"
-													}`}
-												/>
-												{item.label}
+															? "translate-x-2"
+															: "group-hover:translate-x-2"
+													}`}>
+													{item.label}
+												</span>
 											</a>
 										</li>
 									);
@@ -432,12 +457,29 @@ const CvV2 = () => {
 							</ul>
 						</nav>
 
-						<a
-							href={`/api/cv-pdf?lang=${currentLanguage}`}
-							className='group mt-12 inline-flex items-center gap-2 rounded-none bg-brand-primary px-4 py-2 text-[0.84rem] font-semibold tracking-[0.01em] text-white transition-colors duration-200 hover:bg-(--color-primary-dark)'>
-							<FiArrowDown className='h-4 w-4 shrink-0 transition-transform duration-250 group-hover:translate-y-0.5' />
-							{t("about.downloadCvCta")}
-						</a>
+						<div className='mt-12'>
+							<a
+								href={`/api/cv-pdf?lang=${currentLanguage}&variant=${DEFAULT_CV_VARIANT}`}
+								className='group inline-flex items-center gap-2 rounded-none bg-brand-primary px-4 py-2 text-[0.84rem] font-semibold tracking-[0.01em] text-white transition-colors duration-200 hover:bg-(--color-primary-dark)'>
+								<FiArrowDown className='h-4 w-4 shrink-0 transition-transform duration-250 group-hover:translate-y-0.5' />
+								{t("about.downloadCvCta")}
+							</a>
+							<p className='mt-5 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-(--color-text-light)'>
+								{t("about.cvVariantsLabel")}
+							</p>
+							<div className='mt-2 flex flex-wrap gap-x-5 gap-y-1'>
+								{CV_VARIANTS.filter(
+									(variant) => variant !== DEFAULT_CV_VARIANT,
+								).map((variant) => (
+									<a
+										key={variant}
+										href={`/api/cv-pdf?lang=${currentLanguage}&variant=${variant}`}
+										className='text-[0.78rem] font-medium text-(--color-text-light) underline decoration-(--color-border) underline-offset-4 transition-colors duration-200 hover:text-brand-primary'>
+										{t(`about.cvVariants.${variant}.label`)}
+									</a>
+								))}
+							</div>
+						</div>
 
 						<div className='mt-10 flex items-center gap-5'>
 							<a
@@ -489,6 +531,11 @@ const CvV2 = () => {
 						</Section>
 
 						<Section id='parcours' label={t("experience.rolesTitle")}>
+							<motion.p
+								className='mb-8 max-w-[62ch] text-[0.88rem] italic leading-[1.7] text-brand-secondary'
+								{...fadeUp()}>
+								{t("experience.parallelNote")}
+							</motion.p>
 							<div>
 								{roles.map((role) => (
 									<motion.article
@@ -497,6 +544,11 @@ const CvV2 = () => {
 										{...fadeUp()}>
 										<p className='text-[0.74rem] font-semibold uppercase tracking-[0.1em] text-brand-secondary md:pt-1'>
 											{role.period}
+											{PARALLEL_ROLE_KEYS.includes(role.key) && (
+												<span className='mt-1 block font-medium normal-case tracking-normal text-(--color-text-light)'>
+													{t("experience.parallelTag")}
+												</span>
+											)}
 										</p>
 										<div>
 											<div className='flex flex-wrap items-center gap-x-4 gap-y-2'>
@@ -530,6 +582,12 @@ const CvV2 = () => {
 												<p className='mt-4 text-[0.84rem] leading-[1.6] text-brand-secondary'>
 													{role.ownership.join(" · ")}
 												</p>
+											)}
+											{ROLE_SHOTS[role.key] && (
+												<RoleShots
+													shots={ROLE_SHOTS[role.key]}
+													label={role.title}
+												/>
 											)}
 											{role.projects && role.projects.length > 0 && (
 												<ul className='mt-6 list-none space-y-5'>
@@ -612,7 +670,7 @@ const CvV2 = () => {
 							</motion.div>
 						</Section>
 
-						<Section id='contact' label='Contact'>
+						<Section id='contact' label={t("about.contactTitle")}>
 							<motion.div {...fadeUp(0.06)}>
 								<a
 									href={`mailto:${email}`}

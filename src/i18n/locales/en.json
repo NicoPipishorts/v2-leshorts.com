@@ -4,6 +4,23 @@
 		"heroHeading": "Senior Frontend Engineer",
 		"heroSubheading": "Frontend-focused product engineer building modern web applications, SaaS platforms, and technical product experiences",
 		"profileSummary": "Senior Frontend Engineer with over a decade of experience delivering web applications, SaaS products, and modern React systems. Strong in frontend architecture, API integration, UI quality, performance, accessibility, and usable interfaces, with solid experience in data modeling and end-to-end product delivery.",
+		"cvVariants": {
+			"sfd": {
+				"label": "Senior Frontend Engineer",
+				"heading": "Senior Frontend Engineer",
+				"summary": "Senior Frontend Engineer with 10+ years building web applications, SaaS products and modern React systems. Strong in frontend architecture, state management, design systems, performance and accessibility, with the API and data-modeling literacy needed to keep interfaces coherent with the product around them."
+			},
+			"fd": {
+				"label": "Frontend Developer",
+				"heading": "Frontend Developer",
+				"summary": "Frontend Developer with 10+ years shipping React and TypeScript interfaces for SaaS products and client platforms. Focused on component architecture, state and cache management, responsive UI systems, accessibility and maintainable day-to-day frontend code."
+			},
+			"fs": {
+				"label": "Fullstack Developer",
+				"heading": "Fullstack Developer",
+				"summary": "Fullstack Developer with 10+ years delivering products end to end, from React and React Native interfaces to Node.js APIs, data modeling and deployment. Frontend is where I go deepest, and I own the backend and infrastructure work a product needs to actually ship."
+			}
+		},
 		"heroRows": {
 			"row1Prefix": "I am a",
 			"row1Items": [
@@ -25,15 +42,15 @@
 			"row3Join": "and"
 		},
 		"paragraph1": "Senior Frontend Engineer specializing in React, TypeScript, and user-focused product development. I started coding in 2001 and have built my career around modern JavaScript ecosystems, with strong depth across component architecture, state management, responsive UI systems, performance, accessibility, testing-minded delivery, and maintainable frontend implementation.",
-		"paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by multiple clients.",
+		"paragraph2": "After working as a Frontend Developer at InterCloud, I moved into entrepreneurship and am currently building two initiatives: Vue d'Esprit, a digital studio delivering web and product solutions, and Kaast, a media communication platform designed for internal company collaboration and engagement, already used by 5 client companies and 4,000+ users.",
 		"paragraph3": "My core strength is frontend execution, but I also bring solid full-stack experience when products require it. Across products such as Synqit, Soulbm, ASBA, Kaast, and InterCloud, I have worked on API design, backend systems, data modeling, infrastructure-adjacent workflows, and AI-assisted development practices, which helps me build interfaces that stay coherent within the broader product architecture.",
 		"hardSkillsIntro": "Core frontend technologies, React ecosystem tools, API and delivery capabilities, and AI-assisted workflows I use to ship polished technical products at scale.",
 		"skillsTitle": "Skills & Technologies",
 		"highlightsTitle": "Highlights",
 		"highlights": [
 			"10+ years building web and product experiences",
-			"Co-founded Kaast, a multi-tenant media communication platform",
-			"Built Synqit, a cross-service collaborative playlist product",
+			"2 products founded and run in production: Kaast (5 client companies, 4,000+ users) and Synqit",
+			"4 client products delivered end to end as an independent (web, mobile, back office)",
 			"Delivered production systems with React, React Native, Node.js, and Strapi",
 			"Daily use of generative AI tools for development, review, and documentation"
 		],
@@ -96,7 +113,8 @@
 				{
 					"title": "High School Diploma",
 					"institution": "PVPHS (USA)",
-					"period": "2004"
+					"period": "2004",
+					"pdfExclude": true
 				},
 				{
 					"title": "Web & Mobile Developer Program",
@@ -110,6 +128,8 @@
 			]
 		},
 		"downloadCvCta": "Download CV (PDF)",
+		"contactTitle": "Contact",
+		"cvVariantsLabel": "Other versions",
 		"hobbiesTitle": "Hobbies",
 		"hobbiesIntro": "Outside of product work, I stay active in community projects and activities that reinforce creativity, consistency, and teamwork.",
 		"hobbies": {
@@ -124,6 +144,8 @@
 	},
 	"experience": {
 		"rolesTitle": "Professional Experience",
+		"parallelTag": "in parallel",
+		"parallelNote": "Synqit, Kaast and the independent practice run in parallel: self-directed projects sharing one timeline, not competing full-time commitments.",
 		"ownershipTitle": "What I Owned",
 		"moreDetailsLabel": "More details",
 		"projectsTitle": "Selected projects",
@@ -132,7 +154,8 @@
 			"backend": "Backend",
 			"dataInfra": "Data & Infrastructure",
 			"delivery": "Delivery & Product",
-			"agentic": "AI & Agentic Workflows"
+			"agentic": "AI & Agentic Workflows",
+			"uiArchitecture": "UI Architecture"
 		},
 		"roles": {
 			"synqit": {
@@ -172,8 +195,8 @@
 				"title": "Co-Founder & Lead Fullstack Developer",
 				"company": "Kaast",
 				"period": "2022 - Present",
-				"summary": "Multi-tenant internal media communication platform used by multiple companies, with a strong focus on frontend product quality, navigation, search, and shared UI consistency across tenant-specific needs.",
-				"point1": "Led the frontend architecture of a multi-tenant React platform used by multiple companies, shaping page composition, navigation flows, and the overall product interaction model.",
+				"summary": "Multi-tenant internal media communication platform used by 5 client companies and 4,000+ users, with a strong focus on frontend product quality, navigation, search, and shared UI consistency across tenant-specific needs.",
+				"point1": "Led the frontend architecture of a multi-tenant React platform, shaping page composition, navigation flows, and the overall product interaction model.",
 				"point2": "Built a shared component architecture supporting tenant-specific customization while maintaining a consistent product experience across customers.",
 				"point3": "Worked in a two-person Kanban team, pushing customer-driven features within tight audit periods and collaborating closely with stakeholders and product discussions to translate requirements into intuitive user experiences while maintaining consistency across tenant-specific needs.",
 				"ownership": [
@@ -206,13 +229,13 @@
 				"company": "Independent",
 				"period": "2010 - Present",
 				"summary": "Delivered web and product solutions for clients as an independent consultant, combining architecture decisions, product thinking, and implementation.",
-				"point1": "Designed custom systems and digital products for startups and local businesses, including ASBA Drums, Soulbm, and Com'Academy.",
+				"point1": "Designed custom digital systems and products for startups and local businesses, including ASBA Drums, Soulbm, and Com'Academy (a mobile app in production for a year, deployed across several graduate schools).",
 				"point2": "Handled end-to-end delivery from discovery and data modeling to frontend implementation and deployment.",
 				"point3": "Focused on clear UX, maintainable code, and backend structures that stayed practical for long-term client operations.",
 				"projects": [
 					{
 						"name": "Com'Academy",
-						"summary": "Built and shipped a complete React Native mobile app for iOS and Android with a custom backend architecture.",
+						"summary": "Designed and shipped a complete React Native mobile app on iOS and Android, backed by a custom backend. In production for a year and deployed across several graduate schools.",
 						"point1": "Designed and implemented the full-stack architecture behind the mobile product, including API flows and notification logic.",
 						"point2": "Developed the React Native app with production-ready navigation, premium content flows, and in-app purchases on iOS and Android.",
 						"point3": "Built a custom Express.js backend to support content delivery, notification workflows, and operational flexibility.",
@@ -328,7 +351,7 @@
 				"summary": "Worked on a SaaS dashboard supporting technical network deployment workflows, joining at proof-of-concept stage and helping push the product toward a customer-facing MVP and V1 under tight delivery constraints.",
 				"point1": "Built and evolved React interfaces for infrastructure and deployment operations, turning complex technical workflows into clear, maintainable SaaS product experiences.",
 				"point2": "Contributed to a shared UI layer, state and cache management, and API-connected frontend flows to keep the product responsive, coherent, and reliable.",
-				"point3": "Worked in a fast-paced agile environment with real-time events, search tooling, and supporting Node-based tooling to keep operational data accurate across the product lifecycle."
+				"point3": "Worked as one of two frontend developers in a 10-person product team (4 backend, 2 SRE, 1 PO, 1 PM), in a fast-paced agile environment with real-time events, search tooling, and supporting Node-based tooling to keep operational data accurate across the product lifecycle."
 			},
 			"apple": {
 				"title": "Technical Support & Product Testing",
