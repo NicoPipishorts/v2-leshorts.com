@@ -2,7 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
-import { generateCvPdf, normalizeLanguage } from './server/generateCvPdf.mjs'
+import {
+  generateCvPdf,
+  normalizeLanguage,
+  normalizeVariant,
+} from './server/generateCvPdf.mjs'
 
 const cvPdfApiPlugin = () => ({
   name: 'cv-pdf-api',
@@ -24,13 +28,14 @@ const cvPdfApiPlugin = () => ({
       try {
         const requestUrl = new URL(requestPath, 'http://localhost')
         const lang = normalizeLanguage(requestUrl.searchParams.get('lang'))
-        const pdfBuffer = await generateCvPdf({ lang })
+        const variant = normalizeVariant(requestUrl.searchParams.get('variant'))
+        const pdfBuffer = await generateCvPdf({ lang, variant })
 
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/pdf')
         res.setHeader(
           'Content-Disposition',
-          `attachment; filename="nicolas-pisar-cv-${lang}.pdf"`,
+          `attachment; filename="nicolas-pisar-cv-${variant}-${lang}.pdf"`,
         )
         res.setHeader(
           'Cache-Control',

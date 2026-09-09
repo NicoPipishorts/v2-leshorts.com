@@ -4,6 +4,23 @@
 		"heroHeading": "Senior Frontend Engineer",
 		"heroSubheading": "Ingénieur produit orienté frontend sur des applications web modernes, des plateformes SaaS et des produits techniques",
 		"profileSummary": "Senior Frontend Engineer avec plus de 10 ans d'expérience dans la livraison d'applications web, de produits SaaS et de systèmes React modernes. Solide sur l'architecture frontend, l'intégration d'API, la qualité UI, la performance, l'accessibilité et l'utilisabilité, avec une vraie expérience de la modélisation des données et de la delivery produit de bout en bout.",
+		"cvVariants": {
+			"sfd": {
+				"label": "Senior Frontend Engineer",
+				"heading": "Senior Frontend Engineer",
+				"summary": "Senior Frontend Engineer avec plus de 10 ans d'expérience sur des applications web, des produits SaaS et des systèmes React modernes. Solide sur l'architecture frontend, le state management, les design systems, la performance et l'accessibilité, avec la culture API et modélisation de données nécessaire pour garder les interfaces cohérentes avec le produit."
+			},
+			"fd": {
+				"label": "Développeur Frontend",
+				"heading": "Développeur Frontend",
+				"summary": "Développeur Frontend avec plus de 10 ans d'expérience sur des interfaces React et TypeScript pour des produits SaaS et des plateformes clients. Centré sur l'architecture de composants, la gestion du state et du cache, les systèmes UI responsives, l'accessibilité et un code frontend maintenable au quotidien."
+			},
+			"fs": {
+				"label": "Développeur Fullstack",
+				"heading": "Développeur Fullstack",
+				"summary": "Développeur Fullstack avec plus de 10 ans d'expérience sur la livraison de produits de bout en bout, des interfaces React et React Native aux APIs Node.js, à la modélisation des données et au déploiement. Le frontend reste ma spécialité, et je prends en charge le backend et l'infra quand le produit l'exige."
+			}
+		},
 		"heroRows": {
 			"row1Prefix": "Je suis",
 			"row1Items": [
@@ -25,15 +42,15 @@
 			"row3Join": "et"
 		},
 		"paragraph1": "Senior Frontend Engineer spécialisé en React, TypeScript et développement produit orienté utilisateur. J'ai commencé à coder en 2001 et j'ai construit mon parcours autour des écosystèmes JavaScript modernes, avec une vraie profondeur sur l'architecture de composants, le state management, les systèmes UI responsives, la performance, l'accessibilité, une delivery pensée qualité et la maintenabilité du frontend.",
-		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par plusieurs clients.",
+		"paragraph2": "Après avoir travaillé comme Frontend Developer chez InterCloud, je me suis tourné vers l'entrepreneuriat et je développe actuellement deux initiatives : Vue d'Esprit, un studio digital qui conçoit des solutions web et produit, et Kaast, une plateforme de communication média pensée pour la collaboration et l'engagement en interne, déjà utilisée par 5 entreprises clientes et plus de 4 000 utilisateurs.",
 		"paragraph3": "Mon point fort reste le frontend, mais j'apporte aussi une expérience full-stack solide quand les produits l'exigent. Sur des projets comme Synqit, Soulbm, ASBA, Kaast et InterCloud, j'ai également travaillé sur la conception d'API, les systèmes backend, la modélisation des données, des workflows proches de l'infrastructure et des pratiques de développement assisté par IA, ce qui me permet de construire des interfaces cohérentes avec l'architecture globale du produit.",
 		"hardSkillsIntro": "Technologies frontend clés, outils de l'écosystème React, capacités d'API et de delivery, et workflows assistés par IA que j'utilise pour livrer des produits techniques à grande échelle.",
 		"skillsTitle": "Compétences & Technologies",
 		"highlightsTitle": "Points forts",
 		"highlights": [
 			"10+ ans sur des expériences web et produit",
-			"Co-fondateur de Kaast, une plateforme média multi-tenant",
-			"Création de Synqit, produit collaboratif de playlists cross-service",
+			"2 produits fondés et opérés en production : Kaast (5 entreprises clientes, 4 000+ utilisateurs) et Synqit",
+			"4 projets clients livrés de bout en bout en indépendant (web, mobile, back-office)",
 			"Livraison de systèmes en production avec React, React Native, Node.js et Strapi",
 			"Usage quotidien d'outils d'IA générative pour le développement, la revue et la documentation"
 		],
@@ -96,7 +113,8 @@
 				{
 					"title": "Baccalauréat",
 					"institution": "PVPHS (USA)",
-					"period": "2004"
+					"period": "2004",
+					"pdfExclude": true
 				},
 				{
 					"title": "Développeur Web et Web Mobile",
@@ -110,6 +128,8 @@
 			]
 		},
 		"downloadCvCta": "Télécharger le CV (PDF)",
+		"contactTitle": "Contact",
+		"cvVariantsLabel": "Autres versions",
 		"hobbiesTitle": "Centres d'intérêt",
 		"hobbiesIntro": "En dehors du produit, je reste engagé dans des activités qui renforcent la créativité, la régularité et le travail collectif.",
 		"hobbies": {
@@ -124,6 +144,8 @@
 	},
 	"experience": {
 		"rolesTitle": "Parcours Professionnel",
+		"parallelTag": "en parallèle",
+		"parallelNote": "Synqit, Kaast et l'activité indépendante sont menés en parallèle : des projets pilotés en propre sur une même période, pas des engagements temps plein concurrents.",
 		"ownershipTitle": "Ce que j'ai piloté",
 		"moreDetailsLabel": "Voir le détail",
 		"projectsTitle": "Projets sélectionnés",
@@ -132,7 +154,8 @@
 			"backend": "Back-end",
 			"dataInfra": "Données & Infrastructure",
 			"delivery": "Livraison & Produit",
-			"agentic": "IA & workflows agentiques"
+			"agentic": "IA & workflows agentiques",
+			"uiArchitecture": "Architecture UI"
 		},
 		"roles": {
 			"synqit": {
@@ -172,8 +195,8 @@
 				"title": "Co-fondateur & Lead Frontend Engineer",
 				"company": "Kaast",
 				"period": "2022 - Aujourd'hui",
-				"summary": "Plateforme de communication média interne multi-tenant déjà utilisée par plusieurs entreprises, avec un fort enjeu de qualité frontend, de navigation métier, de recherche et de cohérence UI malgré des besoins spécifiques selon les tenants.",
-				"point1": "Pilotage de l'architecture frontend d'une plateforme React multi-tenant utilisée par plusieurs entreprises, de la composition des pages aux flux de navigation et au modèle d'interaction produit.",
+				"summary": "Plateforme de communication média interne multi-tenant utilisée par 5 entreprises clientes et plus de 4 000 utilisateurs, avec un fort enjeu de qualité frontend, de navigation métier, de recherche et de cohérence UI malgré des besoins spécifiques selon les tenants.",
+				"point1": "Pilotage de l'architecture frontend d'une plateforme React multi-tenant, de la composition des pages aux flux de navigation et au modèle d'interaction produit.",
 				"point2": "Construction d'une architecture de composants partagés permettant des personnalisations par tenant tout en conservant une expérience produit cohérente.",
 				"point3": "Travail dans une équipe de deux personnes, en Kanban, avec un rythme orienté features et des périodes d'audit serrées, en collaboration étroite avec les parties prenantes et les échanges produit pour transformer les besoins en expériences utilisateur intuitives tout en gardant de la cohérence entre les besoins spécifiques de chaque tenant.",
 				"ownership": [
@@ -206,13 +229,13 @@
 				"company": "Indépendant",
 				"period": "2010 - Aujourd'hui",
 				"summary": "Réalisation de solutions web et produit pour des clients en tant qu'indépendant, en combinant choix d'architecture, vision produit et implémentation.",
-				"point1": "Conception de systèmes et produits digitaux sur mesure pour startups et entreprises locales, notamment sur ASBA Drums, Soulbm et Com'Academy.",
+				"point1": "Conception de systèmes et produits digitaux sur mesure pour startups et entreprises locales, notamment sur ASBA Drums, Soulbm et Com'Academy (application mobile en production depuis un an, déployée dans plusieurs écoles supérieures).",
 				"point2": "Pilotage de la livraison de bout en bout, de la découverte et la modélisation des données jusqu'au frontend et au déploiement.",
 				"point3": "Priorité donnée à l'UX, à la maintenabilité du code et à des structures backend réellement pratiques pour l'usage long terme des clients.",
 				"projects": [
 					{
 						"name": "Com'Academy",
-						"summary": "Conception et mise en production d'une application mobile React Native complète sur iOS et Android, avec un backend sur mesure.",
+						"summary": "Conception et mise en production d'une application mobile React Native complète sur iOS et Android, avec un backend sur mesure. En production depuis un an et déployée dans plusieurs écoles supérieures.",
 						"point1": "Conception et implémentation de l'architecture full-stack du produit mobile, incluant les flux API et la logique de notifications.",
 						"point2": "Développement de l'application React Native avec des parcours robustes, du contenu premium et les achats intégrés iOS / Android.",
 						"point3": "Création d'un backend Express.js sur mesure pour la diffusion de contenu, les notifications et la flexibilité opérationnelle.",
@@ -328,7 +351,7 @@
 				"summary": "Travail sur un dashboard SaaS au service de workflows techniques de déploiement réseau, en rejoignant le projet au stade proof of concept puis en aidant à le faire évoluer vers un MVP et une V1 customer-facing dans des délais serrés.",
 				"point1": "Développement et évolution d'interfaces React pour des opérations d'infrastructure et de déploiement, afin de transformer des workflows techniques complexes en une expérience SaaS claire et maintenable.",
 				"point2": "Contribution à une couche UI partagée, à la gestion du state et du cache, et à des flux frontend connectés aux APIs pour garder le produit réactif, cohérent et fiable.",
-				"point3": "Travail dans un environnement agile rapide avec événements temps réel, outils de recherche et outillage Node de support pour garder les données opérationnelles justes sur l'ensemble du cycle produit."
+				"point3": "Travail en binôme frontend au sein d'une équipe produit de 10 personnes (4 backend, 2 SRE, 1 PO, 1 PM), dans un environnement agile rapide avec événements temps réel, outils de recherche et outillage Node de support pour garder les données opérationnelles justes sur l'ensemble du cycle produit."
 			},
 			"apple": {
 				"title": "Support Technique & Tests Produit",
