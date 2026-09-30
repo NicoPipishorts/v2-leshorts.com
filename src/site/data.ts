@@ -184,7 +184,7 @@ const build = (lang: Lang) => {
 	return {
 		lang,
 		ui: d.ui,
-		me: { ...meBase, ...d.me, cvUrl: `/api/cv-pdf?lang=${lang}&variant=sfd` },
+		me: { ...meBase, ...d.me, cvUrl: `/cv/nicolas-pisar-cv-${lang}.pdf` },
 		projects,
 		history: d.history.map((h) => ({ ...h, slug: h.slug || undefined })),
 		education: d.education,
