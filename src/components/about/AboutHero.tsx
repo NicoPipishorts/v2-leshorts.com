@@ -1,11 +1,17 @@
 import { motion } from "framer-motion";
 import { Fragment } from "react";
+import { FiDownload } from "react-icons/fi";
 import meImage from "../../assets/images/me.png";
 
 interface AboutHeroProps {
 	title: string;
+	name: string;
 	heading: string;
 	subheading?: string;
+	availability?: string;
+	location?: string;
+	cvHref: string;
+	cvLabel: string;
 	row1Prefix: string;
 	row1Items: string[];
 	row2Prefix: string;
@@ -18,8 +24,13 @@ interface AboutHeroProps {
 
 const AboutHero = ({
 	title,
+	name,
 	heading,
 	subheading,
+	availability,
+	location,
+	cvHref,
+	cvLabel,
 	row1Prefix,
 	row1Items,
 	row2Prefix,
@@ -31,7 +42,7 @@ const AboutHero = ({
 }: AboutHeroProps) => {
 	return (
 		<motion.section
-			className='relative flex items-center overflow-visible px-6 pb-3 pt-22 sm:px-5 md:px-8 md:pb-4 md:pt-10 lg:px-0 lg:pb-0'
+			className='relative flex items-center overflow-visible px-6 pb-3 pt-22 sm:px-5 md:px-8 md:pb-4 md:pt-26 lg:px-0 lg:pb-0'
 			initial={false}>
 			<div className='pointer-events-none absolute inset-0 overflow-hidden'></div>
 			<div className='pointer-events-none absolute inset-0 z-0 overflow-hidden lg:hidden'>
@@ -55,15 +66,44 @@ const AboutHero = ({
 						{title}
 					</p>
 					<div className='space-y-2'>
-						<h1 className='text-[clamp(1.15rem,3.25vw,2.55rem)] font-bold leading-[1.02] text-(--color-text) md:whitespace-nowrap'>
-							{heading}
+						<h1 className='text-[clamp(1.75rem,4.2vw,3.1rem)] font-bold leading-[1.02] text-(--color-text)'>
+							{name}
 						</h1>
+						<p className='text-[clamp(1.05rem,2.3vw,1.75rem)] font-semibold leading-[1.12] text-brand-secondary md:whitespace-nowrap'>
+							{heading}
+						</p>
 						{subheading ? (
-							<p className='text-[clamp(0.98rem,1.7vw,1.25rem)] font-medium leading-[1.3] text-(--color-text-light)'>
+							<p className='text-[clamp(0.94rem,1.5vw,1.1rem)] font-medium leading-[1.4] text-(--color-text-light)'>
 								{subheading}
 							</p>
 						) : null}
 					</div>
+					{availability || location ? (
+						<p className='mt-4 flex max-w-190 items-start gap-2 text-[0.85rem] leading-[1.6] text-(--color-text-light)'>
+							<span
+								aria-hidden='true'
+								className='mt-[0.46rem] h-1.5 w-1.5 shrink-0 rounded-full bg-brand-primary'
+							/>
+							<span>
+								{availability ? (
+									<span className='font-semibold text-(--color-text)'>
+										{availability}
+									</span>
+								) : null}
+								{availability && location ? " " : null}
+								{location ? (
+									<span className='whitespace-nowrap'>{location}</span>
+								) : null}
+							</span>
+						</p>
+					) : null}
+					{/* In-flow CTA so small screens never need the floating button. */}
+					<a
+						href={cvHref}
+						className='mt-5 inline-flex items-center gap-2 bg-brand-primary px-4 py-2.5 text-[0.86rem] font-semibold tracking-[0.01em] text-white shadow-[0_8px_20px_rgba(16,22,34,0.18)] transition-colors duration-200 hover:bg-(--color-primary-dark) md:hidden'>
+						<FiDownload aria-hidden='true' className='h-4 w-4' />
+						{cvLabel}
+					</a>
 					<div className='mt-6 space-y-4 text-[1.03rem] leading-[1.75] text-(--color-text-light)'>
 						<p className='mb-2 flex flex-wrap items-center gap-2'>
 							<span className='font-semibold text-(--color-text)'>

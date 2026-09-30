@@ -1,8 +1,11 @@
 {
 	"about": {
 		"title": "About Me",
+		"name": "Nicolas Pisar",
 		"heroHeading": "Senior Frontend Engineer",
 		"heroSubheading": "Frontend-focused product engineer building modern web applications, SaaS platforms, and technical product experiences",
+		"availability": "Open to a full-time Senior Frontend role — building Synqit on the side.",
+		"location": "Isère, France · Remote or hybrid",
 		"profileSummary": "Senior Frontend Engineer with over a decade of experience delivering web applications, SaaS products, and modern React systems. Strong in frontend architecture, API integration, UI quality, performance, accessibility, and usable interfaces, with solid experience in data modeling and end-to-end product delivery.",
 		"cvVariants": {
 			"sfd": {
@@ -192,7 +195,7 @@
 				]
 			},
 			"kaast": {
-				"title": "Co-Founder & Lead Fullstack Developer",
+				"title": "Co-Founder & Lead Frontend Engineer",
 				"company": "Kaast",
 				"period": "2022 - Present",
 				"summary": "Multi-tenant internal media communication platform used by 5 client companies and 4,000+ users, with a strong focus on frontend product quality, navigation, search, and shared UI consistency across tenant-specific needs.",
@@ -371,6 +374,14 @@
 				"point2": "Help secure more than EUR 900 per classroom for school trips and activities.",
 				"point3": "Manage planning, communication, and execution across local stakeholders."
 			}
+		},
+		"agenticSkills": {
+			"workflows": "Claude Code, Codex, Cursor workflows",
+			"prompting": "Prompting for UI, logic, and API flows",
+			"review": "AI-assisted code review and documentation",
+			"prototyping": "REST & GraphQL request prototyping",
+			"validation": "POC-first feature validation",
+			"assisted": "AI-assisted coding, not full delegation"
 		}
 	},
 	"contact": {
@@ -379,5 +390,10 @@
 			"linkedin": "LinkedIn",
 			"email": "Email"
 		}
+	},
+	"seo": {
+		"title": "Nicolas Pisar — Senior Frontend Engineer (React & TypeScript)",
+		"description": "Nicolas Pisar — Senior Frontend Engineer (React, TypeScript) with 10+ years building SaaS platforms and product interfaces. Portfolio, projects, and CV.",
+		"imageAlt": "Nicolas Pisar — Senior Frontend Engineer"
 	}
 }

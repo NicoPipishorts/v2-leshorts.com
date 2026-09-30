@@ -3,7 +3,13 @@ import type { TFunction } from "i18next";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import type { IconType } from "react-icons";
-import { FiBriefcase, FiFolder, FiLayers, FiServer } from "react-icons/fi";
+import {
+	FiBriefcase,
+	FiDownload,
+	FiFolder,
+	FiLayers,
+	FiServer,
+} from "react-icons/fi";
 import {
 	SiAmazonwebservices,
 	SiApplemusic,
@@ -70,12 +76,17 @@ interface ArchitectureDiagramNodeTranslation {
 	value: string;
 }
 
+type SkillItemConfig = SkillItem | { nameKey: string; icon: IconType };
+
 interface SkillGroupConfig {
 	key: SkillGroup["key"];
 	titleKey: string;
 	icon: IconType;
-	skills: SkillGroup["skills"];
+	skills: SkillItemConfig[];
 }
+
+const resolveSkillItem = (t: TFunction, skill: SkillItemConfig): SkillItem =>
+	"nameKey" in skill ? { name: t(skill.nameKey), icon: skill.icon } : skill;
 
 const ROLE_KEYS: RoleKey[] = [
 	"synqit",
@@ -214,13 +225,15 @@ const SKILL_GROUP_CONFIG: SkillGroupConfig[] = [
 		key: "agentic",
 		titleKey: "experience.skillGroups.agentic",
 		icon: FiLayers,
+		// Translated tags: these read as prose, so they live in the locales
+		// instead of being hardcoded English like the product/tech names above.
 		skills: [
-			{ name: "Claude Code, Codex, Cursor workflows", icon: FiLayers },
-			{ name: "Prompting for UI, logic, and API flows", icon: FiBriefcase },
-			{ name: "AI-assisted code review and documentation", icon: FiFolder },
-			{ name: "REST & GraphQL request prototyping", icon: FiServer },
-			{ name: "POC-first feature validation", icon: FiFolder },
-			{ name: "AI-assisted coding, not full delegation", icon: FiBriefcase },
+			{ nameKey: "experience.agenticSkills.workflows", icon: FiLayers },
+			{ nameKey: "experience.agenticSkills.prompting", icon: FiBriefcase },
+			{ nameKey: "experience.agenticSkills.review", icon: FiFolder },
+			{ nameKey: "experience.agenticSkills.prototyping", icon: FiServer },
+			{ nameKey: "experience.agenticSkills.validation", icon: FiFolder },
+			{ nameKey: "experience.agenticSkills.assisted", icon: FiBriefcase },
 		],
 	},
 ];
@@ -318,6 +331,7 @@ const About = () => {
 	const skillGroups: SkillGroup[] = SKILL_GROUP_CONFIG.map((group) => ({
 		...group,
 		title: t(group.titleKey),
+		skills: group.skills.map((skill) => resolveSkillItem(t, skill)),
 	}));
 	const hobbies = getOrderedHobbies(t);
 	const highlights = t("about.highlights", {
@@ -332,11 +346,16 @@ const About = () => {
 			exit={{ opacity: 0 }}
 			transition={{ duration: 0.45 }}>
 			<AmbientGlows />
+			{/* Docked bottom-right, clear of the reading column: the button used to
+			    sit centred over the body copy at every scroll position. Small
+			    screens have no margin to spare, so they get the in-flow hero CTA
+			    instead. */}
 			{createPortal(
-				<div className='pointer-events-none fixed bottom-[15px] left-1/2 z-[1300] -translate-x-1/2'>
+				<div className='pointer-events-none fixed bottom-6 right-6 z-[1300] hidden md:block'>
 					<a
 						href={`/api/cv-pdf?lang=${currentLanguage}`}
-						className='pointer-events-auto inline-flex items-center rounded-none bg-brand-primary px-4 py-2 text-[0.84rem] font-semibold tracking-[0.01em] text-white shadow-[0_8px_20px_rgba(16,22,34,0.28)] transition-colors duration-200 hover:bg-(--color-primary-dark)'>
+						className='pointer-events-auto inline-flex items-center gap-2 rounded-none bg-brand-primary px-3.5 py-2 text-[0.78rem] font-semibold tracking-[0.01em] text-white shadow-[0_8px_20px_rgba(16,22,34,0.28)] transition-colors duration-200 hover:bg-(--color-primary-dark) md:px-4 md:text-[0.84rem]'>
+						<FiDownload aria-hidden='true' className='h-3.5 w-3.5' />
 						{t("about.downloadCvCta")}
 					</a>
 				</div>,
@@ -346,8 +365,13 @@ const About = () => {
 			<div className='relative z-10'>
 				<AboutHero
 					title={t("about.title")}
+					name={t("about.name")}
 					heading={t("about.heroHeading")}
 					subheading={t("about.heroSubheading")}
+					availability={t("about.availability")}
+					location={t("about.location")}
+					cvHref={`/api/cv-pdf?lang=${currentLanguage}`}
+					cvLabel={t("about.downloadCvCta")}
 					row1Prefix={t("about.heroRows.row1Prefix")}
 					row1Items={
 						t("about.heroRows.row1Items", { returnObjects: true }) as string[]
