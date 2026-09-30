@@ -182,21 +182,58 @@ export const Marquee = ({
 
 const LENS = 110;
 
-type Particle = { x: number; y: number; vx: number; vy: number; tx: number; ty: number; px: number; py: number; c: string; s: number };
+type Particle = {
+	x: number;
+	y: number;
+	vx: number;
+	vy: number;
+	/** home position in the logo */
+	tx: number;
+	ty: number;
+	/** position in the paper plane, relative to the plane's centre */
+	px: number;
+	py: number;
+	/** departure delay (ms) and wobble phase for the "sent" flight */
+	d: number;
+	ph: number;
+	c: string;
+	s: number;
+};
+
+/** Where the logo sits inside the canvas (defaults to centred). */
+export type LogoPlacement = (w: number, h: number) => { cx: number; cy: number; size: number };
 
 // Paper plane drawn in the logo's 218×218 box, with a folded crease cut out of it.
 const PLANE_PATH = "M14 118 L204 26 L132 196 L100 136 Z";
 const PLANE_CREASE = "M204 26 L100 136 L114 180";
-// "Message sent" flight timeline (ms): fold into a plane → fly off → reappear → glide back → refold the logo.
-const FLIGHT = { fold: 750, out: 1650, gone: 1850, back: 2850, land: 3700 };
-const easeIn = (t: number) => t * t * t;
-const easeOut = (t: number) => 1 - (1 - t) ** 3;
+const PLANE_ANGLE = Math.atan2(26 - 118, 204 - 14); // direction the drawn nose points
+// "Message sent" flight: the plane runs one curve; dots peel off the logo at staggered moments
+// and chase their spot in it, so the flock streams out like birds and tightens into the plane.
+const FLY_MS = 2400;
+const STAGGER_MS = 450;
+const PEEL_MS = 500;
+const RETURN_AT = FLY_MS + 250;
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+const smooth = (t: number) => {
+	const c = Math.min(1, Math.max(0, t));
+	return c * c * (3 - 2 * c);
+};
+const bez = (a: number, b: number, c: number, d: number, t: number) => {
+	const u = 1 - t;
+	return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c + t * t * t * d;
+};
+const bezD = (a: number, b: number, c: number, d: number, t: number) => {
+	const u = 1 - t;
+	return 3 * u * u * (b - a) + 6 * u * t * (c - b) + 3 * t * t * (d - c);
+};
 
 /**
  * The hexagon logo rebuilt from a few thousand particles: they fly in from
  * everywhere, the cursor pushes them around, a click detonates them.
  * `burstKey` changes → explode from the centre.
- * `flyKey` changes → fold into a paper plane, fly away and come back (contact form "sent").
+ * `flyKey` changes → the dots flock into a paper plane, swoop up-right then down
+ * through the page and out, then flow back into the logo (contact form "sent").
+ * `place` positions the logo inside a larger canvas so that flight has room.
  */
 export const ParticleLogo = ({
 	className = "",
@@ -208,6 +245,7 @@ export const ParticleLogo = ({
 	flyKey = 0,
 	interactive = true,
 	dot = 1,
+	place,
 }: {
 	className?: string;
 	colors?: string[];
@@ -219,9 +257,12 @@ export const ParticleLogo = ({
 	interactive?: boolean;
 	/** dot size multiplier (light backgrounds need chunkier dots to read) */
 	dot?: number;
+	place?: LogoPlacement;
 }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const api = useRef<{ burst: (x: number, y: number, power: number) => void; fly: () => void } | null>(null);
+	const placeRef = useRef(place);
+	placeRef.current = place;
 	const reduce = useReducedMotion();
 
 	useEffect(() => {
@@ -230,6 +271,7 @@ export const ParticleLogo = ({
 		const dpr = Math.min(window.devicePixelRatio || 1, 2);
 		let w = 0;
 		let h = 0;
+		let home = { cx: 0, cy: 0, size: 0 };
 		let parts: Particle[] = [];
 		const mouse = { x: -9999, y: -9999 };
 		let raf = 0;
@@ -243,7 +285,8 @@ export const ParticleLogo = ({
 			h = canvas.clientHeight;
 			canvas.width = w * dpr;
 			canvas.height = h * dpr;
-			const size = Math.min(w, h) * scale;
+			home = placeRef.current?.(w, h) ?? { cx: w / 2, cy: h / 2, size: Math.min(w, h) * scale };
+			const size = home.size;
 			const k = size / 218;
 			const off = document.createElement("canvas");
 			off.width = Math.ceil(size);
@@ -268,8 +311,8 @@ export const ParticleLogo = ({
 			const planePts: [number, number][] = [];
 			for (let y = 0; y < off.height; y += gap)
 				for (let x = 0; x < off.width; x += gap) if (pdata[(y * off.width + x) * 4 + 3] > 128) planePts.push([x, y]);
-			const ox = (w - size) / 2;
-			const oy = (h - size) / 2;
+			const ox = home.cx - size / 2;
+			const oy = home.cy - size / 2;
 			const old = parts;
 			parts = [];
 			for (let y = 0; y < off.height; y += gap) {
@@ -280,26 +323,24 @@ export const ParticleLogo = ({
 					const prev = old[parts.length];
 					const a = Math.random() * Math.PI * 2;
 					const d = Math.max(w, h) * (0.6 + Math.random() * 0.6);
+					const [qx, qy] = planePts[parts.length % planePts.length];
 					parts.push({
-						x: prev?.x ?? (reduce ? ox + x : w / 2 + Math.cos(a) * d),
-						y: prev?.y ?? (reduce ? oy + y : h / 2 + Math.sin(a) * d),
+						x: prev?.x ?? (reduce ? ox + x : home.cx + Math.cos(a) * d),
+						y: prev?.y ?? (reduce ? oy + y : home.cy + Math.sin(a) * d),
 						vx: 0,
 						vy: 0,
 						tx: ox + x,
 						ty: oy + y,
-						px: 0,
-						py: 0,
+						// more particles than plane points → a little jitter so they don't stack
+						px: qx - size / 2 + (Math.random() - 0.5) * gap,
+						py: qy - size / 2 + (Math.random() - 0.5) * gap,
+						d: prev?.d ?? Math.random() * STAGGER_MS,
+						ph: prev?.ph ?? Math.random() * Math.PI * 2,
 						c: isHex ? hexColor : colors[(Math.random() * colors.length) | 0],
 						s: (isHex ? 1.6 : 1.4 + Math.random() * 1.2) * dot,
 					});
 				}
 			}
-			// spread the logo's particles over the plane (more particles than plane points → a little jitter)
-			parts.forEach((p, i) => {
-				const [x, y] = planePts[i % planePts.length];
-				p.px = ox + x + (Math.random() - 0.5) * gap;
-				p.py = oy + y + (Math.random() - 0.5) * gap;
-			});
 		};
 
 		const tick = () => {
@@ -307,48 +348,63 @@ export const ParticleLogo = ({
 			ctx.clearRect(0, 0, w, h);
 			const now = performance.now();
 			let fl = flightStart ? now - flightStart : -1;
-			if (fl > FLIGHT.land) {
-				flightStart = 0; // flight over, back to normal logo behaviour
+			if (fl > RETURN_AT) {
+				// the plane has left: dots stream back in from past the top-right and rebuild the logo
+				flightStart = 0;
 				fl = -1;
-			}
-			// plane transform for this frame: scale around the centre, offset, fade
-			let plane = false;
-			let teleport = false;
-			let sc = 1;
-			let fx = 0;
-			let fy = 0;
-			let alpha = 1;
-			if (fl >= 0 && fl < FLIGHT.back) {
-				plane = true;
-				if (fl >= FLIGHT.fold && fl < FLIGHT.out) {
-					const t = easeIn((fl - FLIGHT.fold) / (FLIGHT.out - FLIGHT.fold));
-					[fx, fy, sc, alpha] = [w * 0.32 * t, -h * 0.34 * t, 1 - 0.85 * t, 1 - t];
-				} else if (fl >= FLIGHT.out && fl < FLIGHT.gone) {
-					[fx, fy, sc, alpha, teleport] = [-w * 0.34, h * 0.12, 0.15, 0, true];
-				} else if (fl >= FLIGHT.gone) {
-					const t = easeOut((fl - FLIGHT.gone) / (FLIGHT.back - FLIGHT.gone));
-					[fx, fy, sc, alpha] = [-w * 0.34 * (1 - t), h * 0.12 * (1 - t), 0.15 + 0.85 * t, t];
+				softUntil = now + 2400;
+				for (const p of parts) {
+					p.x = w + 40 + Math.random() * w * 0.35;
+					p.y = -40 - Math.random() * Math.min(h, w) * 0.5;
+					p.vx = p.vy = 0;
 				}
 			}
-			const morphing = fl >= 0 && (fl < FLIGHT.fold || fl >= FLIGHT.back);
+			// flight curve: a short rise to the top-right, then a long swoop down through the page and out bottom-left
+			const m = Math.min(w, h);
+			const P0x = home.cx;
+			const P0y = home.cy;
+			const P1x = Math.min(w * 0.97, home.cx + 0.16 * w);
+			const P1y = home.cy - 0.14 * m;
+			const P2x = 0.62 * w;
+			const P2y = 0.6 * h;
+			const P3x = -0.3 * w;
+			const P3y = 1.1 * h;
+			const planeScale = Math.min(260, 0.5 * w) / (home.size || 1);
+
 			const soft = now < softUntil;
-			const k = morphing ? 0.05 : plane ? 0.13 : soft ? 0.014 : 0.11;
-			const damp = morphing ? 0.84 : plane ? 0.7 : soft ? 0.9 : 0.74;
-			const cx = w / 2;
-			const cy = h / 2;
-			ctx.globalAlpha = alpha;
+			const k = soft ? 0.014 : 0.11;
+			const damp = soft ? 0.9 : 0.74;
 			for (const p of parts) {
-				if (plane) {
-					const gx = cx + (p.px - cx) * sc + fx;
-					const gy = cy + (p.py - cy) * sc + fy;
-					if (teleport) {
-						[p.x, p.y, p.vx, p.vy] = [gx, gy, 0, 0];
-					} else {
-						p.vx = (p.vx + (gx - p.x) * k) * damp;
-						p.vy = (p.vy + (gy - p.y) * k) * damp;
-						p.x += p.vx;
-						p.y += p.vy;
-					}
+				const u = fl >= 0 ? fl / FLY_MS : 0; // where the plane is (shared by every dot)
+				const f = fl >= 0 ? smooth((fl - p.d) / PEEL_MS) : 0; // how far this dot has left the logo
+				if (u >= 1) continue; // plane has flown off-screen
+				if (f > 0) {
+					const t = easeInOut(u);
+					const bx = bez(P0x, P1x, P2x, P3x, t);
+					const by = bez(P0y, P1y, P2y, P3y, t);
+					const dx = bezD(P0x, P1x, P2x, P3x, t);
+					const dy = bezD(P0y, P1y, P2y, P3y, t);
+					const len = Math.hypot(dx, dy) || 1;
+					// nose follows the curve; heading left, mirror the plane instead of flying it upside down
+					const left = dx < 0;
+					const ang = Math.atan2(dy, dx) - (left ? Math.PI - PLANE_ANGLE : PLANE_ANGLE);
+					const rx = (left ? -p.px : p.px) * planeScale;
+					const ry = p.py * planeScale;
+					const cos = Math.cos(ang);
+					const sin = Math.sin(ang);
+					let gx = bx + rx * cos - ry * sin;
+					let gy = by + rx * sin + ry * cos;
+					// flock wobble across the path: loose while peeling off, calm once the plane has formed
+					const wob = 70 * (1 - smooth(fl / (STAGGER_MS + PEEL_MS + 350))) * Math.sin(fl / 90 + p.ph);
+					gx += (-dy / len) * wob;
+					gy += (dx / len) * wob;
+					// ease out of the logo instead of jumping
+					gx = p.tx + (gx - p.tx) * f;
+					gy = p.ty + (gy - p.ty) * f;
+					p.vx = (p.vx + (gx - p.x) * 0.14) * 0.76;
+					p.vy = (p.vy + (gy - p.y) * 0.14) * 0.76;
+					p.x += p.vx;
+					p.y += p.vy;
 					ctx.fillStyle = p.c;
 					ctx.fillRect(p.x, p.y, p.s, p.s);
 					continue;
@@ -433,8 +489,11 @@ export const ParticleLogo = ({
 
 	useEffect(() => {
 		if (!burstKey) return;
-		const c = canvasRef.current!;
-		api.current?.burst(c.clientWidth / 2, c.clientHeight / 2, 160);
+		const { cx, cy } = placeRef.current?.(canvasRef.current!.clientWidth, canvasRef.current!.clientHeight) ?? {
+			cx: canvasRef.current!.clientWidth / 2,
+			cy: canvasRef.current!.clientHeight / 2,
+		};
+		api.current?.burst(cx, cy, 160);
 	}, [burstKey]);
 
 	return <canvas ref={canvasRef} className={`block h-full w-full ${className}`} aria-hidden />;

@@ -89,7 +89,9 @@
 			"Freelance": "Freelance work",
 			"Tool": "Personal tools"
 		},
-		"moreLink": "Read more →"
+		"moreLink": "Read more →",
+		"thanks": "Thank you!",
+		"sendAnother": "Send another message"
 	},
 	"stats": [
 		"years shipping for the web",

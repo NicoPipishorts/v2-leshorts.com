@@ -89,7 +89,9 @@
 			"Freelance": "Projets freelance",
 			"Tool": "Outils personnels"
 		},
-		"moreLink": "En savoir plus →"
+		"moreLink": "En savoir plus →",
+		"thanks": "Merci !",
+		"sendAnother": "Envoyer un autre message"
 	},
 	"stats": [
 		"ans à construire pour le web",

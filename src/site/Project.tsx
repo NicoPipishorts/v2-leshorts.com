@@ -5,8 +5,8 @@ import { nextProject, useContent } from "./data";
 import { EASE_OUT, Reveal, SplitText } from "./shared";
 
 /**
- * Justified bento tile: width grows with the image's aspect ratio at a fixed row height,
- * so rows always fill, phone shots stay slim and nothing gets cropped.
+ * Justified tile: width follows the image's aspect ratio at a fixed row height, so rows
+ * fill and phone shots stay slim; the tile *is* the image (no frame), any row stretch trims only its edges.
  */
 const Shot = ({ src, i, onOpen }: { src: string; i: number; onOpen: (src: string) => void }) => {
 	const [ratio, setRatio] = useState(1.5);
@@ -15,14 +15,14 @@ const Shot = ({ src, i, onOpen }: { src: string; i: number; onOpen: (src: string
 			<Reveal delay={(i % 3) * 0.08} className='h-full'>
 				<button
 					onClick={() => onOpen(src)}
-					className='group flex h-full w-full items-center justify-center overflow-hidden rounded-2xl border border-ig-fg/10 bg-ig-panel p-3 transition-colors hover:border-[#dc5c48]/50 md:p-5'>
+					className='group block h-full w-full overflow-hidden rounded-xl outline outline-2 outline-offset-4 outline-transparent transition-[outline-color] duration-300 hover:outline-[#dc5c48]'>
 					<motion.img
 						layoutId={src}
 						src={src}
 						alt=''
 						loading='lazy'
 						onLoad={(e) => setRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
-						className='max-h-full max-w-full rounded-lg object-contain transition-transform duration-700 group-hover:scale-[1.04]'
+						className='h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]'
 					/>
 				</button>
 			</Reveal>

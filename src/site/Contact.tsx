@@ -3,7 +3,15 @@ import { useContext, useEffect, useRef, useState, type FormEvent } from "react";
 import { IgniteTheme, PARTICLES } from "./Layout";
 import { TURNSTILE_SITE_KEY, Turnstile } from "./Turnstile";
 import { email, useContent } from "./data";
-import { Magnetic, ParticleLogo, useLocalTime } from "./shared";
+import type { LogoPlacement } from "./shared";
+
+/** Logo spot inside the full-section canvas: top-right mark, behind the headline. */
+const placeLogo: LogoPlacement = (w, h) => {
+	if (w < 768) return { cx: w * 0.77, cy: 80 + w * 0.21, size: w * 0.33 };
+	const vh = window.innerHeight;
+	return { cx: w * 1.1 - vh * 0.4, cy: Math.min(h * 0.1, 120) + vh * 0.4, size: vh * 0.62 };
+};
+import { EASE_OUT, Magnetic, ParticleLogo, SplitText, useLocalTime } from "./shared";
 
 /** A letter that gets shoved away from the cursor and springs back. */
 const RepelChar = ({ ch }: { ch: string }) => {
@@ -64,6 +72,8 @@ const IgniteContact = () => {
 	const [copied, setCopied] = useState(false);
 	const palette = PARTICLES[useContext(IgniteTheme)];
 	// denser sampling on the small phone-sized mark so the logo still reads
+	const [formHeight, setFormHeight] = useState<number>();
+	const formRef = useRef<HTMLFormElement>(null);
 	const [particleGap] = useState(() => (window.matchMedia("(max-width: 767px)").matches ? 3 : 5));
 	const [token, setToken] = useState("");
 	const [resetCaptcha, setResetCaptcha] = useState(0);
@@ -73,6 +83,7 @@ const IgniteContact = () => {
 	const submit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const form = e.currentTarget;
+		setFormHeight(form.offsetHeight); // hold the space while the form swaps for the thank-you
 		const f = Object.fromEntries(new FormData(form));
 		setStatus("sending");
 		try {
@@ -102,9 +113,10 @@ const IgniteContact = () => {
 
 	return (
 		<section className='relative min-h-screen overflow-hidden px-4 pb-24 pt-32 md:px-8'>
-			{/* phones: a small mark tucked top-right behind the headline, clear of the form */}
-			<div className='pointer-events-none absolute right-2 top-20 h-[42vw] w-[42vw] opacity-70 md:-right-[10%] md:top-[10%] md:h-[80vh] md:w-[80vh] md:opacity-100'>
-				<ParticleLogo flyKey={burst} gap={particleGap} interactive={false} colors={palette.colors} hexColor={palette.hex} dot={palette.dot} />
+			{/* canvas spans the whole section so the "sent" flight can swoop through the form;
+			    the logo itself stays a mark in the top-right (small on phones, clear of the form) */}
+			<div className='pointer-events-none absolute inset-0 opacity-80 md:opacity-100'>
+				<ParticleLogo flyKey={burst} gap={particleGap} interactive={false} colors={palette.colors} hexColor={palette.hex} dot={palette.dot} place={placeLogo} />
 			</div>
 
 			<h1 className='font-unbounded relative select-none text-[18vw] font-black uppercase leading-[0.85] md:text-[13vw]'>
@@ -120,7 +132,28 @@ const IgniteContact = () => {
 			</h1>
 
 			<div className='relative mt-16 grid gap-16 md:grid-cols-12'>
-				<form onSubmit={submit} className='space-y-10 md:col-span-7'>
+				<div className='md:col-span-7' style={{ minHeight: formHeight }}>
+				<AnimatePresence mode='wait'>
+				{status === "sent" ? (
+					<motion.div key='thanks' aria-live='polite' initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: EASE_OUT }}>
+						<h2 className='font-unbounded text-6xl font-black uppercase leading-[0.9] text-[#dc5c48] md:text-8xl'>
+							<SplitText text={ui.thanks} delay={0.4} />
+						</h2>
+						<p className='mt-8 max-w-xl text-xl text-ig-fg/80 md:text-2xl'>{ui.sentNote}</p>
+						<button onClick={() => setStatus("idle")} className='mt-10 rounded-full border border-ig-fg/20 px-6 py-3 font-mono text-xs uppercase tracking-[0.18em] transition-colors hover:border-[#dc5c48] hover:text-[#dc5c48]'>
+							{ui.sendAnother}
+						</button>
+					</motion.div>
+				) : (
+				<motion.form
+					key='form'
+					ref={formRef}
+					onSubmit={submit}
+					className='space-y-10'
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					// the flock passes behind the form, then it dissolves into the thank-you
+					exit={{ opacity: 0, y: 30, filter: "blur(10px)", transition: { delay: 0.55, duration: 0.5 } }}>
 					{/* honeypot: hidden from people, irresistible to bots */}
 					<input name='website' tabIndex={-1} autoComplete='off' aria-hidden className='absolute left-[-9999px] h-px w-px opacity-0' />
 					<div>
@@ -158,14 +191,16 @@ const IgniteContact = () => {
 						</button>
 					</Magnetic>
 					<div aria-live='polite' className='min-h-[1.5em]'>
-						{status === "sent" && <p className='text-lg text-ig-ok'>{ui.sentNote}</p>}
 						{status === "error" && (
 							<a href={`mailto:${email()}`} className='text-lg text-[#dc5c48] underline underline-offset-4'>
 								{ui.error}
 							</a>
 						)}
 					</div>
-				</form>
+				</motion.form>
+				)}
+				</AnimatePresence>
+				</div>
 
 				<aside className='space-y-10 md:col-span-4 md:col-start-9'>
 					<div>
