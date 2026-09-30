@@ -91,7 +91,12 @@
 		},
 		"moreLink": "En savoir plus →",
 		"thanks": "Merci !",
-		"sendAnother": "Envoyer un autre message"
+		"sendAnother": "Envoyer un autre message",
+		"errName": "Dites-moi qui vous êtes.",
+		"errEmail": "Cet email ne semble pas valide.",
+		"errMessage": "Ajoutez quelques mots sur votre besoin.",
+		"errCaptcha": "La vérification anti-spam n’est pas passée — réessayez dans un instant.",
+		"errInvalid": "Un champ semble incorrect — vérifiez le formulaire."
 	},
 	"stats": [
 		"ans à construire pour le web",

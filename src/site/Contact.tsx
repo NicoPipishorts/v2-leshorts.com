@@ -1,17 +1,19 @@
-import { AnimatePresence, motion, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useContext, useEffect, useRef, useState, type FormEvent } from "react";
 import { IgniteTheme, PARTICLES } from "./Layout";
 import { TURNSTILE_SITE_KEY, Turnstile } from "./Turnstile";
 import { email, useContent } from "./data";
-import type { LogoPlacement } from "./shared";
+import { EASE_OUT, Magnetic, ParticleLogo, SplitText, useLocalTime, type LogoPlacement } from "./shared";
 
-/** Logo spot inside the full-section canvas: top-right mark, behind the headline. */
+/** Logo spot in the fixed, screen-sized canvas: a top-right mark that stays put while the page scrolls. */
 const placeLogo: LogoPlacement = (w, h) => {
 	if (w < 768) return { cx: w * 0.77, cy: 80 + w * 0.21, size: w * 0.33 };
-	const vh = window.innerHeight;
-	return { cx: w * 1.1 - vh * 0.4, cy: Math.min(h * 0.1, 120) + vh * 0.4, size: vh * 0.62 };
+	const size = Math.min(h * 0.5, w * 0.36);
+	return { cx: w - size * 0.55 - w * 0.03, cy: 90 + size * 0.55, size };
 };
-import { EASE_OUT, Magnetic, ParticleLogo, SplitText, useLocalTime } from "./shared";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+type Errors = Partial<Record<"name" | "email" | "message", string>>;
 
 /** A letter that gets shoved away from the cursor and springs back. */
 const RepelChar = ({ ch }: { ch: string }) => {
@@ -41,22 +43,54 @@ const RepelChar = ({ ch }: { ch: string }) => {
 };
 
 
-const Field = ({ label, name, type = "text", area = false }: { label: string; name: string; type?: string; area?: boolean }) => {
+const Field = ({
+	label,
+	name,
+	type = "text",
+	area = false,
+	error,
+	onEdit,
+}: {
+	label: string;
+	name: string;
+	type?: string;
+	area?: boolean;
+	error?: string;
+	onEdit: () => void;
+}) => {
 	const Tag = area ? "textarea" : "input";
 	return (
 		<label className='group relative block'>
 			<Tag
 				name={name}
 				type={type}
-				required
 				placeholder=' '
 				rows={area ? 4 : undefined}
-				className='peer w-full resize-none border-b border-ig-fg/20 bg-transparent pb-3 pt-7 text-xl text-ig-fg outline-none md:text-2xl'
+				onInput={onEdit}
+				aria-invalid={!!error}
+				aria-describedby={error ? `${name}-error` : undefined}
+				className={`peer w-full resize-none border-b bg-transparent pb-3 pt-7 text-xl text-ig-fg outline-none transition-colors md:text-2xl ${
+					error ? "border-[#dc5c48]" : "border-ig-fg/20"
+				}`}
 			/>
 			<span className='pointer-events-none absolute left-0 top-7 font-mono text-sm uppercase tracking-[0.16em] text-ig-fg/40 transition-all duration-300 peer-focus:top-0 peer-focus:text-[11px] peer-focus:text-[#dc5c48] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[11px]'>
 				{label}
 			</span>
 			<span className='absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#dc5c48] transition-transform duration-500 peer-focus:scale-x-100' />
+			<AnimatePresence>
+				{error && (
+					<motion.span
+						id={`${name}-error`}
+						role='alert'
+						className='mt-2 flex items-center gap-2 overflow-hidden text-sm text-[#dc5c48]'
+						initial={{ opacity: 0, height: 0 }}
+						animate={{ opacity: 1, height: "auto" }}
+						exit={{ opacity: 0, height: 0 }}>
+						<span className='flex h-4 w-4 items-center justify-center rounded-full bg-[#dc5c48] text-[10px] font-bold text-[#0b0c0f]'>!</span>
+						{error}
+					</motion.span>
+				)}
+			</AnimatePresence>
 		</label>
 	);
 };
@@ -76,6 +110,13 @@ const IgniteContact = () => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const [particleGap] = useState(() => (window.matchMedia("(max-width: 767px)").matches ? 3 : 5));
 	const [token, setToken] = useState("");
+	const [errors, setErrors] = useState<Errors>({});
+	const [serverError, setServerError] = useState<"captcha" | "invalid" | "other" | null>(null);
+	const clearError = (k: keyof Errors) => () => setErrors((e) => (e[k] ? { ...e, [k]: undefined } : e));
+	// the heading shrinks as you scroll so the send button comes into view sooner
+	const [desktop] = useState(() => window.matchMedia("(min-width: 768px)").matches);
+	const { scrollY } = useScroll();
+	const headingSize = useTransform(scrollY, [0, 320], desktop ? ["13vw", "7vw"] : ["18vw", "11vw"]);
 	const [resetCaptcha, setResetCaptcha] = useState(0);
 	// Without a site key (unconfigured prod) the server skips the check too, so don't block sending.
 	const waitingForCaptcha = !!TURNSTILE_SITE_KEY && !token;
@@ -83,8 +124,22 @@ const IgniteContact = () => {
 	const submit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const form = e.currentTarget;
+		const f = Object.fromEntries(new FormData(form)) as Record<string, string>;
+		// Locally the dev server fakes the send, so skip validation to try the animation with empty fields.
+		if (!import.meta.env.DEV) {
+			const found: Errors = {};
+			if (!f.name?.trim()) found.name = ui.errName;
+			if (!EMAIL_RE.test(f.email?.trim() ?? "")) found.email = ui.errEmail;
+			if (!f.message?.trim()) found.message = ui.errMessage;
+			setErrors(found);
+			const first = (["name", "email", "message"] as const).find((k) => found[k]);
+			if (first) {
+				form.querySelector<HTMLElement>(`[name=${first}]`)?.focus();
+				return;
+			}
+		}
+		setServerError(null);
 		setFormHeight(form.offsetHeight); // hold the space while the form swaps for the thank-you
-		const f = Object.fromEntries(new FormData(form));
 		setStatus("sending");
 		try {
 			const res = await fetch("/api/contact", {
@@ -92,11 +147,16 @@ const IgniteContact = () => {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ ...f, topic: ui.topics[topic], lang, token }),
 			});
-			if (!res.ok) throw new Error(String(res.status));
+			if (!res.ok) {
+				setServerError(res.status === 403 ? "captcha" : res.status === 400 ? "invalid" : "other");
+				setStatus("error");
+				return;
+			}
 			form.reset();
 			setBurst((n) => n + 1);
 			setStatus("sent");
 		} catch {
+			setServerError("other");
 			setStatus("error");
 		} finally {
 			setResetCaptcha((n) => n + 1); // tokens are single-use
@@ -113,13 +173,12 @@ const IgniteContact = () => {
 
 	return (
 		<section className='relative min-h-screen overflow-hidden px-4 pb-24 pt-32 md:px-8'>
-			{/* canvas spans the whole section so the "sent" flight can swoop through the form;
-			    the logo itself stays a mark in the top-right (small on phones, clear of the form) */}
-			<div className='pointer-events-none absolute inset-0 opacity-80 md:opacity-100'>
+			{/* fixed to the screen: the logo stays put while scrolling and the "sent" flight always plays in view */}
+			<div className='pointer-events-none fixed inset-0 opacity-80 md:opacity-100'>
 				<ParticleLogo flyKey={burst} gap={particleGap} interactive={false} colors={palette.colors} hexColor={palette.hex} dot={palette.dot} place={placeLogo} />
 			</div>
 
-			<h1 className='font-unbounded relative select-none text-[18vw] font-black uppercase leading-[0.85] md:text-[13vw]'>
+			<motion.h1 style={{ fontSize: headingSize }} className='font-unbounded relative select-none font-black uppercase leading-[0.85]'>
 				{[...ui.contactLine1].map((c, i) => (
 					<RepelChar key={i} ch={c} />
 				))}
@@ -129,7 +188,7 @@ const IgniteContact = () => {
 						<RepelChar key={i} ch={c} />
 					))}
 				</span>
-			</h1>
+			</motion.h1>
 
 			<div className='relative mt-16 grid gap-16 md:grid-cols-12'>
 				<div className='md:col-span-7' style={{ minHeight: formHeight }}>
@@ -149,6 +208,7 @@ const IgniteContact = () => {
 					key='form'
 					ref={formRef}
 					onSubmit={submit}
+					noValidate
 					className='space-y-10'
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
@@ -173,10 +233,10 @@ const IgniteContact = () => {
 						</div>
 					</div>
 					<div className='grid gap-10 md:grid-cols-2'>
-						<Field label={ui.yourName} name='name' />
-						<Field label={ui.yourEmail} name='email' type='email' />
+						<Field label={ui.yourName} name='name' error={errors.name} onEdit={clearError("name")} />
+						<Field label={ui.yourEmail} name='email' type='email' error={errors.email} onEdit={clearError("email")} />
 					</div>
-					<Field label={ui.tellMe} name='message' area />
+					<Field label={ui.tellMe} name='message' area error={errors.message} onEdit={clearError("message")} />
 					<Turnstile onToken={setToken} resetKey={resetCaptcha} lang={lang} />
 					<Magnetic>
 						<button
@@ -191,11 +251,24 @@ const IgniteContact = () => {
 						</button>
 					</Magnetic>
 					<div aria-live='polite' className='min-h-[1.5em]'>
-						{status === "error" && (
-							<a href={`mailto:${email()}`} className='text-lg text-[#dc5c48] underline underline-offset-4'>
-								{ui.error}
-							</a>
-						)}
+						<AnimatePresence>
+							{status === "error" && serverError && (
+								<motion.div
+									className='flex items-start gap-3 rounded-2xl border border-[#dc5c48]/40 bg-[#dc5c48]/10 p-4 text-ig-fg'
+									initial={{ opacity: 0, y: 10 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0 }}>
+									<span className='mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#dc5c48] text-xs font-bold text-[#0b0c0f]'>!</span>
+									{serverError === "other" ? (
+										<a href={`mailto:${email()}`} className='underline decoration-[#dc5c48] underline-offset-4'>
+											{ui.error}
+										</a>
+									) : (
+										<p>{serverError === "captcha" ? ui.errCaptcha : ui.errInvalid}</p>
+									)}
+								</motion.div>
+							)}
+						</AnimatePresence>
 					</div>
 				</motion.form>
 				)}
