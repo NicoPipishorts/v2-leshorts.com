@@ -208,11 +208,11 @@ const PLANE_PATH = "M14 118 L204 26 L132 196 L100 136 Z";
 const PLANE_CREASE = "M204 26 L100 136 L114 180";
 const PLANE_ANGLE = Math.atan2(26 - 118, 204 - 14); // direction the drawn nose points
 // "Message sent" flight: the dots peel off the logo and flock into a paper plane that is already flying —
-// up-left and away from us, one long descent, then from the bottom of the swoosh it accelerates out the
-// left edge, growing to about a third of the screen as it comes at us.
+// rising up-left and away from us, a quick turn at the apex, then a dive that accelerates hard out of the
+// bottom of the screen, growing to about half the screen as it comes at us.
 const STAGGER_MS = 400;
 const PEEL_MS = 700;
-const FLY_MS = 2900;
+const FLY_MS = 2600;
 const RETURN_AT = FLY_MS + 150;
 const smooth = (t: number) => {
 	const c = Math.min(1, Math.max(0, t));
@@ -276,17 +276,17 @@ export const ParticleLogo = ({
 		const buildTrack = () => {
 			const pw = Math.min(270, Math.max(100, 0.28 * Math.min(w, h)));
 			const exitS = (w * 0.5) / pw; // about half the screen wide as it leaves
-			// [x, y, size] — up-left to the apex, one long descent, a gentle bottom, out the left edge almost flat
+			// [x, y, size] — rise up-left, a short quick turn at the apex, then one dive down and out the bottom
 			const wp = [
 				[home.cx / w, home.cy / h, 1.25],
-				[0.7, 0.2, 0.62],
-				[0.52, 0.4, 0.8],
-				[0.33, 0.61, 1.05],
-				[0.2, 0.665, 1.4], // bottom of the swoosh
-				[0.06, 0.63, exitS * 0.92],
-				[-0.22, 0.5, exitS * 1.22],
+				[0.74, 0.17, 0.8],
+				[0.675, 0.11, 0.66], // apex: a short, quick flip from climbing to diving
+				[0.635, 0.2, 0.78],
+				[0.46, 0.6, 1.25],
+				[0.32, 0.98, exitS * 0.8],
+				[0.2, 1.4, exitS * 1.25],
 			];
-			const APEX = 1;
+			const APEX = 2; // acceleration starts here, so it builds as the plane flips downward
 			const n = wp.length - 1;
 			const N = 1200; // fine sampling so the heading never steps
 			const pts: number[][] = [];
@@ -303,12 +303,12 @@ export const ParticleLogo = ({
 			const acc = [0];
 			for (let j = 1; j <= N; j++) acc.push(acc[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
 			const total = acc[N] || 1;
-			// speed profile along the path: slow while folding, then one continuous acceleration that
-			// starts as it drops from the apex and keeps building until it leaves the screen
+			// speed profile along the path: calm while folding and climbing; from the apex a steep
+			// acceleration (~5x by mid-dive, much more at the exit) all the way out of the screen
 			const uApex = acc[Math.round((APEX / n) * N)] / total;
 			const speed = (u: number) => {
-				const drop = Math.min(1, Math.max(0, (u - uApex) / (1 - uApex)));
-				return (0.22 + 0.78 * smooth(u / 0.16)) * (1 + 7 * drop ** 1.5);
+				const dive = Math.min(1, Math.max(0, (u - uApex) / (1 - uApex)));
+				return (0.25 + 0.75 * smooth(u / 0.14)) * (1 + 30 * dive ** 1.7);
 			};
 			const time = [0];
 			for (let j = 1; j <= N; j++) time.push(time[j - 1] + (acc[j] - acc[j - 1]) / speed((acc[j] + acc[j - 1]) / 2 / total));
