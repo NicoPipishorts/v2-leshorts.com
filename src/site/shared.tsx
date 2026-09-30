@@ -208,10 +208,10 @@ const PLANE_PATH = "M14 118 L204 26 L132 196 L100 136 Z";
 const PLANE_CREASE = "M204 26 L100 136 L114 180";
 const PLANE_ANGLE = Math.atan2(26 - 118, 204 - 14); // direction the drawn nose points
 // "Message sent" flight: the dots peel off the logo and flock into a paper plane that is already flying —
-// away from us and up-left, round a loop, then back towards us and out bottom-left, growing as it comes.
+// up-left and away from us, then a long arc down and out the left edge, growing and accelerating as it comes.
 const STAGGER_MS = 400;
 const PEEL_MS = 700;
-const FLY_MS = 3800;
+const FLY_MS = 3400;
 const RETURN_AT = FLY_MS + 150;
 const smooth = (t: number) => {
 	const c = Math.min(1, Math.max(0, t));
@@ -269,6 +269,45 @@ export const ParticleLogo = ({
 		// soft spring for the fly-in and after bursts, stiff otherwise so the lens tracks the cursor
 		let softUntil = performance.now() + (reduce ? 0 : 1800);
 		let flightStart = 0;
+		// flight path sampled by arc length: points (x, y, size) and cumulative distance
+		let track = { pts: [] as number[][], acc: [] as number[], total: 1 };
+		const WAYPOINTS = [
+			[0.74, 0.16, 0.75],
+			[0.63, 0.12, 0.55],
+			[0.52, 0.2, 0.55],
+			[0.455, 0.44, 0.7],
+			[0.375, 0.68, 0.95],
+			[0.26, 0.735, 1.3],
+			[0.125, 0.63, 1.9],
+			[0, 0.43, 2.8],
+			[-0.15, 0.32, 3.6],
+		];
+		const buildTrack = () => {
+			const wp = [[home.cx / w, home.cy / h, 1.25], ...WAYPOINTS];
+			const n = wp.length - 1;
+			const pts: number[][] = [];
+			for (let j = 0; j <= 400; j++) {
+				// uniform Catmull-Rom through the waypoints (C1-smooth: no kinks)
+				const t = j / 400;
+				const i = Math.min(n - 1, Math.floor(t * n));
+				const u = t * n - i;
+				const [p0, p1, p2, p3] = [wp[Math.max(0, i - 1)], wp[i], wp[i + 1], wp[Math.min(n, i + 2)]];
+				const cr = (k: number) =>
+					0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * u + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * u * u + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * u * u * u);
+				pts.push([cr(0) * w, cr(1) * h, cr(2)]);
+			}
+			const acc = [0];
+			for (let j = 1; j < pts.length; j++) acc.push(acc[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
+			track = { pts, acc, total: acc[acc.length - 1] || 1 };
+		};
+		const trackAt = (dist: number) => {
+			const { pts, acc } = track;
+			let j = 1;
+			while (j < acc.length - 1 && acc[j] < dist) j++;
+			const k = (dist - acc[j - 1]) / (acc[j] - acc[j - 1] || 1);
+			const [a, b] = [pts[j - 1], pts[j]];
+			return { x: a[0] + (b[0] - a[0]) * k, y: a[1] + (b[1] - a[1]) * k, s: a[2] + (b[2] - a[2]) * k };
+		};
 
 		const build = () => {
 			// layout size, not getBoundingClientRect: the hero scales this canvas on scroll
@@ -302,6 +341,7 @@ export const ParticleLogo = ({
 			const planePts: [number, number][] = [];
 			for (let y = 0; y < off.height; y += gap)
 				for (let x = 0; x < off.width; x += gap) if (pdata[(y * off.width + x) * 4 + 3] > 128) planePts.push([x, y]);
+			buildTrack();
 			const ox = home.cx - size / 2;
 			const oy = home.cy - size / 2;
 			const old = parts;
@@ -350,52 +390,32 @@ export const ParticleLogo = ({
 					p.vx = p.vy = 0;
 				}
 			}
-			// --- flight path, drawn on screen: a smooth loop through waypoints (fractions of the screen) with
-			// its own smooth size curve — away & up-left, round the top, curling down, a swing back, then a
-			// big swoop towards the viewer and out bottom-left.
+			// --- flight path, drawn on screen (fractions of the screen + a size per point): up and left from
+			// the logo while shrinking away, a long arc down through the page, a low swing, then out the left
+			// edge growing as it comes at us. Sampled by distance travelled, so timing alone sets the pace.
 			const pw1 = Math.min(230, Math.max(90, 0.24 * Math.min(w, h))); // plane width at size 1
 			const unit = pw1 / (home.size || 1); // plane-sample px → screen px at size 1
-			const WP = [
-				[home.cx / w, home.cy / h, 1.25],
-				[0.66, 0.2, 0.62],
-				[0.48, 0.12, 0.42],
-				[0.34, 0.26, 0.45],
-				[0.44, 0.48, 0.7],
-				[0.3, 0.7, 1.35],
-				[-0.25, 1.2, 3.8],
-			];
-			const at = (t: number) => {
-				// uniform Catmull-Rom through the waypoints (C1-smooth: no kinks, no jumps)
-				const n = WP.length - 1;
-				const i = Math.min(n - 1, Math.floor(t * n));
-				const u = t * n - i;
-				const p0 = WP[Math.max(0, i - 1)];
-				const p1 = WP[i];
-				const p2 = WP[i + 1];
-				const p3 = WP[Math.min(n, i + 2)];
-				const cr = (k: number) =>
-					0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * u + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * u * u + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * u * u * u);
-				return { x: cr(0) * w, y: cr(1) * h, s: cr(2) };
-			};
 			let P: { x: number; y: number; sc: number; head: number; fs: number; bank: number; a: number } | null = null;
 			if (fl >= 0 && fl < FLY_MS) {
 				const tau = fl / FLY_MS;
-				const t = tau ** 1.3; // unhurried start (the fold), quickening into the swoop
-				const q = at(t);
-				const q2 = at(Math.min(1, t + 0.004));
-				const q0 = at(Math.max(0, t - 0.004));
-				const [dx, dy] = [q2.x - q.x, q2.y - q.y];
+				// ease in hard: slow fold and turn, then accelerating all the way to the edge
+				const d = tau ** 2.3 * track.total;
+				const q = trackAt(d);
+				const q2 = trackAt(Math.min(track.total, d + 6));
+				const q0 = trackAt(Math.max(0, d - 6));
+				const [dx, dy] = [q2.x - q0.x, q2.y - q0.y];
 				const head = Math.atan2(dy, dx);
-				const turn = Math.abs(Math.atan2(Math.sin(head - Math.atan2(q.y - q0.y, q.x - q0.x)), Math.cos(head - Math.atan2(q.y - q0.y, q.x - q0.x))));
-				const depth = ((q2.s - q.s) / q.s) * 1.5 * w; // growing = coming at us, shrinking = going away
+				const dTurn = Math.atan2(q2.y - q.y, q2.x - q.x) - Math.atan2(q.y - q0.y, q.x - q0.x);
+				const turn = Math.abs(Math.atan2(Math.sin(dTurn), Math.cos(dTurn))); // wrap-safe (heading left sits at ±π)
+				const depth = ((q2.s - q0.s) / q.s) * 1.5 * w; // growing = coming at us, shrinking = going away
 				P = {
 					x: q.x,
 					y: q.y,
 					sc: unit * q.s,
 					head,
 					fs: Math.max(0.45, Math.hypot(dx, dy) / (Math.hypot(dx, dy, depth) || 1)), // end-on when flying at/away from us
-					bank: 1 - Math.min(0.4, turn * 6), // tighter turn → wings tilt more
-					a: 1 - smooth((tau - 0.94) / 0.06),
+					bank: 1 - Math.min(0.4, turn * 5), // tighter turn → wings tilt more
+					a: 1 - smooth((tau - 0.95) / 0.05),
 				};
 			}
 
