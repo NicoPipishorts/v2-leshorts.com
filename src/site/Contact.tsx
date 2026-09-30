@@ -63,6 +63,8 @@ const IgniteContact = () => {
 	const [status, setStatus] = useState<Status>("idle");
 	const [copied, setCopied] = useState(false);
 	const palette = PARTICLES[useContext(IgniteTheme)];
+	// denser sampling on the small phone-sized mark so the logo still reads
+	const [particleGap] = useState(() => (window.matchMedia("(max-width: 767px)").matches ? 3 : 5));
 	const [token, setToken] = useState("");
 	const [resetCaptcha, setResetCaptcha] = useState(0);
 	// Without a site key (unconfigured prod) the server skips the check too, so don't block sending.
@@ -100,8 +102,9 @@ const IgniteContact = () => {
 
 	return (
 		<section className='relative min-h-screen overflow-hidden px-4 pb-24 pt-32 md:px-8'>
-			<div className='pointer-events-none absolute -right-[10%] top-[10%] h-[80vh] w-[80vh] opacity-60 md:opacity-100'>
-				<ParticleLogo burstKey={burst} gap={5} interactive={false} colors={palette.colors} hexColor={palette.hex} dot={palette.dot} />
+			{/* phones: a small mark tucked top-right behind the headline, clear of the form */}
+			<div className='pointer-events-none absolute right-2 top-20 h-[42vw] w-[42vw] opacity-70 md:-right-[10%] md:top-[10%] md:h-[80vh] md:w-[80vh] md:opacity-100'>
+				<ParticleLogo flyKey={burst} gap={particleGap} interactive={false} colors={palette.colors} hexColor={palette.hex} dot={palette.dot} />
 			</div>
 
 			<h1 className='font-unbounded relative select-none text-[18vw] font-black uppercase leading-[0.85] md:text-[13vw]'>
@@ -122,14 +125,15 @@ const IgniteContact = () => {
 					<input name='website' tabIndex={-1} autoComplete='off' aria-hidden className='absolute left-[-9999px] h-px w-px opacity-0' />
 					<div>
 						<p className='mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-ig-fg/40'>{ui.reachingOut}</p>
-						<div className='flex flex-wrap gap-3'>
+						{/* one row on phones (segmented), free-flowing chips on desktop */}
+						<div className='grid grid-cols-3 gap-2 md:flex md:flex-wrap md:gap-3'>
 							{ui.topics.map((t, i) => (
 								<button
 									key={t}
 									type='button'
 									onClick={() => setTopic(i)}
-									className={`relative rounded-full border px-5 py-2 transition-colors ${topic === i ? "border-[#dc5c48] text-[#0b0c0f]" : "border-ig-fg/20 text-ig-fg/80 hover:border-ig-fg/60"}`}>
-									{topic === i && <motion.span layoutId='topic' className='absolute inset-0 -z-0 rounded-full bg-[#dc5c48]' transition={{ type: "spring", stiffness: 400, damping: 30 }} />}
+									className={`relative rounded-2xl border px-2 py-2 text-[13px] leading-tight transition-colors md:rounded-full md:px-5 md:text-base ${topic === i ? "border-[#dc5c48] text-[#0b0c0f]" : "border-ig-fg/20 text-ig-fg/80 hover:border-ig-fg/60"}`}>
+									{topic === i && <motion.span layoutId='topic' className='absolute inset-0 -z-0 rounded-[inherit] bg-[#dc5c48]' transition={{ type: "spring", stiffness: 400, damping: 30 }} />}
 									<span className='relative'>{t}</span>
 								</button>
 							))}

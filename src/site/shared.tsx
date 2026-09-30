@@ -182,12 +182,21 @@ export const Marquee = ({
 
 const LENS = 110;
 
-type Particle = { x: number; y: number; vx: number; vy: number; tx: number; ty: number; c: string; s: number };
+type Particle = { x: number; y: number; vx: number; vy: number; tx: number; ty: number; px: number; py: number; c: string; s: number };
+
+// Paper plane drawn in the logo's 218×218 box, with a folded crease cut out of it.
+const PLANE_PATH = "M14 118 L204 26 L132 196 L100 136 Z";
+const PLANE_CREASE = "M204 26 L100 136 L114 180";
+// "Message sent" flight timeline (ms): fold into a plane → fly off → reappear → glide back → refold the logo.
+const FLIGHT = { fold: 750, out: 1650, gone: 1850, back: 2850, land: 3700 };
+const easeIn = (t: number) => t * t * t;
+const easeOut = (t: number) => 1 - (1 - t) ** 3;
 
 /**
  * The hexagon logo rebuilt from a few thousand particles: they fly in from
  * everywhere, the cursor pushes them around, a click detonates them.
- * `burstKey` changes → explode from the centre (used by the contact form).
+ * `burstKey` changes → explode from the centre.
+ * `flyKey` changes → fold into a paper plane, fly away and come back (contact form "sent").
  */
 export const ParticleLogo = ({
 	className = "",
@@ -196,6 +205,7 @@ export const ParticleLogo = ({
 	scale = 0.78,
 	gap = 4,
 	burstKey = 0,
+	flyKey = 0,
 	interactive = true,
 	dot = 1,
 }: {
@@ -205,12 +215,13 @@ export const ParticleLogo = ({
 	scale?: number;
 	gap?: number;
 	burstKey?: number;
+	flyKey?: number;
 	interactive?: boolean;
 	/** dot size multiplier (light backgrounds need chunkier dots to read) */
 	dot?: number;
 }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const api = useRef<{ burst: (x: number, y: number, power: number) => void } | null>(null);
+	const api = useRef<{ burst: (x: number, y: number, power: number) => void; fly: () => void } | null>(null);
 	const reduce = useReducedMotion();
 
 	useEffect(() => {
@@ -224,6 +235,7 @@ export const ParticleLogo = ({
 		let raf = 0;
 		// soft spring for the fly-in and after bursts, stiff otherwise so the lens tracks the cursor
 		let softUntil = performance.now() + (reduce ? 0 : 1800);
+		let flightStart = 0;
 
 		const build = () => {
 			// layout size, not getBoundingClientRect: the hero scales this canvas on scroll
@@ -244,6 +256,18 @@ export const ParticleLogo = ({
 			o.lineWidth = 7;
 			o.stroke(new Path2D(LOGO_HEX_PATH));
 			const data = o.getImageData(0, 0, off.width, off.height).data;
+			// same box, plane shape
+			o.clearRect(0, 0, 218, 218);
+			o.fillStyle = "#000";
+			o.fill(new Path2D(PLANE_PATH));
+			o.globalCompositeOperation = "destination-out";
+			o.lineWidth = 7;
+			o.stroke(new Path2D(PLANE_CREASE));
+			o.globalCompositeOperation = "source-over";
+			const pdata = o.getImageData(0, 0, off.width, off.height).data;
+			const planePts: [number, number][] = [];
+			for (let y = 0; y < off.height; y += gap)
+				for (let x = 0; x < off.width; x += gap) if (pdata[(y * off.width + x) * 4 + 3] > 128) planePts.push([x, y]);
 			const ox = (w - size) / 2;
 			const oy = (h - size) / 2;
 			const old = parts;
@@ -263,20 +287,72 @@ export const ParticleLogo = ({
 						vy: 0,
 						tx: ox + x,
 						ty: oy + y,
+						px: 0,
+						py: 0,
 						c: isHex ? hexColor : colors[(Math.random() * colors.length) | 0],
 						s: (isHex ? 1.6 : 1.4 + Math.random() * 1.2) * dot,
 					});
 				}
 			}
+			// spread the logo's particles over the plane (more particles than plane points → a little jitter)
+			parts.forEach((p, i) => {
+				const [x, y] = planePts[i % planePts.length];
+				p.px = ox + x + (Math.random() - 0.5) * gap;
+				p.py = oy + y + (Math.random() - 0.5) * gap;
+			});
 		};
 
 		const tick = () => {
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 			ctx.clearRect(0, 0, w, h);
-			const soft = performance.now() < softUntil;
-			const k = soft ? 0.014 : 0.11;
-			const damp = soft ? 0.9 : 0.74;
+			const now = performance.now();
+			let fl = flightStart ? now - flightStart : -1;
+			if (fl > FLIGHT.land) {
+				flightStart = 0; // flight over, back to normal logo behaviour
+				fl = -1;
+			}
+			// plane transform for this frame: scale around the centre, offset, fade
+			let plane = false;
+			let teleport = false;
+			let sc = 1;
+			let fx = 0;
+			let fy = 0;
+			let alpha = 1;
+			if (fl >= 0 && fl < FLIGHT.back) {
+				plane = true;
+				if (fl >= FLIGHT.fold && fl < FLIGHT.out) {
+					const t = easeIn((fl - FLIGHT.fold) / (FLIGHT.out - FLIGHT.fold));
+					[fx, fy, sc, alpha] = [w * 0.32 * t, -h * 0.34 * t, 1 - 0.85 * t, 1 - t];
+				} else if (fl >= FLIGHT.out && fl < FLIGHT.gone) {
+					[fx, fy, sc, alpha, teleport] = [-w * 0.34, h * 0.12, 0.15, 0, true];
+				} else if (fl >= FLIGHT.gone) {
+					const t = easeOut((fl - FLIGHT.gone) / (FLIGHT.back - FLIGHT.gone));
+					[fx, fy, sc, alpha] = [-w * 0.34 * (1 - t), h * 0.12 * (1 - t), 0.15 + 0.85 * t, t];
+				}
+			}
+			const morphing = fl >= 0 && (fl < FLIGHT.fold || fl >= FLIGHT.back);
+			const soft = now < softUntil;
+			const k = morphing ? 0.05 : plane ? 0.13 : soft ? 0.014 : 0.11;
+			const damp = morphing ? 0.84 : plane ? 0.7 : soft ? 0.9 : 0.74;
+			const cx = w / 2;
+			const cy = h / 2;
+			ctx.globalAlpha = alpha;
 			for (const p of parts) {
+				if (plane) {
+					const gx = cx + (p.px - cx) * sc + fx;
+					const gy = cy + (p.py - cy) * sc + fy;
+					if (teleport) {
+						[p.x, p.y, p.vx, p.vy] = [gx, gy, 0, 0];
+					} else {
+						p.vx = (p.vx + (gx - p.x) * k) * damp;
+						p.vy = (p.vy + (gy - p.y) * k) * damp;
+						p.x += p.vx;
+						p.y += p.vy;
+					}
+					ctx.fillStyle = p.c;
+					ctx.fillRect(p.x, p.y, p.s, p.s);
+					continue;
+				}
 				// Lens: bend each particle's *home* away from the cursor, so the hole is always centred on it.
 				let gx = p.tx;
 				let gy = p.ty;
@@ -302,6 +378,9 @@ export const ParticleLogo = ({
 		};
 
 		api.current = {
+			fly: () => {
+				if (!reduce) flightStart = performance.now();
+			},
 			burst: (bx, by, power) => {
 				softUntil = performance.now() + 1400;
 				for (const p of parts) {
@@ -347,6 +426,10 @@ export const ParticleLogo = ({
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [colors.join(), hexColor, scale, gap, interactive, reduce, dot]);
+
+	useEffect(() => {
+		if (flyKey) api.current?.fly();
+	}, [flyKey]);
 
 	useEffect(() => {
 		if (!burstKey) return;

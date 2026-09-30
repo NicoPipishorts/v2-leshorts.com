@@ -35,7 +35,7 @@ export const email = () =>
 const statsBase = [
 	{ value: 10, suffix: "+" },
 	{ value: 4000, suffix: "+" },
-	{ value: 9, suffix: "" },
+	{ value: 0, suffix: "" }, // set from the project count below
 	{ value: 2, suffix: "" },
 ];
 
@@ -48,7 +48,7 @@ export const stack = [
 type Base = {
 	slug: string;
 	name: string;
-	kind: "Product" | "Client" | "Tool";
+	kind: "Product" | "Freelance" | "Tool";
 	accent: string;
 	stack: string[];
 	cover?: string;
@@ -81,7 +81,7 @@ const base: Base[] = [
 	{
 		slug: "horizon-planning",
 		name: "Horizon Planning",
-		kind: "Product",
+		kind: "Freelance",
 		accent: "#2f7d8c",
 		stack: ["React 19", "Vite", "Tailwind v4", "TanStack Query", "Express 5", "PostgreSQL 17", "Playwright", "Caddy / OVH"],
 		cover: shot("horizon-week"),
@@ -91,7 +91,7 @@ const base: Base[] = [
 	{
 		slug: "comacademy",
 		name: "Com'Academy",
-		kind: "Client",
+		kind: "Freelance",
 		accent: "#f2b632",
 		stack: ["Expo", "React Native", "Expo Router", "Strapi 5", "PostgreSQL", "React 19", "TanStack Query", "Vercel"],
 		cover: shot("comacademy-app"),
@@ -101,7 +101,7 @@ const base: Base[] = [
 	{
 		slug: "asba",
 		name: "ASBA Drums",
-		kind: "Client",
+		kind: "Freelance",
 		accent: "#d7e83a",
 		stack: ["React", "TypeScript", "TanStack Query", "Tailwind / SASS", "Strapi", "PostgreSQL", "Docker", "Vercel"],
 		cover: shot("asba-home"),
@@ -109,9 +109,28 @@ const base: Base[] = [
 		link: "https://asbadrums.com",
 	},
 	{
+		slug: "maison-du-print",
+		name: "La Maison du Print",
+		kind: "Freelance",
+		accent: "#e0457b",
+		stack: ["Vue 3", "Vue Router", "Vite", "GSAP", "Swiper", "Sanity", "Vercel Functions", "sharp"],
+		cover: shot("print-atelier"),
+		gallery: [shot("print-gallery-1"), shot("print-gallery-2"), shot("print-dtf")],
+		link: "https://lamaisonduprint.fr",
+	},
+	{
+		slug: "np-ebenisterie",
+		name: "NP Ébénisterie",
+		kind: "Freelance",
+		accent: "#c8a24a",
+		stack: ["Angular 20", "TypeScript", "Signals", "Zoneless", "Native CSS", "Vercel"],
+		cover: shot("np-home"),
+		gallery: [shot("np-table"), shot("np-table-detail"), shot("np-process"), shot("np-furniture")],
+	},
+	{
 		slug: "soulbm",
 		name: "Sou des Écoles",
-		kind: "Client",
+		kind: "Freelance",
 		accent: "#c2412d",
 		stack: ["React", "TanStack Router/Query", "Tailwind", "zod", "Strapi 5", "PostgreSQL", "Anthropic API"],
 		cover: shot("soulbm"),
@@ -121,7 +140,7 @@ const base: Base[] = [
 	{
 		slug: "ab2c",
 		name: "AB2C",
-		kind: "Client",
+		kind: "Freelance",
 		accent: "#8a9a5b",
 		stack: ["TanStack Start", "React 19", "Tailwind v4", "Payload 3", "PostgreSQL", "Turborepo", "Coolify"],
 		cover: shot("ab2c-hero"),
@@ -130,7 +149,7 @@ const base: Base[] = [
 	{
 		slug: "fournelles",
 		name: "Domaine des Fournelles",
-		kind: "Client",
+		kind: "Freelance",
 		accent: "#b3263e",
 		stack: ["React", "Vite", "Redux", "Sass", "Supabase", "Vercel Functions", "Resend"],
 		cover: shot("fournelles"),
@@ -167,7 +186,9 @@ const build = (lang: Lang) => {
 		me: { ...meBase, ...d.me, cvUrl: `/api/cv-pdf?lang=${lang}&variant=sfd` },
 		projects,
 		history: d.history.map((h) => ({ ...h, slug: h.slug || undefined })),
-		stats: statsBase.map((s, i) => ({ ...s, label: d.stats[i] })),
+		education: d.education,
+		hobbies: d.hobbies.map((h) => ({ ...h, slug: h.slug || undefined })),
+		stats: statsBase.map((s, i) => ({ ...s, value: i === 2 ? base.length : s.value, label: d.stats[i] })),
 		/** "{n} projects" style interpolation */
 		fmt: (s: string, n: number) => s.replace("{n}", String(n)),
 	};

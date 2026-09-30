@@ -90,6 +90,14 @@ const Cursor = () => {
 
 const IgniteLayout = () => {
 	const { theme, toggle } = useTheme();
+	// Frosted nav once content scrolls under it, so links stay readable over any section.
+	const [scrolled, setScrolled] = useState(false);
+	useEffect(() => {
+		const onScroll = () => setScrolled(window.scrollY > 24);
+		onScroll();
+		window.addEventListener("scroll", onScroll, { passive: true });
+		return () => window.removeEventListener("scroll", onScroll);
+	}, []);
 	usePageBg(PAGE_BG[theme]);
 	const pathname = useRouterState({ select: (s) => s.location.pathname });
 	useDocumentMeta();
@@ -118,7 +126,10 @@ const IgniteLayout = () => {
 				</motion.div>
 			</motion.div>
 
-			<header className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 md:px-8 ${theme === "dark" ? "mix-blend-difference" : ""}`}>
+			<header
+				className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-[background-color,backdrop-filter,border-color] duration-300 md:px-8 ${
+					scrolled ? "border-b border-ig-fg/10 bg-ig-bg/70 backdrop-blur-xl" : "border-b border-transparent"
+				}`}>
 				<Link to='/' className='flex items-center gap-3' aria-label='Home'>
 					<Logo className='h-11 w-11 text-[#dc5c48]' animateOnMount={false} hoverEraseBorder />
 					<span className='hidden font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/70 sm:block'>{me.name}</span>
