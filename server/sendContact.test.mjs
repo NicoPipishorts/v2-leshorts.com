@@ -31,3 +31,25 @@ test("sends through Resend with reply-to and a single-line subject", async () =>
 	globalThis.fetch = async () => new Response("nope", { status: 422 });
 	assert.equal((await sendContact(valid, env)).status, 502);
 });
+
+test("with a Turnstile secret, messages need a token Cloudflare accepts", async () => {
+	const withCaptcha = { ...env, TURNSTILE_SECRET_KEY: "secret" };
+	let captchaOk = false;
+	let resendCalls = 0;
+	globalThis.fetch = async (url, init) => {
+		if (url.includes("siteverify")) {
+			assert.equal(init.body.get("remoteip"), "1.2.3.4");
+			return Response.json({ success: captchaOk });
+		}
+		resendCalls++;
+		return new Response("{}", { status: 200 });
+	};
+
+	assert.equal((await sendContact(valid, withCaptcha, "1.2.3.4")).status, 403); // no token
+	assert.equal((await sendContact({ ...valid, token: "t" }, withCaptcha, "1.2.3.4")).status, 403); // rejected
+	assert.equal(resendCalls, 0);
+
+	captchaOk = true;
+	assert.equal((await sendContact({ ...valid, token: "t" }, withCaptcha, "1.2.3.4")).status, 200);
+	assert.equal(resendCalls, 1);
+});

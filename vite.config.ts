@@ -66,7 +66,9 @@ const contactApiPlugin = (env: Record<string, string>) => ({
       try {
         let raw = ''
         for await (const chunk of req) raw += chunk
-        const { status, body } = await sendContact(JSON.parse(raw || '{}'), env)
+        // Cloudflare's always-pass test secret unless a real one is in .env.local
+        const devEnv = { TURNSTILE_SECRET_KEY: '1x0000000000000000000000000000000AA', ...env }
+        const { status, body } = await sendContact(JSON.parse(raw || '{}'), devEnv, req.socket.remoteAddress)
         res.statusCode = status
         res.end(JSON.stringify(body))
       } catch (error) {

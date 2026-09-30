@@ -1,5 +1,6 @@
 import { AnimatePresence, motion, useSpring } from "framer-motion";
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { TURNSTILE_SITE_KEY, Turnstile } from "../Turnstile";
 import { email, useLab } from "../data";
 import { Magnetic, ParticleLogo, useLocalTime } from "../shared";
 
@@ -60,6 +61,10 @@ const IgniteContact = () => {
 	const [burst, setBurst] = useState(0);
 	const [status, setStatus] = useState<Status>("idle");
 	const [copied, setCopied] = useState(false);
+	const [token, setToken] = useState("");
+	const [resetCaptcha, setResetCaptcha] = useState(0);
+	// Without a site key (unconfigured prod) the server skips the check too, so don't block sending.
+	const waitingForCaptcha = !!TURNSTILE_SITE_KEY && !token;
 
 	const submit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -70,7 +75,7 @@ const IgniteContact = () => {
 			const res = await fetch("/api/contact", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ ...f, topic: ui.topics[topic], lang }),
+				body: JSON.stringify({ ...f, topic: ui.topics[topic], lang, token }),
 			});
 			if (!res.ok) throw new Error(String(res.status));
 			form.reset();
@@ -78,6 +83,8 @@ const IgniteContact = () => {
 			setStatus("sent");
 		} catch {
 			setStatus("error");
+		} finally {
+			setResetCaptcha((n) => n + 1); // tokens are single-use
 		}
 	};
 
@@ -131,10 +138,11 @@ const IgniteContact = () => {
 						<Field label={ui.yourEmail} name='email' type='email' />
 					</div>
 					<Field label={ui.tellMe} name='message' area />
+					<Turnstile onToken={setToken} resetKey={resetCaptcha} lang={lang} />
 					<Magnetic>
 						<button
 							type='submit'
-							disabled={status === "sending"}
+							disabled={status === "sending" || waitingForCaptcha}
 							className='relative flex h-36 w-36 items-center justify-center overflow-hidden rounded-full bg-[#dc5c48] font-mono text-xs uppercase tracking-[0.18em] text-[#0b0c0f] transition-transform hover:scale-110 disabled:animate-pulse'>
 							<AnimatePresence mode='wait'>
 								<motion.span key={label} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -30, opacity: 0 }}>

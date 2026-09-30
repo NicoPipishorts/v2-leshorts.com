@@ -8,7 +8,8 @@ export default async function handler(req, res) {
 	}
 
 	try {
-		const { status, body } = await sendContact(req.body);
+		const ip = String(req.headers["x-forwarded-for"] ?? "").split(",")[0].trim();
+		const { status, body } = await sendContact(req.body, process.env, ip);
 		res.status(status).json(body);
 	} catch (error) {
 		console.error("Contact form failed:", error);
