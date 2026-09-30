@@ -46,7 +46,6 @@ const IgniteProject = () => {
 	}, []);
 	if (!p) return <Navigate to='/' />;
 	const next = nextProject(p.slug, projects);
-	const index = projects.indexOf(p) + 1;
 
 	return (
 		<article>
@@ -57,7 +56,7 @@ const IgniteProject = () => {
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ delay: 0.8 }}>
-					{ui.caseStudy} {String(index).padStart(2, "0")} — {ui.kinds[p.kind]}
+					{ui.caseStudy} — {ui.kinds[p.kind]}
 				</motion.p>
 				<h1 className='font-unbounded mt-6 text-[13vw] font-black uppercase leading-[0.85] md:text-[9vw]'>
 					<SplitText text={p.name} delay={0.7} stagger={0.03} />
@@ -134,11 +133,10 @@ const IgniteProject = () => {
 
 			<section className='px-4 py-32 md:px-8'>
 				<p className='mb-12 font-mono text-xs uppercase tracking-[0.2em] text-[#dc5c48]'>{ui.built}</p>
-				{p.built.map((b, i) => (
+				{p.built.map((b) => (
 					<Reveal key={b.title}>
 						<div className='group grid gap-4 border-t border-ig-fg/10 py-10 transition-colors hover:bg-ig-fg/[0.02] md:grid-cols-12'>
-							<span className='font-mono text-sm text-ig-fg/40 md:col-span-1'>0{i + 1}</span>
-							<h3 className='font-unbounded text-2xl font-black uppercase transition-colors group-hover:text-[#dc5c48] md:col-span-5 md:text-4xl'>{b.title}</h3>
+							<h3 className='font-unbounded text-2xl font-black uppercase transition-colors group-hover:text-[#dc5c48] md:col-span-6 md:text-4xl'>{b.title}</h3>
 							<p className='text-lg text-ig-fg/70 md:col-span-6'>{b.body}</p>
 						</div>
 					</Reveal>

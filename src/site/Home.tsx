@@ -140,7 +140,7 @@ const Statement = () => {
 	);
 };
 
-const WorkCard = ({ p, i, kind }: { p: Project; i: number; kind: string }) => (
+const WorkCard = ({ p, kind }: { p: Project; kind: string }) => (
 	<Link
 		to='/work/$slug'
 		params={{ slug: p.slug }}
@@ -154,7 +154,7 @@ const WorkCard = ({ p, i, kind }: { p: Project; i: number; kind: string }) => (
 		)}
 		<div className='absolute inset-0 bg-gradient-to-t from-ig-bg via-ig-bg/40 to-transparent' />
 		<div className='absolute left-0 top-0 flex w-full justify-between p-6 font-mono text-xs uppercase tracking-[0.18em] text-ig-fg/70'>
-			<span>{String(i + 1).padStart(2, "0")} / {kind}</span>
+			<span>{kind}</span>
 			<span>{p.period}</span>
 		</div>
 		<div className='absolute bottom-0 left-0 w-full p-6 md:p-10'>
@@ -192,7 +192,6 @@ const Work = () => {
 			<h2 className='font-unbounded text-5xl font-black uppercase md:text-8xl'>
 				{ui.selected}<span className='text-[#dc5c48]'>*</span> {ui.work}
 			</h2>
-			<span className='font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/50'>{fmt(ui.projectsCount, projects.length)}</span>
 		</div>
 	);
 
@@ -201,9 +200,9 @@ const Work = () => {
 			<section id='work' className='py-20'>
 				{header}
 				<div className='flex flex-col items-center gap-6'>
-					{featured.map((p, i) => (
+					{featured.map((p) => (
 						<Reveal key={p.slug}>
-							<WorkCard p={p} i={i} kind={ui.kinds[p.kind]} />
+							<WorkCard p={p} kind={ui.kinds[p.kind]} />
 						</Reveal>
 					))}
 				</div>
@@ -215,8 +214,8 @@ const Work = () => {
 			<div className='sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-16'>
 				{header}
 				<motion.div ref={track} style={{ x }} className='flex gap-8 px-8'>
-					{featured.map((p, i) => (
-						<WorkCard key={p.slug} p={p} i={i} kind={ui.kinds[p.kind]} />
+					{featured.map((p) => (
+						<WorkCard key={p.slug} p={p} kind={ui.kinds[p.kind]} />
 					))}
 					<Link
 						to='/about'
