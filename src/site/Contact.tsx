@@ -121,22 +121,30 @@ const IgniteContact = () => {
 	// Without a site key (unconfigured prod) the server skips the check too, so don't block sending.
 	const waitingForCaptcha = !!TURNSTILE_SITE_KEY && !token;
 
+	// Success path shared by real sends and the local test: flock animation + thank-you swap.
+	const celebrate = () => {
+		if (formRef.current) setFormHeight(formRef.current.offsetHeight); // hold the space during the swap
+		formRef.current?.reset();
+		setServerError(null);
+		setBurst((n) => n + 1);
+		setStatus("sent");
+	};
+
 	const submit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const form = e.currentTarget;
 		const f = Object.fromEntries(new FormData(form)) as Record<string, string>;
-		// Locally the dev server fakes the send, so skip validation to try the animation with empty fields.
-		if (!import.meta.env.DEV) {
-			const found: Errors = {};
-			if (!f.name?.trim()) found.name = ui.errName;
-			if (!EMAIL_RE.test(f.email?.trim() ?? "")) found.email = ui.errEmail;
-			if (!f.message?.trim()) found.message = ui.errMessage;
-			setErrors(found);
-			const first = (["name", "email", "message"] as const).find((k) => found[k]);
-			if (first) {
-				form.querySelector<HTMLElement>(`[name=${first}]`)?.focus();
-				return;
-			}
+		// Locally: no validation, no network — just play the animation.
+		if (import.meta.env.DEV) return celebrate();
+		const found: Errors = {};
+		if (!f.name?.trim()) found.name = ui.errName;
+		if (!EMAIL_RE.test(f.email?.trim() ?? "")) found.email = ui.errEmail;
+		if (!f.message?.trim()) found.message = ui.errMessage;
+		setErrors(found);
+		const first = (["name", "email", "message"] as const).find((k) => found[k]);
+		if (first) {
+			form.querySelector<HTMLElement>(`[name=${first}]`)?.focus();
+			return;
 		}
 		setServerError(null);
 		setFormHeight(form.offsetHeight); // hold the space while the form swaps for the thank-you
@@ -152,9 +160,7 @@ const IgniteContact = () => {
 				setStatus("error");
 				return;
 			}
-			form.reset();
-			setBurst((n) => n + 1);
-			setStatus("sent");
+			celebrate();
 		} catch {
 			setServerError("other");
 			setStatus("error");
@@ -173,6 +179,14 @@ const IgniteContact = () => {
 
 	return (
 		<section className='relative min-h-screen overflow-hidden px-4 pb-24 pt-32 md:px-8'>
+			{import.meta.env.DEV && (
+				<button
+					type='button'
+					onClick={() => (status === "sent" ? setStatus("idle") : celebrate())}
+					className='fixed bottom-4 left-4 z-50 rounded-full bg-ig-fg px-4 py-2 font-mono text-xs uppercase tracking-[0.14em] text-ig-bg shadow-lg'>
+					{status === "sent" ? "↺ Reset form (dev)" : "▶ Test animation (dev)"}
+				</button>
+			)}
 			{/* fixed to the screen: the logo stays put while scrolling and the "sent" flight always plays in view */}
 			<div className='pointer-events-none fixed inset-0 opacity-80 md:opacity-100'>
 				<ParticleLogo flyKey={burst} gap={particleGap} interactive={false} colors={palette.colors} hexColor={palette.hex} dot={palette.dot} place={placeLogo} />
