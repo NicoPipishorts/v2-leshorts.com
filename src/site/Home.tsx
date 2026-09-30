@@ -58,12 +58,13 @@ const Hero = () => {
 	const palette = PARTICLES[useContext(IgniteTheme)];
 
 	return (
-		<section ref={ref} className='relative flex h-[100svh] min-h-[640px] items-end overflow-hidden px-4 pb-10 md:px-8 md:pb-14'>
+		<section ref={ref} className='relative flex h-[100svh] min-h-[640px] flex-col justify-end overflow-hidden px-4 pb-10 md:flex-row md:items-end md:justify-start md:px-8 md:pb-14'>
 			<div className='pointer-events-none absolute -left-40 top-1/3 h-[60vmax] w-[60vmax] rounded-full bg-[#dc5c48]/15 blur-[120px]' />
 			<div className='pointer-events-none absolute -right-40 -top-40 h-[50vmax] w-[50vmax] rounded-full bg-[#488b9b]/15 blur-[120px]' />
 
-			<motion.div className='absolute inset-0 md:left-[38%]' style={{ scale: logoScale, opacity: fade }} data-hot>
-				<ParticleLogo className='opacity-40 md:opacity-100' colors={palette.colors} hexColor={palette.hex} dot={palette.dot} />
+			{/* phones: the logo takes the free space between the header and the name, fully visible; md+: unchanged (behind, right) */}
+			<motion.div className='relative -mx-4 mb-6 mt-20 min-h-0 flex-1 md:absolute md:inset-0 md:left-[38%] md:m-0' style={{ scale: logoScale, opacity: fade }} data-hot>
+				<ParticleLogo colors={palette.colors} hexColor={palette.hex} dot={palette.dot} />
 			</motion.div>
 
 			<motion.div className='pointer-events-none relative z-10 w-full' style={{ y, opacity: fade }}>
