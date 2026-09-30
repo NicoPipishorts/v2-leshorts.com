@@ -26,16 +26,30 @@ const setMeta = (
  * language. Without this the French page still announced itself as English to
  * screen readers, translation tools and anything unfurling the URL.
  */
-export const useDocumentMeta = () => {
+const ORIGIN = "https://www.nicolaspisar.com";
+
+export type PageMeta = { title?: string; description?: string; path?: string };
+
+export const useDocumentMeta = (page: PageMeta = {}) => {
 	const { t, i18n } = useTranslation();
 	const language =
 		i18n.resolvedLanguage?.startsWith("fr") || i18n.language?.startsWith("fr")
 			? "fr"
 			: "en";
 
+	const title = page.title ?? t("seo.title");
+	const description = page.description ?? t("seo.description");
+	const url = ORIGIN + (page.path ?? "/");
+
 	useEffect(() => {
-		const title = t("seo.title");
-		const description = t("seo.description");
+		let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+		if (!canonical) {
+			canonical = document.createElement("link");
+			canonical.rel = "canonical";
+			document.head.appendChild(canonical);
+		}
+		canonical.href = url;
+		setMeta('meta[property="og:url"]', "property", "og:url", url);
 
 		document.documentElement.lang = language;
 		document.title = title;
@@ -67,5 +81,5 @@ export const useDocumentMeta = () => {
 			"twitter:description",
 			description,
 		);
-	}, [language, t]);
+	}, [language, t, title, description, url]);
 };

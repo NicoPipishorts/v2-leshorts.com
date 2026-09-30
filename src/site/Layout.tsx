@@ -1,5 +1,5 @@
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { AnimatePresence, motion, useSpring } from "framer-motion";
+import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { AnimatePresence, motion, useReducedMotion, useSpring } from "framer-motion";
 import { createContext, useEffect, useState, type MouseEvent } from "react";
 import { flushSync } from "react-dom";
 import { FiMoon, FiSun } from "react-icons/fi";
@@ -8,6 +8,20 @@ import { useTranslation } from "react-i18next";
 import { useDocumentMeta } from "../i18n/useDocumentMeta";
 import { useContent } from "./data";
 import { EASE, Marquee, usePageBg } from "./shared";
+
+/** Per-route title/description for search results and social cards (home uses the site defaults). */
+const clip = (s: string, n = 158) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
+const pageMeta = (
+	pathname: string,
+	c: { ui: { nav: { about: string; contact: string }; caseStudy: string }; projects: { slug: string; name: string; tagline: string; summary: string }[]; about: string; availability: string },
+) => {
+	const suffix = " — Nicolas Pisar";
+	if (pathname.startsWith("/about")) return { title: c.ui.nav.about + suffix, description: clip(c.about), path: "/about" };
+	if (pathname.startsWith("/contact")) return { title: c.ui.nav.contact + suffix, description: clip(c.availability), path: "/contact" };
+	const p = pathname.startsWith("/work/") && c.projects.find((x) => pathname === `/work/${x.slug}`);
+	if (p) return { title: `${p.name} — ${c.ui.caseStudy}${suffix}`, description: clip(`${p.tagline} ${p.summary}`), path: pathname };
+	return { path: "/" };
+};
 
 export type Theme = "dark" | "light";
 export const IgniteTheme = createContext<Theme>("dark");
@@ -100,10 +114,28 @@ const IgniteLayout = () => {
 	}, []);
 	usePageBg(PAGE_BG[theme]);
 	const pathname = useRouterState({ select: (s) => s.location.pathname });
-	useDocumentMeta();
 	const { i18n } = useTranslation();
-	const { me, ui, lang } = useContent();
+	const { me, ui, lang, projects } = useContent();
+	useDocumentMeta(pageMeta(pathname, { ui, projects, about: ui.aboutP1, availability: me.availability }));
 	const [menuOpen, setMenuOpen] = useState(false);
+	// phone menu: the tapped link plays its animation, then we navigate (the coral page wipe takes over)
+	const navigate = useNavigate();
+	const reduceMotion = useReducedMotion();
+	const [picked, setPicked] = useState<string | null>(null);
+	useEffect(() => {
+		if (!menuOpen) setPicked(null);
+	}, [menuOpen]);
+	const pick = (l: { to: string; hash?: string }) => (e: MouseEvent) => {
+		e.preventDefault();
+		if (picked) return;
+		const go = () => {
+			navigate({ to: l.to, hash: l.hash });
+			setMenuOpen(false);
+		};
+		if (reduceMotion) return go();
+		setPicked(l.to);
+		window.setTimeout(go, 800);
+	};
 	// close the phone menu on navigation, and stop the page scrolling underneath it
 	useEffect(() => setMenuOpen(false), [pathname]);
 	useEffect(() => {
@@ -206,18 +238,45 @@ const IgniteLayout = () => {
 						exit={{ clipPath: "circle(0% at calc(100% - 38px) 38px)" }}
 						transition={{ duration: 0.6, ease: EASE }}>
 						<nav className='flex flex-col gap-2'>
-							{links.map((l, i) => (
-								<motion.div key={l.label} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.07, duration: 0.5 }}>
-									<Link
-										to={l.to}
-										hash={"hash" in l ? l.hash : undefined}
-										onClick={() => setMenuOpen(false)}
-										aria-current={isActive(l.to) ? "page" : undefined}
-										className={`font-unbounded block py-2 text-5xl font-black uppercase ${isActive(l.to) ? "text-[#dc5c48]" : "text-ig-fg"}`}>
-										{l.label}
-									</Link>
-								</motion.div>
-							))}
+							{links.map((l, i) => {
+								const chosen = picked === l.to;
+								return (
+									<motion.div
+										key={l.label}
+										initial={{ opacity: 0, y: 30 }}
+										// the others slide away while the chosen one plays its moment
+										animate={picked && !chosen ? { opacity: 0, x: -48, y: 0 } : { opacity: 1, x: 0, y: 0 }}
+										transition={{ delay: picked ? 0 : 0.15 + i * 0.07, duration: picked ? 0.3 : 0.5 }}>
+										<Link
+											to={l.to}
+											hash={"hash" in l ? l.hash : undefined}
+											onClick={pick(l)}
+											aria-current={isActive(l.to) ? "page" : undefined}
+											className={`font-unbounded relative inline-block py-2 text-5xl font-black uppercase ${isActive(l.to) ? "text-[#dc5c48]" : "text-ig-fg"}`}>
+											{/* coral marker sweeps behind the word… */}
+											<motion.span
+												aria-hidden
+												className='absolute inset-y-1 -left-2 -right-3 origin-left rounded-sm bg-[#dc5c48]'
+												initial={{ scaleX: 0 }}
+												animate={{ scaleX: chosen ? 1 : 0 }}
+												transition={{ duration: 0.35, ease: EASE }}
+											/>
+											{/* …and the letters ripple up, one after another */}
+											<span className='relative'>
+												{[...l.label].map((c, j) => (
+													<motion.span
+														key={j}
+														className='inline-block'
+														animate={chosen ? { y: [0, -16, 0], color: "#0b0c0f" } : { y: 0 }}
+														transition={{ delay: 0.12 + j * 0.035, duration: 0.42, ease: "easeOut" }}>
+														{c === " " ? "\u00a0" : c}
+													</motion.span>
+												))}
+											</span>
+										</Link>
+									</motion.div>
+								);
+							})}
 						</nav>
 						<motion.div
 							className='flex items-center justify-between border-t border-ig-fg/10 pt-6 font-mono text-sm uppercase tracking-[0.18em]'
