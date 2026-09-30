@@ -275,19 +275,18 @@ export const ParticleLogo = ({
 		let track = { pts: [] as number[][], acc: [] as number[], time: [] as number[], total: 1 };
 		const buildTrack = () => {
 			const pw = Math.min(270, Math.max(100, 0.28 * Math.min(w, h)));
-			const exitS = (w * 0.42) / pw; // well over a third of the screen wide as it leaves
+			const exitS = (w * 0.5) / pw; // about half the screen wide as it leaves
 			// [x, y, size] — up-left to the apex, one long descent, a gentle bottom, out the left edge almost flat
 			const wp = [
 				[home.cx / w, home.cy / h, 1.25],
 				[0.7, 0.2, 0.62],
 				[0.52, 0.4, 0.8],
 				[0.33, 0.61, 1.05],
-				[0.2, 0.665, 1.4], // bottom of the swoosh: acceleration starts here
+				[0.2, 0.665, 1.4], // bottom of the swoosh
 				[0.06, 0.63, exitS * 0.92],
 				[-0.22, 0.5, exitS * 1.22],
 			];
 			const APEX = 1;
-			const BOTTOM = 4;
 			const n = wp.length - 1;
 			const N = 1200; // fine sampling so the heading never steps
 			const pts: number[][] = [];
@@ -304,14 +303,13 @@ export const ParticleLogo = ({
 			const acc = [0];
 			for (let j = 1; j <= N; j++) acc.push(acc[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
 			const total = acc[N] || 1;
-			// speed profile along the path: slow while folding, picking up speed down the slope, then
-			// accelerating hard from the bottom of the swoosh to the edge
+			// speed profile along the path: slow while folding, then one continuous acceleration that
+			// starts as it drops from the apex and keeps building until it leaves the screen
 			const uApex = acc[Math.round((APEX / n) * N)] / total;
-			const uBottom = acc[Math.round((BOTTOM / n) * N)] / total;
-			const speed = (u: number) =>
-				(0.22 + 0.78 * smooth(u / 0.16)) *
-				(1 + 0.9 * smooth((u - uApex) / (uBottom - uApex))) *
-				(1 + 5.5 * smooth((u - uBottom) / (1 - uBottom)) ** 1.2);
+			const speed = (u: number) => {
+				const drop = Math.min(1, Math.max(0, (u - uApex) / (1 - uApex)));
+				return (0.22 + 0.78 * smooth(u / 0.16)) * (1 + 7 * drop ** 1.5);
+			};
 			const time = [0];
 			for (let j = 1; j <= N; j++) time.push(time[j - 1] + (acc[j] - acc[j - 1]) / speed((acc[j] + acc[j - 1]) / 2 / total));
 			const T = time[N] || 1;
