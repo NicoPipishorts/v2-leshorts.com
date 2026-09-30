@@ -1,0 +1,252 @@
+{
+	"me": {
+		"role": "Senior Frontend Engineer",
+		"availability": "Open to Senior Frontend roles · remote or hybrid",
+		"location": "Isère, France",
+		"alsoIs": ["a paraglider pilot", "a skater", "a woodworker", "a perfectionist", "an adrenaline junkie"]
+	},
+	"ui": {
+		"nav": { "work": "Work", "about": "About", "contact": "Contact" },
+		"footerMarquee": "Let's build something loud",
+		"cv": "CV (PDF)",
+		"now": "now",
+		"kinds": { "Product": "Product", "Client": "Client", "Tool": "Tool" },
+		"andAlso": "and also",
+		"shortVersion": "The short version",
+		"statement": "I turn complicated products into interfaces people actually enjoy using. Ten years of React, two products of my own, and an unhealthy obsession with the last ten percent.",
+		"selected": "Selected",
+		"work": "work",
+		"more": "+{n} more →",
+		"journey": "Journey",
+		"fullStory": "Full story →",
+		"nextStep": "Next step",
+		"ctaLine1": "Got something",
+		"ctaLine2": "ambitious?",
+		"letsTalk": "Let's talk →",
+		"caseStudy": "Case study",
+		"role": "Role",
+		"period": "Period",
+		"type": "Type",
+		"live": "Live",
+		"private": "Private",
+		"overview": "Overview",
+		"challenge": "The challenge",
+		"built": "What I built",
+		"architecture": "Architecture",
+		"screens": "Screens",
+		"stack": "Stack",
+		"nextProject": "Next project",
+		"about": "About",
+		"hi": "Hi, I’m",
+		"aboutP1": "I started coding in 2001 and never stopped. Today I’m a senior frontend engineer — React, TypeScript, component architecture, state, performance and accessibility — with enough backend and infra in my hands to ship whole products.",
+		"aboutP2": "I run a small studio, Vue d’Esprit, co-founded Kaast (4,000+ users) and I’m building Synqit on the side. Off-screen: paragliding, skating, woodworking, and presiding a school nonprofit.",
+		"downloadCv": "Download CV ↓",
+		"timeline": "Timeline",
+		"caseStudyLink": "Case study →",
+		"allWork": "All work",
+		"toolbox": "Toolbox",
+		"throw": "↑ go on, throw them around",
+		"contactLine1": "Let's",
+		"contactLine2": "talk.",
+		"reachingOut": "I’m reaching out about",
+		"topics": ["Full-time role", "Freelance project", "Just saying hi"],
+		"yourName": "Your name",
+		"yourEmail": "Your email",
+		"tellMe": "Tell me everything",
+		"send": "Send it →",
+		"sending": "Sending…",
+		"sent": "Boom ✓",
+		"sentNote": "Message received — I’ll get back to you within a day.",
+		"error": "That didn’t go through. Try again, or email me directly →",
+		"preferEmail": "Prefer email?",
+		"copy": "copy",
+		"copied": "copied ✓",
+		"elsewhere": "Elsewhere",
+		"replies": "Usually replies within 24h"
+	},
+	"stats": ["years shipping for the web", "people using Kaast", "products shipped end to end", "products founded & run"],
+	"projects": {
+		"synqit": {
+			"role": "Founder & Product Engineer",
+			"period": "2024 — now",
+			"tagline": "One magic link. Every streaming service. Everyone's songs.",
+			"summary": "Collaborative event playlists and cross-service playlist sync. Hosts share a single magic link; guests add tracks without signing up, from Spotify, Apple Music, TIDAL, YouTube Music and more.",
+			"challenge": "Make five music APIs with different catalogues, quotas and auth models feel like one product — with zero friction for guests who just want to add a song.",
+			"built": [
+				{ "title": "Guest magic-link flow", "body": "Revocable, regenerable event links; guests search and add tracks, duplicates rejected, any provider can host through one adapter registry." },
+				{ "title": "Sync & transfer engine", "body": "Adaptive back-off scheduler, snapshot/manifest change detection, ISRC-first matching and per-track checkpoints so quota hits resume instead of restart." },
+				{ "title": "Billing that can't drift", "body": "Stripe Checkout on web, Payment Sheet on mobile, grants only through idempotent webhooks, 402 paywalls driven by one shared plan table." },
+				{ "title": "Back office & analytics", "body": "Mantine console with Sankey path flows and a live heat overlay, analytics minimised to CNIL guidance." }
+			],
+			"layers": [
+				{ "label": "Clients", "value": "React web app · Expo iOS/Android · Mantine back office" },
+				{ "label": "API", "value": "Fastify modular monolith, cookie sessions + CSRF" },
+				{ "label": "Workers", "value": "BullMQ on Redis — sync, transfer, imports" },
+				{ "label": "Data", "value": "Prisma + PostgreSQL" },
+				{ "label": "Providers", "value": "Spotify · Apple Music · TIDAL · YouTube · Deezer" }
+			],
+			"metrics": [
+				{ "value": "5", "label": "music services" },
+				{ "value": "3", "label": "languages" },
+				{ "value": "0", "label": "sign-ups for guests" }
+			]
+		},
+		"kaast": {
+			"role": "Co-Founder & Lead Frontend Engineer",
+			"period": "2022 — now",
+			"tagline": "Internal media, streamed like a premium platform.",
+			"summary": "Multi-tenant internal media communication platform used by 5 client companies and 4,000+ users, with a strong focus on frontend product quality, navigation, search and shared UI consistency across tenant-specific needs.",
+			"challenge": "One codebase, many brands: every tenant wants their own look and flows, while the product has to stay consistent, fast and maintainable by a two-person team.",
+			"built": [
+				{ "title": "Frontend architecture", "body": "Led the multi-tenant React platform — page composition, navigation flows and the overall interaction model." },
+				{ "title": "Shared component system", "body": "A component library supporting tenant-specific customisation while keeping one consistent product experience." },
+				{ "title": "Search & routing", "body": "TanStack Router, Meilisearch and structured navigation for series, seasons, shorts and playlists." },
+				{ "title": "Customer-driven delivery", "body": "Two-person Kanban team pushing features within tight audit periods, translating stakeholder needs into intuitive UX." }
+			],
+			"layers": [
+				{ "label": "Frontend", "value": "React product interface for internal communication workflows" },
+				{ "label": "UI System", "value": "Component library, SCSS, Tailwind, Cloudflare-facing integrations" },
+				{ "label": "Search & Routing", "value": "TanStack Router, Meilisearch and structured navigation flows" },
+				{ "label": "State & Data", "value": "TanStack Query, cache & state management, connected API flows" }
+			],
+			"metrics": [
+				{ "value": "4,000+", "label": "users" },
+				{ "value": "5", "label": "client companies" },
+				{ "value": "2", "label": "person team" }
+			]
+		},
+		"horizon-planning": {
+			"role": "Product design & full-stack build",
+			"period": "2026",
+			"tagline": "The weekly crew plan, finally out of the spreadsheet.",
+			"summary": "Weekly crew-planning SaaS for building and renovation companies. Started as an internal tool for a Savoie renovation firm, grown into a multi-tenant product with self-serve signup and plans.",
+			"challenge": "Replace a fragile spreadsheet that ran a whole company's week — without slowing down the people who fill it in every morning on site.",
+			"built": [
+				{ "title": "Planning grid", "body": "Employees × slots × days with autosave; travel allowances computed per zone via haversine distance and BAN geocoding." },
+				{ "title": "Real multi-tenancy", "body": "org_id on every table, per-request transaction scoping, pgTAP isolation tests, per-tenant branding and custom domains." },
+				{ "title": "Access & audit", "body": "Custom profiles with per-page permissions, anti-escalation guard, full audit log, zxcvbn and a strict CSP." },
+				{ "title": "Timesheets & PWA", "body": "Monthly hours, meals and absences with CSV and A4 print; installable PWA with guided onboarding." }
+			],
+			"layers": [
+				{ "label": "Client", "value": "React 19 PWA · static marketing site" },
+				{ "label": "API", "value": "Express 5 with HttpOnly sessions & RBAC" },
+				{ "label": "Data", "value": "PostgreSQL 17, 31 migrations, tenant-scoped transactions" },
+				{ "label": "Ops", "value": "OVH VPS, Caddy, split prod/staging, encrypted nightly backups" }
+			],
+			"metrics": [
+				{ "value": "31", "label": "migrations" },
+				{ "value": "2", "label": "plans" },
+				{ "value": "1", "label": "PWA, every device" }
+			]
+		},
+		"comacademy": {
+			"role": "Mobile & full-stack developer",
+			"period": "2023 — now",
+			"tagline": "Learn communication & marketing, five minutes a day.",
+			"summary": "Freemium iOS & Android app teaching communication and marketing — dictionary, job profiles, quizzes, a content feed and weekly challenges — with a Strapi backend and a 30-page back office.",
+			"challenge": "Keep daily learners coming back: fair weekly challenges for people who join mid-week, premium content that converts, and store-compliant payments on both platforms.",
+			"built": [
+				{ "title": "Weekly challenge engine", "body": "Five daily challenges per week counted from each user's own start, missed days unlocked for mid-week joiners, bonus on completion." },
+				{ "title": "In-app purchases", "body": "react-native-iap with receipts stored in Strapi and a mock service so the app runs in Expo Go." },
+				{ "title": "Feed & engagement", "body": "Snapshot-and-recycle feed engine, likes, quiz game, trophies, favourites and playlists." },
+				{ "title": "Back office", "body": "~30 React pages for content, users, analytics and push-notification templates." }
+			],
+			"layers": [
+				{ "label": "App", "value": "Expo / React Native on iOS + Android" },
+				{ "label": "Back office", "value": "React 19 + Vite on Vercel" },
+				{ "label": "API", "value": "Strapi 5 on PostgreSQL, Docker" },
+				{ "label": "Distribution", "value": "App Store + Google Play via EAS" }
+			],
+			"metrics": [
+				{ "value": "2", "label": "stores" },
+				{ "value": "~30", "label": "back-office pages" },
+				{ "value": "v2.3", "label": "in production" }
+			]
+		},
+		"asba": {
+			"role": "Frontend, CMS & back office",
+			"period": "2023 — now",
+			"tagline": "Handmade French drums, a site as loud as the kits.",
+			"summary": "Showcase site, catalogue and custom back office for ASBA, a French maker of handmade drums — products, finishes, artists, resellers map and a lead-tracking mini-CRM.",
+			"challenge": "Give a small craft brand a premium, editorial presence and a back office simple enough that updates never break the design.",
+			"built": [
+				{ "title": "Product catalogue", "body": "Custom Strapi endpoint serving specs, finish swatches and galleries, filtered and paginated." },
+				{ "title": "Built-in back office", "body": "Manage pages, products, artists, finishes, manifesto and legal pages from inside the React app." },
+				{ "title": "Leads & monitoring", "body": "Prospect tracking feeding an internal CRM, plus a service monitor on public routes." },
+				{ "title": "Hardened ops", "body": "SSH-keys-only OVH server with UFW & Fail2ban, frontend on Vercel, yearly maintenance contract." }
+			],
+			"layers": [],
+			"metrics": []
+		},
+		"soulbm": {
+			"role": "President & full-stack developer",
+			"period": "2024 — now",
+			"tagline": "A nonprofit run like a startup.",
+			"summary": "Public website and a full operations back office for the school parents' association I preside — treasury, events, inventory, tasks, registrations and audit logs.",
+			"challenge": "Volunteers rotate every year. The tools have to be obvious on day one and keep the money trail clean without an accountant in the room.",
+			"built": [
+				{ "title": "Operations back office", "body": "30+ content types: treasury, expense splits per class, tasks, events, temporary inventories, roles and audit logs." },
+				{ "title": "Receipt scanning with Claude", "body": "Snap a receipt on an iPhone, HEIC converted server-side, line items extracted into inventory." },
+				{ "title": "Analytics app", "body": "Separate dashboard for page views, errors and admin activity alongside PostHog." },
+				{ "title": "Self-hosted & hardened", "body": "Strapi 5 on Postgres 16 behind Nginx/PM2 with Let's Encrypt, UFW and Fail2ban." }
+			],
+			"layers": [],
+			"metrics": [
+				{ "value": "7", "label": "events a year" },
+				{ "value": "€900+", "label": "per classroom" },
+				{ "value": "578", "label": "commits" }
+			]
+		},
+		"ab2c": {
+			"role": "Design system & web build",
+			"period": "2026",
+			"tagline": "Drawn, not ruled — an agricultural brand with a pencil.",
+			"summary": "Web presence, showcase site and upcoming catalogue for AB2C, exclusive MICROFERM distributor for France, Belgium, Luxembourg and Switzerland.",
+			"challenge": "Make a technical agri-measurement distributor feel human and trustworthy, and ship it in four paid phases without rewriting between them.",
+			"built": [
+				{ "title": "Hand-drawn design system", "body": "Frames and separators are generated pencil lines and sketched SVGs instead of borders and shadows." },
+				{ "title": "CMS-ready content", "body": "Typed content package that swaps to Payload CMS 3 without touching the UI." },
+				{ "title": "Serious forms", "body": "Server functions with Zod, Turnstile, Resend and a CRM hook." }
+			],
+			"layers": [],
+			"metrics": []
+		},
+		"fournelles": {
+			"role": "Website & shop",
+			"period": "2022 — 2026",
+			"tagline": "Beaujolais, poured into the browser.",
+			"summary": "Website and order flow for a Brouilly wine estate — rebuilt from a 2022 PHP site into React with a secure admin for wines, labels and orders.",
+			"challenge": "Let a family estate update wines and take orders themselves, without ever exposing a service key to the browser.",
+			"built": [
+				{ "title": "Wines in Supabase", "body": "RLS-protected table with public read, JSON seed doubling as offline fallback." },
+				{ "title": "Locked-down admin", "body": "Supabase Auth + email allowlist, all writes through Vercel functions." },
+				{ "title": "Order flow", "body": "Request and confirmation emails via Resend, bottle & label uploads to Storage." }
+			],
+			"layers": [],
+			"metrics": []
+		},
+		"careledger": {
+			"role": "Personal tool — design & build",
+			"period": "2026",
+			"tagline": "Maintenance contracts, hours and infra — one ledger.",
+			"summary": "Local-first tracker for my freelance maintenance contracts: allowances, time logs, and a per-client dossier covering infrastructure, costs, decisions and deploy flow.",
+			"challenge": "Know at a glance which client is over their hours, what their stack costs per month, and how to deploy it — without a SaaS subscription.",
+			"built": [
+				{ "title": "Contract buckets", "body": "Monthly to whole-contract periods; included hours, features, security and no-charge work." },
+				{ "title": "Timer that survives", "body": "Task timer persists across restarts, soft deletes, timestamped edit history." },
+				{ "title": "Project dossiers", "body": "Infra, run-rate costs, phases, decisions, deploy flow diagrams and a map — secrets refused by design." }
+			],
+			"layers": [],
+			"metrics": []
+		}
+	},
+	"history": [
+		{ "company": "Synqit", "title": "Founder & Product Engineer", "period": "2024 — now", "slug": "synqit", "body": "Designing and building a cross-service playlist product end to end: architecture, API, data model and every screen." },
+		{ "company": "Kaast", "title": "Co-Founder & Lead Frontend", "period": "2022 — now", "slug": "kaast", "body": "Multi-tenant media platform for 5 companies and 4,000+ users. Frontend architecture and component system." },
+		{ "company": "Vue d'Esprit", "title": "Independent studio", "period": "2010 — now", "slug": "", "body": "Web, mobile and back-office products for Com'Academy, ASBA, Horizon Planning, AB2C, Domaine des Fournelles and more." },
+		{ "company": "InterCloud", "title": "Frontend Developer", "period": "2021 — 2022", "slug": "", "body": "SaaS dashboard for network deployment — from proof of concept to customer-facing MVP and V1, in a 10-person product team." },
+		{ "company": "École O'Clock", "title": "Web & Mobile Developer program", "period": "2021 — 2022", "slug": "", "body": "Fullstack core curriculum with a React specialisation." },
+		{ "company": "Apple", "title": "Technical Support & Product Testing", "period": "Before", "slug": "", "body": "Where the obsession with reliability, usability and calm troubleshooting started." },
+		{ "company": "Sou des Écoles", "title": "President", "period": "2024 — now", "slug": "soulbm", "body": "7 fundraising events a year, €900+ per classroom — and the software that runs it." }
+	]
+}

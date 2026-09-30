@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap");
+
+.font-unbounded { font-family: "Unbounded", "Avenir Next", sans-serif; letter-spacing: -0.03em; }
+.font-mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+@keyframes fx-marquee { to { transform: translateX(-100%); } }
+.fx-marquee { animation: fx-marquee linear infinite; }
+
+@keyframes fx-spin { to { transform: rotate(360deg); } }
+.fx-spin { animation: fx-spin 18s linear infinite; }
+
+
+@keyframes fx-pulse { 0% { transform: scale(1); opacity: .7 } 100% { transform: scale(2.6); opacity: 0 } }
+.fx-pulse { animation: fx-pulse 1.8s ease-out infinite; }
+
+@keyframes fx-dash { to { stroke-dashoffset: -40; } }
+.fx-dash { animation: fx-dash 1.4s linear infinite; }
+
+/* film grain overlay */
+.fx-grain::after {
+  content: ""; position: fixed; inset: -50%; pointer-events: none; z-index: 60; opacity: .06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.site { scroll-behavior: auto; }
+.site ::selection { background: #dc5c48; color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-marquee, .fx-spin, .fx-pulse, .fx-dash { animation: none; }
+}
+
+/* Mini preflight (the project skips Tailwind's) — :where() keeps it below utilities */
+:where(.site) :where(button, input, textarea, select) { font: inherit; color: inherit; background: transparent; border: 0 solid; border-radius: 0; outline-offset: 3px; }
+:where(.site) :where(button) { cursor: pointer; }
+:where(.site) :where(ul, ol) { list-style: none; }
+:where(.site) :where(img, svg, video, canvas) { display: block; max-width: 100%; }
+:where(.site) :where(*, ::before, ::after) { border-style: solid; border-width: 0; }
+
+/* Ignite themes */
+.ignite { --ig-bg: #0b0c0f; --ig-fg: #f1ece4; --ig-panel: #14161b; --ig-sand: #b79a77; --ig-ok: #5fd38d; color-scheme: dark; }
+.ignite[data-theme="light"] { --ig-bg: #f4efe7; --ig-fg: #16181d; --ig-panel: #fbf8f3; --ig-sand: #8f6f49; --ig-ok: #1f8a54; color-scheme: light; }
+
+/* theme switch: new theme grows out of the toggle as a circle (see Layout) */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
