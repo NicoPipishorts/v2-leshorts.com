@@ -6,7 +6,7 @@ import {
 	useTransform,
 	type MotionValue,
 } from "framer-motion";
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { IgniteTheme, PARTICLES } from "./Layout";
 import Logo from "../components/Logo";
 import { stack, useContent, type Project } from "./data";
@@ -14,6 +14,7 @@ import {
 	Counter,
 	EASE_OUT,
 	HEX_CLIP,
+	fitVw,
 	Magnetic,
 	Marquee,
 	ParticleLogo,
@@ -158,7 +159,9 @@ const WorkCard = ({ p, kind }: { p: Project; kind: string }) => (
 			<span>{p.period}</span>
 		</div>
 		<div className='absolute bottom-0 left-0 w-full p-6 md:p-10'>
-			<h3 className='font-unbounded text-4xl font-black uppercase md:text-7xl'>{p.name}</h3>
+			<h3 className='font-unbounded text-[min(2.25rem,var(--fit))] font-black uppercase md:text-7xl' style={{ "--fit": `${fitVw(p.name, 68)}vw` } as CSSProperties}>
+				{p.name}
+			</h3>
 			<div className='mt-3 flex items-end justify-between gap-6'>
 				<p className='max-w-lg text-ig-fg/75 md:text-lg'>{p.tagline}</p>
 				<span className='flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#dc5c48] text-2xl transition-transform duration-500 group-hover:rotate-[-45deg] md:h-20 md:w-20'>→</span>
@@ -189,7 +192,7 @@ const Work = () => {
 
 	const header = (
 		<div className='flex items-end justify-between px-4 pb-8 md:px-8'>
-			<h2 className='font-unbounded text-5xl font-black uppercase md:text-8xl'>
+			<h2 className='font-unbounded text-[min(8.5vw,3rem)] font-black uppercase md:text-8xl'>
 				{ui.selected}<span className='text-[#dc5c48]'>*</span> {ui.work}
 			</h2>
 		</div>
@@ -235,7 +238,7 @@ const Stats = () => (
 	<section className='grid grid-cols-2 border-y border-ig-fg/10 md:grid-cols-4'>
 		{useContent().stats.map((s, i) => (
 			<Reveal key={s.label} delay={i * 0.1} className='border-ig-fg/10 p-6 md:p-10 [&:not(:last-child)]:border-r'>
-				<div className='font-unbounded text-5xl font-black text-[#dc5c48] md:text-7xl'>
+				<div className='font-unbounded text-[min(8.5vw,3rem)] font-black text-[#dc5c48] md:text-7xl'>
 					<Counter to={s.value} suffix={s.suffix} />
 				</div>
 				<p className='mt-3 font-mono text-xs uppercase tracking-[0.16em] text-ig-fg/60'>{s.label}</p>
@@ -251,7 +254,7 @@ const Journey = () => {
 	return (
 		<section className='px-4 py-32 md:px-8'>
 			<div className='mb-16 flex items-end justify-between'>
-				<h2 className='font-unbounded text-5xl font-black uppercase md:text-8xl'>{ui.journey}</h2>
+				<h2 className='font-unbounded text-[min(8.5vw,3rem)] font-black uppercase md:text-8xl'>{ui.journey}</h2>
 				<Link to='/about' className='font-mono text-xs uppercase tracking-[0.2em] text-[#dc5c48] hover:underline'>
 					{ui.fullStory}
 				</Link>
@@ -263,7 +266,7 @@ const Journey = () => {
 					<Reveal key={h.company} delay={i * 0.05} className='relative pb-16 pl-10 md:pl-16'>
 						<span className='absolute -left-[5px] top-3 h-[11px] w-[11px] rounded-full border-2 border-[#dc5c48] bg-ig-bg' />
 						<p className='font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/50'>{h.period}</p>
-						<h3 className='font-unbounded mt-2 text-3xl font-black uppercase md:text-5xl'>{h.company}</h3>
+						<h3 className='font-unbounded mt-2 text-3xl font-black uppercase md:text-[min(8.5vw,3rem)]'>{h.company}</h3>
 						<p className='mt-1 text-[#dc5c48]'>{h.title}</p>
 						<p className='mt-3 max-w-xl text-ig-fg/65'>{h.body}</p>
 					</Reveal>
@@ -291,7 +294,7 @@ const Cta = () => {
 	<section className='relative flex flex-col items-center px-4 py-40 text-center md:py-56'>
 		<div className='pointer-events-none absolute left-1/2 top-1/2 h-[40vmax] w-[40vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#dc5c48]/20 blur-[140px]' />
 		<p className='relative font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/50'>{ui.nextStep}</p>
-		<h2 className='font-unbounded relative mt-6 text-5xl font-black uppercase leading-[0.9] md:text-9xl'>
+		<h2 className='font-unbounded relative mt-6 text-[min(8.5vw,3rem)] font-black uppercase leading-[0.9] md:text-9xl'>
 			<SplitText key={ui.ctaLine1} text={ui.ctaLine1} inView by='word' />
 			<br />
 			<span className='text-[#dc5c48]'>

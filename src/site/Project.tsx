@@ -1,8 +1,8 @@
 import { Link, Navigate, useParams } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { nextProject, useContent } from "./data";
-import { EASE_OUT, Reveal, SplitText } from "./shared";
+import { EASE_OUT, Reveal, SplitText, fitVw } from "./shared";
 import { FiArrowUpRight } from "react-icons/fi";
 
 /**
@@ -59,7 +59,9 @@ const IgniteProject = () => {
 					transition={{ delay: 0.8 }}>
 					{ui.caseStudy} — {ui.kinds[p.kind]}
 				</motion.p>
-				<h1 className='font-unbounded mt-6 text-[13vw] font-black uppercase leading-[0.85] md:text-[9vw]'>
+				<h1
+					className='font-unbounded mt-6 text-[min(13vw,var(--fit))] font-black uppercase leading-[0.85] md:text-[min(9vw,var(--fit))]'
+					style={{ "--fit": `${fitVw(p.name)}vw` } as CSSProperties}>
 					<SplitText text={p.name} delay={0.7} stagger={0.03} />
 				</h1>
 				<motion.p
@@ -82,7 +84,7 @@ const IgniteProject = () => {
 					].map(([k, v]) => (
 						<div key={k}>
 							<dt className='font-mono text-[11px] uppercase tracking-[0.2em] text-ig-fg/40'>{k}</dt>
-							<dd className='mt-2 text-ig-fg/90'>
+							<dd className='mt-2 text-ig-fg/90 [overflow-wrap:anywhere]'>
 								{k === ui.live && p.link ? (
 									<a href={p.link} target='_blank' rel='noreferrer' className='text-[#dc5c48] hover:underline'>
 										{v} <FiArrowUpRight className='inline align-[-0.1em]' />
@@ -126,7 +128,7 @@ const IgniteProject = () => {
 					{p.metrics.map((m, i) => (
 						<Reveal key={m.label} delay={i * 0.1} className='border-ig-fg/10 p-6 md:p-12 [&:not(:last-child)]:border-r'>
 							<div className='font-unbounded text-4xl font-black text-[#dc5c48] md:text-8xl'>{m.value}</div>
-							<p className='mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ig-fg/60'>{m.label}</p>
+							<p className='mt-2 break-words font-mono text-[11px] uppercase tracking-[0.16em] text-ig-fg/60 [hyphens:auto]'>{m.label}</p>
 						</Reveal>
 					))}
 				</section>
@@ -213,7 +215,9 @@ const IgniteProject = () => {
 					<img src={next.cover} alt='' className='absolute inset-0 h-full w-full scale-110 object-cover opacity-0 transition-all duration-700 group-hover:scale-100 group-hover:opacity-25' />
 				)}
 				<p className='relative font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/50'>{ui.nextProject}</p>
-				<h2 className='font-unbounded relative mt-4 text-[12vw] font-black uppercase leading-none transition-colors group-hover:text-[#dc5c48] md:text-[8vw]'>
+				<h2
+					className='font-unbounded relative mt-4 text-[min(12vw,var(--fit))] font-black uppercase leading-none transition-colors group-hover:text-[#dc5c48] md:text-[min(8vw,var(--fit))]'
+					style={{ "--fit": `${fitVw(`${next.name} →`)}vw` } as CSSProperties}>
 					{next.name} →
 				</h2>
 			</Link>

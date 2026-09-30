@@ -58,7 +58,7 @@ const IgniteAbout = () => {
 			</section>
 
 			<section className='px-4 py-24 md:px-8'>
-				<h2 className='font-unbounded mb-16 text-5xl font-black uppercase md:text-8xl'>{ui.timeline}</h2>
+				<h2 className='font-unbounded mb-16 text-[min(8.5vw,3rem)] font-black uppercase md:text-8xl'>{ui.timeline}</h2>
 				{history.map((h) => (
 					<Reveal key={h.company + h.title}>
 						<div className='group grid gap-3 border-t border-ig-fg/10 py-10 md:grid-cols-12 md:gap-8'>
@@ -91,7 +91,7 @@ const IgniteAbout = () => {
 			</section>
 
 			<section className='px-4 py-24 md:px-8'>
-				<h2 className='font-unbounded mb-12 text-5xl font-black uppercase md:text-8xl'>{ui.education}</h2>
+				<h2 className='font-unbounded mb-12 text-[min(8.5vw,3rem)] font-black uppercase md:text-8xl'>{ui.education}</h2>
 				{education.map((e) => (
 					<Reveal key={e.school}>
 						<div className='grid gap-3 border-t border-ig-fg/10 py-10 md:grid-cols-12 md:gap-8'>
@@ -107,7 +107,7 @@ const IgniteAbout = () => {
 			</section>
 
 			<section className='px-4 py-24 md:px-8'>
-				<h2 className='font-unbounded mb-12 text-5xl font-black uppercase md:text-8xl'>{ui.allWork}</h2>
+				<h2 className='font-unbounded mb-12 text-[min(8.5vw,3rem)] font-black uppercase md:text-8xl'>{ui.allWork}</h2>
 				{(["Product", "Freelance", "Tool"] as const).map((kind) => (
 					<div key={kind} className='mb-14'>
 						<p className='mb-6 font-mono text-xs uppercase tracking-[0.2em] text-[#dc5c48]'>{ui.kindHeadings[kind]}</p>
@@ -136,7 +136,7 @@ const IgniteAbout = () => {
 			</section>
 
 			<section className='px-4 py-24 md:px-8'>
-				<h2 className='font-unbounded mb-12 text-5xl font-black uppercase md:text-8xl'>{ui.toolbox}</h2>
+				<h2 className='font-unbounded mb-12 text-[min(8.5vw,3rem)] font-black uppercase md:text-8xl'>{ui.toolbox}</h2>
 				<div className='flex flex-wrap gap-3'>
 					{stack.map((s, i) => (
 						<motion.span
@@ -157,7 +157,7 @@ const IgniteAbout = () => {
 			</section>
 
 			<section className='px-4 py-24 md:px-8'>
-				<h2 className='font-unbounded text-5xl font-black uppercase md:text-8xl'>{ui.hobbies}</h2>
+				<h2 className='font-unbounded text-[min(8.5vw,3rem)] font-black uppercase md:text-8xl'>{ui.hobbies}</h2>
 				<p className='mb-12 mt-4 text-lg text-ig-fg/60'>{ui.hobbiesIntro}</p>
 				<div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
 					{hobbies.map((h, i) => {

@@ -114,8 +114,9 @@ const base: Base[] = [
 		kind: "Freelance",
 		accent: "#e0457b",
 		stack: ["Vue 3", "Vue Router", "Vite", "GSAP", "Swiper", "Sanity", "Vercel Functions", "sharp"],
-		cover: shot("print-home"),
-		gallery: [shot("print-galerie"), shot("print-atelier")],
+		cover: shot("print-v1"),
+		// the four design versions shipped side by side (V1 light, V2, V3, V4 dark)
+		gallery: [shot("print-v2"), shot("print-v3"), shot("print-v4"), shot("print-v3-galerie")],
 		link: "https://lamaisonduprint.fr",
 	},
 	{

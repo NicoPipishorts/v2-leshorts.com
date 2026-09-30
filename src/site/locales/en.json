@@ -98,7 +98,9 @@
 		"errCaptcha": "The anti-spam check didn’t pass — please try again in a moment.",
 		"errInvalid": "Something in the form looks off — please check the fields.",
 		"errCaptchaLoad": "The anti-spam check couldn’t run in this browser. Retry, or email me directly:",
-		"retry": "Retry"
+		"retry": "Retry",
+		"themeLight": "Light",
+		"themeDark": "Dark"
 	},
 	"stats": [
 		"years shipping for the web",

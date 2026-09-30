@@ -9,6 +9,12 @@ import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { LOGO_HEX_PATH, LOGO_MARK_PATH } from "../components/Logo";
 import "./site.css";
 
+/**
+ * Font size (in vw) at which the longest word of `text` still fits `width` vw of the screen — so
+ * titles like COM'ACADEMY or ÉBÉNISTERIE never run off a phone. Unbounded ≈ 0.95em per capital.
+ */
+export const fitVw = (text: string, width = 88) => width / (Math.max(...text.split(/\s+/).map((w) => w.length)) * 0.95);
+
 /** Pointy-top hexagon matching the logo outline. */
 export const HEX_CLIP = "polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)";
 
