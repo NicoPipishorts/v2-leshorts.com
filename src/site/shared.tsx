@@ -212,7 +212,7 @@ const PLANE_ANGLE = Math.atan2(26 - 118, 204 - 14); // direction the drawn nose 
 // left edge, growing to about a third of the screen as it comes at us.
 const STAGGER_MS = 400;
 const PEEL_MS = 700;
-const FLY_MS = 3600;
+const FLY_MS = 2900;
 const RETURN_AT = FLY_MS + 150;
 const smooth = (t: number) => {
 	const c = Math.min(1, Math.max(0, t));
@@ -274,21 +274,22 @@ export const ParticleLogo = ({
 		// which each point is reached (speed is set by *where* the plane is, not by the clock)
 		let track = { pts: [] as number[][], acc: [] as number[], time: [] as number[], total: 1 };
 		const buildTrack = () => {
-			const pw = Math.min(230, Math.max(90, 0.24 * Math.min(w, h)));
-			const exitS = w / 3 / pw; // about a third of the screen wide as it leaves
+			const pw = Math.min(270, Math.max(100, 0.28 * Math.min(w, h)));
+			const exitS = (w * 0.42) / pw; // well over a third of the screen wide as it leaves
 			// [x, y, size] — up-left to the apex, one long descent, a gentle bottom, out the left edge almost flat
 			const wp = [
 				[home.cx / w, home.cy / h, 1.25],
-				[0.7, 0.2, 0.5],
-				[0.52, 0.4, 0.65],
-				[0.33, 0.61, 0.9],
-				[0.2, 0.665, 1.2], // bottom of the swoosh: acceleration starts here
+				[0.7, 0.2, 0.62],
+				[0.52, 0.4, 0.8],
+				[0.33, 0.61, 1.05],
+				[0.2, 0.665, 1.4], // bottom of the swoosh: acceleration starts here
 				[0.06, 0.63, exitS * 0.92],
 				[-0.22, 0.5, exitS * 1.22],
 			];
+			const APEX = 1;
 			const BOTTOM = 4;
 			const n = wp.length - 1;
-			const N = 400;
+			const N = 1200; // fine sampling so the heading never steps
 			const pts: number[][] = [];
 			for (let j = 0; j <= N; j++) {
 				// uniform Catmull-Rom through the waypoints (C1-smooth: no kinks)
@@ -303,10 +304,14 @@ export const ParticleLogo = ({
 			const acc = [0];
 			for (let j = 1; j <= N; j++) acc.push(acc[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
 			const total = acc[N] || 1;
-			// speed profile along the path: slow while folding, steady cruise down, then accelerating
-			// hard from the bottom of the swoosh to the edge (≈5× cruise)
+			// speed profile along the path: slow while folding, picking up speed down the slope, then
+			// accelerating hard from the bottom of the swoosh to the edge
+			const uApex = acc[Math.round((APEX / n) * N)] / total;
 			const uBottom = acc[Math.round((BOTTOM / n) * N)] / total;
-			const speed = (u: number) => (0.2 + 0.8 * smooth(u / 0.16)) * (1 + 4 * smooth((u - uBottom) / (1 - uBottom)) ** 1.4);
+			const speed = (u: number) =>
+				(0.22 + 0.78 * smooth(u / 0.16)) *
+				(1 + 0.9 * smooth((u - uApex) / (uBottom - uApex))) *
+				(1 + 5.5 * smooth((u - uBottom) / (1 - uBottom)) ** 1.2);
 			const time = [0];
 			for (let j = 1; j <= N; j++) time.push(time[j - 1] + (acc[j] - acc[j - 1]) / speed((acc[j] + acc[j - 1]) / 2 / total));
 			const T = time[N] || 1;
@@ -413,27 +418,26 @@ export const ParticleLogo = ({
 			// --- flight path, drawn on screen (fractions of the screen + a size per point): up and left from
 			// the logo while shrinking away, a long arc down through the page, a low swing, then out the left
 			// edge growing as it comes at us. Sampled by distance travelled, so timing alone sets the pace.
-			const pw1 = Math.min(230, Math.max(90, 0.24 * Math.min(w, h))); // plane width at size 1
+			const pw1 = Math.min(270, Math.max(100, 0.28 * Math.min(w, h))); // plane width at size 1 (same as the track)
 			const unit = pw1 / (home.size || 1); // plane-sample px → screen px at size 1
 			let P: { x: number; y: number; sc: number; head: number; fs: number; bank: number; a: number } | null = null;
 			if (fl >= 0 && fl < FLY_MS) {
 				const tau = fl / FLY_MS;
 				const d = distAt(tau);
 				const q = trackAt(d);
-				const q2 = trackAt(Math.min(track.total, d + 6));
-				const q0 = trackAt(Math.max(0, d - 6));
+				const q2 = trackAt(Math.min(track.total, d + 24));
+				const q0 = trackAt(Math.max(0, d - 24));
 				const [dx, dy] = [q2.x - q0.x, q2.y - q0.y];
 				const head = Math.atan2(dy, dx);
 				const dTurn = Math.atan2(q2.y - q.y, q2.x - q.x) - Math.atan2(q.y - q0.y, q.x - q0.x);
 				const turn = Math.abs(Math.atan2(Math.sin(dTurn), Math.cos(dTurn))); // wrap-safe (heading left sits at ±π)
-				const depth = ((q2.s - q0.s) / q.s) * 1.5 * w; // growing = coming at us, shrinking = going away
 				P = {
 					x: q.x,
 					y: q.y,
 					sc: unit * q.s,
 					head,
-					fs: Math.max(0.45, Math.hypot(dx, dy) / (Math.hypot(dx, dy, depth) || 1)), // end-on when flying at/away from us
-					bank: 1 - Math.min(0.4, turn * 5), // tighter turn → wings tilt more
+					fs: 1, // no foreshortening: it made the plane pop between end-on and side-on at the apex and in the rise
+					bank: 1 - Math.min(0.3, turn * 2.5), // tighter turn → wings tilt a little
 					a: 1 - smooth((tau - 0.95) / 0.05),
 				};
 			}
@@ -465,7 +469,7 @@ export const ParticleLogo = ({
 					gx = p.tx + (gx - p.tx) * f;
 					gy = p.ty + (gy - p.ty) * f;
 					// loose while flocking, tightening as each dot settles into the plane
-					const kk = 0.1 + 0.22 * f * f;
+					const kk = 0.1 + 0.4 * f * f; // stiff once formed, so the shape holds through the fast swoosh
 					p.vx = (p.vx + (gx - p.x) * kk) * 0.72;
 					p.vy = (p.vy + (gy - p.y) * kk) * 0.72;
 					p.x += p.vx;
