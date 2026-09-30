@@ -6,7 +6,7 @@ import './i18n/config'
 import './styles/index.css'
 import './styles/tailwind.css'
 
-const router = createRouter({ routeTree })
+const router = createRouter({ routeTree, scrollRestoration: true })
 
 declare module '@tanstack/react-router' {
   interface Register {

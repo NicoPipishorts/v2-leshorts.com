@@ -5,13 +5,19 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "../components/LoadingScreen";
 import Logo from "../components/Logo";
+import { useDocumentMeta } from "../i18n/useDocumentMeta";
 
-const RootComponent = () => {
+const LegacyRoot = () => {
 	const { i18n } = useTranslation();
+	useDocumentMeta();
 	const [isLoading, setIsLoading] = useState(true);
 	const [showContent, setShowContent] = useState(false);
 	const [isMobileViewport, setIsMobileViewport] = useState(false);
 	const [skipAnimation, setSkipAnimation] = useState(false);
+	// The intro logo is position:fixed while it springs to the corner. Once it
+	// lands we hand over to the absolutely-positioned one so it scrolls away
+	// instead of sitting on top of every section heading.
+	const [logoDocked, setLogoDocked] = useState(false);
 	const logoControls = useAnimation();
 	const contentFadeTimeoutRef = useRef<number | null>(null);
 	const pathname = useRouterState({
@@ -71,20 +77,22 @@ const RootComponent = () => {
 
 		// Animate logo to corner
 		const mobile = window.matchMedia("(max-width: 767px)").matches;
-		logoControls.start({
-			top: mobile ? 12 : 16,
-			left: mobile ? 12 : 20,
-			width: mobile ? 62 : 82,
-			height: mobile ? 62 : 82,
-			x: 0,
-			y: 0,
-			transition: {
-				type: "spring",
-				stiffness: 110,
-				damping: 22,
-				mass: 1,
-			},
-		});
+		logoControls
+			.start({
+				top: mobile ? 12 : 16,
+				left: mobile ? 12 : 20,
+				width: mobile ? 62 : 82,
+				height: mobile ? 62 : 82,
+				x: 0,
+				y: 0,
+				transition: {
+					type: "spring",
+					stiffness: 110,
+					damping: 22,
+					mass: 1,
+				},
+			})
+			.then(() => setLogoDocked(true));
 
 		// Fade in site content while logo is mid-travel
 		contentFadeTimeoutRef.current = window.setTimeout(() => {
@@ -115,7 +123,7 @@ const RootComponent = () => {
 			</AnimatePresence>
 
 			{/* Logo: fixed center during load, springs to corner on complete */}
-			{!skipAnimation && (
+			{!skipAnimation && !logoDocked && (
 				<motion.div
 					className='pointer-events-none fixed z-10001'
 					aria-hidden='true'
@@ -136,8 +144,8 @@ const RootComponent = () => {
 				</motion.div>
 			)}
 
-			{/* Static logo for repeat visits */}
-			{skipAnimation && (
+			{/* Resting logo: repeat visits, and once the intro logo has docked */}
+			{(skipAnimation || logoDocked) && (
 				<div
 					className='pointer-events-none absolute left-3 top-3 z-1100 md:left-5 md:top-4'
 					style={{
@@ -204,6 +212,15 @@ const RootComponent = () => {
 			<Analytics />
 		</>
 	);
+};
+
+// The /lab design explorations own their whole chrome (nav, intro, transitions).
+const LAB_PREFIXES = ["/lab", "/ignite", "/editorial", "/bento"];
+
+const RootComponent = () => {
+	const pathname = useRouterState({ select: (s) => s.location.pathname });
+	if (LAB_PREFIXES.some((p) => pathname.startsWith(p))) return <Outlet />;
+	return <LegacyRoot />;
 };
 
 export const Route = createRootRoute({
