@@ -207,32 +207,24 @@ export type LogoPlacement = (w: number, h: number) => { cx: number; cy: number; 
 const PLANE_PATH = "M14 118 L204 26 L132 196 L100 136 Z";
 const PLANE_CREASE = "M204 26 L100 136 L114 180";
 const PLANE_ANGLE = Math.atan2(26 - 118, 204 - 14); // direction the drawn nose points
-// "Message sent" flight: the plane runs one curve; dots peel off the logo at staggered moments
-// and chase their spot in it, so the flock streams out like birds and tightens into the plane.
-const FLY_MS = 2400;
-const STAGGER_MS = 450;
-const PEEL_MS = 500;
-const RETURN_AT = FLY_MS + 250;
-const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+// "Message sent" flight: the dots peel off the logo and flock into a paper plane that is already flying —
+// rising up-left and away from us, a quick turn at the apex, then a dive that accelerates hard out of the
+// bottom of the screen, growing to about half the screen as it comes at us.
+const STAGGER_MS = 400;
+const PEEL_MS = 700;
+const FLY_MS = 2600;
+const RETURN_AT = FLY_MS + 150;
 const smooth = (t: number) => {
 	const c = Math.min(1, Math.max(0, t));
 	return c * c * (3 - 2 * c);
-};
-const bez = (a: number, b: number, c: number, d: number, t: number) => {
-	const u = 1 - t;
-	return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c + t * t * t * d;
-};
-const bezD = (a: number, b: number, c: number, d: number, t: number) => {
-	const u = 1 - t;
-	return 3 * u * u * (b - a) + 6 * u * t * (c - b) + 3 * t * t * (d - c);
 };
 
 /**
  * The hexagon logo rebuilt from a few thousand particles: they fly in from
  * everywhere, the cursor pushes them around, a click detonates them.
  * `burstKey` changes → explode from the centre.
- * `flyKey` changes → the dots flock into a paper plane, swoop up-right then down
- * through the page and out, then flow back into the logo (contact form "sent").
+ * `flyKey` changes → the dots flock into a paper plane that loops away and back towards the
+ * viewer in perspective, then flow back into the logo (contact form "sent").
  * `place` positions the logo inside a larger canvas so that flight has room.
  */
 export const ParticleLogo = ({
@@ -278,6 +270,67 @@ export const ParticleLogo = ({
 		// soft spring for the fly-in and after bursts, stiff otherwise so the lens tracks the cursor
 		let softUntil = performance.now() + (reduce ? 0 : 1800);
 		let flightStart = 0;
+		// flight path sampled by arc length: points (x, y, size), cumulative distance, and the time at
+		// which each point is reached (speed is set by *where* the plane is, not by the clock)
+		let track = { pts: [] as number[][], acc: [] as number[], time: [] as number[], total: 1 };
+		const buildTrack = () => {
+			const pw = Math.min(270, Math.max(100, 0.28 * Math.min(w, h)));
+			const exitS = (w * 0.5) / pw; // about half the screen wide as it leaves
+			// [x, y, size] — rise up-left, a short quick turn at the apex, then one dive down and out the bottom
+			const wp = [
+				[home.cx / w, home.cy / h, 1.25],
+				[0.74, 0.17, 0.8],
+				[0.675, 0.11, 0.66], // apex: a short, quick flip from climbing to diving
+				[0.635, 0.2, 0.78],
+				[0.46, 0.6, 1.25],
+				[0.32, 0.98, exitS * 0.8],
+				[0.2, 1.4, exitS * 1.25],
+			];
+			const APEX = 2; // acceleration starts here, so it builds as the plane flips downward
+			const n = wp.length - 1;
+			const N = 1200; // fine sampling so the heading never steps
+			const pts: number[][] = [];
+			for (let j = 0; j <= N; j++) {
+				// uniform Catmull-Rom through the waypoints (C1-smooth: no kinks)
+				const t = j / N;
+				const i = Math.min(n - 1, Math.floor(t * n));
+				const u = t * n - i;
+				const [p0, p1, p2, p3] = [wp[Math.max(0, i - 1)], wp[i], wp[i + 1], wp[Math.min(n, i + 2)]];
+				const cr = (k: number) =>
+					0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * u + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * u * u + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * u * u * u);
+				pts.push([cr(0) * w, cr(1) * h, cr(2)]);
+			}
+			const acc = [0];
+			for (let j = 1; j <= N; j++) acc.push(acc[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
+			const total = acc[N] || 1;
+			// speed profile along the path: calm while folding and climbing; from the apex a steep
+			// acceleration (~5x by mid-dive, much more at the exit) all the way out of the screen
+			const uApex = acc[Math.round((APEX / n) * N)] / total;
+			const speed = (u: number) => {
+				const dive = Math.min(1, Math.max(0, (u - uApex) / (1 - uApex)));
+				return (0.25 + 0.75 * smooth(u / 0.14)) * (1 + 30 * dive ** 1.7);
+			};
+			const time = [0];
+			for (let j = 1; j <= N; j++) time.push(time[j - 1] + (acc[j] - acc[j - 1]) / speed((acc[j] + acc[j - 1]) / 2 / total));
+			const T = time[N] || 1;
+			track = { pts, acc, time: time.map((t) => t / T), total };
+		};
+		/** distance along the path reached at flight-time fraction tau */
+		const distAt = (tau: number) => {
+			const { acc, time } = track;
+			let j = 1;
+			while (j < time.length - 1 && time[j] < tau) j++;
+			const k = (tau - time[j - 1]) / (time[j] - time[j - 1] || 1);
+			return acc[j - 1] + (acc[j] - acc[j - 1]) * k;
+		};
+		const trackAt = (dist: number) => {
+			const { pts, acc } = track;
+			let j = 1;
+			while (j < acc.length - 1 && acc[j] < dist) j++;
+			const k = (dist - acc[j - 1]) / (acc[j] - acc[j - 1] || 1);
+			const [a, b] = [pts[j - 1], pts[j]];
+			return { x: a[0] + (b[0] - a[0]) * k, y: a[1] + (b[1] - a[1]) * k, s: a[2] + (b[2] - a[2]) * k };
+		};
 
 		const build = () => {
 			// layout size, not getBoundingClientRect: the hero scales this canvas on scroll
@@ -311,6 +364,7 @@ export const ParticleLogo = ({
 			const planePts: [number, number][] = [];
 			for (let y = 0; y < off.height; y += gap)
 				for (let x = 0; x < off.width; x += gap) if (pdata[(y * off.width + x) * 4 + 3] > 128) planePts.push([x, y]);
+			buildTrack();
 			const ox = home.cx - size / 2;
 			const oy = home.cy - size / 2;
 			const old = parts;
@@ -359,54 +413,71 @@ export const ParticleLogo = ({
 					p.vx = p.vy = 0;
 				}
 			}
-			// flight curve: a short rise to the top-right, then a long swoop down through the page and out bottom-left
-			const m = Math.min(w, h);
-			const P0x = home.cx;
-			const P0y = home.cy;
-			const P1x = Math.min(w * 0.97, home.cx + 0.16 * w);
-			const P1y = home.cy - 0.14 * m;
-			const P2x = 0.62 * w;
-			const P2y = 0.6 * h;
-			const P3x = -0.3 * w;
-			const P3y = 1.1 * h;
-			const planeScale = Math.min(260, 0.5 * w) / (home.size || 1);
+			// --- flight path, drawn on screen (fractions of the screen + a size per point): up and left from
+			// the logo while shrinking away, a long arc down through the page, a low swing, then out the left
+			// edge growing as it comes at us. Sampled by distance travelled, so timing alone sets the pace.
+			const pw1 = Math.min(270, Math.max(100, 0.28 * Math.min(w, h))); // plane width at size 1 (same as the track)
+			const unit = pw1 / (home.size || 1); // plane-sample px → screen px at size 1
+			let P: { x: number; y: number; sc: number; head: number; fs: number; bank: number; a: number } | null = null;
+			if (fl >= 0 && fl < FLY_MS) {
+				const tau = fl / FLY_MS;
+				const d = distAt(tau);
+				const q = trackAt(d);
+				const q2 = trackAt(Math.min(track.total, d + 24));
+				const q0 = trackAt(Math.max(0, d - 24));
+				const [dx, dy] = [q2.x - q0.x, q2.y - q0.y];
+				const head = Math.atan2(dy, dx);
+				const dTurn = Math.atan2(q2.y - q.y, q2.x - q.x) - Math.atan2(q.y - q0.y, q.x - q0.x);
+				const turn = Math.abs(Math.atan2(Math.sin(dTurn), Math.cos(dTurn))); // wrap-safe (heading left sits at ±π)
+				P = {
+					x: q.x,
+					y: q.y,
+					sc: unit * q.s,
+					head,
+					fs: 1, // no foreshortening: it made the plane pop between end-on and side-on at the apex and in the rise
+					bank: 1 - Math.min(0.3, turn * 2.5), // tighter turn → wings tilt a little
+					a: 1 - smooth((tau - 0.95) / 0.05),
+				};
+			}
 
 			const soft = now < softUntil;
 			const k = soft ? 0.014 : 0.11;
 			const damp = soft ? 0.9 : 0.74;
 			for (const p of parts) {
-				const u = fl >= 0 ? fl / FLY_MS : 0; // where the plane is (shared by every dot)
 				const f = fl >= 0 ? smooth((fl - p.d) / PEEL_MS) : 0; // how far this dot has left the logo
-				if (u >= 1) continue; // plane has flown off-screen
-				if (f > 0) {
-					const t = easeInOut(u);
-					const bx = bez(P0x, P1x, P2x, P3x, t);
-					const by = bez(P0y, P1y, P2y, P3y, t);
-					const dx = bezD(P0x, P1x, P2x, P3x, t);
-					const dy = bezD(P0y, P1y, P2y, P3y, t);
-					const len = Math.hypot(dx, dy) || 1;
-					// nose follows the curve; heading left, mirror the plane instead of flying it upside down
-					const left = dx < 0;
-					const ang = Math.atan2(dy, dx) - (left ? Math.PI - PLANE_ANGLE : PLANE_ANGLE);
-					const rx = (left ? -p.px : p.px) * planeScale;
-					const ry = p.py * planeScale;
-					const cos = Math.cos(ang);
-					const sin = Math.sin(ang);
-					let gx = bx + rx * cos - ry * sin;
-					let gy = by + rx * sin + ry * cos;
-					// flock wobble across the path: loose while peeling off, calm once the plane has formed
-					const wob = 70 * (1 - smooth(fl / (STAGGER_MS + PEEL_MS + 350))) * Math.sin(fl / 90 + p.ph);
-					gx += (-dy / len) * wob;
-					gy += (dx / len) * wob;
+				if (fl >= FLY_MS) continue; // plane has left the screen
+				if (P && f > 0) {
+					// plane-local coords with the nose along +u; fold the keel down whichever way it flies
+					const c0 = Math.cos(-PLANE_ANGLE);
+					const s0 = Math.sin(-PLANE_ANGLE);
+					const u = (p.px * c0 - p.py * s0) * P.fs;
+					// keel down whichever way it flies: heading left mirrors the plane, passing smoothly
+					// through edge-on (a roll) rather than flipping in one frame
+					const keel = Math.max(-1, Math.min(1, Math.cos(P.head) * 2.5));
+					const v = (p.px * s0 + p.py * c0) * P.bank * keel;
+					const cos = Math.cos(P.head);
+					const sin = Math.sin(P.head);
+					let gx = P.x + (u * cos - v * sin) * P.sc;
+					let gy = P.y + (u * sin + v * cos) * P.sc;
+					// flock wobble across the path while peeling off, calm once the plane has formed
+					const wob = 55 * (1 - smooth(fl / (STAGGER_MS + PEEL_MS + 300))) * Math.sin(fl / 120 + p.ph);
+					gx += -sin * wob;
+					gy += cos * wob;
 					// ease out of the logo instead of jumping
 					gx = p.tx + (gx - p.tx) * f;
 					gy = p.ty + (gy - p.ty) * f;
-					p.vx = (p.vx + (gx - p.x) * 0.14) * 0.76;
-					p.vy = (p.vy + (gy - p.y) * 0.14) * 0.76;
+					// loose while flocking, tightening as each dot settles into the plane
+					const kk = 0.1 + 0.4 * f * f; // stiff once formed, so the shape holds through the fast swoosh
+					p.vx = (p.vx + (gx - p.x) * kk) * 0.72;
+					p.vy = (p.vy + (gy - p.y) * kk) * 0.72;
 					p.x += p.vx;
 					p.y += p.vy;
+					// perspective: dots grow with the plane so it stays solid as it comes at us
+					const ds = p.s * Math.max(0.55, Math.min(P.sc, 5) ** 0.85);
+					ctx.globalAlpha = P.a;
 					ctx.fillStyle = p.c;
-					ctx.fillRect(p.x, p.y, p.s, p.s);
+					ctx.fillRect(p.x - ds / 2, p.y - ds / 2, ds, ds);
+					ctx.globalAlpha = 1;
 					continue;
 				}
 				// Lens: bend each particle's *home* away from the cursor, so the hole is always centred on it.

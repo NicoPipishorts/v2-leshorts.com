@@ -91,7 +91,12 @@
 		},
 		"moreLink": "Read more →",
 		"thanks": "Thank you!",
-		"sendAnother": "Send another message"
+		"sendAnother": "Send another message",
+		"errName": "Tell me who you are.",
+		"errEmail": "That email doesn’t look right.",
+		"errMessage": "Add a few words about what you need.",
+		"errCaptcha": "The anti-spam check didn’t pass — please try again in a moment.",
+		"errInvalid": "Something in the form looks off — please check the fields."
 	},
 	"stats": [
 		"years shipping for the web",
