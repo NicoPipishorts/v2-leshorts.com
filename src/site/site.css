@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap");
 
 .font-unbounded { font-family: "Unbounded", "Avenir Next", sans-serif; letter-spacing: -0.03em; }
+/* long words (CHRONOLOGIE, ÉBÉNISTERIE…) hyphenate instead of spilling off small screens; <html lang> drives the dictionary */
+h1.font-unbounded, h2.font-unbounded, h3.font-unbounded { overflow-wrap: break-word; hyphens: auto; }
 .font-mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
 
 @keyframes fx-marquee { to { transform: translateX(-100%); } }

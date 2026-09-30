@@ -232,11 +232,36 @@ const IgniteLayout = () => {
 				{menuOpen && (
 					<motion.div
 						id='mobile-menu'
-						className='fixed inset-0 z-[45] flex flex-col justify-between bg-ig-bg px-6 pb-10 pt-28 md:hidden'
+						className='fixed inset-0 z-[45] flex flex-col bg-ig-bg px-6 pb-10 pt-24 md:hidden'
 						initial={{ clipPath: "circle(0% at calc(100% - 38px) 38px)" }}
 						animate={{ clipPath: "circle(150% at calc(100% - 38px) 38px)" }}
 						exit={{ clipPath: "circle(0% at calc(100% - 38px) 38px)" }}
 						transition={{ duration: 0.6, ease: EASE }}>
+						{/* language + theme, right under the logo / close row so they're easy to find */}
+						<motion.div
+							className='mb-10 flex items-center justify-between gap-3 border-b border-ig-fg/10 pb-6'
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ delay: 0.2, duration: 0.4 }}>
+							<div role='group' aria-label='Language' className='flex rounded-full border border-ig-fg/15 p-1 font-mono text-sm uppercase tracking-[0.14em]'>
+								{(["en", "fr"] as const).map((l) => (
+									<button
+										key={l}
+										onClick={() => i18n.changeLanguage(l)}
+										aria-pressed={lang === l}
+										className={`relative rounded-full px-5 py-2 uppercase transition-colors ${lang === l ? "text-[#0b0c0f]" : "text-ig-fg/70"}`}>
+										{lang === l && <motion.span layoutId='menu-lang' className='absolute inset-0 rounded-full bg-[#dc5c48]' transition={{ type: "spring", stiffness: 400, damping: 30 }} />}
+										<span className='relative'>{l}</span>
+									</button>
+								))}
+							</div>
+							<button
+								onClick={toggle}
+								className='flex items-center gap-2 rounded-full border border-ig-fg/15 px-4 py-2.5 font-mono text-sm uppercase tracking-[0.14em] text-ig-fg [&>*]:shrink-0'>
+								{theme === "dark" ? <FiSun /> : <FiMoon />}
+								{theme === "dark" ? ui.themeLight : ui.themeDark}
+							</button>
+						</motion.div>
 						<nav className='flex flex-col gap-2'>
 							{links.map((l, i) => {
 								const chosen = picked === l.to;
@@ -252,7 +277,7 @@ const IgniteLayout = () => {
 											hash={"hash" in l ? l.hash : undefined}
 											onClick={pick(l)}
 											aria-current={isActive(l.to) ? "page" : undefined}
-											className={`font-unbounded relative inline-block py-2 text-5xl font-black uppercase ${isActive(l.to) ? "text-[#dc5c48]" : "text-ig-fg"}`}>
+											className={`font-unbounded relative inline-block py-2 text-[min(12vw,3.5rem)] font-black uppercase ${isActive(l.to) ? "text-[#dc5c48]" : "text-ig-fg"}`}>
 											{/* coral marker sweeps behind the word… */}
 											<motion.span
 												aria-hidden
@@ -278,14 +303,6 @@ const IgniteLayout = () => {
 								);
 							})}
 						</nav>
-						<motion.div
-							className='flex items-center justify-between border-t border-ig-fg/10 pt-6 font-mono text-sm uppercase tracking-[0.18em]'
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: 0.4 }}>
-							{langSwitch}
-							{themeButton}
-						</motion.div>
 					</motion.div>
 				)}
 			</AnimatePresence>
