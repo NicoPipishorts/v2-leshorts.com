@@ -66,6 +66,13 @@ const contactApiPlugin = (env: Record<string, string>) => ({
       try {
         let raw = ''
         for await (const chunk of req) raw += chunk
+        // No Resend key locally → pretend it worked, so the send animation can be tried without emailing anyone.
+        if (!env.RESEND_API_KEY) {
+          console.log('[contact] simulated send (no RESEND_API_KEY in .env.local):', raw)
+          await new Promise((r) => setTimeout(r, 700))
+          res.end(JSON.stringify({ ok: true, simulated: true }))
+          return
+        }
         // Cloudflare's always-pass test secret unless a real one is in .env.local
         const devEnv = { TURNSTILE_SECRET_KEY: '1x0000000000000000000000000000000AA', ...env }
         const { status, body } = await sendContact(JSON.parse(raw || '{}'), devEnv, req.socket.remoteAddress)

@@ -153,7 +153,7 @@ const IgniteContact = () => {
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					// the flock passes behind the form, then it dissolves into the thank-you
-					exit={{ opacity: 0, y: 30, filter: "blur(10px)", transition: { delay: 0.55, duration: 0.5 } }}>
+					exit={{ opacity: 0, y: 30, filter: "blur(10px)", transition: { delay: 1.3, duration: 0.6 } }}>
 					{/* honeypot: hidden from people, irresistible to bots */}
 					<input name='website' tabIndex={-1} autoComplete='off' aria-hidden className='absolute left-[-9999px] h-px w-px opacity-0' />
 					<div>
