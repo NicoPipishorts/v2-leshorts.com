@@ -33,7 +33,18 @@ const loadScript = () =>
  * Cloudflare Turnstile. Invisible for most visitors ("interaction-only"); only shows a
  * checkbox when Cloudflare is unsure. Tokens are single-use: bump `resetKey` after each submit.
  */
-export const Turnstile = ({ onToken, resetKey, lang }: { onToken: (token: string) => void; resetKey: number; lang: string }) => {
+export const Turnstile = ({
+	onToken,
+	onError,
+	resetKey,
+	lang,
+}: {
+	onToken: (token: string) => void;
+	/** the check could not run (script blocked, challenge failed…) — show the visitor a way out */
+	onError: () => void;
+	resetKey: number;
+	lang: string;
+}) => {
 	const el = useRef<HTMLDivElement>(null);
 	const id = useRef<string>();
 
@@ -50,17 +61,23 @@ export const Turnstile = ({ onToken, resetKey, lang }: { onToken: (token: string
 					appearance: "interaction-only",
 					callback: onToken,
 					"expired-callback": () => onToken(""),
-					"error-callback": () => onToken(""),
+					"error-callback": () => {
+						onToken("");
+						onError();
+					},
 				});
 			})
-			.catch(() => onToken(""));
+			.catch(() => {
+				onToken("");
+				onError();
+			});
 		return () => {
 			cancelled = true;
 			if (id.current) window.turnstile?.remove(id.current);
 			id.current = undefined;
 			onToken("");
 		};
-	}, [lang, onToken]);
+	}, [lang, onToken, onError]);
 
 	useEffect(() => {
 		if (!resetKey || !id.current) return;

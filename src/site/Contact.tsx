@@ -1,9 +1,10 @@
 import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useContext, useEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useContext, useEffect, useRef, useState, type FormEvent } from "react";
 import { IgniteTheme, PARTICLES } from "./Layout";
 import { TURNSTILE_SITE_KEY, Turnstile } from "./Turnstile";
 import { email, useContent } from "./data";
 import { EASE_OUT, Magnetic, ParticleLogo, SplitText, useLocalTime, type LogoPlacement } from "./shared";
+import { FiArrowUpRight, FiCheck, FiChevronDown } from "react-icons/fi";
 
 /** Logo spot in the fixed, screen-sized canvas: a top-right mark that stays put while the page scrolls. */
 const placeLogo: LogoPlacement = (w, h) => {
@@ -95,6 +96,59 @@ const Field = ({
 	);
 };
 
+/** Phone-sized topic picker: a custom dropdown instead of chips that wrap. */
+const TopicSelect = ({ topics, value, onChange }: { topics: string[]; value: number; onChange: (i: number) => void }) => {
+	const [open, setOpen] = useState(false);
+	const ref = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (!open) return;
+		const close = (e: PointerEvent) => !ref.current?.contains(e.target as Node) && setOpen(false);
+		document.addEventListener("pointerdown", close);
+		return () => document.removeEventListener("pointerdown", close);
+	}, [open]);
+	return (
+		<div ref={ref} className='relative md:hidden'>
+			<button
+				type='button'
+				aria-haspopup='listbox'
+				aria-expanded={open}
+				onClick={() => setOpen((o) => !o)}
+				className='flex w-full items-center justify-between rounded-2xl bg-[#dc5c48] px-5 py-3.5 text-left text-[#0b0c0f]'>
+				<span>{topics[value]}</span>
+				<FiChevronDown className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+			</button>
+			<AnimatePresence>
+				{open && (
+					<motion.ul
+						role='listbox'
+						className='absolute inset-x-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-ig-fg/15 bg-ig-panel shadow-xl'
+						initial={{ opacity: 0, y: -8, scale: 0.98 }}
+						animate={{ opacity: 1, y: 0, scale: 1 }}
+						exit={{ opacity: 0, y: -8, scale: 0.98 }}
+						transition={{ duration: 0.18 }}>
+						{topics.map((t, i) => (
+							<li key={t}>
+								<button
+									type='button'
+									role='option'
+									aria-selected={i === value}
+									onClick={() => {
+										onChange(i);
+										setOpen(false);
+									}}
+									className={`flex w-full items-center justify-between px-5 py-3.5 text-left transition-colors hover:bg-ig-fg/5 ${i === value ? "text-[#dc5c48]" : "text-ig-fg"}`}>
+									{t}
+									{i === value && <FiCheck />}
+								</button>
+							</li>
+						))}
+					</motion.ul>
+				)}
+			</AnimatePresence>
+		</div>
+	);
+};
+
 type Status = "idle" | "sending" | "sent" | "error";
 
 const IgniteContact = () => {
@@ -116,10 +170,19 @@ const IgniteContact = () => {
 	// the heading shrinks as you scroll so the send button comes into view sooner
 	const [desktop] = useState(() => window.matchMedia("(min-width: 768px)").matches);
 	const { scrollY } = useScroll();
-	const headingSize = useTransform(scrollY, [0, 320], desktop ? ["13vw", "7vw"] : ["18vw", "11vw"]);
+	// sized to the longest line so "PARLONS-" fits as well as "LET'S" (Unbounded ≈ 0.95em per letter)
+	const longest = Math.max(ui.contactLine1.length, ui.contactLine2.length);
+	const bigVw = Math.min(desktop ? 13 : 18, 88 / (longest * 0.95));
+	const headingSize = useTransform(scrollY, [0, 320], [`${bigVw}vw`, `${bigVw * 0.55}vw`]);
 	const [resetCaptcha, setResetCaptcha] = useState(0);
 	// Without a site key (unconfigured prod) the server skips the check too, so don't block sending.
 	const waitingForCaptcha = !!TURNSTILE_SITE_KEY && !token;
+	const [captchaFailed, setCaptchaFailed] = useState(false);
+	const onCaptchaError = useCallback(() => setCaptchaFailed(true), []);
+	const onCaptchaToken = useCallback((t: string) => {
+		setToken(t);
+		if (t) setCaptchaFailed(false);
+	}, []);
 
 	// Success path shared by real sends and the local test: flock animation + thank-you swap.
 	const celebrate = () => {
@@ -189,10 +252,10 @@ const IgniteContact = () => {
 			)}
 			{/* fixed to the screen: the logo stays put while scrolling and the "sent" flight always plays in view */}
 			<div className='pointer-events-none fixed inset-0 opacity-80 md:opacity-100'>
-				<ParticleLogo flyKey={burst} gap={particleGap} interactive={false} colors={palette.colors} hexColor={palette.hex} dot={palette.dot} place={placeLogo} />
+				<ParticleLogo flyKey={burst} gap={particleGap} interactive={false} colors={palette.colors} hexColor={palette.hex} dot={palette.dot} place={placeLogo} showAtRest={desktop} />
 			</div>
 
-			<motion.h1 style={{ fontSize: headingSize }} className='font-unbounded relative select-none font-black uppercase leading-[0.85]'>
+			<motion.h1 style={{ fontSize: headingSize }} className='font-unbounded relative select-none whitespace-nowrap font-black uppercase leading-[0.85]'>
 				{[...ui.contactLine1].map((c, i) => (
 					<RepelChar key={i} ch={c} />
 				))}
@@ -232,14 +295,14 @@ const IgniteContact = () => {
 					<input name='website' tabIndex={-1} autoComplete='off' aria-hidden className='absolute left-[-9999px] h-px w-px opacity-0' />
 					<div>
 						<p className='mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-ig-fg/40'>{ui.reachingOut}</p>
-						{/* one row on phones (segmented), free-flowing chips on desktop */}
-						<div className='grid grid-cols-3 gap-2 md:flex md:flex-wrap md:gap-3'>
+						<TopicSelect topics={ui.topics} value={topic} onChange={setTopic} />
+						<div className='hidden flex-wrap gap-3 md:flex'>
 							{ui.topics.map((t, i) => (
 								<button
 									key={t}
 									type='button'
 									onClick={() => setTopic(i)}
-									className={`relative rounded-2xl border px-2 py-2 text-[13px] leading-tight transition-colors md:rounded-full md:px-5 md:text-base ${topic === i ? "border-[#dc5c48] text-[#0b0c0f]" : "border-ig-fg/20 text-ig-fg/80 hover:border-ig-fg/60"}`}>
+									className={`relative rounded-full border px-5 py-2 transition-colors ${topic === i ? "border-[#dc5c48] text-[#0b0c0f]" : "border-ig-fg/20 text-ig-fg/80 hover:border-ig-fg/60"}`}>
 									{topic === i && <motion.span layoutId='topic' className='absolute inset-0 -z-0 rounded-[inherit] bg-[#dc5c48]' transition={{ type: "spring", stiffness: 400, damping: 30 }} />}
 									<span className='relative'>{t}</span>
 								</button>
@@ -251,7 +314,7 @@ const IgniteContact = () => {
 						<Field label={ui.yourEmail} name='email' type='email' error={errors.email} onEdit={clearError("email")} />
 					</div>
 					<Field label={ui.tellMe} name='message' area error={errors.message} onEdit={clearError("message")} />
-					<Turnstile onToken={setToken} resetKey={resetCaptcha} lang={lang} />
+					<Turnstile onToken={onCaptchaToken} onError={onCaptchaError} resetKey={resetCaptcha} lang={lang} />
 					<Magnetic>
 						<button
 							type='submit'
@@ -264,6 +327,24 @@ const IgniteContact = () => {
 							</AnimatePresence>
 						</button>
 					</Magnetic>
+					{captchaFailed && !token && (
+						<div role='alert' className='flex flex-wrap items-center gap-3 rounded-2xl border border-[#dc5c48]/40 bg-[#dc5c48]/10 p-4 text-ig-fg'>
+							<span className='flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#dc5c48] text-xs font-bold text-[#0b0c0f]'>!</span>
+							<p className='flex-1'>{ui.errCaptchaLoad}</p>
+							<button
+								type='button'
+								onClick={() => {
+									setCaptchaFailed(false);
+									setResetCaptcha((n) => n + 1);
+								}}
+								className='rounded-full border border-ig-fg/20 px-4 py-1.5 font-mono text-xs uppercase tracking-[0.14em] hover:border-[#dc5c48] hover:text-[#dc5c48]'>
+								{ui.retry}
+							</button>
+							<a href={`mailto:${email()}`} className='underline decoration-[#dc5c48] underline-offset-4'>
+								{email()}
+							</a>
+						</div>
+					)}
 					<div aria-live='polite' className='min-h-[1.5em]'>
 						<AnimatePresence>
 							{status === "error" && serverError && (
@@ -304,7 +385,9 @@ const IgniteContact = () => {
 								<li key={k}>
 									<a href={v} target='_blank' rel='noreferrer' className='group flex items-center justify-between border-b border-ig-fg/10 py-3 text-xl capitalize'>
 										{k}
-										<span className='transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[#dc5c48]'>↗</span>
+										<span className='transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[#dc5c48]'>
+											<FiArrowUpRight />
+										</span>
 									</a>
 								</li>
 							))}

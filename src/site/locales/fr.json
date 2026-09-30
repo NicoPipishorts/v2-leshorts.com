@@ -54,7 +54,7 @@
 		"hi": "Salut, moi c’est",
 		"aboutP1": "J’ai commencé à coder en 2001 et je ne me suis jamais arrêté. Aujourd’hui je suis Senior Frontend Engineer — React, TypeScript, architecture de composants, state, performance et accessibilité — avec assez de backend et d’infra en main pour livrer des produits entiers.",
 		"aboutP2": "Je dirige un petit studio, Vue d’Esprit, j’ai cofondé Kaast (plus de 4 000 utilisateurs) et je développe Synqit en parallèle. Hors écran : parapente, skate, ébénisterie, et la présidence d’une association scolaire.",
-		"downloadCv": "Télécharger le CV ↓",
+		"downloadCv": "Télécharger le CV",
 		"timeline": "Chronologie",
 		"caseStudyLink": "Étude de cas →",
 		"allWork": "Tous les projets",
@@ -96,7 +96,9 @@
 		"errEmail": "Cet email ne semble pas valide.",
 		"errMessage": "Ajoutez quelques mots sur votre besoin.",
 		"errCaptcha": "La vérification anti-spam n’est pas passée — réessayez dans un instant.",
-		"errInvalid": "Un champ semble incorrect — vérifiez le formulaire."
+		"errInvalid": "Un champ semble incorrect — vérifiez le formulaire.",
+		"errCaptchaLoad": "La vérification anti-spam n’a pas pu s’exécuter dans ce navigateur. Réessayez, ou écrivez-moi directement :",
+		"retry": "Réessayer"
 	},
 	"stats": [
 		"ans à construire pour le web",
