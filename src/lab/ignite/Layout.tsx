@@ -1,13 +1,59 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { motion, useSpring } from "framer-motion";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState, type MouseEvent } from "react";
+import { flushSync } from "react-dom";
+import { FiMoon, FiSun } from "react-icons/fi";
 import Logo from "../../components/Logo";
 import { useTranslation } from "react-i18next";
 import { useDocumentMeta } from "../../i18n/useDocumentMeta";
 import { useLab } from "../data";
 import { EASE, Marquee, usePageBg } from "../shared";
 
-const BG = "#0b0c0f";
+export type Theme = "dark" | "light";
+export const IgniteTheme = createContext<Theme>("dark");
+/** Particle-logo palette per theme: deeper tones so the dots hold up on the light background. */
+export const PARTICLES: Record<Theme, { colors: string[]; hex: string; dot: number }> = {
+	dark: { colors: ["#dc5c48", "#e8836f", "#b79a77"], hex: "#488b9b", dot: 1 },
+	light: { colors: ["#dc5c48", "#c74936", "#8f6f49"], hex: "#2f6f7e", dot: 1.6 },
+};
+const PAGE_BG: Record<Theme, string> = { dark: "#0b0c0f", light: "#f4efe7" };
+const THEME_KEY = "igniteTheme";
+
+/** Saved choice, else the OS preference. */
+const useTheme = () => {
+	const [theme, setTheme] = useState<Theme>(() => {
+		try {
+			const saved = localStorage.getItem(THEME_KEY);
+			if (saved === "dark" || saved === "light") return saved;
+		} catch {
+			/* storage blocked */
+		}
+		return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+	});
+
+	// The new theme grows out of the toggle as a circle (View Transitions; instant where unsupported).
+	const toggle = (e: MouseEvent) => {
+		const next: Theme = theme === "dark" ? "light" : "dark";
+		const apply = () => {
+			flushSync(() => setTheme(next));
+			try {
+				localStorage.setItem(THEME_KEY, next);
+			} catch {
+				/* storage blocked */
+			}
+		};
+		if (!document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return apply();
+		const { clientX: x, clientY: y } = e;
+		const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+		document.startViewTransition(apply).ready.then(() =>
+			document.documentElement.animate(
+				{ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
+				{ duration: 750, easing: "cubic-bezier(.76,0,.24,1)", pseudoElement: "::view-transition-new(root)" },
+			),
+		);
+	};
+	return { theme, toggle };
+};
 
 const Cursor = () => {
 	const x = useSpring(-100, { stiffness: 500, damping: 40 });
@@ -43,7 +89,8 @@ const Cursor = () => {
 };
 
 const IgniteLayout = () => {
-	usePageBg(BG);
+	const { theme, toggle } = useTheme();
+	usePageBg(PAGE_BG[theme]);
 	const pathname = useRouterState({ select: (s) => s.location.pathname });
 	useDocumentMeta();
 	const { i18n } = useTranslation();
@@ -55,7 +102,7 @@ const IgniteLayout = () => {
 	] as const;
 
 	return (
-		<div className='lab-scope lab-grain min-h-screen overflow-x-clip bg-[#0b0c0f] text-[#f1ece4] md:cursor-none [&_a]:md:cursor-none [&_button]:md:cursor-none'>
+		<div data-theme={theme} className='ignite lab-scope lab-grain min-h-screen overflow-x-clip bg-ig-bg text-ig-fg md:cursor-none [&_a]:md:cursor-none [&_button]:md:cursor-none'>
 			<Cursor />
 
 			{/* Route wipe: a coral sheet covers the swap then lifts away */}
@@ -71,10 +118,10 @@ const IgniteLayout = () => {
 				</motion.div>
 			</motion.div>
 
-			<header className='fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 mix-blend-difference md:px-8'>
+			<header className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 md:px-8 ${theme === "dark" ? "mix-blend-difference" : ""}`}>
 				<Link to='/ignite' className='flex items-center gap-3' aria-label='Home'>
 					<Logo className='h-11 w-11 text-[#dc5c48]' animateOnMount={false} hoverEraseBorder />
-					<span className='hidden font-mono text-xs uppercase tracking-[0.2em] text-white/70 sm:block'>{me.name}</span>
+					<span className='hidden font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/70 sm:block'>{me.name}</span>
 				</Link>
 				<nav className='flex items-center gap-5 font-mono text-xs uppercase tracking-[0.18em] md:gap-8'>
 					{links.map((l) => (
@@ -82,16 +129,19 @@ const IgniteLayout = () => {
 							key={l.label}
 							to={l.to}
 							hash={"hash" in l ? l.hash : undefined}
-							className='group relative text-white'
+							className='group relative text-ig-fg'
 							activeOptions={{ exact: true, includeHash: false }}>
 							{l.label}
-							<span className='absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-white transition-transform duration-500 group-hover:origin-left group-hover:scale-x-100' />
+							<span className='absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-ig-fg transition-transform duration-500 group-hover:origin-left group-hover:scale-x-100' />
 						</Link>
 					))}
-					<div className='flex items-center gap-1 text-white' role='group' aria-label='Language'>
+					<button onClick={toggle} className='text-base text-ig-fg' aria-label={theme === "dark" ? "Light theme" : "Dark theme"}>
+						{theme === "dark" ? <FiSun /> : <FiMoon />}
+					</button>
+					<div className='flex items-center gap-1 text-ig-fg' role='group' aria-label='Language'>
 						{(["en", "fr"] as const).map((l, i) => (
 							<span key={l} className='flex items-center gap-1'>
-								{i > 0 && <span className='text-white/30'>/</span>}
+								{i > 0 && <span className='text-ig-fg/30'>/</span>}
 								<button
 									onClick={() => i18n.changeLanguage(l)}
 									aria-pressed={lang === l}
@@ -105,10 +155,12 @@ const IgniteLayout = () => {
 			</header>
 
 			<main key={pathname}>
-				<Outlet />
+				<IgniteTheme.Provider value={theme}>
+					<Outlet />
+				</IgniteTheme.Provider>
 			</main>
 
-			<footer className='border-t border-white/10'>
+			<footer className='border-t border-ig-fg/10'>
 				<Link to='/ignite/contact' className='block py-10 transition-colors hover:text-[#dc5c48]'>
 					<Marquee speed={22}>
 						{Array.from({ length: 4 }).map((_, i) => (
@@ -120,12 +172,12 @@ const IgniteLayout = () => {
 						))}
 					</Marquee>
 				</Link>
-				<div className='flex flex-col gap-3 px-4 pb-8 font-mono text-xs uppercase tracking-[0.16em] text-white/50 md:flex-row md:justify-between md:px-8'>
+				<div className='flex flex-col gap-3 px-4 pb-8 font-mono text-xs uppercase tracking-[0.16em] text-ig-fg/50 md:flex-row md:justify-between md:px-8'>
 					<span>© {new Date().getFullYear()} {me.name} — {me.location}</span>
 					<div className='flex gap-6'>
-						<a href={me.links.github} target='_blank' rel='noreferrer' className='hover:text-white'>GitHub</a>
-						<a href={me.links.linkedin} target='_blank' rel='noreferrer' className='hover:text-white'>LinkedIn</a>
-						<a href={me.cvUrl} className='hover:text-white'>{ui.cv}</a>
+						<a href={me.links.github} target='_blank' rel='noreferrer' className='hover:text-ig-fg'>GitHub</a>
+						<a href={me.links.linkedin} target='_blank' rel='noreferrer' className='hover:text-ig-fg'>LinkedIn</a>
+						<a href={me.cvUrl} className='hover:text-ig-fg'>{ui.cv}</a>
 					</div>
 				</div>
 			</footer>

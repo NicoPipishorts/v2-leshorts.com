@@ -8,3 +8,12 @@
   --font-sans: 'Manrope', 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --font-display: 'Sora', 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
+
+/* Ignite theme tokens; values live in src/lab/lab.css under .ignite[data-theme] */
+@theme inline {
+  --color-ig-bg: var(--ig-bg);
+  --color-ig-fg: var(--ig-fg);
+  --color-ig-panel: var(--ig-panel);
+  --color-ig-sand: var(--ig-sand);
+  --color-ig-ok: var(--ig-ok);
+}

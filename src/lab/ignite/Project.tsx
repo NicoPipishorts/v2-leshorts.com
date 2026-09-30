@@ -15,7 +15,7 @@ const Shot = ({ src, i, onOpen }: { src: string; i: number; onOpen: (src: string
 			<Reveal delay={(i % 3) * 0.08} className='h-full'>
 				<button
 					onClick={() => onOpen(src)}
-					className='group flex h-full w-full items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#14161b] p-3 transition-colors hover:border-[#dc5c48]/50 md:p-5'>
+					className='group flex h-full w-full items-center justify-center overflow-hidden rounded-2xl border border-ig-fg/10 bg-ig-panel p-3 transition-colors hover:border-[#dc5c48]/50 md:p-5'>
 					<motion.img
 						layoutId={src}
 						src={src}
@@ -53,7 +53,7 @@ const IgniteProject = () => {
 			<header className='relative px-4 pb-16 pt-36 md:px-8 md:pt-44'>
 				<div className='pointer-events-none absolute right-0 top-0 h-[50vmax] w-[50vmax] rounded-full blur-[140px]' style={{ background: `${p.accent}22` }} />
 				<motion.p
-					className='font-mono text-xs uppercase tracking-[0.2em] text-white/60'
+					className='font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/60'
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ delay: 0.8 }}>
@@ -63,14 +63,14 @@ const IgniteProject = () => {
 					<SplitText text={p.name} delay={0.7} stagger={0.03} />
 				</h1>
 				<motion.p
-					className='mt-8 max-w-3xl text-2xl leading-snug text-white/80 md:text-4xl'
+					className='mt-8 max-w-3xl text-2xl leading-snug text-ig-fg/80 md:text-4xl'
 					initial={{ opacity: 0, y: 30 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ delay: 1.1, duration: 0.9, ease: EASE_OUT }}>
 					{p.tagline}
 				</motion.p>
 				<motion.dl
-					className='mt-14 grid grid-cols-2 gap-6 border-t border-white/10 pt-6 md:grid-cols-4'
+					className='mt-14 grid grid-cols-2 gap-6 border-t border-ig-fg/10 pt-6 md:grid-cols-4'
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ delay: 1.3 }}>
@@ -81,8 +81,8 @@ const IgniteProject = () => {
 						[ui.live, p.link ? p.link.replace(/^https?:\/\//, "") : ui.private],
 					].map(([k, v]) => (
 						<div key={k}>
-							<dt className='font-mono text-[11px] uppercase tracking-[0.2em] text-white/40'>{k}</dt>
-							<dd className='mt-2 text-white/90'>
+							<dt className='font-mono text-[11px] uppercase tracking-[0.2em] text-ig-fg/40'>{k}</dt>
+							<dd className='mt-2 text-ig-fg/90'>
 								{k === ui.live && p.link ? (
 									<a href={p.link} target='_blank' rel='noreferrer' className='text-[#dc5c48] hover:underline'>
 										{v} ↗
@@ -115,18 +115,18 @@ const IgniteProject = () => {
 					<Reveal delay={0.1}>
 						<div className='rounded-2xl border border-[#dc5c48]/30 bg-[#dc5c48]/5 p-6 md:p-8'>
 							<p className='font-mono text-xs uppercase tracking-[0.2em] text-[#dc5c48]'>{ui.challenge}</p>
-							<p className='mt-3 text-lg text-white/80 md:text-xl'>{p.challenge}</p>
+							<p className='mt-3 text-lg text-ig-fg/80 md:text-xl'>{p.challenge}</p>
 						</div>
 					</Reveal>
 				</div>
 			</section>
 
 			{p.metrics && (
-				<section className='grid grid-cols-3 border-y border-white/10'>
+				<section className='grid grid-cols-3 border-y border-ig-fg/10'>
 					{p.metrics.map((m, i) => (
-						<Reveal key={m.label} delay={i * 0.1} className='border-white/10 p-6 md:p-12 [&:not(:last-child)]:border-r'>
+						<Reveal key={m.label} delay={i * 0.1} className='border-ig-fg/10 p-6 md:p-12 [&:not(:last-child)]:border-r'>
 							<div className='font-unbounded text-4xl font-black text-[#dc5c48] md:text-8xl'>{m.value}</div>
-							<p className='mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/60'>{m.label}</p>
+							<p className='mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ig-fg/60'>{m.label}</p>
 						</Reveal>
 					))}
 				</section>
@@ -136,10 +136,10 @@ const IgniteProject = () => {
 				<p className='mb-12 font-mono text-xs uppercase tracking-[0.2em] text-[#dc5c48]'>{ui.built}</p>
 				{p.built.map((b, i) => (
 					<Reveal key={b.title}>
-						<div className='group grid gap-4 border-t border-white/10 py-10 transition-colors hover:bg-white/[0.02] md:grid-cols-12'>
-							<span className='font-mono text-sm text-white/40 md:col-span-1'>0{i + 1}</span>
+						<div className='group grid gap-4 border-t border-ig-fg/10 py-10 transition-colors hover:bg-ig-fg/[0.02] md:grid-cols-12'>
+							<span className='font-mono text-sm text-ig-fg/40 md:col-span-1'>0{i + 1}</span>
 							<h3 className='font-unbounded text-2xl font-black uppercase transition-colors group-hover:text-[#dc5c48] md:col-span-5 md:text-4xl'>{b.title}</h3>
-							<p className='text-lg text-white/70 md:col-span-6'>{b.body}</p>
+							<p className='text-lg text-ig-fg/70 md:col-span-6'>{b.body}</p>
 						</div>
 					</Reveal>
 				))}
@@ -155,7 +155,7 @@ const IgniteProject = () => {
 						{p.layers.map((l, i) => (
 							<Reveal key={l.label} delay={i * 0.12} className='relative mb-5 pl-20'>
 								<span className='absolute left-[25px] top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-[#dc5c48] shadow-[0_0_24px_#dc5c48]' />
-								<div className='rounded-2xl border border-white/10 bg-[#14161b] p-5 transition-transform hover:translate-x-2'>
+								<div className='rounded-2xl border border-ig-fg/10 bg-ig-panel p-5 transition-transform hover:translate-x-2'>
 									<p className='font-mono text-[11px] uppercase tracking-[0.2em] text-[#dc5c48]'>{l.label}</p>
 									<p className='mt-1 text-lg'>{l.value}</p>
 								</div>
@@ -181,7 +181,7 @@ const IgniteProject = () => {
 			<AnimatePresence>
 				{open && (
 					<motion.div
-						className='fixed inset-0 z-[85] flex items-center justify-center bg-[#0b0c0f]/90 p-4 backdrop-blur-md md:p-12'
+						className='fixed inset-0 z-[85] flex items-center justify-center bg-ig-bg/90 p-4 backdrop-blur-md md:p-12'
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
@@ -197,7 +197,7 @@ const IgniteProject = () => {
 					{p.stack.map((s, i) => (
 						<motion.span
 							key={s}
-							className='rounded-full border border-white/15 px-5 py-2 text-lg'
+							className='rounded-full border border-ig-fg/15 px-5 py-2 text-lg'
 							initial={{ opacity: 0, scale: 0.6 }}
 							whileInView={{ opacity: 1, scale: 1 }}
 							viewport={{ once: true }}
@@ -209,11 +209,11 @@ const IgniteProject = () => {
 				</div>
 			</section>
 
-			<Link to='/ignite/work/$slug' params={{ slug: next.slug }} className='group relative block overflow-hidden border-t border-white/10 px-4 py-24 md:px-8 md:py-40'>
+			<Link to='/ignite/work/$slug' params={{ slug: next.slug }} className='group relative block overflow-hidden border-t border-ig-fg/10 px-4 py-24 md:px-8 md:py-40'>
 				{next.cover && (
 					<img src={next.cover} alt='' className='absolute inset-0 h-full w-full scale-110 object-cover opacity-0 transition-all duration-700 group-hover:scale-100 group-hover:opacity-25' />
 				)}
-				<p className='relative font-mono text-xs uppercase tracking-[0.2em] text-white/50'>{ui.nextProject}</p>
+				<p className='relative font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/50'>{ui.nextProject}</p>
 				<h2 className='font-unbounded relative mt-4 text-[12vw] font-black uppercase leading-none transition-colors group-hover:text-[#dc5c48] md:text-[8vw]'>
 					{next.name} →
 				</h2>

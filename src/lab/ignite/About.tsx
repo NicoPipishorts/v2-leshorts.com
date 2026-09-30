@@ -24,7 +24,7 @@ const IgniteAbout = () => {
 						</span>
 					</h1>
 					<motion.div
-						className='mt-10 max-w-xl space-y-5 text-lg text-white/75'
+						className='mt-10 max-w-xl space-y-5 text-lg text-ig-fg/75'
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ delay: 1.3, duration: 0.9, ease: EASE_OUT }}>
@@ -32,7 +32,7 @@ const IgniteAbout = () => {
 						<p>{ui.aboutP2}</p>
 					</motion.div>
 					<Magnetic className='mt-10'>
-						<a href={me.cvUrl} className='inline-flex items-center gap-3 rounded-full border border-white/20 px-6 py-3 font-mono text-xs uppercase tracking-[0.18em] transition-colors hover:border-[#dc5c48] hover:bg-[#dc5c48] hover:text-[#0b0c0f]'>
+						<a href={me.cvUrl} className='inline-flex items-center gap-3 rounded-full border border-ig-fg/20 px-6 py-3 font-mono text-xs uppercase tracking-[0.18em] transition-colors hover:border-[#dc5c48] hover:bg-[#dc5c48] hover:text-[#0b0c0f]'>
 							{ui.downloadCv}
 						</a>
 					</Magnetic>
@@ -58,14 +58,14 @@ const IgniteAbout = () => {
 				<h2 className='font-unbounded mb-16 text-5xl font-black uppercase md:text-8xl'>{ui.timeline}</h2>
 				{history.map((h) => (
 					<Reveal key={h.company + h.title}>
-						<div className='group grid gap-2 border-t border-white/10 py-10 md:grid-cols-12 md:gap-8'>
-							<p className='font-mono text-sm text-white/50 md:col-span-2'>{h.period}</p>
+						<div className='group grid gap-2 border-t border-ig-fg/10 py-10 md:grid-cols-12 md:gap-8'>
+							<p className='font-mono text-sm text-ig-fg/50 md:col-span-2'>{h.period}</p>
 							<div className='md:col-span-5'>
 								<h3 className='font-unbounded text-3xl font-black uppercase transition-colors group-hover:text-[#dc5c48] md:text-5xl'>{h.company}</h3>
 								<p className='mt-1 text-[#dc5c48]'>{h.title}</p>
 							</div>
 							<div className='md:col-span-5'>
-								<p className='text-lg text-white/70'>{h.body}</p>
+								<p className='text-lg text-ig-fg/70'>{h.body}</p>
 								{h.slug && (
 									<Link to='/ignite/work/$slug' params={{ slug: h.slug }} className='mt-4 inline-block font-mono text-xs uppercase tracking-[0.2em] text-[#dc5c48] hover:underline'>
 										{ui.caseStudyLink}
@@ -82,14 +82,14 @@ const IgniteAbout = () => {
 				<div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
 					{projects.map((p, i) => (
 						<Reveal key={p.slug} delay={(i % 3) * 0.08}>
-							<Link to='/ignite/work/$slug' params={{ slug: p.slug }} className='group block overflow-hidden rounded-2xl border border-white/10 bg-[#14161b]'>
+							<Link to='/ignite/work/$slug' params={{ slug: p.slug }} className='group block overflow-hidden rounded-2xl border border-ig-fg/10 bg-ig-panel'>
 								<div className='aspect-[16/10] overflow-hidden'>
 									{p.cover && <img src={p.cover} alt='' loading='lazy' className='h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-110' />}
 								</div>
 								<div className='flex items-center justify-between p-5'>
 									<div>
 										<h3 className='font-unbounded text-xl font-black uppercase'>{p.name}</h3>
-										<p className='text-sm text-white/50'>{p.role}</p>
+										<p className='text-sm text-ig-fg/50'>{p.role}</p>
 									</div>
 									<span className='text-2xl transition-transform group-hover:translate-x-1 group-hover:text-[#dc5c48]'>→</span>
 								</div>
@@ -107,7 +107,7 @@ const IgniteAbout = () => {
 							key={s}
 							drag
 							dragSnapToOrigin
-							className='cursor-grab rounded-full border border-white/15 px-6 py-3 text-xl active:cursor-grabbing'
+							className='cursor-grab rounded-full border border-ig-fg/15 px-6 py-3 text-xl active:cursor-grabbing'
 							initial={{ opacity: 0, y: 30 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
@@ -117,7 +117,7 @@ const IgniteAbout = () => {
 						</motion.span>
 					))}
 				</div>
-				<p className='mt-6 font-mono text-xs uppercase tracking-[0.2em] text-white/40'>{ui.throw}</p>
+				<p className='mt-6 font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/40'>{ui.throw}</p>
 			</section>
 		</>
 	);

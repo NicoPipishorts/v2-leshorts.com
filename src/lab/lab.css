@@ -43,3 +43,10 @@
 :where(.lab-scope) :where(ul, ol) { list-style: none; }
 :where(.lab-scope) :where(img, svg, video, canvas) { display: block; max-width: 100%; }
 :where(.lab-scope) :where(*, ::before, ::after) { border-style: solid; border-width: 0; }
+
+/* Ignite themes */
+.ignite { --ig-bg: #0b0c0f; --ig-fg: #f1ece4; --ig-panel: #14161b; --ig-sand: #b79a77; --ig-ok: #5fd38d; color-scheme: dark; }
+.ignite[data-theme="light"] { --ig-bg: #f4efe7; --ig-fg: #16181d; --ig-panel: #fbf8f3; --ig-sand: #8f6f49; --ig-ok: #1f8a54; color-scheme: light; }
+
+/* theme switch: new theme grows out of the toggle as a circle (see Layout) */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }

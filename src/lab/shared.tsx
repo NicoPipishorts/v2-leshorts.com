@@ -213,6 +213,7 @@ export const ParticleLogo = ({
 	gap = 4,
 	burstKey = 0,
 	interactive = true,
+	dot = 1,
 }: {
 	className?: string;
 	colors?: string[];
@@ -221,6 +222,8 @@ export const ParticleLogo = ({
 	gap?: number;
 	burstKey?: number;
 	interactive?: boolean;
+	/** dot size multiplier (light backgrounds need chunkier dots to read) */
+	dot?: number;
 }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const api = useRef<{ burst: (x: number, y: number, power: number) => void } | null>(null);
@@ -277,7 +280,7 @@ export const ParticleLogo = ({
 						tx: ox + x,
 						ty: oy + y,
 						c: isHex ? hexColor : colors[(Math.random() * colors.length) | 0],
-						s: isHex ? 1.6 : 1.4 + Math.random() * 1.2,
+						s: (isHex ? 1.6 : 1.4 + Math.random() * 1.2) * dot,
 					});
 				}
 			}
@@ -359,7 +362,7 @@ export const ParticleLogo = ({
 			canvas.removeEventListener("pointerdown", onClick);
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [colors.join(), hexColor, scale, gap, interactive, reduce]);
+	}, [colors.join(), hexColor, scale, gap, interactive, reduce, dot]);
 
 	useEffect(() => {
 		if (!burstKey) return;
