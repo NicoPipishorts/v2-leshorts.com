@@ -208,10 +208,11 @@ const PLANE_PATH = "M14 118 L204 26 L132 196 L100 136 Z";
 const PLANE_CREASE = "M204 26 L100 136 L114 180";
 const PLANE_ANGLE = Math.atan2(26 - 118, 204 - 14); // direction the drawn nose points
 // "Message sent" flight: the dots peel off the logo and flock into a paper plane that is already flying —
-// up-left and away from us, then a long arc down and out the left edge, growing and accelerating as it comes.
+// up-left and away from us, one long descent, then from the bottom of the swoosh it accelerates out the
+// left edge, growing to about a third of the screen as it comes at us.
 const STAGGER_MS = 400;
 const PEEL_MS = 700;
-const FLY_MS = 3400;
+const FLY_MS = 3600;
 const RETURN_AT = FLY_MS + 150;
 const smooth = (t: number) => {
 	const c = Math.min(1, Math.max(0, t));
@@ -269,26 +270,29 @@ export const ParticleLogo = ({
 		// soft spring for the fly-in and after bursts, stiff otherwise so the lens tracks the cursor
 		let softUntil = performance.now() + (reduce ? 0 : 1800);
 		let flightStart = 0;
-		// flight path sampled by arc length: points (x, y, size) and cumulative distance
-		let track = { pts: [] as number[][], acc: [] as number[], total: 1 };
-		const WAYPOINTS = [
-			[0.74, 0.16, 0.75],
-			[0.63, 0.12, 0.55],
-			[0.52, 0.2, 0.55],
-			[0.455, 0.44, 0.7],
-			[0.375, 0.68, 0.95],
-			[0.26, 0.735, 1.3],
-			[0.125, 0.63, 1.9],
-			[0, 0.43, 2.8],
-			[-0.15, 0.32, 3.6],
-		];
+		// flight path sampled by arc length: points (x, y, size), cumulative distance, and the time at
+		// which each point is reached (speed is set by *where* the plane is, not by the clock)
+		let track = { pts: [] as number[][], acc: [] as number[], time: [] as number[], total: 1 };
 		const buildTrack = () => {
-			const wp = [[home.cx / w, home.cy / h, 1.25], ...WAYPOINTS];
+			const pw = Math.min(230, Math.max(90, 0.24 * Math.min(w, h)));
+			const exitS = w / 3 / pw; // about a third of the screen wide as it leaves
+			// [x, y, size] — up-left to the apex, one long descent, a gentle bottom, out the left edge almost flat
+			const wp = [
+				[home.cx / w, home.cy / h, 1.25],
+				[0.7, 0.2, 0.5],
+				[0.52, 0.4, 0.65],
+				[0.33, 0.61, 0.9],
+				[0.2, 0.665, 1.2], // bottom of the swoosh: acceleration starts here
+				[0.06, 0.63, exitS * 0.92],
+				[-0.22, 0.5, exitS * 1.22],
+			];
+			const BOTTOM = 4;
 			const n = wp.length - 1;
+			const N = 400;
 			const pts: number[][] = [];
-			for (let j = 0; j <= 400; j++) {
+			for (let j = 0; j <= N; j++) {
 				// uniform Catmull-Rom through the waypoints (C1-smooth: no kinks)
-				const t = j / 400;
+				const t = j / N;
 				const i = Math.min(n - 1, Math.floor(t * n));
 				const u = t * n - i;
 				const [p0, p1, p2, p3] = [wp[Math.max(0, i - 1)], wp[i], wp[i + 1], wp[Math.min(n, i + 2)]];
@@ -297,8 +301,24 @@ export const ParticleLogo = ({
 				pts.push([cr(0) * w, cr(1) * h, cr(2)]);
 			}
 			const acc = [0];
-			for (let j = 1; j < pts.length; j++) acc.push(acc[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
-			track = { pts, acc, total: acc[acc.length - 1] || 1 };
+			for (let j = 1; j <= N; j++) acc.push(acc[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]));
+			const total = acc[N] || 1;
+			// speed profile along the path: slow while folding, steady cruise down, then accelerating
+			// hard from the bottom of the swoosh to the edge (≈5× cruise)
+			const uBottom = acc[Math.round((BOTTOM / n) * N)] / total;
+			const speed = (u: number) => (0.2 + 0.8 * smooth(u / 0.16)) * (1 + 4 * smooth((u - uBottom) / (1 - uBottom)) ** 1.4);
+			const time = [0];
+			for (let j = 1; j <= N; j++) time.push(time[j - 1] + (acc[j] - acc[j - 1]) / speed((acc[j] + acc[j - 1]) / 2 / total));
+			const T = time[N] || 1;
+			track = { pts, acc, time: time.map((t) => t / T), total };
+		};
+		/** distance along the path reached at flight-time fraction tau */
+		const distAt = (tau: number) => {
+			const { acc, time } = track;
+			let j = 1;
+			while (j < time.length - 1 && time[j] < tau) j++;
+			const k = (tau - time[j - 1]) / (time[j] - time[j - 1] || 1);
+			return acc[j - 1] + (acc[j] - acc[j - 1]) * k;
 		};
 		const trackAt = (dist: number) => {
 			const { pts, acc } = track;
@@ -398,8 +418,7 @@ export const ParticleLogo = ({
 			let P: { x: number; y: number; sc: number; head: number; fs: number; bank: number; a: number } | null = null;
 			if (fl >= 0 && fl < FLY_MS) {
 				const tau = fl / FLY_MS;
-				// ease in hard: slow fold and turn, then accelerating all the way to the edge
-				const d = tau ** 2.3 * track.total;
+				const d = distAt(tau);
 				const q = trackAt(d);
 				const q2 = trackAt(Math.min(track.total, d + 6));
 				const q0 = trackAt(Math.max(0, d - 6));
