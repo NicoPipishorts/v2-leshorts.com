@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { useEffect, useRef, useState } from "react";
 import { nextProject, useContent } from "./data";
 import { EASE_OUT, Reveal, SplitText } from "./shared";
+import { FiArrowUpRight } from "react-icons/fi";
 
 /**
  * Justified tile: width follows the image's aspect ratio at a fixed row height, so rows
@@ -84,7 +85,7 @@ const IgniteProject = () => {
 							<dd className='mt-2 text-ig-fg/90'>
 								{k === ui.live && p.link ? (
 									<a href={p.link} target='_blank' rel='noreferrer' className='text-[#dc5c48] hover:underline'>
-										{v} ↗
+										{v} <FiArrowUpRight className='inline align-[-0.1em]' />
 									</a>
 								) : (
 									v

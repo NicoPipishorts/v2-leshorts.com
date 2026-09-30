@@ -1,5 +1,5 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { motion, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useSpring } from "framer-motion";
 import { createContext, useEffect, useState, type MouseEvent } from "react";
 import { flushSync } from "react-dom";
 import { FiMoon, FiSun } from "react-icons/fi";
@@ -103,6 +103,37 @@ const IgniteLayout = () => {
 	useDocumentMeta();
 	const { i18n } = useTranslation();
 	const { me, ui, lang } = useContent();
+	const [menuOpen, setMenuOpen] = useState(false);
+	// close the phone menu on navigation, and stop the page scrolling underneath it
+	useEffect(() => setMenuOpen(false), [pathname]);
+	useEffect(() => {
+		document.body.style.overflow = menuOpen ? "hidden" : "";
+		return () => {
+			document.body.style.overflow = "";
+		};
+	}, [menuOpen]);
+	// "Work" covers the home page and every case study
+	const isActive = (to: string) => (to === "/" ? pathname === "/" || pathname.startsWith("/work/") : pathname.startsWith(to));
+	const themeButton = (
+		<button onClick={toggle} className='text-base text-ig-fg' aria-label={theme === "dark" ? "Light theme" : "Dark theme"}>
+			{theme === "dark" ? <FiSun /> : <FiMoon />}
+		</button>
+	);
+	const langSwitch = (
+		<div className='flex items-center gap-1 text-ig-fg' role='group' aria-label='Language'>
+			{(["en", "fr"] as const).map((l, i) => (
+				<span key={l} className='flex items-center gap-1'>
+					{i > 0 && <span className='text-ig-fg/30'>/</span>}
+					<button
+						onClick={() => i18n.changeLanguage(l)}
+						aria-pressed={lang === l}
+						className={`uppercase transition-opacity ${lang === l ? "opacity-100" : "opacity-40 hover:opacity-80"}`}>
+						{l}
+					</button>
+				</span>
+			))}
+		</div>
+	);
 	const links = [
 		{ to: "/", label: ui.nav.work, hash: "work" },
 		{ to: "/about", label: ui.nav.about },
@@ -128,50 +159,77 @@ const IgniteLayout = () => {
 
 			<header
 				className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-[background-color,backdrop-filter,border-color] duration-300 md:px-8 ${
-					scrolled ? "border-b border-ig-fg/10 bg-ig-bg/70 backdrop-blur-xl" : "border-b border-transparent"
+					scrolled && !menuOpen ? "border-b border-ig-fg/10 bg-ig-bg/70 backdrop-blur-xl" : "border-b border-transparent"
 				}`}>
 				<Link to='/' className='flex items-center gap-3' aria-label='Home'>
 					<Logo className='h-11 w-11 text-[#dc5c48]' animateOnMount={false} hoverEraseBorder />
 					<span className='hidden font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/70 sm:block'>{me.name}</span>
 				</Link>
-				<nav className='flex items-center gap-5 font-mono text-xs uppercase tracking-[0.18em] md:gap-8'>
-					{links.map((l) => {
-						// "Work" covers the home page and every case study
-						const active = l.to === "/" ? pathname === "/" || pathname.startsWith("/work/") : pathname.startsWith(l.to);
-						return (
-							<Link
-								key={l.label}
-								to={l.to}
-								hash={"hash" in l ? l.hash : undefined}
-								aria-current={active ? "page" : undefined}
-								className={`group relative transition-colors ${active ? "text-[#dc5c48]" : "text-ig-fg hover:text-[#dc5c48]"}`}>
-								{l.label}
-								<span
-									className={`absolute -bottom-1 left-0 h-px w-full bg-current transition-transform duration-500 ${
-										active ? "scale-x-100" : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100"
-									}`}
-								/>
-							</Link>
-						);
-					})}
-					<button onClick={toggle} className='text-base text-ig-fg' aria-label={theme === "dark" ? "Light theme" : "Dark theme"}>
-						{theme === "dark" ? <FiSun /> : <FiMoon />}
-					</button>
-					<div className='flex items-center gap-1 text-ig-fg' role='group' aria-label='Language'>
-						{(["en", "fr"] as const).map((l, i) => (
-							<span key={l} className='flex items-center gap-1'>
-								{i > 0 && <span className='text-ig-fg/30'>/</span>}
-								<button
-									onClick={() => i18n.changeLanguage(l)}
-									aria-pressed={lang === l}
-									className={`uppercase transition-opacity ${lang === l ? "opacity-100" : "opacity-40 hover:opacity-80"}`}>
-									{l}
-								</button>
-							</span>
-						))}
-					</div>
+				<nav className='hidden items-center gap-8 font-mono text-xs uppercase tracking-[0.18em] md:flex'>
+					{links.map((l) => (
+						<Link
+							key={l.label}
+							to={l.to}
+							hash={"hash" in l ? l.hash : undefined}
+							aria-current={isActive(l.to) ? "page" : undefined}
+							className={`group relative transition-colors ${isActive(l.to) ? "text-[#dc5c48]" : "text-ig-fg hover:text-[#dc5c48]"}`}>
+							{l.label}
+							<span
+								className={`absolute -bottom-1 left-0 h-px w-full bg-current transition-transform duration-500 ${
+									isActive(l.to) ? "scale-x-100" : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100"
+								}`}
+							/>
+						</Link>
+					))}
+					{themeButton}
+					{langSwitch}
 				</nav>
+				{/* phones: one button, full-screen menu */}
+				<button
+					onClick={() => setMenuOpen((o) => !o)}
+					aria-expanded={menuOpen}
+					aria-controls='mobile-menu'
+					aria-label={menuOpen ? "Close menu" : "Open menu"}
+					className='relative flex h-11 w-11 items-center justify-center rounded-full border border-ig-fg/15 md:hidden'>
+					<motion.span className='absolute h-px w-5 bg-ig-fg' animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} />
+					<motion.span className='absolute h-px w-5 bg-ig-fg' animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} />
+				</button>
 			</header>
+
+			<AnimatePresence>
+				{menuOpen && (
+					<motion.div
+						id='mobile-menu'
+						className='fixed inset-0 z-[45] flex flex-col justify-between bg-ig-bg px-6 pb-10 pt-28 md:hidden'
+						initial={{ clipPath: "circle(0% at calc(100% - 38px) 38px)" }}
+						animate={{ clipPath: "circle(150% at calc(100% - 38px) 38px)" }}
+						exit={{ clipPath: "circle(0% at calc(100% - 38px) 38px)" }}
+						transition={{ duration: 0.6, ease: EASE }}>
+						<nav className='flex flex-col gap-2'>
+							{links.map((l, i) => (
+								<motion.div key={l.label} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.07, duration: 0.5 }}>
+									<Link
+										to={l.to}
+										hash={"hash" in l ? l.hash : undefined}
+										onClick={() => setMenuOpen(false)}
+										aria-current={isActive(l.to) ? "page" : undefined}
+										className={`font-unbounded block py-2 text-5xl font-black uppercase ${isActive(l.to) ? "text-[#dc5c48]" : "text-ig-fg"}`}>
+										{l.label}
+									</Link>
+								</motion.div>
+							))}
+						</nav>
+						<motion.div
+							className='flex items-center justify-between border-t border-ig-fg/10 pt-6 font-mono text-sm uppercase tracking-[0.18em]'
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ delay: 0.4 }}>
+							{langSwitch}
+							{themeButton}
+						</motion.div>
+					</motion.div>
+				)}
+			</AnimatePresence>
 
 			<main key={pathname}>
 				<IgniteTheme.Provider value={theme}>

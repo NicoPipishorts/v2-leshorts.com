@@ -238,6 +238,7 @@ export const ParticleLogo = ({
 	interactive = true,
 	dot = 1,
 	place,
+	showAtRest = true,
 }: {
 	className?: string;
 	colors?: string[];
@@ -250,6 +251,8 @@ export const ParticleLogo = ({
 	/** dot size multiplier (light backgrounds need chunkier dots to read) */
 	dot?: number;
 	place?: LogoPlacement;
+	/** false → dots only appear while the "sent" flight is playing (the resting logo stays hidden) */
+	showAtRest?: boolean;
 }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const api = useRef<{ burst: (x: number, y: number, power: number) => void; fly: () => void } | null>(null);
@@ -498,6 +501,7 @@ export const ParticleLogo = ({
 				p.vy *= damp;
 				p.x += p.vx;
 				p.y += p.vy;
+				if (!showAtRest) continue;
 				ctx.fillStyle = p.c;
 				ctx.fillRect(p.x, p.y, p.s, p.s);
 			}
@@ -552,7 +556,7 @@ export const ParticleLogo = ({
 			canvas.removeEventListener("pointerdown", onClick);
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [colors.join(), hexColor, scale, gap, interactive, reduce, dot]);
+	}, [colors.join(), hexColor, scale, gap, interactive, reduce, dot, showAtRest]);
 
 	useEffect(() => {
 		if (flyKey) api.current?.fly();

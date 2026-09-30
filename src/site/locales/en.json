@@ -54,7 +54,7 @@
 		"hi": "Hi, I’m",
 		"aboutP1": "I started coding in 2001 and never stopped. Today I’m a senior frontend engineer — React, TypeScript, component architecture, state, performance and accessibility — with enough backend and infra in my hands to ship whole products.",
 		"aboutP2": "I run a small studio, Vue d’Esprit, co-founded Kaast (4,000+ users) and I’m building Synqit on the side. Off-screen: paragliding, skating, woodworking, and presiding a school nonprofit.",
-		"downloadCv": "Download CV ↓",
+		"downloadCv": "Download CV",
 		"timeline": "Timeline",
 		"caseStudyLink": "Case study →",
 		"allWork": "All work",
@@ -96,7 +96,9 @@
 		"errEmail": "That email doesn’t look right.",
 		"errMessage": "Add a few words about what you need.",
 		"errCaptcha": "The anti-spam check didn’t pass — please try again in a moment.",
-		"errInvalid": "Something in the form looks off — please check the fields."
+		"errInvalid": "Something in the form looks off — please check the fields.",
+		"errCaptchaLoad": "The anti-spam check couldn’t run in this browser. Retry, or email me directly:",
+		"retry": "Retry"
 	},
 	"stats": [
 		"years shipping for the web",

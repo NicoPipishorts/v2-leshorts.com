@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { FiCompass, FiSearch, FiTool, FiUsers, FiWind, FiZap } from "react-icons/fi";
+import { FiArrowDown, FiCompass, FiSearch, FiTool, FiUsers, FiWind, FiZap } from "react-icons/fi";
 import { stack, useContent } from "./data";
 import { EASE_OUT, HEX_CLIP as HEX, Magnetic, Reveal, SplitText } from "./shared";
 
@@ -36,7 +36,7 @@ const IgniteAbout = () => {
 					</motion.div>
 					<Magnetic className='mt-10'>
 						<a href={me.cvUrl} className='inline-flex items-center gap-3 rounded-full border border-ig-fg/20 px-6 py-3 font-mono text-xs uppercase tracking-[0.18em] transition-colors hover:border-[#dc5c48] hover:bg-[#dc5c48] hover:text-[#0b0c0f]'>
-							{ui.downloadCv}
+							{ui.downloadCv} <FiArrowDown />
 						</a>
 					</Magnetic>
 				</div>
