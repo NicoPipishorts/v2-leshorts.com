@@ -459,6 +459,5 @@ for (const cv of Object.values(CV)) {
 		`--print-to-pdf=${pdf}`,
 		`file://${htmlFile}`,
 	], { stdio: "ignore" });
-	fs.copyFileSync(htmlFile, path.join(OUT, `.preview-${cv.lang}.html`));
 	console.log("wrote", path.relative(ROOT, pdf));
 }
