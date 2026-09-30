@@ -135,17 +135,25 @@ const IgniteLayout = () => {
 					<span className='hidden font-mono text-xs uppercase tracking-[0.2em] text-ig-fg/70 sm:block'>{me.name}</span>
 				</Link>
 				<nav className='flex items-center gap-5 font-mono text-xs uppercase tracking-[0.18em] md:gap-8'>
-					{links.map((l) => (
-						<Link
-							key={l.label}
-							to={l.to}
-							hash={"hash" in l ? l.hash : undefined}
-							className='group relative text-ig-fg'
-							activeOptions={{ exact: true, includeHash: false }}>
-							{l.label}
-							<span className='absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-ig-fg transition-transform duration-500 group-hover:origin-left group-hover:scale-x-100' />
-						</Link>
-					))}
+					{links.map((l) => {
+						// "Work" covers the home page and every case study
+						const active = l.to === "/" ? pathname === "/" || pathname.startsWith("/work/") : pathname.startsWith(l.to);
+						return (
+							<Link
+								key={l.label}
+								to={l.to}
+								hash={"hash" in l ? l.hash : undefined}
+								aria-current={active ? "page" : undefined}
+								className={`group relative transition-colors ${active ? "text-[#dc5c48]" : "text-ig-fg hover:text-[#dc5c48]"}`}>
+								{l.label}
+								<span
+									className={`absolute -bottom-1 left-0 h-px w-full bg-current transition-transform duration-500 ${
+										active ? "scale-x-100" : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100"
+									}`}
+								/>
+							</Link>
+						);
+					})}
 					<button onClick={toggle} className='text-base text-ig-fg' aria-label={theme === "dark" ? "Light theme" : "Dark theme"}>
 						{theme === "dark" ? <FiSun /> : <FiMoon />}
 					</button>

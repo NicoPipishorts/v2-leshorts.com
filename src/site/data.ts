@@ -95,7 +95,7 @@ const base: Base[] = [
 		accent: "#f2b632",
 		stack: ["Expo", "React Native", "Expo Router", "Strapi 5", "PostgreSQL", "React 19", "TanStack Query", "Vercel"],
 		cover: shot("comacademy-app"),
-		gallery: [shot("comacademy-backoffice"), shot("comacademy")],
+		gallery: [shot("comacademy-app3"), shot("comacademy-backoffice"), shot("comacademy-parcours")],
 		link: "https://comacademy.fr",
 	},
 	{
@@ -114,8 +114,8 @@ const base: Base[] = [
 		kind: "Freelance",
 		accent: "#e0457b",
 		stack: ["Vue 3", "Vue Router", "Vite", "GSAP", "Swiper", "Sanity", "Vercel Functions", "sharp"],
-		cover: shot("print-atelier"),
-		gallery: [shot("print-gallery-1"), shot("print-gallery-2"), shot("print-dtf")],
+		cover: shot("print-home"),
+		gallery: [shot("print-galerie"), shot("print-atelier")],
 		link: "https://lamaisonduprint.fr",
 	},
 	{
@@ -134,7 +134,7 @@ const base: Base[] = [
 		accent: "#c2412d",
 		stack: ["React", "TanStack Router/Query", "Tailwind", "zod", "Strapi 5", "PostgreSQL", "Anthropic API"],
 		cover: shot("soulbm"),
-		gallery: [shot("soulbm")],
+		gallery: [shot("soulbm-events")],
 		link: "https://soulbm.fr",
 	},
 	{
@@ -143,8 +143,8 @@ const base: Base[] = [
 		kind: "Freelance",
 		accent: "#8a9a5b",
 		stack: ["TanStack Start", "React 19", "Tailwind v4", "Payload 3", "PostgreSQL", "Turborepo", "Coolify"],
-		cover: shot("ab2c-hero"),
-		gallery: [shot("ab2c-home")],
+		cover: shot("ab2c-home"),
+		gallery: [shot("ab2c-services"), shot("ab2c-microferm")],
 	},
 	{
 		slug: "fournelles",
@@ -153,7 +153,7 @@ const base: Base[] = [
 		accent: "#b3263e",
 		stack: ["React", "Vite", "Redux", "Sass", "Supabase", "Vercel Functions", "Resend"],
 		cover: shot("fournelles"),
-		gallery: [shot("fournelles-domain"), shot("fournelles-bottle")],
+		gallery: [shot("fournelles-shop"), shot("fournelles-domaine"), shot("fournelles-domain")],
 		link: "https://domainedesfournelles.com",
 	},
 	{
