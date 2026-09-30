@@ -9,48 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as V2RouteImport } from './routes/v2'
-import { Route as LabRouteImport } from './routes/lab'
-import { Route as IgniteRouteImport } from './routes/ignite'
-import { Route as EditorialRouteImport } from './routes/editorial'
-import { Route as BentoRouteImport } from './routes/bento'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as IgniteIndexRouteImport } from './routes/ignite.index'
-import { Route as EditorialIndexRouteImport } from './routes/editorial.index'
-import { Route as BentoIndexRouteImport } from './routes/bento.index'
-import { Route as IgniteContactRouteImport } from './routes/ignite.contact'
-import { Route as IgniteAboutRouteImport } from './routes/ignite.about'
-import { Route as EditorialContactRouteImport } from './routes/editorial.contact'
-import { Route as EditorialAboutRouteImport } from './routes/editorial.about'
-import { Route as BentoContactRouteImport } from './routes/bento.contact'
-import { Route as BentoAboutRouteImport } from './routes/bento.about'
-import { Route as IgniteWorkSlugRouteImport } from './routes/ignite.work.$slug'
-import { Route as EditorialWorkSlugRouteImport } from './routes/editorial.work.$slug'
-import { Route as BentoWorkSlugRouteImport } from './routes/bento.work.$slug'
+import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 
-const V2Route = V2RouteImport.update({
-  id: '/v2',
-  path: '/v2',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LabRoute = LabRouteImport.update({
-  id: '/lab',
-  path: '/lab',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IgniteRoute = IgniteRouteImport.update({
-  id: '/ignite',
-  path: '/ignite',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EditorialRoute = EditorialRouteImport.update({
-  id: '/editorial',
-  path: '/editorial',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BentoRoute = BentoRouteImport.update({
-  id: '/bento',
-  path: '/bento',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -58,229 +29,60 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IgniteIndexRoute = IgniteIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => IgniteRoute,
-} as any)
-const EditorialIndexRoute = EditorialIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => EditorialRoute,
-} as any)
-const BentoIndexRoute = BentoIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => BentoRoute,
-} as any)
-const IgniteContactRoute = IgniteContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => IgniteRoute,
-} as any)
-const IgniteAboutRoute = IgniteAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => IgniteRoute,
-} as any)
-const EditorialContactRoute = EditorialContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => EditorialRoute,
-} as any)
-const EditorialAboutRoute = EditorialAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => EditorialRoute,
-} as any)
-const BentoContactRoute = BentoContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => BentoRoute,
-} as any)
-const BentoAboutRoute = BentoAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => BentoRoute,
-} as any)
-const IgniteWorkSlugRoute = IgniteWorkSlugRouteImport.update({
+const WorkSlugRoute = WorkSlugRouteImport.update({
   id: '/work/$slug',
   path: '/work/$slug',
-  getParentRoute: () => IgniteRoute,
-} as any)
-const EditorialWorkSlugRoute = EditorialWorkSlugRouteImport.update({
-  id: '/work/$slug',
-  path: '/work/$slug',
-  getParentRoute: () => EditorialRoute,
-} as any)
-const BentoWorkSlugRoute = BentoWorkSlugRouteImport.update({
-  id: '/work/$slug',
-  path: '/work/$slug',
-  getParentRoute: () => BentoRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/bento': typeof BentoRouteWithChildren
-  '/editorial': typeof EditorialRouteWithChildren
-  '/ignite': typeof IgniteRouteWithChildren
-  '/lab': typeof LabRoute
-  '/v2': typeof V2Route
-  '/bento/about': typeof BentoAboutRoute
-  '/bento/contact': typeof BentoContactRoute
-  '/editorial/about': typeof EditorialAboutRoute
-  '/editorial/contact': typeof EditorialContactRoute
-  '/ignite/about': typeof IgniteAboutRoute
-  '/ignite/contact': typeof IgniteContactRoute
-  '/bento/': typeof BentoIndexRoute
-  '/editorial/': typeof EditorialIndexRoute
-  '/ignite/': typeof IgniteIndexRoute
-  '/bento/work/$slug': typeof BentoWorkSlugRoute
-  '/editorial/work/$slug': typeof EditorialWorkSlugRoute
-  '/ignite/work/$slug': typeof IgniteWorkSlugRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/lab': typeof LabRoute
-  '/v2': typeof V2Route
-  '/bento/about': typeof BentoAboutRoute
-  '/bento/contact': typeof BentoContactRoute
-  '/editorial/about': typeof EditorialAboutRoute
-  '/editorial/contact': typeof EditorialContactRoute
-  '/ignite/about': typeof IgniteAboutRoute
-  '/ignite/contact': typeof IgniteContactRoute
-  '/bento': typeof BentoIndexRoute
-  '/editorial': typeof EditorialIndexRoute
-  '/ignite': typeof IgniteIndexRoute
-  '/bento/work/$slug': typeof BentoWorkSlugRoute
-  '/editorial/work/$slug': typeof EditorialWorkSlugRoute
-  '/ignite/work/$slug': typeof IgniteWorkSlugRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/bento': typeof BentoRouteWithChildren
-  '/editorial': typeof EditorialRouteWithChildren
-  '/ignite': typeof IgniteRouteWithChildren
-  '/lab': typeof LabRoute
-  '/v2': typeof V2Route
-  '/bento/about': typeof BentoAboutRoute
-  '/bento/contact': typeof BentoContactRoute
-  '/editorial/about': typeof EditorialAboutRoute
-  '/editorial/contact': typeof EditorialContactRoute
-  '/ignite/about': typeof IgniteAboutRoute
-  '/ignite/contact': typeof IgniteContactRoute
-  '/bento/': typeof BentoIndexRoute
-  '/editorial/': typeof EditorialIndexRoute
-  '/ignite/': typeof IgniteIndexRoute
-  '/bento/work/$slug': typeof BentoWorkSlugRoute
-  '/editorial/work/$slug': typeof EditorialWorkSlugRoute
-  '/ignite/work/$slug': typeof IgniteWorkSlugRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/bento'
-    | '/editorial'
-    | '/ignite'
-    | '/lab'
-    | '/v2'
-    | '/bento/about'
-    | '/bento/contact'
-    | '/editorial/about'
-    | '/editorial/contact'
-    | '/ignite/about'
-    | '/ignite/contact'
-    | '/bento/'
-    | '/editorial/'
-    | '/ignite/'
-    | '/bento/work/$slug'
-    | '/editorial/work/$slug'
-    | '/ignite/work/$slug'
+  fullPaths: '/' | '/about' | '/contact' | '/work/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/lab'
-    | '/v2'
-    | '/bento/about'
-    | '/bento/contact'
-    | '/editorial/about'
-    | '/editorial/contact'
-    | '/ignite/about'
-    | '/ignite/contact'
-    | '/bento'
-    | '/editorial'
-    | '/ignite'
-    | '/bento/work/$slug'
-    | '/editorial/work/$slug'
-    | '/ignite/work/$slug'
-  id:
-    | '__root__'
-    | '/'
-    | '/bento'
-    | '/editorial'
-    | '/ignite'
-    | '/lab'
-    | '/v2'
-    | '/bento/about'
-    | '/bento/contact'
-    | '/editorial/about'
-    | '/editorial/contact'
-    | '/ignite/about'
-    | '/ignite/contact'
-    | '/bento/'
-    | '/editorial/'
-    | '/ignite/'
-    | '/bento/work/$slug'
-    | '/editorial/work/$slug'
-    | '/ignite/work/$slug'
+  to: '/' | '/about' | '/contact' | '/work/$slug'
+  id: '__root__' | '/' | '/about' | '/contact' | '/work/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BentoRoute: typeof BentoRouteWithChildren
-  EditorialRoute: typeof EditorialRouteWithChildren
-  IgniteRoute: typeof IgniteRouteWithChildren
-  LabRoute: typeof LabRoute
-  V2Route: typeof V2Route
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  WorkSlugRoute: typeof WorkSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/v2': {
-      id: '/v2'
-      path: '/v2'
-      fullPath: '/v2'
-      preLoaderRoute: typeof V2RouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/lab': {
-      id: '/lab'
-      path: '/lab'
-      fullPath: '/lab'
-      preLoaderRoute: typeof LabRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ignite': {
-      id: '/ignite'
-      path: '/ignite'
-      fullPath: '/ignite'
-      preLoaderRoute: typeof IgniteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/editorial': {
-      id: '/editorial'
-      path: '/editorial'
-      fullPath: '/editorial'
-      preLoaderRoute: typeof EditorialRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/bento': {
-      id: '/bento'
-      path: '/bento'
-      fullPath: '/bento'
-      preLoaderRoute: typeof BentoRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -290,151 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ignite/': {
-      id: '/ignite/'
-      path: '/'
-      fullPath: '/ignite/'
-      preLoaderRoute: typeof IgniteIndexRouteImport
-      parentRoute: typeof IgniteRoute
-    }
-    '/editorial/': {
-      id: '/editorial/'
-      path: '/'
-      fullPath: '/editorial/'
-      preLoaderRoute: typeof EditorialIndexRouteImport
-      parentRoute: typeof EditorialRoute
-    }
-    '/bento/': {
-      id: '/bento/'
-      path: '/'
-      fullPath: '/bento/'
-      preLoaderRoute: typeof BentoIndexRouteImport
-      parentRoute: typeof BentoRoute
-    }
-    '/ignite/contact': {
-      id: '/ignite/contact'
-      path: '/contact'
-      fullPath: '/ignite/contact'
-      preLoaderRoute: typeof IgniteContactRouteImport
-      parentRoute: typeof IgniteRoute
-    }
-    '/ignite/about': {
-      id: '/ignite/about'
-      path: '/about'
-      fullPath: '/ignite/about'
-      preLoaderRoute: typeof IgniteAboutRouteImport
-      parentRoute: typeof IgniteRoute
-    }
-    '/editorial/contact': {
-      id: '/editorial/contact'
-      path: '/contact'
-      fullPath: '/editorial/contact'
-      preLoaderRoute: typeof EditorialContactRouteImport
-      parentRoute: typeof EditorialRoute
-    }
-    '/editorial/about': {
-      id: '/editorial/about'
-      path: '/about'
-      fullPath: '/editorial/about'
-      preLoaderRoute: typeof EditorialAboutRouteImport
-      parentRoute: typeof EditorialRoute
-    }
-    '/bento/contact': {
-      id: '/bento/contact'
-      path: '/contact'
-      fullPath: '/bento/contact'
-      preLoaderRoute: typeof BentoContactRouteImport
-      parentRoute: typeof BentoRoute
-    }
-    '/bento/about': {
-      id: '/bento/about'
-      path: '/about'
-      fullPath: '/bento/about'
-      preLoaderRoute: typeof BentoAboutRouteImport
-      parentRoute: typeof BentoRoute
-    }
-    '/ignite/work/$slug': {
-      id: '/ignite/work/$slug'
+    '/work/$slug': {
+      id: '/work/$slug'
       path: '/work/$slug'
-      fullPath: '/ignite/work/$slug'
-      preLoaderRoute: typeof IgniteWorkSlugRouteImport
-      parentRoute: typeof IgniteRoute
-    }
-    '/editorial/work/$slug': {
-      id: '/editorial/work/$slug'
-      path: '/work/$slug'
-      fullPath: '/editorial/work/$slug'
-      preLoaderRoute: typeof EditorialWorkSlugRouteImport
-      parentRoute: typeof EditorialRoute
-    }
-    '/bento/work/$slug': {
-      id: '/bento/work/$slug'
-      path: '/work/$slug'
-      fullPath: '/bento/work/$slug'
-      preLoaderRoute: typeof BentoWorkSlugRouteImport
-      parentRoute: typeof BentoRoute
+      fullPath: '/work/$slug'
+      preLoaderRoute: typeof WorkSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface BentoRouteChildren {
-  BentoAboutRoute: typeof BentoAboutRoute
-  BentoContactRoute: typeof BentoContactRoute
-  BentoIndexRoute: typeof BentoIndexRoute
-  BentoWorkSlugRoute: typeof BentoWorkSlugRoute
-}
-
-const BentoRouteChildren: BentoRouteChildren = {
-  BentoAboutRoute: BentoAboutRoute,
-  BentoContactRoute: BentoContactRoute,
-  BentoIndexRoute: BentoIndexRoute,
-  BentoWorkSlugRoute: BentoWorkSlugRoute,
-}
-
-const BentoRouteWithChildren = BentoRoute._addFileChildren(BentoRouteChildren)
-
-interface EditorialRouteChildren {
-  EditorialAboutRoute: typeof EditorialAboutRoute
-  EditorialContactRoute: typeof EditorialContactRoute
-  EditorialIndexRoute: typeof EditorialIndexRoute
-  EditorialWorkSlugRoute: typeof EditorialWorkSlugRoute
-}
-
-const EditorialRouteChildren: EditorialRouteChildren = {
-  EditorialAboutRoute: EditorialAboutRoute,
-  EditorialContactRoute: EditorialContactRoute,
-  EditorialIndexRoute: EditorialIndexRoute,
-  EditorialWorkSlugRoute: EditorialWorkSlugRoute,
-}
-
-const EditorialRouteWithChildren = EditorialRoute._addFileChildren(
-  EditorialRouteChildren,
-)
-
-interface IgniteRouteChildren {
-  IgniteAboutRoute: typeof IgniteAboutRoute
-  IgniteContactRoute: typeof IgniteContactRoute
-  IgniteIndexRoute: typeof IgniteIndexRoute
-  IgniteWorkSlugRoute: typeof IgniteWorkSlugRoute
-}
-
-const IgniteRouteChildren: IgniteRouteChildren = {
-  IgniteAboutRoute: IgniteAboutRoute,
-  IgniteContactRoute: IgniteContactRoute,
-  IgniteIndexRoute: IgniteIndexRoute,
-  IgniteWorkSlugRoute: IgniteWorkSlugRoute,
-}
-
-const IgniteRouteWithChildren =
-  IgniteRoute._addFileChildren(IgniteRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BentoRoute: BentoRouteWithChildren,
-  EditorialRoute: EditorialRouteWithChildren,
-  IgniteRoute: IgniteRouteWithChildren,
-  LabRoute: LabRoute,
-  V2Route: V2Route,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  WorkSlugRoute: WorkSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

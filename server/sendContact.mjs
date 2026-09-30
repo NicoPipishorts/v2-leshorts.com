@@ -2,8 +2,11 @@
 // Env: RESEND_API_KEY (required), CONTACT_TO (required, where messages land),
 //      CONTACT_FROM (optional; must be on a domain verified in Resend — the default
 //      sandbox sender can only deliver to the Resend account owner's own address),
-//      TURNSTILE_SECRET_KEY (optional; when set, every message needs a valid Turnstile token).
+//      TURNSTILE_SECRET_KEY (optional; when set, every message needs a valid Turnstile token),
+//      SITE_URL (optional; link used in the emails, defaults to https://nicolaspisar.com).
 // ponytail: no per-IP rate limit (serverless has no shared memory); add a Vercel Firewall rate-limit rule if needed.
+
+import { confirmationEmail, notificationEmail } from "./emailTemplates.mjs";
 
 const LIMITS = { name: 120, email: 200, topic: 80, message: 5000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -52,24 +55,25 @@ export async function sendContact(payload, env = process.env, ip = "") {
 		return { status: 503, body: { ok: false, error: "not_configured" } };
 	}
 
-	const response = await fetch("https://api.resend.com/emails", {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${env.RESEND_API_KEY}`,
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			from: env.CONTACT_FROM || "Portfolio <onboarding@resend.dev>",
-			to: [env.CONTACT_TO],
-			reply_to: email,
-			subject: `[Portfolio] ${topic || "Contact"} — ${name}`,
-			text: `${message}\n\n—\n${name} <${email}>\nTopic: ${topic || "—"}\nLanguage: ${lang}`,
-		}),
-	});
+	const from = env.CONTACT_FROM || "Portfolio <onboarding@resend.dev>";
+	const siteUrl = env.SITE_URL || "https://nicolaspisar.com";
+	const send = (mail) =>
+		fetch("https://api.resend.com/emails", {
+			method: "POST",
+			headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+			body: JSON.stringify({ from, ...mail }),
+		});
 
-	if (!response.ok) {
-		console.error("Contact form: Resend error", response.status, await response.text());
+	// 1. Notification to Nicolas — this is the one that matters.
+	const notified = await send({ to: [env.CONTACT_TO], reply_to: email, ...notificationEmail({ name, email, topic, message, lang, siteUrl }) });
+	if (!notified.ok) {
+		console.error("Contact form: Resend error", notified.status, await notified.text());
 		return { status: 502, body: { ok: false, error: "send_failed" } };
 	}
+
+	// 2. Confirmation to the visitor — best effort; their message already arrived.
+	const confirmed = await send({ to: [email], reply_to: env.CONTACT_TO, ...confirmationEmail({ name, lang, siteUrl }) });
+	if (!confirmed.ok) console.error("Contact form: confirmation failed", confirmed.status, await confirmed.text());
+
 	return { status: 200, body: { ok: true } };
 }

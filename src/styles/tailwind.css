@@ -2,14 +2,11 @@
 @import "tailwindcss/utilities";
 
 @theme {
-  --color-brand-primary: #dc5c48;
-  --color-brand-secondary: #488b9b;
-  --color-brand-beige: #b79a77;
   --font-sans: 'Manrope', 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Sora', 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Unbounded', 'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
-/* Ignite theme tokens; values live in src/lab/lab.css under .ignite[data-theme] */
+/* Theme tokens; values live in src/site/site.css under .ignite[data-theme] */
 @theme inline {
   --color-ig-bg: var(--ig-bg);
   --color-ig-fg: var(--ig-fg);
