@@ -1,7 +1,6 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion, useSpring } from "framer-motion";
 import { createContext, useEffect, useState, type MouseEvent } from "react";
-import { flushSync } from "react-dom";
 import { FiMoon, FiSun } from "react-icons/fi";
 import Logo from "../components/Logo";
 import { useTranslation } from "react-i18next";
@@ -33,36 +32,79 @@ export const PARTICLES: Record<Theme, { colors: string[]; hex: string; dot: numb
 const PAGE_BG: Record<Theme, string> = { dark: "#0b0c0f", light: "#f4efe7" };
 const THEME_KEY = "igniteTheme";
 
-/** Koch subdivision: every edge sprouts a spike, `depth` times over. `spike` 0 = flat, 1 = classic snowflake, more = sharper shards. */
-const koch = (pts: number[][], spike: number, depth: number): number[][] =>
-	depth === 0
-		? pts
-		: koch(
-				pts.flatMap(([ax, ay], i) => {
-					const [bx, by] = pts[(i + 1) % pts.length];
-					const dx = (bx - ax) / 3;
-					const dy = (by - ay) / 3;
-					const h = (spike * Math.sqrt(3)) / 2;
-					return [
-						[ax, ay],
-						[ax + dx, ay + dy],
-						[ax + 1.5 * dx + dy * h, ay + 1.5 * dy - dx * h],
-						[ax + 2 * dx, ay + 2 * dy],
-					];
-				}),
-				spike,
-				depth - 1,
-			);
-const BURST_SPIKE = 1.5;
-/** The logo's pointy-top hexagon at (x, y), radius r, as a clip-path with fractal edges. Same point count at any spike, so keyframes interpolate. */
-const burst = (x: number, y: number, r: number, spike: number, rot: number) => {
-	const hex = Array.from({ length: 6 }, (_, k) => {
-		const a = rot - Math.PI / 2 + (k * Math.PI) / 3;
-		return [Math.cos(a), Math.sin(a)];
-	});
-	return `polygon(${koch(hex, spike, 3)
-		.map(([px, py]) => `${(x + r * px).toFixed(1)}px ${(y + r * py).toFixed(1)}px`)
-		.join(",")})`;
+// Theme switch timings (ms): flight from the toggle, shockwave spread, per-dot jitter, swell to a full cell, shrink away.
+const FLY = 420;
+const WAVE = 320;
+const JITTER = 140;
+const SWELL = 180;
+const SHRINK = 240;
+let bursting = false;
+/**
+ * The site explodes into the logo's dots: thousands of them shoot out of (x, y), land on a grid and swell
+ * until the screen is solid `bg`; `swap` runs under that cover, then the dots shrink away over the new theme.
+ */
+const themeBurst = (x: number, y: number, bg: string, accents: string[], swap: () => void) => {
+	if (bursting) return;
+	bursting = true;
+	const w = innerWidth;
+	const h = innerHeight;
+	const dpr = Math.min(devicePixelRatio || 1, 2);
+	const canvas = document.createElement("canvas");
+	canvas.width = w * dpr;
+	canvas.height = h * dpr;
+	// above the page and its overlays, below the custom cursor
+	canvas.style.cssText = "position:fixed;inset:0;width:100%;height:100%;z-index:89;pointer-events:none";
+	document.body.append(canvas);
+	const ctx = canvas.getContext("2d")!;
+	ctx.scale(dpr, dpr);
+	const g = Math.max(12, Math.round(Math.sqrt((w * h) / 9000))); // ~9k dots on any screen
+	const far = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
+	const parts: { hx: number; hy: number; d: number; c: number; px: number; py: number; s: number }[] = [];
+	for (let gy = 0; gy < h; gy += g)
+		for (let gx = 0; gx < w; gx += g) {
+			const hx = gx + g / 2;
+			const hy = gy + g / 2;
+			parts.push({ hx, hy, d: (Math.hypot(hx - x, hy - y) / far) * WAVE + Math.random() * JITTER, c: (Math.random() * accents.length) | 0, px: 0, py: 0, s: 0 });
+		}
+	const cover = FLY + WAVE + JITTER + SWELL;
+	const end = cover + WAVE + JITTER + SHRINK;
+	const clamp = (v: number) => Math.min(1, Math.max(0, v));
+	const t0 = performance.now();
+	let swapped = false;
+	const frame = (now: number) => {
+		const t = now - t0;
+		if (t >= cover && !swapped) {
+			swapped = true;
+			swap();
+		}
+		if (t >= end) {
+			canvas.remove();
+			bursting = false;
+			return;
+		}
+		ctx.clearRect(0, 0, w, h);
+		for (const p of parts) {
+			if (t < cover) {
+				const k = 1 - (1 - clamp((t - p.d) / FLY)) ** 4; // fast out of the toggle, easing into place
+				p.px = x + (p.hx - x) * k;
+				p.py = y + (p.hy - y) * k;
+				p.s = t < p.d ? 0 : 3 + (g - 2) * clamp((t - p.d - FLY) / SWELL) ** 2;
+			} else {
+				p.px = p.hx;
+				p.py = p.hy;
+				p.s = (g + 1) * (1 - clamp((t - cover - p.d) / SHRINK) ** 2);
+			}
+		}
+		// big dots are the new background; small ones (in flight, or nearly gone) are logo-coloured sparks
+		const draw = (color: string, pick: (p: (typeof parts)[number]) => boolean) => {
+			ctx.fillStyle = color;
+			for (const p of parts) if (p.s > 0.4 && pick(p)) ctx.fillRect(p.px - p.s / 2, p.py - p.s / 2, p.s, p.s);
+		};
+		draw(bg, (p) => p.s > 5);
+		accents.forEach((color, i) => draw(color, (p) => p.s <= 5 && p.c === i));
+		requestAnimationFrame(frame);
+	};
+	requestAnimationFrame(frame);
 };
 
 /** Saved choice, else the OS preference. */
@@ -77,31 +119,18 @@ const useTheme = () => {
 		return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 	});
 
-	// The new theme bursts out of the toggle as the logo hexagon going fractal (View Transitions; instant where unsupported).
 	const toggle = (e: MouseEvent) => {
 		const next: Theme = theme === "dark" ? "light" : "dark";
 		const apply = () => {
-			flushSync(() => setTheme(next));
+			setTheme(next);
 			try {
 				localStorage.setItem(THEME_KEY, next);
 			} catch {
 				/* storage blocked */
 			}
 		};
-		if (!document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return apply();
-		const { clientX: x, clientY: y } = e;
-		// /0.866: the hexagon's flat sides, not just its corners, must clear the farthest viewport corner
-		const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) / 0.866;
-		document.startViewTransition(apply).ready.then(() =>
-			document.documentElement.animate(
-				{
-					// logo hexagon pops, then spins a sixth of a turn while its edges shatter into spikes
-					clipPath: [burst(x, y, 0, 0, 0), burst(x, y, r * 0.12, 0, 0), burst(x, y, r, BURST_SPIKE, Math.PI / 3)],
-					offset: [0, 0.3, 1],
-				},
-				{ duration: 1000, easing: "cubic-bezier(.76,0,.24,1)", pseudoElement: "::view-transition-new(root)" },
-			),
-		);
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return apply();
+		themeBurst(e.clientX, e.clientY, PAGE_BG[next], [...PARTICLES[next].colors, PARTICLES[next].hex], apply);
 	};
 	return { theme, toggle };
 };
