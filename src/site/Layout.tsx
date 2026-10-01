@@ -33,6 +33,38 @@ export const PARTICLES: Record<Theme, { colors: string[]; hex: string; dot: numb
 const PAGE_BG: Record<Theme, string> = { dark: "#0b0c0f", light: "#f4efe7" };
 const THEME_KEY = "igniteTheme";
 
+/** Koch subdivision: every edge sprouts a spike, `depth` times over. `spike` 0 = flat, 1 = classic snowflake, more = sharper shards. */
+const koch = (pts: number[][], spike: number, depth: number): number[][] =>
+	depth === 0
+		? pts
+		: koch(
+				pts.flatMap(([ax, ay], i) => {
+					const [bx, by] = pts[(i + 1) % pts.length];
+					const dx = (bx - ax) / 3;
+					const dy = (by - ay) / 3;
+					const h = (spike * Math.sqrt(3)) / 2;
+					return [
+						[ax, ay],
+						[ax + dx, ay + dy],
+						[ax + 1.5 * dx + dy * h, ay + 1.5 * dy - dx * h],
+						[ax + 2 * dx, ay + 2 * dy],
+					];
+				}),
+				spike,
+				depth - 1,
+			);
+const BURST_SPIKE = 1.5;
+/** The logo's pointy-top hexagon at (x, y), radius r, as a clip-path with fractal edges. Same point count at any spike, so keyframes interpolate. */
+const burst = (x: number, y: number, r: number, spike: number, rot: number) => {
+	const hex = Array.from({ length: 6 }, (_, k) => {
+		const a = rot - Math.PI / 2 + (k * Math.PI) / 3;
+		return [Math.cos(a), Math.sin(a)];
+	});
+	return `polygon(${koch(hex, spike, 3)
+		.map(([px, py]) => `${(x + r * px).toFixed(1)}px ${(y + r * py).toFixed(1)}px`)
+		.join(",")})`;
+};
+
 /** Saved choice, else the OS preference. */
 const useTheme = () => {
 	const [theme, setTheme] = useState<Theme>(() => {
@@ -45,7 +77,7 @@ const useTheme = () => {
 		return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 	});
 
-	// The new theme grows out of the toggle as a circle (View Transitions; instant where unsupported).
+	// The new theme bursts out of the toggle as the logo hexagon going fractal (View Transitions; instant where unsupported).
 	const toggle = (e: MouseEvent) => {
 		const next: Theme = theme === "dark" ? "light" : "dark";
 		const apply = () => {
@@ -58,11 +90,16 @@ const useTheme = () => {
 		};
 		if (!document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return apply();
 		const { clientX: x, clientY: y } = e;
-		const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+		// /0.866: the hexagon's flat sides, not just its corners, must clear the farthest viewport corner
+		const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) / 0.866;
 		document.startViewTransition(apply).ready.then(() =>
 			document.documentElement.animate(
-				{ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
-				{ duration: 750, easing: "cubic-bezier(.76,0,.24,1)", pseudoElement: "::view-transition-new(root)" },
+				{
+					// logo hexagon pops, then spins a sixth of a turn while its edges shatter into spikes
+					clipPath: [burst(x, y, 0, 0, 0), burst(x, y, r * 0.12, 0, 0), burst(x, y, r, BURST_SPIKE, Math.PI / 3)],
+					offset: [0, 0.3, 1],
+				},
+				{ duration: 1000, easing: "cubic-bezier(.76,0,.24,1)", pseudoElement: "::view-transition-new(root)" },
 			),
 		);
 	};
