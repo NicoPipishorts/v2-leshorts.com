@@ -42,8 +42,9 @@ let bursting = false;
 /**
  * The site explodes into the logo's dots: thousands of them shoot out of (x, y), land on a grid and swell
  * until the screen is solid `bg`; `swap` runs under that cover, then the dots shrink away over the new theme.
+ * `cover` false → the dots stop at half a cell, so what's on screen (the phone menu) stays visible throughout.
  */
-const themeBurst = (x: number, y: number, bg: string, accents: string[], swap: () => void) => {
+const themeBurst = (x: number, y: number, bg: string, accents: string[], swap: () => void, cover = true) => {
 	if (bursting) return;
 	bursting = true;
 	const w = innerWidth;
@@ -66,14 +67,15 @@ const themeBurst = (x: number, y: number, bg: string, accents: string[], swap: (
 			const hy = gy + g / 2;
 			parts.push({ hx, hy, d: (Math.hypot(hx - x, hy - y) / far) * WAVE + Math.random() * JITTER, c: (Math.random() * accents.length) | 0, px: 0, py: 0, s: 0 });
 		}
-	const cover = FLY + WAVE + JITTER + SWELL;
-	const end = cover + WAVE + JITTER + SHRINK;
+	const peak = cover ? g + 1 : g / 2;
+	const covered = FLY + WAVE + JITTER + SWELL;
+	const end = covered + WAVE + JITTER + SHRINK;
 	const clamp = (v: number) => Math.min(1, Math.max(0, v));
 	const t0 = performance.now();
 	let swapped = false;
 	const frame = (now: number) => {
 		const t = now - t0;
-		if (t >= cover && !swapped) {
+		if (t >= covered && !swapped) {
 			swapped = true;
 			swap();
 		}
@@ -84,15 +86,15 @@ const themeBurst = (x: number, y: number, bg: string, accents: string[], swap: (
 		}
 		ctx.clearRect(0, 0, w, h);
 		for (const p of parts) {
-			if (t < cover) {
+			if (t < covered) {
 				const k = 1 - (1 - clamp((t - p.d) / FLY)) ** 4; // fast out of the toggle, easing into place
 				p.px = x + (p.hx - x) * k;
 				p.py = y + (p.hy - y) * k;
-				p.s = t < p.d ? 0 : 3 + (g - 2) * clamp((t - p.d - FLY) / SWELL) ** 2;
+				p.s = t < p.d ? 0 : 3 + (peak - 3) * clamp((t - p.d - FLY) / SWELL) ** 2;
 			} else {
 				p.px = p.hx;
 				p.py = p.hy;
-				p.s = (g + 1) * (1 - clamp((t - cover - p.d) / SHRINK) ** 2);
+				p.s = peak * (1 - clamp((t - covered - p.d) / SHRINK) ** 2);
 			}
 		}
 		// big dots are the new background; small ones (in flight, or nearly gone) are logo-coloured sparks
@@ -119,7 +121,7 @@ const useTheme = () => {
 		return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 	});
 
-	const toggle = (e: MouseEvent) => {
+	const toggle = (e: MouseEvent, cover = true) => {
 		const next: Theme = theme === "dark" ? "light" : "dark";
 		const apply = () => {
 			setTheme(next);
@@ -130,7 +132,7 @@ const useTheme = () => {
 			}
 		};
 		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return apply();
-		themeBurst(e.clientX, e.clientY, PAGE_BG[next], [...PARTICLES[next].colors, PARTICLES[next].hex], apply);
+		themeBurst(e.clientX, e.clientY, PAGE_BG[next], [...PARTICLES[next].colors, PARTICLES[next].hex], apply, cover);
 	};
 	return { theme, toggle };
 };
@@ -322,7 +324,7 @@ const IgniteLayout = () => {
 								))}
 							</div>
 							<button
-								onClick={toggle}
+								onClick={(e) => toggle(e, false)}
 								className='flex items-center gap-2 rounded-full border border-ig-fg/15 px-4 py-2.5 font-mono text-sm uppercase tracking-[0.14em] text-ig-fg [&>*]:shrink-0'>
 								{theme === "dark" ? <FiSun /> : <FiMoon />}
 								{theme === "dark" ? ui.themeLight : ui.themeDark}
