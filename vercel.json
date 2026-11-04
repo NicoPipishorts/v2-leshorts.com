@@ -1,8 +1,34 @@
 {
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/((?!api/)(?!.*\\.).*)",
-      "destination": "/index.html"
+      "source": "/about",
+      "destination": "/about.html",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html",
+      "permanent": true
+    },
+    {
+      "source": "/work",
+      "destination": "/portfolio.html",
+      "permanent": true
+    },
+    {
+      "source": "/work/:slug",
+      "destination": "/project.html?p=:slug",
+      "permanent": true
+    },
+    {
+      "source": "/:slug(kaast|horizon-planning|comacademy|asba|maison-du-print|np-ebenisterie|soulbm|ab2c|fournelles|careledger)",
+      "destination": "/project.html?p=:slug",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }

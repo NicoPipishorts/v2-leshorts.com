@@ -30,7 +30,8 @@
 	</div>
 
 	<div class="right">
-		<form>
+		<!-- posts to /api/contact (api/contact.js → server/sendContact.mjs); the Turnstile site key is filled in at build time -->
+		<form id="contact-form" data-sitekey="__TURNSTILE_SITE_KEY__" novalidate>
 			<fieldset class="pick">
 				<legend>C'est pour…</legend>
 				<label><input type="radio" name="t" value="site" checked /><span>Un site</span></label>
@@ -41,20 +42,30 @@
 				<label><input type="radio" name="t" value="autre" /><span>Autre chose</span></label>
 			</fieldset>
 			<div class="pair">
-				<label>Votre nom<input autocomplete="name" required /></label>
-				<label>Votre e-mail<input type="email" autocomplete="email" required /></label>
+				<label>Votre nom<input name="name" autocomplete="name" maxlength="120" required /></label>
+				<label>Votre e-mail<input name="email" type="email" autocomplete="email" maxlength="200" required /></label>
 			</div>
-			<label>Entreprise ou association <span class="note">(facultatif)</span><input autocomplete="organization" /></label>
-			<label>Votre message<textarea placeholder="Ce que vous faites, ce qui coince, pour quand…" required></textarea></label>
-			<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+			<label>Entreprise ou association <span class="note">(facultatif)</span><input name="organization" autocomplete="organization" maxlength="120" /></label>
+			<label>Votre message<textarea name="message" maxlength="4800" placeholder="Ce que vous faites, ce qui coince, pour quand…" required></textarea></label>
+			<!-- honeypot: hidden from people, filled by bots -->
+			<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+			<div id="turnstile"></div>
+			<div class="send">
 				<button class="btn" type="submit">Envoyer le message</button>
-				<span class="sent" data-sent hidden>Maquette&nbsp;: rien n'a été envoyé.</span>
+				<p class="form-status" data-status role="status" aria-live="polite" hidden></p>
 			</div>
 		</form>
+		<div class="sent-ok" id="sent-ok" hidden tabindex="-1">
+			<span class="mono">Message envoyé</span>
+			<h2>Merci, c'est bien arrivé.</h2>
+			<p>Une copie vient de partir dans votre boîte mail. Je reviens vers vous très vite.</p>
+			<a class="btn line" href="portfolio.html">En attendant, voir les projets</a>
+		</div>
 	</div>
 </main>
 <script src="topo.js"></script>
 <script src="transit.js"></script>
 <script src="projects.js"></script>
+<script src="contact.js"></script>
 </body>
 </html>
