@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (!e.isIntersecting && e.boundingClientRect.top > 0) return; // also reveal anything scrolled past too fast
 			io.unobserve(e.target);
 			e.target.classList.replace("pre", "in");
-			setTimeout(() => e.target.classList.remove("in"), 2200);
+			setTimeout(() => e.target.classList.remove("in"), 3200); // after the longest intro (FAQ chat)
 		}), { threshold: 0.25 });
 		cards.forEach((c) => io.observe(c));
 	}

@@ -16,12 +16,16 @@ window.DETAILS = {
 			"BullMQ",
 			"Docker + Caddy"
 		],
-		"cover": "synqit-dashboard",
+		"cover": "synqit-home",
 		"gallery": [
-			"synqit-home",
-			"synqit-guest",
-			"synqit-transfer",
-			"synqit-mobile"
+			"synqit-dashboard-dark",
+			"synqit-events",
+			"synqit-transfer-dark",
+			"synqit-phone-guest",
+			"synqit-phone-guest-tracks-dark",
+			"synqit-phone-share",
+			"synqit-phone-dashboard-dark",
+			"synqit-phone-transfer"
 		],
 		"role": "Fondateur & Product Engineer",
 		"period": "2024 — aujourd’hui",
@@ -169,11 +173,16 @@ window.DETAILS = {
 			"Playwright",
 			"Caddy / OVH"
 		],
-		"cover": "horizon-week",
+		"cover": "horizon-planning",
 		"gallery": [
-			"horizon-assign",
-			"horizon-tracking",
-			"horizon-mobile"
+			"horizon-affectation",
+			"horizon-chantiers",
+			"horizon-suivi",
+			"horizon-phone-planning",
+			"horizon-phone-chantier",
+			"horizon-phone-affectation",
+			"horizon-phone-suivi",
+			"horizon-phone-chantiers"
 		],
 		"role": "Conception produit & développement full-stack",
 		"period": "2026",
@@ -249,9 +258,14 @@ window.DETAILS = {
 		],
 		"cover": "ab2c-home",
 		"gallery": [
-			"ab2c-produits",
-			"ab2c-documentation",
-			"ab2c-contact"
+			"ab2c-services",
+			"ab2c-clients-dark",
+			"ab2c-demandes",
+			"ab2c-m-home",
+			"ab2c-m-services",
+			"ab2c-m-produits",
+			"ab2c-m-expertise",
+			"ab2c-m-documentation"
 		],
 		"role": "Design system, site web & back-office",
 		"period": "2026",
@@ -322,11 +336,16 @@ window.DETAILS = {
 			"TanStack Query",
 			"Vercel"
 		],
-		"cover": "comacademy-app",
+		"cover": "comacademy-home",
 		"gallery": [
-			"comacademy-app3",
 			"comacademy-backoffice",
-			"comacademy-parcours"
+			"comacademy-parcours",
+			"comacademy-question",
+			"comacademy-m-accueil",
+			"comacademy-m-jeu",
+			"comacademy-m-secrets",
+			"comacademy-m-feed",
+			"comacademy-m-dico"
 		],
 		"role": "Développeur mobile & full-stack",
 		"period": "2023 — aujourd’hui",
@@ -399,9 +418,15 @@ window.DETAILS = {
 		],
 		"cover": "asba-home",
 		"gallery": [
-			"asba-hero",
-			"asba-product",
-			"asba-leads"
+			"asba-kits",
+			"asba-leads",
+			"asba-lead",
+			"asba-m-home",
+			"asba-m-kits",
+			"asba-m-produit",
+			"asba-m-custom",
+			"asba-m-artistes",
+			"asba-m-manifeste"
 		],
 		"role": "Frontend, CMS & back office",
 		"period": "2023 — aujourd’hui",
@@ -444,10 +469,14 @@ window.DETAILS = {
 		],
 		"cover": "print-v1",
 		"gallery": [
-			"print-v2",
-			"print-v3",
-			"print-v4",
-			"print-v3-galerie"
+			"print-atelier",
+			"print-galerie",
+			"print-devis",
+			"print-m-home",
+			"print-m-services",
+			"print-m-atelier",
+			"print-m-galerie",
+			"print-m-devis"
 		],
 		"role": "Site, CMS & back office",
 		"period": "2026",
@@ -501,10 +530,14 @@ window.DETAILS = {
 		],
 		"cover": "np-home",
 		"gallery": [
-			"np-table",
-			"np-table-detail",
-			"np-process",
-			"np-furniture"
+			"np-realisations",
+			"np-projet",
+			"np-methode",
+			"np-m-home",
+			"np-m-realisations",
+			"np-m-projet",
+			"np-m-methode",
+			"np-m-contact"
 		],
 		"role": "Marque, site web — et les meubles",
 		"period": "2026",
@@ -557,9 +590,11 @@ window.DETAILS = {
 			"PostgreSQL",
 			"Anthropic API"
 		],
-		"cover": "soulbm",
+		"cover": "soulbm-accueil",
 		"gallery": [
-			"soulbm-events"
+			"soulbm-admin-planning",
+			"soulbm-admin-tresorerie",
+			"soulbm-admin-adherents"
 		],
 		"role": "Président & développeur full-stack",
 		"period": "2024 — aujourd’hui",
@@ -616,7 +651,12 @@ window.DETAILS = {
 		"gallery": [
 			"fournelles-shop",
 			"fournelles-domaine",
-			"fournelles-domain"
+			"fournelles-vins",
+			"fournelles-m-home",
+			"fournelles-m-domaine",
+			"fournelles-m-vins",
+			"fournelles-m-fiche",
+			"fournelles-m-boutique"
 		],
 		"role": "Site web & boutique",
 		"period": "2022 — 2026",
@@ -654,8 +694,9 @@ window.DETAILS = {
 		],
 		"cover": "careledger-overview",
 		"gallery": [
-			"careledger-portfolio",
-			"careledger-flow"
+			"careledger-project",
+			"careledger-flow",
+			"careledger-worklog"
 		],
 		"role": "Outil perso — conception & développement",
 		"period": "2026",
@@ -678,5 +719,238 @@ window.DETAILS = {
 		],
 		"layers": [],
 		"metrics": []
+	},
+	"arthur": {
+		"accent": "#1b73be",
+		"link": "https://www.arthurskiandbike.com",
+		"stack": [
+			"Next.js 16",
+			"React 19",
+			"TypeScript",
+			"Tailwind v4",
+			"Sanity",
+			"Resend",
+			"Vercel"
+		],
+		"cover": "arthur-home",
+		"gallery": [
+			"arthur-activite",
+			"arthur-admin-activites",
+			"arthur-admin-programme",
+			"arthur-m-home",
+			"arthur-m-offre",
+			"arthur-m-activite",
+			"arthur-m-programme",
+			"arthur-m-tarifs"
+		],
+		"role": "Design & développement",
+		"period": "Juin — octobre 2026",
+		"tagline": "Toute l'année en montagne, et un site qu'il met à jour lui-même.",
+		"summary": "Arthur est moniteur de ski et guide VTT dans la vallée des Belleville. Son site présente ses cours, sorties, séjours et tarifs, hiver comme été, et renvoie vers WhatsApp ou un formulaire : pas de paiement en ligne, il répond lui-même à chaque demande. Derrière, une admin faite sur mesure lui permet de modifier chaque page sans passer par un CMS.",
+		"challenge": "Donner à un moniteur qui passe ses journées sur les pistes un site qui vend du plaisir plutôt que du risque, et une admin assez simple pour qu'il la tienne seul entre deux sorties.",
+		"built": [
+			{
+				"title": "Offre et programme",
+				"body": "Activités classées par saison et regroupées en catégories, calendrier des départs où chaque séjour mène à sa fiche ; les départs à pousser ressortent en couleur."
+			},
+			{
+				"title": "Admin sur mesure",
+				"body": "Un back-office maison au-dessus de Sanity : un éditeur par page, glisser-déposer pour l'ordre des cartes, aperçu avant publication et confirmations claires."
+			},
+			{
+				"title": "Photos sans friction",
+				"body": "Les photos du téléphone sont réduites dans le navigateur avant l'envoi pour passer sous la limite de Vercel, avec un cadrage réglable pour chaque image d'en-tête."
+			},
+			{
+				"title": "Contact & référencement",
+				"body": "Formulaire validé champ par champ et envoyé par Resend ; domaine définitif, canoniques, Open Graph et données structurées pour Google."
+			}
+		],
+		"layers": [
+			{
+				"label": "Client",
+				"value": "Next.js 16 · React 19 · Tailwind v4"
+			},
+			{
+				"label": "API",
+				"value": "Server Actions et route de contact, session admin signée (JWT)"
+			},
+			{
+				"label": "Données",
+				"value": "Sanity — contenus et images"
+			},
+			{
+				"label": "Ops",
+				"value": "Vercel · Resend · typecheck et build en CI GitHub Actions"
+			}
+		],
+		"metrics": [
+			{
+				"value": "10",
+				"label": "pages éditables depuis l'admin"
+			}
+		]
+	},
+	"oxid": {
+		"accent": "#12a597",
+		"link": "https://www.oxidstudio.fr",
+		"stack": [
+			"TanStack Start",
+			"React 19",
+			"Vite",
+			"Tailwind v4",
+			"Nitro",
+			"PostHog",
+			"Resend",
+			"Cloudflare Turnstile",
+			"Vercel"
+		],
+		"cover": "oxid-hero",
+		"gallery": [
+			"oxid-growth",
+			"oxid-cards",
+			"oxid-portfolio",
+			"oxid-m-hero",
+			"oxid-m-growth",
+			"oxid-m-features",
+			"oxid-m-cards",
+			"oxid-m-portfolio"
+		],
+		"role": "Fondateur & développement",
+		"period": "Octobre 2026",
+		"tagline": "Du prompt au produit : finir ce que l'IA a commencé.",
+		"summary": "Oxid Studio s'adresse à ceux qui ont monté une app avec l'IA ou du no-code et doivent la rendre utilisable : sécurité, mise en ligne, design, branding. Le site déroule l'offre en quatre étapes, de l'usage privé au SaaS, montre les projets livrés et recueille les demandes.",
+		"challenge": "Faire comprendre une offre plutôt abstraite par l'interaction — des cartes qui s'ouvrent, une sphère qui réagit au pointeur — sans rien céder sur la vitesse, l'accessibilité ou la vie privée des visiteurs.",
+		"built": [
+			{
+				"title": "Fidèle à la maquette",
+				"body": "Intégration du fichier Figma : variables et styles de texte repris tels quels, typographie fluide, thèmes sombre et clair."
+			},
+			{
+				"title": "Des cartes qui s'animent",
+				"body": "Cadenas qui s'ouvre, goutte de peinture qui roule, anneau qui éclate : une animation par carte, avec une version allégée pour Safari et pour le mouvement réduit."
+			},
+			{
+				"title": "Mesure respectueuse",
+				"body": "PostHog hébergé en Europe, sans cookie tant que le visiteur n'a pas accepté, relayé par le domaine du site ; erreurs suivies côté navigateur et routeur."
+			},
+			{
+				"title": "Formulaire protégé",
+				"body": "Envoi par Resend avec des mails aux couleurs du studio, derrière quatre barrières anti-spam : champ piège, temps de saisie, limite par IP et Turnstile."
+			}
+		],
+		"layers": [
+			{
+				"label": "Client",
+				"value": "TanStack Start · React 19 · Tailwind v4"
+			},
+			{
+				"label": "API",
+				"value": "Fonctions serveur TanStack sur Nitro"
+			},
+			{
+				"label": "Ops",
+				"value": "Vercel · Resend · PostHog EU · Cloudflare Turnstile"
+			}
+		],
+		"metrics": []
 	}
+};
+
+// Portrait shots (phone screens, upright photos): shown in their own gallery row at their real ratio.
+window.TALL_SHOTS = new Set(["ab2c-m-documentation", "ab2c-m-expertise", "ab2c-m-home", "ab2c-m-produits", "ab2c-m-services", "arthur-m-activite", "arthur-m-home", "arthur-m-offre", "arthur-m-programme", "arthur-m-tarifs", "asba-m-artistes", "asba-m-custom", "asba-m-home", "asba-m-kits", "asba-m-manifeste", "asba-m-produit", "comacademy-m-accueil", "comacademy-m-dico", "comacademy-m-feed", "comacademy-m-jeu", "comacademy-m-secrets", "fournelles-m-boutique", "fournelles-m-domaine", "fournelles-m-fiche", "fournelles-m-home", "fournelles-m-vins", "horizon-phone-affectation", "horizon-phone-chantier", "horizon-phone-chantiers", "horizon-phone-planning", "horizon-phone-suivi", "np-m-contact", "np-m-home", "np-m-methode", "np-m-projet", "np-m-realisations", "oxid-m-cards", "oxid-m-features", "oxid-m-growth", "oxid-m-hero", "oxid-m-portfolio", "print-m-atelier", "print-m-devis", "print-m-galerie", "print-m-home", "print-m-services", "synqit-phone-dashboard-dark", "synqit-phone-guest", "synqit-phone-guest-tracks-dark", "synqit-phone-share", "synqit-phone-transfer"]);
+
+// Dark screenshots get a light frame in the gallery (light ones a dark one).
+window.DARK_SHOTS = new Set(["ab2c-clients-dark", "asba-m-custom", "asba-m-kits", "asba-m-manifeste", "asba-m-produit", "fournelles-domaine", "fournelles-m-fiche", "fournelles-m-vins", "fournelles-vins", "np-m-home", "oxid-cards", "oxid-growth", "oxid-m-cards", "oxid-m-growth", "oxid-m-hero", "synqit-dashboard-dark", "synqit-phone-dashboard-dark", "synqit-phone-guest-tracks-dark", "synqit-transfer-dark"]);
+
+// Gallery captions for the project page's lightbox: shot name → [title, description].
+window.CAPTIONS = {
+	"kaast-player": ["Le lecteur vidéo", "Le lecteur de Kaast avec ses panneaux description et langue, ouverts sans quitter la vidéo."],
+	"comacademy-backoffice": ["Tableau de bord", "Le back office résume le catalogue (questions, dico, citations, vidéos) et les derniers inscrits, ici avec des comptes fictifs."],
+	"comacademy-parcours": ["Parcours", "Les stocks de contenus qui alimentent les semaines du parcours, et le pool qui bloquera la prochaine."],
+	"asba-kits": ["Catalogue des batteries", "Chaque kit en grand visuel, un clic pour ouvrir sa fiche."],
+	"asba-leads": ["Leads", "Toutes les demandes du site dans l’admin : type, statut de l’e-mail, configuration proposée et dernier contact (données fictives)."],
+	"fournelles-shop": ["Demande de commande", "Les cuvées s'ajoutent au panier ; le domaine répond avec les délais et les frais de livraison."],
+	"fournelles-domaine": ["Le domaine", "Trois générations de vignerons racontées à côté d'une galerie photo du vignoble."],
+	"careledger-flow": ["Architecture et coûts", "Le parcours du visiteur jusqu'aux sauvegardes, avec le coût de chaque brique."],
+	"print-atelier": ["L'atelier", "L'histoire de l'atelier racontée en grand, photos posées comme des tirages scotchés au mur."],
+	"print-galerie": ["La galerie", "Les réalisations de l'atelier, filtrées par technique : sérigraphie ou impression DTF."],
+	"print-devis": ["La demande de devis", "Un formulaire court, avec le type d'impression, le textile, la quantité et le visuel à joindre."],
+	"print-m-home": ["L'accueil sur mobile", "La même affiche typographique, recomposée pour le téléphone."],
+	"print-m-services": ["Ce que fait l'atelier", "Le bandeau défilant et les services, à la suite de l'accueil."],
+	"print-m-atelier": ["L'atelier sur mobile", "Les photos de l'atelier et son histoire, lues d'une traite au pouce."],
+	"print-m-galerie": ["La galerie sur mobile", "Les filtres restent à portée de main au-dessus des réalisations."],
+	"print-m-devis": ["Le devis sur mobile", "Le formulaire de devis, pensé pour être rempli depuis un téléphone."],
+	"soulbm-admin-planning": ["Le planning", "Le calendrier du bureau : tâches, échéances et réunions privées, rattachées à chaque événement."],
+	"soulbm-admin-tresorerie": ["La trésorerie", "Recettes, dépenses et virements de l'année, avec les remboursements à faire mis en avant."],
+	"soulbm-admin-adherents": ["Les adhérents", "Le registre des adhésions, synchronisé avec HelloAsso et complété par les saisies manuelles."],
+	"ab2c-services": ["Services", "Trois métiers présentés page par page, du conseil sur le terrain à la direction commerciale à temps partagé."],
+	"ab2c-m-home": ["Accueil mobile", "L’offre lisible dès le premier écran, sur la photo d’une prairie fauchée."],
+	"ab2c-m-services": ["Services", "Des titres larges et une photo de terrain pour chaque accompagnement."],
+	"ab2c-m-produits": ["Produits", "Les deux marques distribuées, MICROFERM et Silostop, et le rôle de chacune."],
+	"ab2c-m-expertise": ["Expertise", "Fourrages, effluents et performance économique, expliqués sans jargon."],
+	"arthur-activite": ["Fiche activité", "Une sortie hors-piste : durée, niveau, terrain et tarif d'un coup d'œil."],
+	"arthur-admin-activites": ["Admin · Activités", "Les cartes se réordonnent au glisser-déposer, filtrées par saison."],
+	"arthur-admin-programme": ["Admin · Programme", "Le calendrier des départs : on clique deux dates pour créer un séjour."],
+	"arthur-m-home": ["Accueil sur mobile", "Le même hero, recadré pour le téléphone."],
+	"arthur-m-offre": ["Cours & sorties", "Les cartes passent sur deux colonnes compactes, onglets hiver et été."],
+	"arthur-m-activite": ["Fiche sur mobile", "Titre, description et repères pratiques, lisibles sans zoomer."],
+	"arthur-m-programme": ["Programme", "Les prochains départs et leurs places ; un séjour mis en avant en rouge."],
+	"arthur-m-tarifs": ["Tarifs", "Matin, grand matin, après-midi, journée : des fourchettes claires."],
+	"oxid-growth": ["Quatre étapes", "De l'usage privé au produit SaaS, une carte par étape."],
+	"oxid-cards": ["Ce qui manque", "Paiement, marque, montée en charge, sécurité : des cartes qui s'ouvrent au clic."],
+	"oxid-portfolio": ["Réalisations", "Les projets livrés, chacun avec sa page détaillée."],
+	"oxid-m-hero": ["Accueil sur mobile", "L'accroche et le bouton Démarrer, tenus sur un écran."],
+	"oxid-m-growth": ["Étapes sur mobile", "Les cartes d'étape s'empilent, halo compris."],
+	"oxid-m-features": ["Le constat", "L'IA a levé la barrière de la création ; reste à publier, protéger, faire grandir."],
+	"oxid-m-cards": ["Cartes sur mobile", "Le carrousel se fait défiler du pouce, une carte à la fois."],
+	"oxid-m-portfolio": ["Réalisations sur mobile", "Chaque projet livré, avec son lien vers l'étude de cas."],
+	"ab2c-m-documentation": ["Documentation", "Fiches techniques et tarifs réservés aux professionnels, accessibles par lien et code SMS."],
+	"asba-lead": ["Fiche lead", "Le message, l’historique des appels et e-mails, les notes internes et le devis proposé sur un seul écran."],
+	"asba-m-home": ["Accueil mobile", "Le carrousel d’accueil met en avant les collaborations avec les artistes."],
+	"asba-m-kits": ["Choisis ton kit", "Le catalogue en plein écran, pensé pour le pouce."],
+	"asba-m-produit": ["Fiche produit", "La série Fantôme en ouverture, avec l’appel à commander."],
+	"asba-m-custom": ["Custom shop", "L’entrée vers les instruments sur mesure."],
+	"asba-m-artistes": ["Artist family", "Les batteurs qui jouent ASBA, chacun avec sa page."],
+	"asba-m-manifeste": ["Manifeste", "Le parti pris de la marque sur les matériaux et le savoir-faire."],
+	"horizon-affectation": ["L'affectation", "Une demi-journée se règle en une fenêtre : chantier, dépôt ou absence, et la période d'intervention qui va avec."],
+	"horizon-chantiers": ["La rentabilité des chantiers", "Devis, facturé, coûts et marge de chaque chantier, avec le chiffre d'affaires mensuel et le coefficient global."],
+	"horizon-suivi": ["La feuille de suivi", "Le récapitulatif mensuel d'un salarié, calculé depuis le planning : heures, paniers, distances, congés et jours fériés."],
+	"horizon-phone-planning": ["Le planning sur téléphone", "La semaine de toute l'équipe en abrégé, matin et après-midi, avec les disponibilités et les conflits signalés."],
+	"horizon-phone-chantier": ["La fiche du créneau", "Sur le chantier, un appui ouvre l'adresse, l'itinéraire, la distance depuis le dépôt et la période prévue."],
+	"horizon-phone-affectation": ["Modifier depuis le terrain", "Le chef d'équipe change une affectation ou une période directement depuis son téléphone."],
+	"horizon-phone-suivi": ["Le suivi mensuel mobile", "Les totaux du mois d'un salarié, puis le détail jour par jour, lisibles sans ordinateur."],
+	"horizon-phone-chantiers": ["Les chiffres en poche", "Devis, facturé, coûts et marge de l'entreprise, consultables entre deux chantiers."],
+	"synqit-phone-guest": ["Ajouter un morceau", "La page invité, pensée pour le téléphone : on cherche un titre et on l'ajoute, sans compte ni application."],
+	"synqit-phone-share": ["Le lien d'invitation", "L'hôte partage un seul lien par message, WhatsApp ou e-mail, et peut le révoquer ou le régénérer à tout moment."],
+	"synqit-phone-transfer": ["Le suivi du transfert", "Le résultat d'un transfert entre services, consultable depuis le téléphone, titre par titre."],
+	"careledger-project": ["Fiche projet", "Contrat, heures consommées, fonctionnalités restantes et tendance de charge sur six mois."],
+	"careledger-worklog": ["Journal de travail", "Chaque tâche rattachée à son client, son contrat et son mode de facturation."],
+	"fournelles-vins": ["Fiche de dégustation", "Chaque cuvée a son commentaire de dégustation et ses accords mets et vins."],
+	"fournelles-m-home": ["Accueil mobile", "La vidéo du vignoble en plein écran, avec le logo du domaine."],
+	"fournelles-m-domaine": ["Histoire sur mobile", "Le récit du domaine reste lisible sur la photo, la navigation passe en bas d'écran."],
+	"fournelles-m-vins": ["Les cuvées", "Un carrousel de bouteilles à faire défiler du pouce."],
+	"fournelles-m-fiche": ["Fiche cuvée", "Dégustation et accords mets et vins, cuvée par cuvée."],
+	"fournelles-m-boutique": ["Panier mobile", "Une carte par cuvée, avec format et bouton d'ajout au panier."],
+	"np-realisations": ["Réalisations", "Chaque meuble présenté par son lieu, son année et une phrase qui résume le projet."],
+	"np-projet": ["Étude de cas", "Une page par projet : matériaux, lieu, résumé en un coup d'œil puis le détail de fabrication."],
+	"np-methode": ["La méthode", "Du premier échange à la pose, les étapes d'un projet sur mesure expliquées simplement."],
+	"np-m-home": ["Accueil mobile", "La promesse en grand sur une photo de plateau en frêne et wengé."],
+	"np-m-realisations": ["Projets sur mobile", "La liste des réalisations en cartes, photo d'abord."],
+	"np-m-projet": ["Projet sur mobile", "Titre, matériaux et lieu avant les photos du meuble posé."],
+	"np-m-methode": ["Méthode sur mobile", "Les trois étapes lisibles d'un pouce : comprendre, proposer, réaliser."],
+	"np-m-contact": ["Demande de projet", "Un formulaire court, avec e-mail et téléphone pour écrire directement."],
+	"comacademy-question": ["Fiche question", "Chaque question du jeu vrai ou faux : réponse, explication détaillée, catégories et statut de publication."],
+	"comacademy-m-accueil": ["Accueil de l’app", "Les rubriques en tuiles, du jeu aux 10 commandements, et le contenu à la une."],
+	"comacademy-m-jeu": ["Le jeu", "Une partie de vrai ou faux se lance d’un geste ; le mode Réponses permet de réviser."],
+	"comacademy-m-secrets": ["3 secrets du succès", "Les secrets d’une marque racontés en cartes à faire défiler."],
+	"comacademy-m-feed": ["Feed", "Un fil quotidien qui mélange métiers, questions du jeu et actus de la com."],
+	"comacademy-m-dico": ["Dico", "Le jargon de la com de A à Z, avec recherche et index alphabétique."],
+	"ab2c-clients-dark": ["Espace clients", "L’écran d’accueil du back office : demandes à traiter, chiffres du mois et accès rapides, avec des données fictives. En mode sombre."],
+	"synqit-dashboard-dark": ["Le tableau de bord", "L'espace de l'hôte : événements en cours, abonnés, titres ajoutés dans la journée et activité des invités en direct. En mode sombre."],
+	"synqit-transfer-dark": ["Le transfert", "Une playlist passe de Spotify à Apple Music titre par titre, avec le détail de ce qui a été retrouvé ou non. En mode sombre."],
+	"ab2c-demandes": ["Demandes", "Chaque formulaire du site arrive ici avec son type et son statut, pour savoir où en est chaque échange."],
+	"synqit-events": ["Les événements", "Chaque fête a sa playlist, ouverte ou fermée, avec son lien invité et son partage en un clic."],
+	"synqit-phone-guest-tracks-dark": ["La playlist commune", "Les invités voient la liste se remplir au fil de la soirée, numérotée dans l'ordre des ajouts. En mode sombre."],
+	"synqit-phone-dashboard-dark": ["Le tableau de bord mobile", "Les mêmes chiffres que sur ordinateur, avec une barre de navigation flottante à portée de pouce. En mode sombre."],
 };

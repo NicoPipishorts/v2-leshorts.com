@@ -22,10 +22,10 @@
 .nav a:not(.btn):hover { color: var(--hl); }
 .nav a:not(.btn):active { transform: translateY(1px); }
 
-/* call-to-action: lifts slightly and an arrow slides in */
+/* call-to-action: an arrow slides in on hover (no lift), a small press on click */
 .nav .btn { gap: 0; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), background-color .2s, box-shadow .25s; }
-.nav .btn::after { content: "→"; display: inline-block; max-width: 0; opacity: 0; overflow: hidden; transform: translateX(-6px); transition: max-width .3s, opacity .2s, transform .3s, margin .3s; }
-.nav .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .5); }
+.nav .btn::after { content: ""; display: inline-block; max-width: 0; opacity: 0; overflow: hidden; transform: translateX(-6px); transition: max-width .3s, opacity .2s, transform .3s, margin .3s; }
+.nav .btn:hover { box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .5); }
 .nav .btn:hover::after { max-width: 1.2em; opacity: 1; transform: none; margin-left: 8px; }
 .nav .btn:active { transform: translateY(0) scale(.97); }
 
@@ -52,20 +52,21 @@ html.leaving [data-topo="hero"] > :not(.topo, .top), html.leaving [data-topo="he
 html.arriving [data-topo="hero"] > :not(.topo, .top), html.arriving [data-topo="hero"] ~ * { opacity: 0; animation: np-safety-show 0s 3s forwards; }
 @keyframes np-safety-show { to { opacity: 1; } } /* if transit.js never runs, the content still shows after 3 s */
 
-/* landing: project hexagons drift around the portrait, the client strip scrolls (pauses on hover),
-   the "Vous avez besoin…" shortcuts pop in one after the other */
-.orb { animation: np-float 6s var(--d, 0s) ease-in-out infinite alternate; }
-.orb:hover, .orb:focus-visible { animation-play-state: paused; }
-@keyframes np-float { from { translate: -50% -50%; } 50% { translate: calc(-50% + 4px) calc(-50% - 9px); } to { translate: calc(-50% - 3px) calc(-50% + 5px); } }
+/* landing: the client strip scrolls (pauses on hover) */
 .marquee .track > ul { animation: np-scroll 38s linear infinite; }
 .marquee .track:hover > ul { animation-play-state: paused; }
 @keyframes np-scroll { to { transform: translateX(-100%); } }
-.needs li { animation: np-rise .6s calc(.5s + var(--n) * 80ms) cubic-bezier(.2, .9, .3, 1) backwards; }
-.needs li:nth-child(1) { --n: 0; } .needs li:nth-child(2) { --n: 1; } .needs li:nth-child(3) { --n: 2; } .needs li:nth-child(4) { --n: 3; } .needs li:nth-child(5) { --n: 4; }
-@keyframes np-rise { from { opacity: 0; transform: translateY(12px) scale(.96); } }
-.seen .needs li { animation: none; }
+.seen 
+/* FAQ chat: the question pops in, the answer bubble shows "•••" for a moment, then its text; hovering a pair makes the avatar nod */
+.faq > .in h3 { animation: np-bubble .45s calc(var(--i, 0) * 110ms + .1s) cubic-bezier(.3, 1.5, .5, 1) backwards; }
+.faq > .in p { animation: np-bubble .45s calc(var(--i, 0) * 110ms + .6s) cubic-bezier(.3, 1.5, .5, 1) backwards; }
+.faq > .in p::after { animation: np-dots .36s steps(1) infinite, np-type-out 1.4s calc(var(--i, 0) * 110ms + .6s) both; }
+@keyframes np-bubble { from { opacity: 0; transform: scale(.6); } }
+@keyframes np-dots { 0% { content: "•"; } 33% { content: "••"; } 66% { content: "•••"; } }
+@keyframes np-type-out { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes np-nod { 30% { transform: rotate(-12deg) translateY(-3px); } 60% { transform: rotate(6deg); } }
 
 @media (prefers-reduced-motion: reduce) {
-	.orb, .marquee ul, .needs li, [data-reveal] > *,
+	.marquee ul, [data-reveal] > *, .faq *, .faq p::before, .faq p::after, .ic, .lightbox, .lightbox button,
 	.brand svg *, .ring, .nav-ind, .nav a, .nav .btn, .nav .btn::after, .ico *, .svc article, .svc article *, .svc article::before { animation: none !important; transition: none !important; }
 }
