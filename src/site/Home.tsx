@@ -177,7 +177,7 @@ const Work = () => {
 	const [dist, setDist] = useState(0);
 	const [desktop, setDesktop] = useState(true);
 	const { projects, ui, fmt } = useContent();
-	const featured = projects.slice(0, 6);
+	const featured = projects.slice(0, 7);
 	useLayoutEffect(() => {
 		const measure = () => {
 			setDesktop(window.matchMedia("(min-width: 768px)").matches);

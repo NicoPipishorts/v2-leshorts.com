@@ -89,6 +89,16 @@ const base: Base[] = [
 		link: "https://horizonplanning.fr",
 	},
 	{
+		slug: "ab2c",
+		name: "AB2C",
+		kind: "Freelance",
+		accent: "#8a9a5b",
+		stack: ["TanStack Start", "React 19", "Tailwind v4", "Payload 3", "PostgreSQL", "Zod", "Resend", "Brevo SMS", "PostHog", "Turborepo", "Coolify"],
+		cover: shot("ab2c-home"),
+		gallery: [shot("ab2c-produits"), shot("ab2c-documentation"), shot("ab2c-contact")],
+		link: "https://www.ab2c.pro",
+	},
+	{
 		slug: "comacademy",
 		name: "Com'Academy",
 		kind: "Freelance",
@@ -137,16 +147,6 @@ const base: Base[] = [
 		cover: shot("soulbm"),
 		gallery: [shot("soulbm-events")],
 		link: "https://soulbm.fr",
-	},
-	{
-		slug: "ab2c",
-		name: "AB2C",
-		kind: "Freelance",
-		accent: "#8a9a5b",
-		stack: ["TanStack Start", "React 19", "Tailwind v4", "Payload 3", "PostgreSQL", "Zod", "Resend", "Brevo SMS", "PostHog", "Turborepo", "Coolify"],
-		cover: shot("ab2c-home"),
-		gallery: [shot("ab2c-produits"), shot("ab2c-documentation"), shot("ab2c-contact")],
-		link: "https://www.ab2c.pro",
 	},
 	{
 		slug: "fournelles",
