@@ -816,10 +816,10 @@ window.DETAILS = {
 			"oxid-m-cards",
 			"oxid-m-portfolio"
 		],
-		"role": "Fondateur & développement",
+		"role": "Associé · développement",
 		"period": "Octobre 2026",
 		"tagline": "Du prompt au produit : finir ce que l'IA a commencé.",
-		"summary": "Oxid Studio s'adresse à ceux qui ont monté une app avec l'IA ou du no-code et doivent la rendre utilisable : sécurité, mise en ligne, design, branding. Le site déroule l'offre en quatre étapes, de l'usage privé au SaaS, montre les projets livrés et recueille les demandes.",
+		"summary": "Oxid Studio réunit trois associés : un créatif, un financier, et moi au développement. Le studio s'adresse à ceux qui ont monté une app avec l'IA ou du no-code et doivent la rendre utilisable : sécurité, mise en ligne, design, branding. Son site déroule l'offre en quatre étapes, de l'usage privé au SaaS, montre les projets livrés et recueille les demandes.",
 		"challenge": "Faire comprendre une offre plutôt abstraite par l'interaction — des cartes qui s'ouvrent, une sphère qui réagit au pointeur — sans rien céder sur la vitesse, l'accessibilité ou la vie privée des visiteurs.",
 		"built": [
 			{
