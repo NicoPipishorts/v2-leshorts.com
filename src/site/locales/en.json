@@ -53,7 +53,7 @@
 		"about": "About",
 		"hi": "Hi, I’m",
 		"aboutP1": "I started coding in 2001 and never stopped. Today I’m a senior frontend engineer — React, TypeScript, component architecture, state, performance and accessibility — with enough backend and infra in my hands to ship whole products.",
-		"aboutP2": "I run a small studio, Vue d’Esprit, co-founded Kaast (4,000+ users) and I’m building Synqit on the side. Off-screen: paragliding, skating, woodworking, and presiding a school nonprofit.",
+		"aboutP2": "I work for myself as leshorts.com, co-founded Kaast (4,000+ users) and I’m building Synqit on the side. Off-screen: paragliding, skating, woodworking, and presiding a school nonprofit.",
 		"downloadCv": "Download CV",
 		"timeline": "Timeline",
 		"caseStudyLink": "Case study →",
@@ -620,8 +620,8 @@
 			]
 		},
 		{
-			"company": "Vue d'Esprit",
-			"title": "Freelance developer — independent studio",
+			"company": "leshorts.com",
+			"title": "Freelance developer — self-employed",
 			"tag": "Freelance",
 			"period": "2010 — now",
 			"slug": "",

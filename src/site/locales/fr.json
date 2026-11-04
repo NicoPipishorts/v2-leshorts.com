@@ -53,7 +53,7 @@
 		"about": "À propos",
 		"hi": "Salut, moi c’est",
 		"aboutP1": "J’ai commencé à coder en 2001 et je ne me suis jamais arrêté. Aujourd’hui je suis Senior Frontend Engineer — React, TypeScript, architecture de composants, state, performance et accessibilité — avec assez de backend et d’infra en main pour livrer des produits entiers.",
-		"aboutP2": "Je dirige un petit studio, Vue d’Esprit, j’ai cofondé Kaast (plus de 4 000 utilisateurs) et je développe Synqit en parallèle. Hors écran : parapente, skate, ébénisterie, et la présidence d’une association scolaire.",
+		"aboutP2": "Je travaille à mon compte sous leshorts.com, j’ai cofondé Kaast (plus de 4 000 utilisateurs) et je développe Synqit en parallèle. Hors écran : parapente, skate, ébénisterie, et la présidence d’une association scolaire.",
 		"downloadCv": "Télécharger le CV",
 		"timeline": "Chronologie",
 		"caseStudyLink": "Étude de cas →",
@@ -620,8 +620,8 @@
 			]
 		},
 		{
-			"company": "Vue d'Esprit",
-			"title": "Développeur freelance — studio indépendant",
+			"company": "leshorts.com",
+			"title": "Développeur freelance — à mon compte",
 			"tag": "Freelance",
 			"period": "2010 — aujourd’hui",
 			"slug": "",

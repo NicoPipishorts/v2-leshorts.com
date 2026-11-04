@@ -1,4 +1,4 @@
-// Builds the static CVs (public/cv/nicolas-pisar-cv-{en,fr}.pdf): HTML in the site's light theme,
+// Builds the static CVs (public/cv/nicolas-pisar-cv-{en,fr}.pdf): HTML in the site's "Crête" design,
 // printed to A4 by headless Chrome. Text stays selectable, so ATS parsers can read it.
 // Run: node scripts/build-cv.mjs [outDir]
 import { execFileSync } from "node:child_process";
@@ -16,6 +16,9 @@ const logoSrc = fs.readFileSync(path.join(ROOT, "src/components/Logo.tsx"), "utf
 const [hexPath, markPath] = [...logoSrc.matchAll(/export const LOGO_\w+_PATH =\s*"([^"]+)"/g)].map((m) => m[1]);
 const logo = (size) =>
 	`<svg viewBox="0 0 218 218" width="${size}" height="${size}" aria-hidden="true"><path d="${hexPath}" fill="none" stroke="currentColor" stroke-width="6"/><path d="${markPath}" fill="currentColor"/></svg>`;
+
+// Contour lines for the header bands, drawn by the redesign's own generator (redesign/topo.js).
+const topoJs = fs.readFileSync(path.join(ROOT, "redesign/topo.js"), "utf8");
 
 const contact = {
 	email: "me@nicolaspisar.com",
@@ -90,8 +93,8 @@ const CV = {
 				],
 			},
 			{
-				company: "Vue d'Esprit — independent studio",
-				role: "Freelance Lead Developer",
+				company: "leshorts.com — freelance",
+				role: "Freelance web & mobile developer",
 				period: "2010 — present",
 				context: "Web, mobile and back-office products for startups, SMEs and associations — from discovery and data modelling to deployment and yearly maintenance contracts.",
 				points: [
@@ -221,8 +224,8 @@ const CV = {
 				],
 			},
 			{
-				company: "Vue d'Esprit — studio indépendant",
-				role: "Lead Développeur freelance",
+				company: "leshorts.com — à mon compte",
+				role: "Développeur web & mobile freelance",
 				period: "2010 — aujourd'hui",
 				context: "Produits web, mobiles et back offices pour startups, PME et associations — de la découverte et la modélisation des données jusqu'au déploiement et aux contrats de maintenance annuels.",
 				points: [
@@ -304,94 +307,110 @@ const job = (j) => `
 
 const page = (n, total, cv, main, aside, top = "") => `
 	<section class="page">
-		${top}
-		<div class="cols"><main>${main}</main><aside>${aside}</aside></div>
-		<footer><span class="flogo">${logo(14)}</span><span>Nicolas Pisar — ${cv.title}</span><span>${contact.web} · ${cv.labels.page} ${n}/${total}</span></footer>
+		${top || `<div class="band slim" data-topo="${n * 7}"><span class="flogo">${logo(18)}</span><strong>Nicolas Pisar</strong><span>${cv.title}</span></div>`}
+		<div class="body">
+			<div class="cols"><main>${main}</main><aside>${aside}</aside></div>
+			<footer><span class="flogo">${logo(14)}</span><span>Nicolas Pisar — leshorts.com</span><span>${contact.web} · ${cv.labels.page} ${n}/${total}</span></footer>
+		</div>
 	</section>`;
 
 const html = (cv) => `<!doctype html>
 <html lang="${cv.lang}"><head><meta charset="utf-8"><title>Nicolas Pisar — CV (${cv.lang.toUpperCase()})</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&display=block" rel="stylesheet">
 <style>
+	/* "Crête" design, same as the site: slate-night header with coral contour lines, Archivo, IBM Plex Mono labels */
 	@page { size: A4; margin: 0; }
-	:root { --bg:#f4efe7; --panel:#fbf8f3; --ink:#16181d; --muted:#5b5f66; --line:#16181d1f; --coral:#dc5c48; --teal:#2f6f7e; --sand:#8f6f49; }
+	:root { --snow:#eff1f4; --card:#ffffff; --ink:#111925; --soft:#5a6573; --line:#d5dae1; --night:#111925;
+		--on-night:#e9edf2; --on-night-soft:#9aa6b4; --night-line:rgba(255,255,255,.14); --contour:#4b3238; --sail:#dc5c48; }
 	* { box-sizing: border-box; margin: 0; padding: 0; }
-	html, body { background: var(--bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-	body { font: 400 8.6pt/1.45 Manrope, sans-serif; color: var(--ink); }
-	b { font-weight: 700; }
-	.page { width: 210mm; height: 297mm; padding: 13mm 13mm 10mm; display: flex; flex-direction: column; page-break-after: always; overflow: hidden; position: relative; }
+	html, body { background: var(--snow); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+	body { font: 400 8.5pt/1.45 Archivo, sans-serif; color: var(--ink); }
+	b { font-weight: 650; }
+	.page { width: 210mm; height: 297mm; display: flex; flex-direction: column; page-break-after: always; overflow: hidden; position: relative; }
 	.page:last-child { page-break-after: auto; }
-	.mono { font-family: "JetBrains Mono", monospace; }
+	.body { flex: 1; display: flex; flex-direction: column; padding: 0 13mm 9mm; min-height: 0; }
+	.hex { clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); }
 
-	/* header */
-	.head { display: grid; grid-template-columns: 30mm 1fr; gap: 6mm; align-items: center; }
-	.photo { width: 30mm; height: 30mm; position: relative; }
-	.photo .ring, .photo img { position: absolute; inset: 0; clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); }
-	.photo .ring { inset: -1.6mm; background: var(--coral); transform: rotate(12deg); }
-	.photo img { width: 100%; height: 100%; object-fit: cover; }
-	h1 { font: 800 25pt/0.95 Unbounded, sans-serif; letter-spacing: -0.03em; text-transform: uppercase; }
-	h1 .last { color: var(--sand); }
-	.title { margin-top: 2.2mm; font: 600 11pt/1.2 Manrope, sans-serif; color: var(--coral); }
-	.tagline { font: 500 8.4pt/1.3 Manrope, sans-serif; color: var(--muted); margin-top: .6mm; }
-	.contact { margin-top: 3mm; display: flex; flex-wrap: wrap; gap: 1mm 4mm; font: 400 7.3pt/1.3 "JetBrains Mono", monospace; color: var(--ink); }
+	/* night header band with the site's contour lines */
+	.band { position: relative; overflow: hidden; background: var(--night); color: var(--on-night); padding: 11mm 13mm 8mm; }
+	.band .topo { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--contour);
+		mask-image: linear-gradient(100deg, transparent 25%, #000 80%); -webkit-mask-image: linear-gradient(100deg, transparent 25%, #000 80%); }
+	.band > :not(.topo) { position: relative; }
+	.head { display: grid; grid-template-columns: 32mm 1fr; gap: 7mm; align-items: center; }
+	.photo { width: 32mm; height: 32mm; position: relative; }
+	.photo .ring, .photo .ring::after, .photo img { clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); }
+	.photo .ring { position: absolute; inset: -1.6mm; background: var(--sail); }
+	.photo .ring::after { content: ""; position: absolute; inset: .5mm; background: var(--night); }
+	.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+	h1 { font: 750 27pt/0.95 Archivo, sans-serif; font-stretch: 112%; letter-spacing: -0.025em; }
+	h1 .last { color: var(--sail); }
+	.title { margin-top: 2.4mm; font: 650 11pt/1.2 Archivo, sans-serif; font-stretch: 108%; }
+	.tagline { font: 400 8.4pt/1.3 Archivo, sans-serif; color: var(--on-night-soft); margin-top: .8mm; }
+	.contact { margin-top: 3.4mm; display: flex; flex-wrap: wrap; gap: 1.2mm 4.5mm; font: 400 7pt/1.3 "IBM Plex Mono", monospace; }
 	.contact a { color: inherit; text-decoration: none; }
-	.contact span::before { content: "◆"; color: var(--coral); font-size: 5pt; margin-right: 1.4mm; vertical-align: 1pt; }
-	.avail { display: inline-flex; margin-bottom: 2.4mm; align-items: center; gap: 1.6mm; border: 1px solid var(--line); background: var(--panel); border-radius: 99px; padding: 1.1mm 3mm; font: 500 6.6pt/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
-	.avail i { width: 1.8mm; height: 1.8mm; border-radius: 50%; background: #1f8a54; }
+	.contact span::before { content: ""; display: inline-block; width: 1.5mm; height: 1.7mm; margin-right: 1.5mm; background: var(--sail); vertical-align: -.1mm;
+		clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); }
+	.avail { display: inline-flex; margin-bottom: 2.6mm; align-items: center; gap: 1.8mm; border: 1px solid var(--night-line); background: rgba(17, 25, 37, .7);
+		border-radius: 99px; padding: 1.1mm 3mm 1.1mm 2.2mm; font: 500 6.5pt/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+	.avail i { width: 1.8mm; height: 1.8mm; border-radius: 50%; background: #5fd38d; box-shadow: 0 0 0 .8mm rgba(95, 211, 141, .2); }
+	.summary { margin-top: 5.5mm; font-size: 8.8pt; line-height: 1.55; max-width: 176mm; }
+	.summary b { color: #fff; }
+	.figures { margin-top: 5mm; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4mm; }
+	.figures div { border-top: 1.5px solid var(--sail); padding-top: 2.2mm; }
+	.figures strong { display: block; font: 750 14pt/1 Archivo, sans-serif; font-stretch: 112%; letter-spacing: -0.02em; color: #fff; }
+	.figures span { display: block; margin-top: 1.2mm; font: 400 6.2pt/1.25 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .06em; color: var(--on-night-soft); }
 
-	.summary { margin-top: 5mm; font-size: 9.1pt; line-height: 1.5; }
-	.figures { margin-top: 4.5mm; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-	.figures div { padding: 2.6mm 2.5mm 2.4mm; }
-	.figures div + div { border-left: 1px solid var(--line); }
-	.figures strong { display: block; font: 800 13pt/1 Unbounded, sans-serif; color: var(--coral); letter-spacing: -0.02em; }
-	.figures span { display: block; margin-top: 1.2mm; font: 400 6.4pt/1.25 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+	/* slim band on the following pages */
+	.band.slim { padding: 5.5mm 13mm; display: flex; align-items: center; gap: 3mm; }
+	.band.slim .flogo { color: var(--sail); display: flex; }
+	.band.slim strong { font: 700 10pt/1 Archivo, sans-serif; font-stretch: 112%; }
+	.band.slim > span:last-child { margin-left: auto; font: 400 6.6pt/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--on-night-soft); }
 
 	/* columns */
-	.cols { flex: 1; display: grid; grid-template-columns: 1fr 55mm; gap: 7mm; margin-top: 5mm; min-height: 0; }
+	.cols { flex: 1; display: grid; grid-template-columns: 1fr 54mm; gap: 8mm; margin-top: 6mm; min-height: 0; }
 	aside { border-left: 1px solid var(--line); padding-left: 6mm; }
-	.sec { display: flex; align-items: center; gap: 2.5mm; margin: 0 0 2.6mm; font: 600 7.4pt/1 Unbounded, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--coral); }
+	.sec { display: flex; align-items: center; gap: 2.5mm; margin: 0 0 2.8mm; font: 500 7pt/1 "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--sail); }
 	.sec::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-	* + .sec { margin-top: 5mm; }
+	* + .sec { margin-top: 5.5mm; }
 
-	.ai { list-style: none; background: var(--panel); border: 1px solid var(--line); border-left: 2px solid var(--coral); border-radius: 2.5mm; padding: 3mm 3.5mm; }
-	.ai li { position: relative; padding-left: 3.4mm; }
+	.ai { list-style: none; background: var(--card); border: 1px solid var(--line); border-top: 2px solid var(--sail); border-radius: 1mm; padding: 3mm 3.6mm; }
+	.ai li { position: relative; padding-left: 3.6mm; }
 	.ai li + li { margin-top: 1.5mm; }
-	.ai li::before { content: ""; position: absolute; left: 0; top: 1.9mm; width: 1.4mm; height: 1.4mm; background: var(--coral); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); }
+	.ai li::before { content: ""; position: absolute; left: 0; top: 1.6mm; width: 1.5mm; height: 1.7mm; background: var(--sail);
+		clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); }
 
-	.job + .job { margin-top: 3.8mm; }
+	.job + .job { margin-top: 4mm; }
 	.job header { display: flex; justify-content: space-between; align-items: baseline; gap: 3mm; }
-	.job h3 { font: 800 9.6pt/1.2 Unbounded, sans-serif; text-transform: uppercase; letter-spacing: -0.01em; }
-	.period { font: 400 7pt/1 "JetBrains Mono", monospace; color: var(--muted); white-space: nowrap; }
-	.role { margin-top: .6mm; font-weight: 700; color: var(--teal); }
-	.context { margin-top: .6mm; color: var(--muted); font-style: italic; }
-	.job ul { margin-top: 1.4mm; list-style: none; }
-	.job li { position: relative; padding-left: 3.2mm; }
+	.job h3 { font: 750 10.4pt/1.2 Archivo, sans-serif; font-stretch: 112%; letter-spacing: -0.015em; }
+	.period { font: 400 6.8pt/1 "IBM Plex Mono", monospace; color: var(--soft); white-space: nowrap; }
+	.role { margin-top: .6mm; font-weight: 650; color: var(--sail); }
+	.context { margin-top: .6mm; color: var(--soft); }
+	.job ul { margin-top: 1.5mm; list-style: none; }
+	.job li { position: relative; padding-left: 3.4mm; }
 	.job li + li { margin-top: .9mm; }
-	.job li::before { content: ""; position: absolute; left: 0; top: 2.05mm; width: 1.2mm; height: 1.2mm; border-radius: 50%; background: var(--coral); }
+	.job li::before { content: ""; position: absolute; left: 0; top: 2mm; width: 1.8mm; height: 1px; background: var(--sail); }
 
 	.kv + .kv { margin-top: 2.4mm; }
-	.kv dt { font: 500 6.8pt/1.2 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--sand); }
-	.kv dd { margin-top: .6mm; line-height: 1.45; }
-	.tag-list { display: flex; flex-direction: column; gap: 1.3mm; }
-	.tag-list div { display: grid; grid-template-columns: 1fr; }
-	.tag-list strong { font-weight: 700; }
-	.tag-list span { color: var(--muted); font-size: 7.6pt; }
-	.edu + .edu { margin-top: 2mm; }
-	.edu strong { display: block; font-weight: 700; }
-	.edu span { display: block; color: var(--muted); }
-	.edu em { font: normal 400 6.8pt/1 "JetBrains Mono", monospace; color: var(--muted); }
+	.kv dt { font: 500 6.6pt/1.2 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); }
+	.kv dd { margin-top: .7mm; line-height: 1.45; }
+	.edu + .edu { margin-top: 2.2mm; }
+	.edu strong { display: block; font-weight: 650; }
+	.edu span { display: block; color: var(--soft); }
+	.edu em { font: normal 400 6.6pt/1 "IBM Plex Mono", monospace; color: var(--soft); }
 	.products li { display: flex; flex-direction: column; list-style: none; }
-	.products li + li { margin-top: 1.3mm; }
-	.products strong { font-weight: 700; }
-	.products span { color: var(--muted); font-size: 7.6pt; }
+	.products li + li { margin-top: 1.4mm; }
+	.products strong { font-weight: 650; }
+	.products span { color: var(--soft); font-size: 7.5pt; }
 
-	footer { display: flex; align-items: center; gap: 3mm; justify-content: space-between; margin-top: 4mm; padding-top: 2.5mm; border-top: 1px solid var(--line); font: 400 6.6pt/1 "JetBrains Mono", monospace; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-	footer .flogo { color: var(--coral); display: flex; }
+	footer { display: flex; align-items: center; gap: 3mm; justify-content: space-between; margin-top: 4mm; padding-top: 2.6mm; border-top: 1px solid var(--line);
+		font: 400 6.4pt/1 "IBM Plex Mono", monospace; color: var(--soft); text-transform: uppercase; letter-spacing: .06em; }
+	footer .flogo { color: var(--sail); display: flex; }
 	footer span:nth-child(2) { flex: 1; }
 </style></head><body>
 ${(() => {
 	const top = `
+		<div class="band" data-topo="21">
 		<div class="head">
 			<div class="photo"><div class="ring"></div><img src="${photo}" alt=""></div>
 			<div>
@@ -410,7 +429,8 @@ ${(() => {
 			</div>
 		</div>
 		<p class="summary">${cv.summary}</p>
-		<div class="figures">${cv.figures.map(([v, l]) => `<div><strong>${v}</strong><span>${l}</span></div>`).join("")}</div>`;
+		<div class="figures">${cv.figures.map(([v, l]) => `<div><strong>${v}</strong><span>${l}</span></div>`).join("")}</div>
+		</div>`;
 
 	const main1 = `
 		${section(cv.labels.ai)}
@@ -439,6 +459,7 @@ ${(() => {
 	// page 1 carries the header above its two columns
 	return page(1, 2, cv, main1, aside1, top) + page(2, 2, cv, main2, aside2);
 })()}
+<script>${topoJs}</script>
 </body></html>`;
 
 // ---------------------------------------------------------------------------------------------
