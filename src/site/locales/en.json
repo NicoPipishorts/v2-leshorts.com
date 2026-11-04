@@ -53,7 +53,7 @@
 		"about": "About",
 		"hi": "Hi, I’m",
 		"aboutP1": "I started coding in 2001 and never stopped. Today I’m a senior frontend engineer — React, TypeScript, component architecture, state, performance and accessibility — with enough backend and infra in my hands to ship whole products.",
-		"aboutP2": "I run a small studio, Vue d’Esprit, co-founded Kaast (4,000+ users) and I’m building Synqit on the side. Off-screen: paragliding, skating, woodworking, and presiding a school nonprofit.",
+		"aboutP2": "I work for myself as leshorts.com, co-founded Kaast (4,000+ users) and I’m building Synqit on the side. Off-screen: paragliding, skating, woodworking, and presiding a school nonprofit.",
 		"downloadCv": "Download CV",
 		"timeline": "Timeline",
 		"caseStudyLink": "Case study →",
@@ -489,27 +489,61 @@
 			]
 		},
 		"ab2c": {
-			"role": "Design system & web build",
+			"role": "Design system, website & back office",
 			"period": "2026",
 			"tagline": "Drawn, not ruled — an agricultural brand with a pencil.",
-			"summary": "Web presence, showcase site and upcoming catalogue for AB2C, exclusive MICROFERM distributor for France, Belgium, Luxembourg and Switzerland.",
-			"challenge": "Make a technical agri-measurement distributor feel human and trustworthy, and ship it in four paid phases without rewriting between them.",
+			"summary": "ab2c.pro: website, CRM and back office for AB2C, a silage and livestock-environment consultancy and the exclusive MICROFERM distributor for France, Belgium, Luxembourg and Switzerland.",
+			"challenge": "Make a technical agri-supply business feel human and trustworthy, hand a non-technical owner the keys to every page, and ship in paid phases without rewriting between them.",
 			"built": [
 				{
 					"title": "Hand-drawn design system",
-					"body": "Frames and separators are generated pencil lines and sketched SVGs instead of borders and shadows."
+					"body": "Frames, fields, buttons and the contact map are generated pencil lines and sketched SVGs instead of borders and shadows."
 				},
 				{
-					"title": "CMS-ready content",
-					"body": "Typed content package that swaps to Payload CMS 3 without touching the UI."
+					"title": "Back office for a non-technical owner",
+					"body": "Payload CMS 3 split into two sides, site and clients: every page, FAQ, news and product range editable, with a media library that shows where each image is used."
 				},
 				{
-					"title": "Serious forms",
-					"body": "Server functions with Zod, Turnstile, Resend and a CRM hook."
+					"title": "Gated documentation by SMS",
+					"body": "Professionals request access, prove their mobile with an SMS code, then reach the technical sheets and price lists; codes and credits left show on the clients screen."
+				},
+				{
+					"title": "CRM, forms and analytics",
+					"body": "Server functions with Zod, Turnstile and Resend feed a built-in CRM with CSV export; cookieless PostHog audience read straight in the admin."
 				}
 			],
-			"layers": [],
-			"metrics": []
+			"layers": [
+				{
+					"label": "Site",
+					"value": "TanStack Start · React 19 · Tailwind v4"
+				},
+				{
+					"label": "Admin",
+					"value": "Payload CMS 3 on PostgreSQL"
+				},
+				{
+					"label": "Services",
+					"value": "Resend · Brevo SMS · Turnstile · PostHog"
+				},
+				{
+					"label": "Hosting",
+					"value": "Turborepo monorepo, Docker on a VPS via Coolify, release-tagged deploys"
+				}
+			],
+			"metrics": [
+				{
+					"value": "141",
+					"label": "commits"
+				},
+				{
+					"value": "13",
+					"label": "releases"
+				},
+				{
+					"value": "0",
+					"label": "cookies"
+				}
+			]
 		},
 		"fournelles": {
 			"role": "Website & shop",
@@ -586,8 +620,8 @@
 			]
 		},
 		{
-			"company": "Vue d'Esprit",
-			"title": "Freelance developer — independent studio",
+			"company": "leshorts.com",
+			"title": "Freelance developer — self-employed",
 			"tag": "Freelance",
 			"period": "2010 — now",
 			"slug": "",

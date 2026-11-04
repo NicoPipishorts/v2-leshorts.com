@@ -53,7 +53,7 @@
 		"about": "À propos",
 		"hi": "Salut, moi c’est",
 		"aboutP1": "J’ai commencé à coder en 2001 et je ne me suis jamais arrêté. Aujourd’hui je suis Senior Frontend Engineer — React, TypeScript, architecture de composants, state, performance et accessibilité — avec assez de backend et d’infra en main pour livrer des produits entiers.",
-		"aboutP2": "Je dirige un petit studio, Vue d’Esprit, j’ai cofondé Kaast (plus de 4 000 utilisateurs) et je développe Synqit en parallèle. Hors écran : parapente, skate, ébénisterie, et la présidence d’une association scolaire.",
+		"aboutP2": "Je travaille à mon compte sous leshorts.com, j’ai cofondé Kaast (plus de 4 000 utilisateurs) et je développe Synqit en parallèle. Hors écran : parapente, skate, ébénisterie, et la présidence d’une association scolaire.",
 		"downloadCv": "Télécharger le CV",
 		"timeline": "Chronologie",
 		"caseStudyLink": "Étude de cas →",
@@ -489,27 +489,61 @@
 			]
 		},
 		"ab2c": {
-			"role": "Design system & développement web",
+			"role": "Design system, site web & back-office",
 			"period": "2026",
 			"tagline": "Dessiné, pas tracé à la règle — une marque agricole au crayon.",
-			"summary": "Présence web, site vitrine et futur catalogue pour AB2C, distributeur exclusif MICROFERM pour la France, la Belgique, le Luxembourg et la Suisse.",
-			"challenge": "Rendre humain et digne de confiance un distributeur technique de mesure agricole, et le livrer en quatre phases payantes sans rien réécrire entre elles.",
+			"summary": "ab2c.pro : site, CRM et back-office pour AB2C, conseil en ensilage et environnement des élevages, distributeur exclusif MICROFERM pour la France, la Belgique, le Luxembourg et la Suisse.",
+			"challenge": "Rendre humaine et digne de confiance une entreprise technique de l’agrofourniture, confier toutes les pages à un dirigeant non technique, et livrer par phases payantes sans rien réécrire entre elles.",
 			"built": [
 				{
 					"title": "Design system dessiné à la main",
-					"body": "Cadres et séparateurs faits de traits de crayon générés et de SVG esquissés plutôt que de bordures et d’ombres."
+					"body": "Cadres, champs, boutons et carte de contact faits de traits de crayon générés et de SVG esquissés plutôt que de bordures et d’ombres."
 				},
 				{
-					"title": "Contenu prêt pour un CMS",
-					"body": "Package de contenu typé qui bascule vers Payload CMS 3 sans toucher à l’UI."
+					"title": "Un back-office pour un dirigeant non technique",
+					"body": "Payload CMS 3 en deux côtés, site et clients : chaque page, FAQ, actualité et gamme de produits modifiable, avec une médiathèque qui montre où chaque image est utilisée."
 				},
 				{
-					"title": "Des formulaires sérieux",
-					"body": "Server functions avec Zod, Turnstile, Resend et un hook CRM."
+					"title": "Documentation protégée par SMS",
+					"body": "Les professionnels demandent l’accès, valident leur mobile par un code SMS, puis consultent fiches techniques et tarifs ; codes et crédits restants s’affichent sur l’écran clients."
+				},
+				{
+					"title": "CRM, formulaires et audience",
+					"body": "Server functions avec Zod, Turnstile et Resend qui alimentent un CRM intégré avec export CSV ; audience PostHog sans cookies, lue directement dans l’admin."
 				}
 			],
-			"layers": [],
-			"metrics": []
+			"layers": [
+				{
+					"label": "Site",
+					"value": "TanStack Start · React 19 · Tailwind v4"
+				},
+				{
+					"label": "Admin",
+					"value": "Payload CMS 3 sur PostgreSQL"
+				},
+				{
+					"label": "Services",
+					"value": "Resend · SMS Brevo · Turnstile · PostHog"
+				},
+				{
+					"label": "Hébergement",
+					"value": "Monorepo Turborepo, Docker sur VPS via Coolify, déploiement par release"
+				}
+			],
+			"metrics": [
+				{
+					"value": "141",
+					"label": "commits"
+				},
+				{
+					"value": "13",
+					"label": "releases"
+				},
+				{
+					"value": "0",
+					"label": "cookie"
+				}
+			]
 		},
 		"fournelles": {
 			"role": "Site web & boutique",
@@ -586,8 +620,8 @@
 			]
 		},
 		{
-			"company": "Vue d'Esprit",
-			"title": "Développeur freelance — studio indépendant",
+			"company": "leshorts.com",
+			"title": "Développeur freelance — à mon compte",
 			"tag": "Freelance",
 			"period": "2010 — aujourd’hui",
 			"slug": "",

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Projets · Nicolas Pisar</title>
+<link rel="stylesheet" href="motion.css" />
+<link rel="stylesheet" href="style.css" />
+<script src="brand.js"></script>
+</head>
+<body>
+<div class="dark fade" data-topo="hero">
+	<header class="wrap top">
+		<a class="brand" href="index.html" data-logo><span>Nicolas Pisar</span></a>
+		<nav class="nav">
+			<a href="portfolio.html" aria-current="page">Projets</a>
+			<a href="services.html">Services</a>
+			<a href="about.html">À propos</a>
+			<a class="btn" href="contact.html"><span class="l">Démarrer un projet</span><span class="s">Contact</span></a>
+		</nav>
+	</header>
+	<div class="wrap pagehead">
+		<span class="mono">Projets</span>
+		<h1>Onze projets, <span class="o">tous en ligne.</span></h1>
+		<p class="lede">Des sites pour des artisans, des outils métier pour des PME, des applications sur les stores et deux produits à moi.</p>
+	</div>
+</div>
+
+<main class="wrap" style="padding-block:56px 96px">
+	<div class="grid2" id="grid"></div>
+</main>
+
+<section class="cta">
+	<div class="wrap">
+		<h2>Le prochain, c'est le vôtre&nbsp;?</h2>
+		<a class="btn line" href="contact.html">Démarrer un projet</a>
+	</div>
+</section>
+<footer class="dark foot">
+	<div class="wrap">
+		<span class="mono soft">© 2026 Nicolas Pisar · leshorts.com · Isère</span>
+		<div class="links"><a href="https://www.linkedin.com/in/nicolaspisar/">LinkedIn</a><a href="https://github.com/NicoPipishorts">GitHub</a></div>
+	</div>
+</footer>
+<script src="topo.js"></script>
+<script src="transit.js"></script>
+<script src="projects.js"></script>
+<script>
+	document.getElementById("grid").innerHTML = PROJECTS.map((p) => `
+		<a class="card" id="${p.slug}" href="${projectUrl(p.slug)}">
+			<div class="img"><img src="${shot(p.img)}" alt="" loading="lazy" /></div>
+			<div class="body">
+				<div class="row mono"><span>${p.kind}</span><span>${p.year}</span></div>
+				<h3>${p.name}</h3>
+				<p>${p.line}</p>
+				<ul class="chips">${p.tags.map((t) => `<li>${t}</li>`).join("")}</ul>
+				<span class="visit">Voir le projet <span class="ic" aria-hidden="true"></span></span>
+			</div>
+		</a>`).join("");
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#dc5c48" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+	<clipPath id="np-sites-clip"><rect x="5" y="15" width="38" height="25" rx="4"/></clipPath>
+	<g clip-path="url(#np-sites-clip)">
+		<path opacity=".42" d="M8 38C7 29 15 22.5 25 22c10-.5 19 4 19 11s-8 11-19 11C15 44 9 43 8 38Z"/>
+		<path opacity=".42" d="M15 35.5C15 30 20 27 26 26.8c6-.2 11 2.2 10.5 6.2-.5 3.5-5.5 4.5-11 4.3-6-.2-10.5.2-10.5-1.8Z"/>
+	</g>
+	<rect x="5" y="8" width="38" height="32" rx="4"/>
+	<path d="M5 15H43"/>
+	<circle fill="#dc5c48" stroke="none" cx="9.5" cy="11.5" r="1.1"/><circle fill="#dc5c48" stroke="none" cx="13.5" cy="11.5" r="1.1"/>
+	<path d="M23.6 32c0-2 2.3-3.2 4.8-3.1 2.5.1 3.9 1.3 3.6 2.7-.3 1.4-2.2 1.8-4 1.7-2-.1-4.4.7-4.4-1.3Z"/>
+	<path d="M28.3 30.6V21.5"/>
+	<path fill="#dc5c48" stroke="none" d="M28.3 21.5h5.4l-1.7 2.2 1.7 2.2h-5.4Z"/>
+
+</svg>

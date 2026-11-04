@@ -1,0 +1,64 @@
+// Project list for the mockup pages. Facts come from src/site/locales/fr.json and data.ts.
+// ponytail: plain global, mockups only; the real site keeps data.ts + locales.
+window.PROJECTS = [
+	{ slug: "horizon-planning", name: "Horizon Planning", cat: "app", kind: "Logiciel SaaS", year: "2026", img: "horizon-week", featured: true,
+		line: "Le planning hebdo des équipes du BTP, sorti du tableur d'une entreprise savoyarde et devenu un SaaS.",
+		tags: ["React", "Express", "PostgreSQL", "OVH"], link: "horizonplanning.fr" },
+	{ slug: "ab2c", name: "AB2C", cat: "site", kind: "Site & CRM", year: "2026", img: "ab2c-home", featured: true,
+		line: "Une marque agricole dessinée au crayon, et le CRM qui gère ses demandes et ses devis.",
+		tags: ["TanStack Start", "Payload", "PostgreSQL"], link: "ab2c.pro" },
+	{ slug: "comacademy", name: "Com'Academy", cat: "app", kind: "Application iOS & Android", year: "2023 —", img: "comacademy-app", featured: true,
+		line: "Apprendre la com' cinq minutes par jour\u00a0: une app sur les deux stores, et son back office.",
+		tags: ["Expo", "React Native", "Strapi"], link: "comacademy.fr" },
+	{ slug: "asba", name: "ASBA Drums", cat: "site", kind: "Site & admin", year: "2023 —", img: "asba-home", featured: true,
+		line: "Le site et l'interface d'admin d'un fabricant de batteries artisanales à Lyon.",
+		tags: ["React", "Strapi", "PostgreSQL"], link: "asbadrums.com" },
+	{ slug: "arthur", name: "Arthur Ski & Bike", cat: "site", kind: "Site & admin", year: "2026", img: "arthur-home",
+		line: "Le site d'un moniteur de ski et guide VTT des 3 Vallées, et l'admin sur mesure qui lui permet de tout modifier seul.",
+		tags: ["Next.js", "Sanity", "Tailwind"], link: "arthurskiandbike.com" },
+	{ slug: "kaast", name: "Kaast", cat: "produit", kind: "Produit · cofondateur", year: "2022 —", img: "kaast-player",
+		line: "Une plateforme média interne pour cinq entreprises clientes et plus de 4 000 utilisateurs.",
+		tags: ["React", "TanStack", "Meilisearch"], link: "kaa.st" },
+	{ slug: "synqit", name: "Synqit", cat: "produit", kind: "Produit · fondateur", year: "2024 —", img: "synqit-dashboard",
+		line: "Des playlists d'événement partagées sur cinq services de musique, sans compte pour les invités.",
+		tags: ["React", "Fastify", "Expo"], link: "synqit.fr" },
+	{ slug: "oxid", name: "Oxid Studio", cat: "site", kind: "Studio · associé", year: "2026", img: "oxid-hero",
+		line: "Un studio à trois associés, un créatif, un financier et moi au développement, et le site qui présente son offre.",
+		tags: ["TanStack Start", "Tailwind", "PostHog"], link: "oxidstudio.fr" },
+	{ slug: "maison-du-print", name: "La Maison du Print", cat: "site", kind: "Site & CMS", year: "2026", img: "print-v1",
+		line: "Un atelier de sérigraphie, et quatre versions du design livrées côte à côte.",
+		tags: ["Vue 3", "GSAP", "Sanity"], link: "lamaisonduprint.fr" },
+	{ slug: "soulbm", name: "Sou des Écoles", cat: "app", kind: "Association", year: "2024 —", img: "soulbm",
+		line: "L'association de l'école du village, gérée comme une startup.",
+		tags: ["React", "Strapi", "Claude"], link: "soulbm.fr" },
+	{ slug: "fournelles", name: "Domaine des Fournelles", cat: "site", kind: "Site & boutique", year: "2022 — 2026", img: "fournelles",
+		line: "Un domaine du Beaujolais passé d'un site PHP vieillissant à React.",
+		tags: ["React", "Supabase"], link: "domainedesfournelles.com" },
+	{ slug: "np-ebenisterie", name: "NP Ébénisterie", cat: "site", kind: "Marque & site", year: "2026", img: "np-home",
+		line: "Mes meubles faits main, et le site qui les présente.",
+		tags: ["Angular", "CSS natif"] },
+	{ slug: "careledger", name: "CareLedger", cat: "outil", kind: "Outil interne", year: "2026", img: "careledger-overview",
+		line: "Mon registre de contrats de maintenance\u00a0: heures, infrastructure, suivi client.",
+		tags: ["Next.js", "Drizzle", "PostgreSQL"] },
+];
+// Initials for the coloured project hexagons.
+const INI = { "horizon-planning": "HP", ab2c: "AB", comacademy: "CA", asba: "AD", kaast: "K", synqit: "SQ", "maison-du-print": "MP", soulbm: "SÉ", fournelles: "DF", "np-ebenisterie": "NP", careledger: "CL", arthur: "AS", oxid: "OS" };
+PROJECTS.forEach((p) => (p.ini = INI[p.slug]));
+window.projectUrl = (slug) => `project.html?p=${slug}`;
+// Dark or white text, whichever reads on a project's accent colour.
+window.inkOn = (hex) => {
+	const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+	return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.3 ? "#111925" : "#ffffff";
+};
+window.CATS = { site: "Sites", app: "Applications & SaaS", produit: "Produits", outil: "Outils" };
+// Screenshots re-cut for the redesign (white canvas and baked shadow removed, or newer captures) live in ./shots.
+const LOCAL_SHOTS = new Set(["ab2c-clients", "ab2c-clients-dark", "ab2c-demandes", "ab2c-demandes-dark", "ab2c-home", "ab2c-m-documentation", "ab2c-m-expertise", "ab2c-m-home", "ab2c-m-produits", "ab2c-m-services", "ab2c-services", "arthur-activite", "arthur-admin-activites", "arthur-admin-programme", "arthur-home", "arthur-m-activite", "arthur-m-home", "arthur-m-offre", "arthur-m-programme", "arthur-m-tarifs", "asba-home", "asba-kits", "asba-lead", "asba-leads", "asba-m-artistes", "asba-m-custom", "asba-m-home", "asba-m-kits", "asba-m-manifeste", "asba-m-produit", "careledger-flow", "careledger-overview", "careledger-project", "careledger-worklog", "comacademy-backoffice", "comacademy-home", "comacademy-m-accueil", "comacademy-m-dico", "comacademy-m-feed", "comacademy-m-jeu", "comacademy-m-secrets", "comacademy-parcours", "comacademy-question", "fournelles", "fournelles-domaine", "fournelles-m-boutique", "fournelles-m-domaine", "fournelles-m-fiche", "fournelles-m-home", "fournelles-m-vins", "fournelles-shop", "fournelles-vins", "horizon-affectation", "horizon-chantiers", "horizon-phone-affectation", "horizon-phone-chantier", "horizon-phone-chantiers", "horizon-phone-planning", "horizon-phone-suivi", "horizon-planning", "horizon-suivi", "kaast-player", "np-home", "np-m-contact", "np-m-home", "np-m-methode", "np-m-projet", "np-m-realisations", "np-methode", "np-projet", "np-realisations", "oxid-cards", "oxid-growth", "oxid-hero", "oxid-m-cards", "oxid-m-features", "oxid-m-growth", "oxid-m-hero", "oxid-m-portfolio", "oxid-portfolio", "print-atelier", "print-devis", "print-galerie", "print-m-atelier", "print-m-devis", "print-m-galerie", "print-m-home", "print-m-services", "soulbm-accueil", "soulbm-admin-adherents", "soulbm-admin-planning", "soulbm-admin-tresorerie", "soulbm-evenements", "soulbm-m-events", "soulbm-m-finance", "soulbm-m-home", "soulbm-m-links", "soulbm-m-news", "synqit-dashboard", "synqit-dashboard-dark", "synqit-events", "synqit-events-dark", "synqit-home", "synqit-phone-dashboard", "synqit-phone-dashboard-dark", "synqit-phone-guest", "synqit-phone-guest-dark", "synqit-phone-guest-tracks", "synqit-phone-guest-tracks-dark", "synqit-phone-share", "synqit-phone-share-dark", "synqit-phone-transfer", "synqit-phone-transfer-dark", "synqit-transfer", "synqit-transfer-dark"]);
+window.shot = (name) => (LOCAL_SHOTS.has(name) ? `shots/${name}.jpg` : `/src/site/shots/${name}.jpg`);
+
+
+// Mock form: never sends anything.
+document.addEventListener("submit", (e) => {
+	e.preventDefault();
+	const out = e.target.querySelector("[data-sent]");
+	if (out) out.hidden = false;
+});
