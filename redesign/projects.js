@@ -51,14 +51,7 @@ window.inkOn = (hex) => {
 	return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.3 ? "#111925" : "#ffffff";
 };
 window.CATS = { site: "Sites", app: "Applications & SaaS", produit: "Produits", outil: "Outils" };
-// Screenshots re-cut for the redesign (white canvas and baked shadow removed, or newer captures) live in ./shots.
-const LOCAL_SHOTS = new Set(["ab2c-clients", "ab2c-clients-dark", "ab2c-demandes", "ab2c-demandes-dark", "ab2c-home", "ab2c-m-documentation", "ab2c-m-expertise", "ab2c-m-home", "ab2c-m-produits", "ab2c-m-services", "ab2c-services", "arthur-activite", "arthur-admin-activites", "arthur-admin-programme", "arthur-home", "arthur-m-activite", "arthur-m-home", "arthur-m-offre", "arthur-m-programme", "arthur-m-tarifs", "asba-home", "asba-kits", "asba-lead", "asba-leads", "asba-m-artistes", "asba-m-custom", "asba-m-home", "asba-m-kits", "asba-m-manifeste", "asba-m-produit", "careledger-flow", "careledger-overview", "careledger-project", "careledger-worklog", "comacademy-backoffice", "comacademy-home", "comacademy-m-accueil", "comacademy-m-dico", "comacademy-m-feed", "comacademy-m-jeu", "comacademy-m-secrets", "comacademy-parcours", "comacademy-question", "fournelles", "fournelles-domaine", "fournelles-m-boutique", "fournelles-m-domaine", "fournelles-m-fiche", "fournelles-m-home", "fournelles-m-vins", "fournelles-shop", "fournelles-vins", "horizon-affectation", "horizon-chantiers", "horizon-phone-affectation", "horizon-phone-chantier", "horizon-phone-chantiers", "horizon-phone-planning", "horizon-phone-suivi", "horizon-planning", "horizon-suivi", "kaast-player", "np-home", "np-m-contact", "np-m-home", "np-m-methode", "np-m-projet", "np-m-realisations", "np-methode", "np-projet", "np-realisations", "oxid-cards", "oxid-growth", "oxid-hero", "oxid-m-cards", "oxid-m-features", "oxid-m-growth", "oxid-m-hero", "oxid-m-portfolio", "oxid-portfolio", "print-atelier", "print-devis", "print-galerie", "print-m-atelier", "print-m-devis", "print-m-galerie", "print-m-home", "print-m-services", "soulbm-accueil", "soulbm-admin-adherents", "soulbm-admin-planning", "soulbm-admin-tresorerie", "soulbm-evenements", "soulbm-m-events", "soulbm-m-finance", "soulbm-m-home", "soulbm-m-links", "soulbm-m-news", "synqit-dashboard", "synqit-dashboard-dark", "synqit-events", "synqit-events-dark", "synqit-home", "synqit-phone-dashboard", "synqit-phone-dashboard-dark", "synqit-phone-guest", "synqit-phone-guest-dark", "synqit-phone-guest-tracks", "synqit-phone-guest-tracks-dark", "synqit-phone-share", "synqit-phone-share-dark", "synqit-phone-transfer", "synqit-phone-transfer-dark", "synqit-transfer", "synqit-transfer-dark"]);
-window.shot = (name) => (LOCAL_SHOTS.has(name) ? `shots/${name}.jpg` : `/src/site/shots/${name}.jpg`);
+window.shot = (name) => `shots/${name}.jpg`;
 
 
-// Mock form: never sends anything.
-document.addEventListener("submit", (e) => {
-	e.preventDefault();
-	const out = e.target.querySelector("[data-sent]");
-	if (out) out.hidden = false;
-});
+

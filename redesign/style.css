@@ -11,6 +11,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--snow); color: var(--ink); font: 400 17px/1.6 var(--sans); }
 img { display: block; max-width: 100%; }
@@ -225,7 +226,7 @@ section { padding-block: 96px; }
 	font: 600 16.5px/1.4 var(--sans); letter-spacing: 0; text-wrap: pretty; transform-origin: 100% 100%; }
 .faq p { position: relative; justify-self: start; max-width: 94%; margin: 0; padding: 14px 18px; border-radius: 18px 18px 18px 4px; background: var(--card); border: 1px solid var(--line);
 	color: var(--ink); box-shadow: 0 12px 26px -20px rgba(17, 25, 37, .4); transform-origin: 0 100%; }
-.faq p::before { content: ""; position: absolute; left: -50px; bottom: -1px; width: 38px; height: 38px; background: url("/src/assets/images/profile-pict.jpg") center 25% / cover;
+.faq p::before { content: ""; position: absolute; left: -50px; bottom: -1px; width: 38px; height: 38px; background: url("img/profile-pict.jpg") center 25% / cover;
 	clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); transform-origin: 50% 100%; }
 /* typing indicator laid over the answer bubble while it "writes" */
 .faq p::after { content: "•••"; position: absolute; inset: 0; display: flex; align-items: center; padding-inline: 18px; border-radius: inherit; background: var(--card);
@@ -256,7 +257,15 @@ textarea { min-height: 170px; resize: vertical; }
 .pick span { display: block; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--card); }
 .pick input:checked + span { border-color: var(--sail); box-shadow: inset 0 0 0 1px var(--sail); }
 .pick input:focus-visible + span { outline: 2px solid var(--sail); outline-offset: 2px; }
-.sent { color: var(--sail); font-weight: 600; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.send { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.btn:disabled { opacity: .6; cursor: progress; }
+.form-status { color: var(--soft); font-size: 15px; max-width: 46ch; }
+.form-status[data-kind="error"] { color: #b93a28; font-weight: 600; }
+.sent-ok { display: grid; gap: 14px; justify-items: start; max-width: 520px; outline: none; }
+.sent-ok .mono { color: var(--sail); }
+.sent-ok h2 { font-size: clamp(30px, 3.6vw, 44px); }
+.sent-ok p { color: var(--soft); font-size: 18px; }
 .note { color: var(--soft); font-size: 13px; font-weight: 400; }
 @media (max-width: 960px) {
 	.contact { grid-template-columns: 1fr; min-height: 0; }
