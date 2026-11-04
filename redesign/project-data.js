@@ -592,9 +592,14 @@ window.DETAILS = {
 		],
 		"cover": "soulbm-accueil",
 		"gallery": [
+			"soulbm-evenements",
 			"soulbm-admin-planning",
 			"soulbm-admin-tresorerie",
-			"soulbm-admin-adherents"
+			"soulbm-m-home",
+			"soulbm-m-finance",
+			"soulbm-m-events",
+			"soulbm-m-news",
+			"soulbm-m-links"
 		],
 		"role": "Président & développeur full-stack",
 		"period": "2024 — aujourd’hui",
@@ -858,7 +863,7 @@ window.DETAILS = {
 };
 
 // Portrait shots (phone screens, upright photos): shown in their own gallery row at their real ratio.
-window.TALL_SHOTS = new Set(["ab2c-m-documentation", "ab2c-m-expertise", "ab2c-m-home", "ab2c-m-produits", "ab2c-m-services", "arthur-m-activite", "arthur-m-home", "arthur-m-offre", "arthur-m-programme", "arthur-m-tarifs", "asba-m-artistes", "asba-m-custom", "asba-m-home", "asba-m-kits", "asba-m-manifeste", "asba-m-produit", "comacademy-m-accueil", "comacademy-m-dico", "comacademy-m-feed", "comacademy-m-jeu", "comacademy-m-secrets", "fournelles-m-boutique", "fournelles-m-domaine", "fournelles-m-fiche", "fournelles-m-home", "fournelles-m-vins", "horizon-phone-affectation", "horizon-phone-chantier", "horizon-phone-chantiers", "horizon-phone-planning", "horizon-phone-suivi", "np-m-contact", "np-m-home", "np-m-methode", "np-m-projet", "np-m-realisations", "oxid-m-cards", "oxid-m-features", "oxid-m-growth", "oxid-m-hero", "oxid-m-portfolio", "print-m-atelier", "print-m-devis", "print-m-galerie", "print-m-home", "print-m-services", "synqit-phone-dashboard-dark", "synqit-phone-guest", "synqit-phone-guest-tracks-dark", "synqit-phone-share", "synqit-phone-transfer"]);
+window.TALL_SHOTS = new Set(["ab2c-m-documentation", "ab2c-m-expertise", "ab2c-m-home", "ab2c-m-produits", "ab2c-m-services", "arthur-m-activite", "arthur-m-home", "arthur-m-offre", "arthur-m-programme", "arthur-m-tarifs", "asba-m-artistes", "asba-m-custom", "asba-m-home", "asba-m-kits", "asba-m-manifeste", "asba-m-produit", "comacademy-m-accueil", "comacademy-m-dico", "comacademy-m-feed", "comacademy-m-jeu", "comacademy-m-secrets", "fournelles-m-boutique", "fournelles-m-domaine", "fournelles-m-fiche", "fournelles-m-home", "fournelles-m-vins", "horizon-phone-affectation", "horizon-phone-chantier", "horizon-phone-chantiers", "horizon-phone-planning", "horizon-phone-suivi", "np-m-contact", "np-m-home", "np-m-methode", "np-m-projet", "np-m-realisations", "oxid-m-cards", "oxid-m-features", "oxid-m-growth", "oxid-m-hero", "oxid-m-portfolio", "print-m-atelier", "print-m-devis", "print-m-galerie", "print-m-home", "print-m-services", "soulbm-m-events", "soulbm-m-finance", "soulbm-m-home", "soulbm-m-links", "soulbm-m-news", "synqit-phone-dashboard-dark", "synqit-phone-guest", "synqit-phone-guest-tracks-dark", "synqit-phone-share", "synqit-phone-transfer"]);
 
 // Dark screenshots get a light frame in the gallery (light ones a dark one).
 window.DARK_SHOTS = new Set(["ab2c-clients-dark", "asba-m-custom", "asba-m-kits", "asba-m-manifeste", "asba-m-produit", "fournelles-domaine", "fournelles-m-fiche", "fournelles-m-vins", "fournelles-vins", "np-m-home", "oxid-cards", "oxid-growth", "oxid-m-cards", "oxid-m-growth", "oxid-m-hero", "synqit-dashboard-dark", "synqit-phone-dashboard-dark", "synqit-phone-guest-tracks-dark", "synqit-transfer-dark"]);
@@ -883,7 +888,6 @@ window.CAPTIONS = {
 	"print-m-devis": ["Le devis sur mobile", "Le formulaire de devis, pensé pour être rempli depuis un téléphone."],
 	"soulbm-admin-planning": ["Le planning", "Le calendrier du bureau : tâches, échéances et réunions privées, rattachées à chaque événement."],
 	"soulbm-admin-tresorerie": ["La trésorerie", "Recettes, dépenses et virements de l'année, avec les remboursements à faire mis en avant."],
-	"soulbm-admin-adherents": ["Les adhérents", "Le registre des adhésions, synchronisé avec HelloAsso et complété par les saisies manuelles."],
 	"ab2c-services": ["Services", "Trois métiers présentés page par page, du conseil sur le terrain à la direction commerciale à temps partagé."],
 	"ab2c-m-home": ["Accueil mobile", "L’offre lisible dès le premier écran, sur la photo d’une prairie fauchée."],
 	"ab2c-m-services": ["Services", "Des titres larges et une photo de terrain pour chaque accompagnement."],
@@ -953,4 +957,10 @@ window.CAPTIONS = {
 	"synqit-events": ["Les événements", "Chaque fête a sa playlist, ouverte ou fermée, avec son lien invité et son partage en un clic."],
 	"synqit-phone-guest-tracks-dark": ["La playlist commune", "Les invités voient la liste se remplir au fil de la soirée, numérotée dans l'ordre des ajouts. En mode sombre."],
 	"synqit-phone-dashboard-dark": ["Le tableau de bord mobile", "Les mêmes chiffres que sur ordinateur, avec une barre de navigation flottante à portée de pouce. En mode sombre."],
+	"soulbm-evenements": ["Les événements", "L'agenda public de l'association : chaque rendez-vous de l'année, à ajouter à son calendrier en un clic."],
+	"soulbm-m-home": ["L'accueil sur mobile", "Le site s'ouvre sur l'appel à se mobiliser pour l'école, pensé pour le téléphone des parents."],
+	"soulbm-m-finance": ["Ce que finance le Sou", "Sorties, matériel, fêtes et actions solidaires, puis l'accès aux cartes de membre."],
+	"soulbm-m-events": ["L'agenda sur mobile", "Les événements mois par mois, avec leur date d'un coup d'œil."],
+	"soulbm-m-news": ["Les actualités", "Les nouvelles de l'association, filtrées par catégorie."],
+	"soulbm-m-links": ["Liens utiles", "L'adhésion en ligne via HelloAsso et les ressources pour les familles."],
 };

@@ -330,8 +330,8 @@ textarea { min-height: 170px; resize: vertical; }
 .g-row a[data-tone="dark"] { background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 18px 40px -22px rgba(17, 25, 37, .5); }
 .g-row a:hover, .g-row a:focus-visible { transform: translateY(-4px); background: var(--sail); box-shadow: 0 26px 50px -24px rgba(17, 25, 37, .55); }
 .g-row img { display: block; border-radius: 7.5px; }
-.g-row.tall a { padding: 2.5px; border-radius: 23px; }
-.g-row.tall img { border-radius: 20.5px; }
+.g-row.tall a { padding: 2.5px; border-radius: 12px; }
+.g-row.tall img { border-radius: 9.5px; }
 .g-row.wide img { width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: top; }
 .g-row.wide a:only-child { max-width: 820px; }
 .g-row.tall img { width: 100%; height: auto; }
