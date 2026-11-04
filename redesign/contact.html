@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Contact · Nicolas Pisar</title>
+<link rel="stylesheet" href="motion.css" />
+<link rel="stylesheet" href="style.css" />
+<script src="brand.js"></script>
+</head>
+<body>
+<main class="contact">
+	<div class="dark left" data-topo="hero">
+		<header class="top">
+			<a class="brand" href="index.html" data-logo><span>Nicolas Pisar</span></a>
+			<nav class="nav">
+				<a href="portfolio.html">Projets</a>
+				<a href="services.html">Services</a>
+				<a href="about.html">À propos</a>
+				<a class="btn only-phone" href="contact.html" aria-current="page"><span class="l">Démarrer un projet</span><span class="s">Contact</span></a>
+			</nav>
+		</header>
+		<h1>Parlons de <span class="o">votre projet.</span></h1>
+		<p class="lede">Quelques lignes suffisent&nbsp;: ce que vous faites, ce qui coince aujourd'hui, et pour quand. Je réponds sous 24 h en semaine.</p>
+		<ul class="info">
+			<li><span class="mono">E-mail</span><a href="mailto:me@nicolaspisar.com">me@nicolaspisar.com</a></li>
+			<li><span class="mono">LinkedIn</span><a href="https://www.linkedin.com/in/nicolaspisar/">nicolaspisar ↗</a></li>
+			<li><span class="mono">Basé à</span><span>La Bâtie-Montgascon, Isère</span></li>
+		</ul>
+	</div>
+
+	<div class="right">
+		<form>
+			<fieldset class="pick">
+				<legend>C'est pour…</legend>
+				<label><input type="radio" name="t" checked /><span>Un site</span></label>
+				<label><input type="radio" name="t" /><span>Un outil métier</span></label>
+				<label><input type="radio" name="t" /><span>Une application</span></label>
+				<label><input type="radio" name="t" /><span>Un SaaS</span></label>
+				<label><input type="radio" name="t" /><span>De la maintenance</span></label>
+				<label><input type="radio" name="t" /><span>Autre chose</span></label>
+			</fieldset>
+			<div class="pair">
+				<label>Votre nom<input autocomplete="name" required /></label>
+				<label>Votre e-mail<input type="email" autocomplete="email" required /></label>
+			</div>
+			<label>Entreprise ou association <span class="note">(facultatif)</span><input autocomplete="organization" /></label>
+			<label>Votre message<textarea placeholder="Ce que vous faites, ce qui coince, pour quand…" required></textarea></label>
+			<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+				<button class="btn" type="submit">Envoyer le message</button>
+				<span class="sent" data-sent hidden>Maquette&nbsp;: rien n'a été envoyé.</span>
+			</div>
+		</form>
+	</div>
+</main>
+<script src="topo.js"></script>
+<script src="transit.js"></script>
+<script src="projects.js"></script>
+</body>
+</html>

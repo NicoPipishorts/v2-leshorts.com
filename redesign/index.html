@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Nicolas Pisar · Développeur web & mobile</title>
+<link rel="stylesheet" href="motion.css" />
+<link rel="stylesheet" href="style.css" />
+<script src="brand.js"></script>
+</head>
+<body>
+<div class="dark fade" data-topo="hero">
+	<header class="wrap top">
+		<a class="brand" href="index.html" data-logo><span>Nicolas Pisar</span></a>
+		<nav class="nav">
+			<a href="portfolio.html">Projets</a>
+			<a href="services.html">Services</a>
+			<a href="about.html">À propos</a>
+			<a class="btn" href="contact.html"><span class="l">Démarrer un projet</span><span class="s">Contact</span></a>
+		</nav>
+	</header>
+	<div class="wrap hero">
+		<div class="grid">
+			<div>
+				<span class="badge mono">Disponible pour de nouveaux projets</span>
+				<h1>Développeur web & mobile, <span class="o">basé dans les Alpes.</span></h1>
+				<p class="lede">Sites, applications et outils métier pour des entreprises, des indépendants et des associations. Je code depuis 2001, et je reste là après la mise en ligne.</p>
+				<div class="actions">
+					<a class="btn" href="portfolio.html">Voir les projets</a>
+					<a class="btn line" href="services.html">Mes services</a>
+				</div>
+			</div>
+			<div class="me" data-portrait="/src/assets/images/profile-pict.jpg"></div>
+		</div>
+		<div class="stats">
+			<div><b>2001</b><span>premières lignes de code</span></div>
+			<div><b>2010</b><span>à mon compte, leshorts.com</span></div>
+			<div><b>1</b><span>seul interlocuteur, du premier échange à la maintenance</span></div>
+			<div><b>11</b><span>projets en ligne</span></div>
+		</div>
+	</div>
+</div>
+
+<main>
+	<section class="wrap">
+		<div class="head">
+			<div><span class="mono">Projets</span><h2>Du site d'artisan au SaaS</h2></div>
+			<a class="arrow" href="portfolio.html">Les 11 projets</a>
+		</div>
+		<div class="bento" id="bento"></div>
+	</section>
+
+	<section class="wrap" style="padding-top:0">
+		<div class="head">
+			<div><span class="mono">Services</span><h2>Ce que je construis</h2></div>
+			<a class="arrow" href="services.html">Le détail et la méthode</a>
+		</div>
+		<ul class="rows">
+			<li><h3>Sites</h3><p>Rapides, multilingues si besoin, faciles à mettre à jour sans moi.</p><span>→</span></li>
+			<li><h3>Outils métier</h3><p>Back offices, CRM, planning&nbsp;: taillés pour la façon dont vos équipes travaillent.</p><span>→</span></li>
+			<li><h3>Applications</h3><p>Web, iOS et Android, avec leur interface d'administration.</p><span>→</span></li>
+			<li><h3>Suivi</h3><p>Hébergement, sauvegardes, corrections et évolutions, dans la durée.</p><span>→</span></li>
+		</ul>
+	</section>
+
+	<section class="dark" data-topo="21">
+		<div class="wrap">
+			<div class="head">
+				<div><span class="mono">Hors bureau</span><h2>Ce qui me fait sortir</h2></div>
+				<a class="arrow" href="about.html">Qui je suis</a>
+			</div>
+			<div class="hobbies">
+				<article class="hob"><h3>Ébénisterie</h3><p>Tables, meubles, rénovation. C'est même devenu une marque&nbsp;: NP Ébénisterie.</p></article>
+				<article class="hob"><h3>Parapente</h3><p>Voler dans les Alpes dès que la météo dit oui.</p></article>
+				<article class="hob"><h3>Vélo &amp; course</h3><p>Les longues sorties, quand elle dit non.</p></article>
+				<article class="hob"><h3>Skate</h3><p>Je tombe encore, je me relève toujours.</p></article>
+				<article class="hob"><h3>Sou des Écoles</h3><p>Président de l'association de l'école du village.</p></article>
+			</div>
+		</div>
+	</section>
+
+	<section class="cta">
+		<div class="wrap">
+			<h2>Un projet en tête&nbsp;? Parlons-en.</h2>
+			<div style="display:grid;gap:18px;justify-items:start">
+				<a class="mail" href="mailto:me@nicolaspisar.com">me@nicolaspisar.com</a>
+				<a class="btn line" href="contact.html">Ou via le formulaire</a>
+			</div>
+		</div>
+	</section>
+</main>
+
+<footer class="dark foot">
+	<div class="wrap">
+		<span class="mono soft">© 2026 Nicolas Pisar · leshorts.com · Isère</span>
+		<div class="links"><a href="https://www.linkedin.com/in/nicolaspisar/">LinkedIn</a><a href="https://github.com/NicoPipishorts">GitHub</a><a href="https://www.instagram.com/bricoshorts/">Instagram</a><a href="/cv/nicolas-pisar-cv-fr.pdf">CV</a></div>
+	</div>
+</footer>
+<script src="topo.js"></script>
+<script src="transit.js"></script>
+<script src="projects.js"></script>
+<script>
+	const pick = ["horizon-planning", "ab2c", "comacademy", "asba", "kaast"].map((s) => PROJECTS.find((p) => p.slug === s));
+	document.getElementById("bento").innerHTML = pick.map((p, i) => `
+		<a class="card${i === 0 ? " big" : ""}" href="${projectUrl(p.slug)}">
+			<div class="img"><img src="${shot(p.img)}" alt="" loading="lazy" /></div>
+			<div class="body">
+				<div class="row mono"><span>${p.kind}</span><span>${p.year}</span></div>
+				<h3>${p.name}</h3>
+				<p>${p.line}</p>
+			</div>
+		</a>`).join("");
+</script>
+</body>
+</html>
