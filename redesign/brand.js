@@ -60,15 +60,27 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Service cards: icon strokes get pathLength=1 and class "st" so CSS can draw them (a class, because Chrome
 	// doesn't restyle SVG children reliably on [pathLength] selectors); cards rise in and draw their icon
 	// the first time they scroll into view, then the hover redraw takes over (motion.css).
-	const cards = document.querySelectorAll(".svc article");
-	cards.forEach((card, i) => {
+	// Any [data-reveal] block gets the same rise-in, child by child.
+	const cards = document.querySelectorAll(".svc article, [data-reveal] > *");
+	cards.forEach((card) => {
 		card.querySelectorAll(".ico :is(path, rect, circle):not([stroke='none']):not(clipPath *)").forEach((el) => { el.setAttribute("pathLength", "1"); el.classList.add("st"); });
-		card.style.setProperty("--i", i);
+		card.style.setProperty("--i", [...card.parentElement.children].indexOf(card));
 	});
+	// Client strip: a second copy of the list makes the scroll loop seamless (hidden from screen readers).
+	document.querySelectorAll(".marquee ul").forEach((ul) => {
+		const copy = ul.cloneNode(true);
+		copy.setAttribute("aria-hidden", "true");
+		copy.querySelectorAll("a").forEach((a) => (a.tabIndex = -1));
+		ul.after(copy);
+	});
+	// Contact form: ?besoin=site (from the landing page's shortcuts) ticks the matching choice.
+	const need = new URLSearchParams(location.search).get("besoin");
+	const pick = need && document.querySelector(`.pick input[value="${CSS.escape(need)}"]`);
+	if (pick) pick.checked = true;
 	if (cards.length && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
 		cards.forEach((c) => c.classList.add("pre"));
 		const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-			if (!e.isIntersecting) return;
+			if (!e.isIntersecting && e.boundingClientRect.top > 0) return; // also reveal anything scrolled past too fast
 			io.unobserve(e.target);
 			e.target.classList.replace("pre", "in");
 			setTimeout(() => e.target.classList.remove("in"), 2200);

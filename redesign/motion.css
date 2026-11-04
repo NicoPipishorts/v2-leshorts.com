@@ -30,8 +30,8 @@
 .nav .btn:active { transform: translateY(0) scale(.97); }
 
 /* service cards: rise in on first view, icon strokes draw; on hover the strokes redraw and the coral accents pop */
-.svc article.pre { opacity: 0; transform: translateY(24px); }
-.svc article.in { transition: opacity .7s calc(var(--i, 0) * 110ms), transform .8s calc(var(--i, 0) * 110ms) cubic-bezier(.2, .9, .3, 1); }
+.svc article.pre, [data-reveal] > .pre { opacity: 0; transform: translateY(24px); }
+.svc article.in, [data-reveal] > .in { transition: opacity .7s calc(var(--i, 0) * 110ms), transform .8s calc(var(--i, 0) * 110ms) cubic-bezier(.2, .9, .3, 1); }
 .ico .st { stroke-dasharray: 1; }
 .svc article.in .ico .st { animation: np-draw 1.3s calc(var(--i, 0) * 110ms + .25s) cubic-bezier(.6, 0, .2, 1) backwards; }
 .svc article:hover .ico .st { animation: np-redraw .9s cubic-bezier(.6, 0, .2, 1); }
@@ -52,6 +52,20 @@ html.leaving [data-topo="hero"] > :not(.topo, .top), html.leaving [data-topo="he
 html.arriving [data-topo="hero"] > :not(.topo, .top), html.arriving [data-topo="hero"] ~ * { opacity: 0; animation: np-safety-show 0s 3s forwards; }
 @keyframes np-safety-show { to { opacity: 1; } } /* if transit.js never runs, the content still shows after 3 s */
 
+/* landing: project hexagons drift around the portrait, the client strip scrolls (pauses on hover),
+   the "Vous avez besoin…" shortcuts pop in one after the other */
+.orb { animation: np-float 6s var(--d, 0s) ease-in-out infinite alternate; }
+.orb:hover, .orb:focus-visible { animation-play-state: paused; }
+@keyframes np-float { from { translate: -50% -50%; } 50% { translate: calc(-50% + 4px) calc(-50% - 9px); } to { translate: calc(-50% - 3px) calc(-50% + 5px); } }
+.marquee .track > ul { animation: np-scroll 38s linear infinite; }
+.marquee .track:hover > ul { animation-play-state: paused; }
+@keyframes np-scroll { to { transform: translateX(-100%); } }
+.needs li { animation: np-rise .6s calc(.5s + var(--n) * 80ms) cubic-bezier(.2, .9, .3, 1) backwards; }
+.needs li:nth-child(1) { --n: 0; } .needs li:nth-child(2) { --n: 1; } .needs li:nth-child(3) { --n: 2; } .needs li:nth-child(4) { --n: 3; } .needs li:nth-child(5) { --n: 4; }
+@keyframes np-rise { from { opacity: 0; transform: translateY(12px) scale(.96); } }
+.seen .needs li { animation: none; }
+
 @media (prefers-reduced-motion: reduce) {
+	.orb, .marquee ul, .needs li, [data-reveal] > *,
 	.brand svg *, .ring, .nav-ind, .nav a, .nav .btn, .nav .btn::after, .ico *, .svc article, .svc article *, .svc article::before { animation: none !important; transition: none !important; }
 }
