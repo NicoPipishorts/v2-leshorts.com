@@ -11,8 +11,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.resolve(process.argv[2] ?? path.join(ROOT, "public", "og-image.png"));
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
-const logoSrc = fs.readFileSync(path.join(ROOT, "src/components/Logo.tsx"), "utf8");
-const [HEX, MARK] = [...logoSrc.matchAll(/export const LOGO_\w+_PATH =\s*"([^"]+)"/g)].map((m) => m[1]);
+const logoSrc = fs.readFileSync(path.join(ROOT, "redesign/brand.js"), "utf8");
+const [HEX, MARK] = [...logoSrc.matchAll(/^const (?:HEX|MARK) = "([^"]+)"/gm)].map((m) => m[1]);
 
 const html = `<!doctype html><html><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&family=Manrope:wght@500;600&family=JetBrains+Mono:wght@400&display=block" rel="stylesheet">
