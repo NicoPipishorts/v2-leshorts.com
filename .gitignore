@@ -32,3 +32,7 @@ review.md
 
 # LinkedIn post drafts, kept locally
 linkedin/
+
+# Business cards and their build script, kept locally
+print/
+scripts/build-cards.mjs
