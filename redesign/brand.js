@@ -6,8 +6,9 @@ const MARK = "M60.5,73.5c6.51-1.73,47.4-31.21,28.5,0.5c-11.22,18.83-21.87,35-21.
 
 // ── Page transitions (transit.js does the animation) ──
 // PAGE_KEY seeds each page's header terrain; project pages get one per project.
-const PAGE = location.pathname.split("/").pop().replace(".html", "") || "index";
-window.PAGE_KEY = PAGE === "project" ? `project:${new URLSearchParams(location.search).get("p")}` : PAGE;
+// /portfolio/<slug> is a project page; any other path is the page name (old .html URLs still work).
+const [PAGE = "index", SLUG] = location.pathname.replace(/\.html$/, "").split("/").filter(Boolean);
+window.PAGE_KEY = SLUG ? `project:${SLUG}` : PAGE;
 const store = { get: (k) => { try { return JSON.parse(sessionStorage.getItem(k)); } catch { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch {} } };
 window.NP_STORE = store;
 // The logo draws itself on the first page of a visit only, not on every navigation.

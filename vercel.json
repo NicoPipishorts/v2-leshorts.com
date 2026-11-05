@@ -1,33 +1,20 @@
 {
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/portfolio/:slug", "destination": "/project.html" }
+  ],
   "redirects": [
     {
-      "source": "/about",
-      "destination": "/about.html",
+      "source": "/project",
+      "has": [{ "type": "query", "key": "p", "value": "(?<slug>[\\w-]+)" }],
+      "destination": "/portfolio/:slug",
       "permanent": true
     },
-    {
-      "source": "/contact",
-      "destination": "/contact.html",
-      "permanent": true
-    },
-    {
-      "source": "/work",
-      "destination": "/portfolio.html",
-      "permanent": true
-    },
-    {
-      "source": "/work/:slug",
-      "destination": "/project.html?p=:slug",
-      "permanent": true
-    },
+    { "source": "/work", "destination": "/portfolio", "permanent": true },
+    { "source": "/work/:slug", "destination": "/portfolio/:slug", "permanent": true },
     {
       "source": "/:slug(kaast|horizon-planning|comacademy|asba|maison-du-print|np-ebenisterie|soulbm|ab2c|fournelles|careledger)",
-      "destination": "/project.html?p=:slug",
-      "permanent": true
-    },
-    {
-      "source": "/index.html",
-      "destination": "/",
+      "destination": "/portfolio/:slug",
       "permanent": true
     }
   ]

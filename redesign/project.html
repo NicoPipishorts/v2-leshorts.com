@@ -4,20 +4,20 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Projet · Nicolas Pisar</title>
-<link rel="stylesheet" href="motion.css" />
-<link rel="stylesheet" href="style.css" />
-<script src="brand.js"></script>
+<link rel="stylesheet" href="/motion.css" />
+<link rel="stylesheet" href="/style.css" />
+<script src="/brand.js"></script>
 </head>
 <body>
-<!-- One template for every project: project.html?p=<slug>. Content comes from project-data.js + projects.js. -->
+<!-- One template for every project, served at /portfolio/<slug> (vercel.json and scripts/dev.mjs rewrite it here). Content comes from project-data.js + projects.js. -->
 <div class="dark fade" data-topo="hero">
 	<header class="wrap top">
-		<a class="brand" href="index.html" data-logo><span>Nicolas Pisar</span></a>
+		<a class="brand" href="/" data-logo><span>Nicolas Pisar</span></a>
 		<nav class="nav">
-			<a href="portfolio.html" aria-current="page">Projets</a>
-			<a href="services.html">Services</a>
-			<a href="about.html">À propos</a>
-			<a class="btn" href="contact.html"><span class="l">Démarrer un projet</span><span class="s">Contact</span></a>
+			<a href="/portfolio" aria-current="page">Projets</a>
+			<a href="/services">Services</a>
+			<a href="/about">À propos</a>
+			<a class="btn" href="/contact"><span class="l">Démarrer un projet</span><span class="s">Contact</span></a>
 		</nav>
 	</header>
 	<div class="wrap pagehead case-head" id="head"></div>
@@ -38,7 +38,7 @@
 <section class="cta">
 	<div class="wrap">
 		<h2>Un projet dans le même genre&nbsp;?</h2>
-		<a class="btn line" href="contact.html">Démarrer un projet</a>
+		<a class="btn line" href="/contact">Démarrer un projet</a>
 	</div>
 </section>
 <footer class="dark foot">
@@ -47,15 +47,15 @@
 		<div class="links"><a href="https://www.linkedin.com/in/nicolaspisar/">LinkedIn</a><a href="https://github.com/NicoPipishorts">GitHub</a></div>
 	</div>
 </footer>
-<script src="topo.js"></script>
-<script src="transit.js"></script>
-<script src="projects.js"></script>
-<script src="project-data.js"></script>
+<script src="/topo.js"></script>
+<script src="/transit.js"></script>
+<script src="/projects.js"></script>
+<script src="/project-data.js"></script>
 <script>
 (() => {
-	const slug = new URLSearchParams(location.search).get("p");
+	const slug = location.pathname.split("/")[2] ?? new URLSearchParams(location.search).get("p");
 	const i = PROJECTS.findIndex((p) => p.slug === slug);
-	if (i < 0 || !DETAILS[slug]) return location.replace("portfolio.html");
+	if (i < 0 || !DETAILS[slug]) return location.replace("/portfolio");
 	const p = { ...PROJECTS[i], ...DETAILS[slug] };
 	const next = PROJECTS[(i + 1) % PROJECTS.length];
 	const hex = (q, cls = "") => `<span class="hx ${cls}" style="--c:${DETAILS[q.slug].accent};--t:${inkOn(DETAILS[q.slug].accent)}" aria-hidden="true">${q.ini}</span>`;
@@ -69,7 +69,7 @@
 	document.title = `${p.name} · Nicolas Pisar`;
 
 	document.getElementById("head").innerHTML = `
-		<nav class="crumbs mono" aria-label="Fil d'Ariane"><a href="portfolio.html">Projets</a><span>/</span><span>${p.name}</span></nav>
+		<nav class="crumbs mono" aria-label="Fil d'Ariane"><a href="/portfolio">Projets</a><span>/</span><span>${p.name}</span></nav>
 		<div class="case-title">${hex(p, "big")}<div><span class="mono">${p.kind} · ${p.period}</span><h1>${p.name}</h1></div></div>
 		<p class="lede">${esc(p.tagline)}</p>
 		<dl class="facts">
