@@ -11,9 +11,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.resolve(process.argv[2] ?? path.join(ROOT, "public", "cv"));
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
-const photo = `data:image/jpeg;base64,${fs.readFileSync(path.join(ROOT, "src/assets/images/profile-pict.jpg")).toString("base64")}`;
-const logoSrc = fs.readFileSync(path.join(ROOT, "src/components/Logo.tsx"), "utf8");
-const [hexPath, markPath] = [...logoSrc.matchAll(/export const LOGO_\w+_PATH =\s*"([^"]+)"/g)].map((m) => m[1]);
+const photo = `data:image/jpeg;base64,${fs.readFileSync(path.join(ROOT, "redesign/img/profile-pict.jpg")).toString("base64")}`;
+const logoSrc = fs.readFileSync(path.join(ROOT, "redesign/brand.js"), "utf8");
+const [hexPath, markPath] = [...logoSrc.matchAll(/^const (?:HEX|MARK) = "([^"]+)"/gm)].map((m) => m[1]);
 const logo = (size) =>
 	`<svg viewBox="0 0 218 218" width="${size}" height="${size}" aria-hidden="true"><path d="${hexPath}" fill="none" stroke="currentColor" stroke-width="6"/><path d="${markPath}" fill="currentColor"/></svg>`;
 

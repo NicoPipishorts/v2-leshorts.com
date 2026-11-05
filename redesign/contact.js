@@ -1,4 +1,4 @@
-// Contact form → POST /api/contact (api/contact.js; locally the Vite dev server's twin in vite.config.ts).
+// Contact form → POST /api/contact (api/contact.js; locally the same handler via scripts/dev.mjs).
 // The server checks the honeypot, the Turnstile token (when TURNSTILE_SECRET_KEY is set) and sends the emails via Resend.
 (() => {
 	const form = document.getElementById("contact-form");

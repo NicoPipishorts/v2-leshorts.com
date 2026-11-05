@@ -1,5 +1,5 @@
-// Case-study content for project.html, one entry per slug. Generated once from src/site/data.ts (accent,
-// link, stack, images) and src/site/locales/fr.json (texts) — copy edits belong in those files first.
+// Case-study content for project.html, one entry per slug. Generated once from the old React site's data;
+// this file is now the source — edit copy here.
 // Horizon Planning: migration count, plans and signup status corrected against its repo (Nov 2026).
 window.DETAILS = {
 	"synqit": {

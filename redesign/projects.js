@@ -1,5 +1,4 @@
-// Project list for the mockup pages. Facts come from src/site/locales/fr.json and data.ts.
-// ponytail: plain global, mockups only; the real site keeps data.ts + locales.
+// Project list for the portfolio, home and project pages (case-study details are in project-data.js).
 window.PROJECTS = [
 	{ slug: "horizon-planning", name: "Horizon Planning", cat: "app", kind: "Logiciel SaaS", year: "2026", img: "horizon-week", featured: true,
 		line: "Le planning hebdo des équipes du BTP, sorti du tableur d'une entreprise savoyarde et devenu un SaaS.",
