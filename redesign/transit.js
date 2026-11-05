@@ -58,7 +58,7 @@
 	} else html.classList.remove("arriving");
 
 	// ── leaving ──
-	const own = (a) => a.origin === location.origin && !a.target && !a.hasAttribute("download") && a.pathname.endsWith(".html") && !(a.pathname === location.pathname && a.search === location.search && a.hash);
+	const own = (a) => a.origin === location.origin && !a.target && !a.hasAttribute("download") && !/\.(?!html$)\w+$/.test(a.pathname) && !a.pathname.startsWith("/api/") && !(a.pathname === location.pathname && a.search === location.search && a.hash);
 	let leaving = false;
 	document.addEventListener("click", (e) => {
 		const a = e.target.closest("a[href]");

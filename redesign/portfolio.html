@@ -4,19 +4,19 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Projets · Nicolas Pisar</title>
-<link rel="stylesheet" href="motion.css" />
-<link rel="stylesheet" href="style.css" />
-<script src="brand.js"></script>
+<link rel="stylesheet" href="/motion.css" />
+<link rel="stylesheet" href="/style.css" />
+<script src="/brand.js"></script>
 </head>
 <body>
 <div class="dark fade" data-topo="hero">
 	<header class="wrap top">
-		<a class="brand" href="index.html" data-logo><span>Nicolas Pisar</span></a>
+		<a class="brand" href="/" data-logo><span>Nicolas Pisar</span></a>
 		<nav class="nav">
-			<a href="portfolio.html" aria-current="page">Projets</a>
-			<a href="services.html">Services</a>
-			<a href="about.html">À propos</a>
-			<a class="btn" href="contact.html"><span class="l">Démarrer un projet</span><span class="s">Contact</span></a>
+			<a href="/portfolio" aria-current="page">Projets</a>
+			<a href="/services">Services</a>
+			<a href="/about">À propos</a>
+			<a class="btn" href="/contact"><span class="l">Démarrer un projet</span><span class="s">Contact</span></a>
 		</nav>
 	</header>
 	<div class="wrap pagehead">
@@ -26,14 +26,15 @@
 	</div>
 </div>
 
-<main class="wrap" style="padding-block:56px 96px">
-	<div class="grid2" id="grid"></div>
+<main class="wrap works-page">
+	<div class="filters mono" id="filters" role="group" aria-label="Filtrer les projets"></div>
+	<div class="works" id="grid" data-reveal></div>
 </main>
 
 <section class="cta">
 	<div class="wrap">
 		<h2>Le prochain, c'est le vôtre&nbsp;?</h2>
-		<a class="btn line" href="contact.html">Démarrer un projet</a>
+		<a class="btn line" href="/contact">Démarrer un projet</a>
 	</div>
 </section>
 <footer class="dark foot">
@@ -42,21 +43,77 @@
 		<div class="links"><a href="https://www.linkedin.com/in/nicolaspisar/">LinkedIn</a><a href="https://github.com/NicoPipishorts">GitHub</a></div>
 	</div>
 </footer>
-<script src="topo.js"></script>
-<script src="transit.js"></script>
-<script src="projects.js"></script>
+<script src="/topo.js"></script>
+<script src="/transit.js"></script>
+<script src="/projects.js"></script>
+<script src="/project-data.js"></script>
 <script>
-	document.getElementById("grid").innerHTML = PROJECTS.map((p) => `
-		<a class="card" id="${p.slug}" href="${projectUrl(p.slug)}">
+	// Cards carry the project's accent (--c) and a hexagon with its initials. Runs before brand.js's
+	// DOMContentLoaded, so the cards get the [data-reveal] rise-in; --col staggers them by column, not by index.
+	const grid = document.getElementById("grid"), filters = document.getElementById("filters");
+	grid.innerHTML = PROJECTS.map((p, i) => {
+		const c = DETAILS[p.slug]?.accent ?? "#dc5c48";
+		return `
+		<a class="work" id="${p.slug}" href="${projectUrl(p.slug)}" data-cat="${p.cat}" style="--c:${c};--t:${inkOn(c)}">
 			<div class="img"><img src="${shot(p.img)}" alt="" loading="lazy" /></div>
 			<div class="body">
-				<div class="row mono"><span>${p.kind}</span><span>${p.year}</span></div>
+				<div class="row mono"><span class="hx" aria-hidden="true">${p.ini}</span><span>${p.kind} · ${p.year}</span><span class="n" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span></div>
 				<h3>${p.name}</h3>
 				<p>${p.line}</p>
-				<ul class="chips">${p.tags.map((t) => `<li>${t}</li>`).join("")}</ul>
+				<ul class="chips">${p.tags.map((t, k) => `<li style="--k:${k}">${t}</li>`).join("")}</ul>
 				<span class="visit">Voir le projet <span class="ic" aria-hidden="true"></span></span>
 			</div>
-		</a>`).join("");
+		</a>`;
+	}).join("");
+	const cards = [...grid.children];
+	const count = (cat) => PROJECTS.filter((p) => !cat || p.cat === cat).length;
+	filters.innerHTML = `<span class="pill still" aria-hidden="true"></span>` + [["", "Tous"], ...Object.entries(CATS)]
+		.map(([cat, label]) => `<button type="button" data-cat="${cat}" aria-pressed="${!cat}">${label}<sup>${count(cat)}</sup></button>`).join("");
+	const pill = filters.querySelector(".pill"), buttons = [...filters.querySelectorAll("button")];
+
+	// The first visible card is the wide "lead" one; the column of the others staggers their reveal.
+	const layout = () => {
+		let col = 0;
+		cards.filter((c) => !c.hidden).forEach((c, i) => {
+			c.classList.toggle("lead", i === 0);
+			c.style.setProperty("--col", i === 0 ? 0 : col++ % 2);
+		});
+	};
+	const movePill = () => {
+		const b = buttons.find((b) => b.getAttribute("aria-pressed") === "true");
+		Object.assign(pill.style, { width: `${b.offsetWidth}px`, height: `${b.offsetHeight}px`, transform: `translate(${b.offsetLeft}px, ${b.offsetTop}px)` });
+	};
+	layout();
+	movePill();
+	// placed without sliding until the webfonts are in, then it slides
+	document.fonts.ready.then(() => { movePill(); requestAnimationFrame(() => pill.classList.remove("still")); });
+	addEventListener("resize", movePill);
+
+	let lastVt;
+	// Filtering: the pill slides, and a View Transition glides each card from its old place to its new one.
+	filters.addEventListener("click", (e) => {
+		const b = e.target.closest("button");
+		if (!b || b.getAttribute("aria-pressed") === "true") return;
+		buttons.forEach((x) => x.setAttribute("aria-pressed", x === b));
+		movePill();
+		const update = () => {
+			cards.forEach((c) => (c.hidden = !!b.dataset.cat && c.dataset.cat !== b.dataset.cat));
+			layout();
+		};
+		if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) return update();
+		cards.forEach((c) => (c.style.viewTransitionName = `w-${c.id}`));
+		const vt = (lastVt = document.startViewTransition(update));
+		vt.finished.finally(() => vt === lastVt && cards.forEach((c) => (c.style.viewTransitionName = ""))); // a quicker click may have started another
+	});
+
+	// A soft glow in the project's colour follows the pointer across the card.
+	grid.addEventListener("pointermove", (e) => {
+		const c = e.target.closest(".work");
+		if (!c) return;
+		const r = c.getBoundingClientRect();
+		c.style.setProperty("--mx", `${e.clientX - r.left}px`);
+		c.style.setProperty("--my", `${e.clientY - r.top}px`);
+	});
 </script>
 </body>
 </html>

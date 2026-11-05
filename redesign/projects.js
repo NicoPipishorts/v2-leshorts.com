@@ -1,5 +1,4 @@
-// Project list for the mockup pages. Facts come from src/site/locales/fr.json and data.ts.
-// ponytail: plain global, mockups only; the real site keeps data.ts + locales.
+// Project list for the portfolio, home and project pages (case-study details are in project-data.js).
 window.PROJECTS = [
 	{ slug: "horizon-planning", name: "Horizon Planning", cat: "app", kind: "Logiciel SaaS", year: "2026", img: "horizon-week", featured: true,
 		line: "Le planning hebdo des équipes du BTP, sorti du tableur d'une entreprise savoyarde et devenu un SaaS.",
@@ -44,14 +43,14 @@ window.PROJECTS = [
 // Initials for the coloured project hexagons.
 const INI = { "horizon-planning": "HP", ab2c: "AB", comacademy: "CA", asba: "AD", kaast: "K", synqit: "SQ", "maison-du-print": "MP", soulbm: "SÉ", fournelles: "DF", "np-ebenisterie": "NP", careledger: "CL", arthur: "AS", oxid: "OS" };
 PROJECTS.forEach((p) => (p.ini = INI[p.slug]));
-window.projectUrl = (slug) => `project.html?p=${slug}`;
+window.projectUrl = (slug) => `/portfolio/${slug}`;
 // Dark or white text, whichever reads on a project's accent colour.
 window.inkOn = (hex) => {
 	const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
 	return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.3 ? "#111925" : "#ffffff";
 };
 window.CATS = { site: "Sites", app: "Applications & SaaS", produit: "Produits", outil: "Outils" };
-window.shot = (name) => `shots/${name}.jpg`;
+window.shot = (name) => `/shots/${name}.jpg`;
 
 
 
