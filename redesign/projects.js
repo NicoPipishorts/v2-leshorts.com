@@ -36,9 +36,9 @@ window.PROJECTS = [
 	{ slug: "np-ebenisterie", name: "NP Ébénisterie", cat: "site", kind: "Marque & site", year: "2026", img: "np-home",
 		line: "Mes meubles faits main, et le site qui les présente.",
 		tags: ["Angular", "CSS natif"] },
-	{ slug: "careledger", name: "CareLedger", cat: "outil", kind: "Outil interne", year: "2026", img: "careledger-overview",
-		line: "Mon registre de contrats de maintenance\u00a0: heures, infrastructure, suivi client.",
-		tags: ["Next.js", "Drizzle", "PostgreSQL"] },
+	{ slug: "careledger", name: "CareLedger", cat: "produit", kind: "App Mac & Linux", year: "2026", img: "careledger-today",
+		line: "App Mac native pour freelances\u00a0: clients, contrats, travail et facturation, avec serveur MCP.",
+		tags: ["SwiftUI", "SQLite", "MCP"] },
 ];
 // Initials for the coloured project hexagons.
 const INI = { "horizon-planning": "HP", ab2c: "AB", comacademy: "CA", asba: "AD", kaast: "K", synqit: "SQ", "maison-du-print": "MP", soulbm: "SÉ", fournelles: "DF", "np-ebenisterie": "NP", careledger: "CL", arthur: "AS", oxid: "OS" };

@@ -687,43 +687,78 @@ window.DETAILS = {
 	},
 	"careledger": {
 		"accent": "#1f9d55",
-		"link": null,
+		"link": "https://www.careledger.dev",
 		"stack": [
+			"SwiftUI",
+			"SQLite",
+			"Swift",
+			"libadwaita (Linux)",
+			"MCP",
 			"Next.js 16",
-			"React 19",
-			"Drizzle",
-			"PostgreSQL",
-			"Tailwind v4",
-			"Docker",
-			"node:test"
+			"PostgreSQL"
 		],
-		"cover": "careledger-overview",
+		"cover": "careledger-today",
 		"gallery": [
-			"careledger-project",
-			"careledger-flow",
-			"careledger-worklog"
+			"careledger-board",
+			"careledger-contract",
+			"careledger-infra",
+			"careledger-money"
 		],
-		"role": "Outil perso — conception & développement",
+		"role": "Produit perso — conception, développement & distribution",
 		"period": "2026",
-		"tagline": "Contrats de maintenance, heures et infra — un seul registre.",
-		"summary": "Outil local-first pour suivre mes contrats de maintenance freelance : forfaits, temps passé, et un dossier par client couvrant l’infrastructure, les coûts, les décisions et le déploiement.",
-		"challenge": "Savoir d’un coup d’œil quel client dépasse son forfait, combien coûte sa stack par mois et comment la déployer — sans abonnement SaaS.",
+		"tagline": "Clients, contrats, travail et facturation — un seul registre, sur ton Mac.",
+		"summary": "Né comme mon outil interne de suivi des contrats de maintenance, CareLedger est devenu une app Mac native (et une version Linux) pour freelances et petites agences : qui sont les clients, ce qui a été vendu, le travail fait et ce qu’il reste à facturer. Le registre tient dans un seul fichier local, sans compte ni serveur.",
+		"challenge": "Savoir d’un coup d’œil ce qui m’attend, quel contrat arrive au bout de son forfait, ce que coûte et rapporte chaque projet — sans tableur ni abonnement SaaS, et sans que les données quittent la machine.",
 		"built": [
 			{
-				"title": "Forfaits de contrat",
-				"body": "Périodes mensuelles à contrat entier ; heures incluses, évolutions, sécurité et travail non facturé."
+				"title": "Contrats de tous types",
+				"body": "Maintenance avec heures, évolutions et renouvellement ; création au forfait découpée en phases ; fonctionnalité vendue seule. Les forfaits se décomptent depuis le temps passé."
 			},
 			{
-				"title": "Un chrono qui résiste",
-				"body": "Le chrono de tâche survit aux redémarrages, suppressions réversibles, historique d’édition horodaté."
+				"title": "Un seul tableau",
+				"body": "Tâches, feuille de route, cartes et constats d’audit côte à côte, filtrés par contrat, source ou tag, avec chrono dans la barre des menus et relances notifiées même app fermée."
 			},
 			{
-				"title": "Dossiers projet",
-				"body": "Infra, coûts récurrents, phases, décisions, schémas de déploiement et carte — les secrets sont refusés par conception."
+				"title": "La technique et l’argent",
+				"body": "Infra en schéma avec le coût de chaque brique, stack, déploiements en pipeline, décisions ; produits, marges et factures à envoyer. Les secrets sont refusés par conception."
+			},
+			{
+				"title": "Pensé pour les agents IA",
+				"body": "Un serveur MCP livré avec l’app : les agents lisent et écrivent le registre selon ses propres règles, même app fermée, et l’app affiche leurs changements en moins d’une seconde."
 			}
 		],
-		"layers": [],
-		"metrics": []
+		"layers": [
+			{
+				"label": "Cœur",
+				"value": "CareLedgerCore en Swift : règles du registre partagées par l’app, Linux et le serveur MCP"
+			},
+			{
+				"label": "Apps",
+				"value": "SwiftUI sur macOS 15+, libadwaita (GNOME) sur Linux, en français et en anglais"
+			},
+			{
+				"label": "Données",
+				"value": "Un fichier SQLite local, sauvegardé chaque jour"
+			},
+			{
+				"label": "Distribution",
+				"value": "Signée et notarisée par Apple, publiée sur R2 par la CI, site careledger.dev en Next.js"
+			}
+		],
+		"metrics": [
+			{
+				"value": "36",
+				"label": "outils MCP"
+			},
+			{
+				"value": "2",
+				"label": "apps natives, Mac & Linux"
+			},
+			{
+				"value": "0",
+				"label": "compte ou serveur requis"
+			}
+		]
 	},
 	"arthur": {
 		"accent": "#1b73be",
@@ -877,7 +912,10 @@ window.CAPTIONS = {
 	"asba-leads": ["Leads", "Toutes les demandes du site dans l’admin : type, statut de l’e-mail, configuration proposée et dernier contact (données fictives)."],
 	"fournelles-shop": ["Demande de commande", "Les cuvées s'ajoutent au panier ; le domaine répond avec les délais et les frais de livraison."],
 	"fournelles-domaine": ["Le domaine", "Trois générations de vignerons racontées à côté d'une galerie photo du vignoble."],
-	"careledger-flow": ["Architecture et coûts", "Le parcours du visiteur jusqu'aux sauvegardes, avec le coût de chaque brique."],
+	"careledger-board": ["Le tableau", "Tâches, feuille de route, cartes et constats d’audit d’un projet, filtrés par contrat, source ou tag."],
+	"careledger-contract": ["Un contrat de maintenance", "Heures consommées, fonctionnalités restantes, santé du contrat et tendance de charge sur six mois."],
+	"careledger-infra": ["Infrastructure", "Ce sur quoi tourne le projet, dessiné en schéma, avec ce que coûte et rapporte chaque brique."],
+	"careledger-money": ["L’argent", "Ce que chaque produit coûte et rapporte, et les factures à envoyer dans les 60 jours."],
 	"print-atelier": ["L'atelier", "L'histoire de l'atelier racontée en grand, photos posées comme des tirages scotchés au mur."],
 	"print-galerie": ["La galerie", "Les réalisations de l'atelier, filtrées par technique : sérigraphie ou impression DTF."],
 	"print-devis": ["La demande de devis", "Un formulaire court, avec le type d'impression, le textile, la quantité et le visuel à joindre."],
@@ -928,8 +966,6 @@ window.CAPTIONS = {
 	"synqit-phone-guest": ["Ajouter un morceau", "La page invité, pensée pour le téléphone : on cherche un titre et on l'ajoute, sans compte ni application."],
 	"synqit-phone-share": ["Le lien d'invitation", "L'hôte partage un seul lien par message, WhatsApp ou e-mail, et peut le révoquer ou le régénérer à tout moment."],
 	"synqit-phone-transfer": ["Le suivi du transfert", "Le résultat d'un transfert entre services, consultable depuis le téléphone, titre par titre."],
-	"careledger-project": ["Fiche projet", "Contrat, heures consommées, fonctionnalités restantes et tendance de charge sur six mois."],
-	"careledger-worklog": ["Journal de travail", "Chaque tâche rattachée à son client, son contrat et son mode de facturation."],
 	"fournelles-vins": ["Fiche de dégustation", "Chaque cuvée a son commentaire de dégustation et ses accords mets et vins."],
 	"fournelles-m-home": ["Accueil mobile", "La vidéo du vignoble en plein écran, avec le logo du domaine."],
 	"fournelles-m-domaine": ["Histoire sur mobile", "Le récit du domaine reste lisible sur la photo, la navigation passe en bas d'écran."],
