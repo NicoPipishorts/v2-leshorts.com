@@ -76,7 +76,7 @@
 			<div><dt class="mono">Rôle</dt><dd>${esc(p.role)}</dd></div>
 			<div><dt class="mono">Période</dt><dd>${p.period}</dd></div>
 			<div><dt class="mono">Type</dt><dd>${CATS[p.cat]}</dd></div>
-			<div><dt class="mono">En ligne</dt><dd>${p.link ? `<a class="ext-link" href="${p.link}">${p.link.replace(/^https?:\/\//, "")} <span class="ic ext" aria-hidden="true"></span></a>` : "Privé"}</dd></div>
+			<div><dt class="mono">En ligne</dt><dd>${p.link ? `<a class="ext-link" href="${p.link}" target="_blank" rel="noopener">${p.link.replace(/^https?:\/\//, "")} <span class="ic ext" aria-hidden="true"></span></a>` : "Privé"}</dd></div>
 		</dl>`;
 
 	const sec = (label, title, body, cls = "") => `<section class="wrap ${cls}"><div class="head"><div><span class="mono">${label}</span><h2>${title}</h2></div></div>${body}</section>`;
