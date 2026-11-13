@@ -1,8 +1,5 @@
 {
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/portfolio/:slug", "destination": "/project" }
-  ],
   "redirects": [
     {
       "source": "/project",

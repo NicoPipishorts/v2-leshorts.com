@@ -9,7 +9,7 @@
 <script src="/brand.js"></script>
 </head>
 <body>
-<!-- One template for every project, served at /portfolio/<slug> (vercel.json rewrites it to /project, scripts/dev.mjs here). Content comes from project-data.js + projects.js. -->
+<!-- Template for every project page, never served as is: scripts/prerender.mjs fills the title and meta, #head and #case from projects.js + project-data.js, at build (dist/portfolio/<slug>.html) and in npm run dev. -->
 <div class="dark fade" data-topo="hero">
 	<header class="wrap top">
 		<a class="brand" href="/" data-logo><span>Nicolas Pisar</span></a>
@@ -49,68 +49,26 @@
 </footer>
 <script src="/topo.js"></script>
 <script src="/transit.js"></script>
-<script src="/projects.js"></script>
-<script src="/project-data.js"></script>
 <script>
 (() => {
-	const slug = location.pathname.split("/")[2] ?? new URLSearchParams(location.search).get("p");
-	const i = PROJECTS.findIndex((p) => p.slug === slug);
-	if (i < 0 || !DETAILS[slug]) return location.replace("/portfolio");
-	const p = { ...PROJECTS[i], ...DETAILS[slug] };
-	const next = PROJECTS[(i + 1) % PROJECTS.length];
-	const hex = (q, cls = "") => `<span class="hx ${cls}" style="--c:${DETAILS[q.slug].accent};--t:${inkOn(DETAILS[q.slug].accent)}" aria-hidden="true">${q.ini}</span>`;
-	const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-	const cap = (g) => CAPTIONS[g] || [p.name, ""];
-	// Gallery: desktop screens share one row at one ratio; phone screens and portrait photos get their own row.
-	const row = (tall) => {
-		const items = p.gallery.map((g, i) => [g, i]).filter(([g]) => TALL_SHOTS.has(g) === tall);
-		return items.length ? `<div class="g-row ${tall ? "tall" : "wide"}">${items.map(([g, i]) => `<a href="${shot(g)}" data-i="${i}" data-tone="${DARK_SHOTS.has(g) ? "dark" : "light"}"><img src="${shot(g)}" alt="${esc(cap(g)[0])}" loading="lazy" /></a>`).join("")}</div>` : "";
-	};
-	document.title = `${p.name} · Nicolas Pisar`;
-
-	document.getElementById("head").innerHTML = `
-		<nav class="crumbs mono" aria-label="Fil d'Ariane"><a href="/portfolio">Projets</a><span>/</span><span>${p.name}</span></nav>
-		<div class="case-title">${hex(p, "big")}<div><span class="mono">${p.kind} · ${p.period}</span><h1>${p.name}</h1></div></div>
-		<p class="lede">${esc(p.tagline)}</p>
-		<dl class="facts">
-			<div><dt class="mono">Rôle</dt><dd>${esc(p.role)}</dd></div>
-			<div><dt class="mono">Période</dt><dd>${p.period}</dd></div>
-			<div><dt class="mono">Type</dt><dd>${CATS[p.cat]}</dd></div>
-			<div><dt class="mono">En ligne</dt><dd>${p.link ? `<a class="ext-link" href="${p.link}" target="_blank" rel="noopener">${p.link.replace(/^https?:\/\//, "")} <span class="ic ext" aria-hidden="true"></span></a>` : "Privé"}</dd></div>
-		</dl>`;
-
-	const sec = (label, title, body, cls = "") => `<section class="wrap ${cls}"><div class="head"><div><span class="mono">${label}</span><h2>${title}</h2></div></div>${body}</section>`;
-	document.getElementById("case").innerHTML = `
-		<div class="wrap cover"><img src="${shot(p.cover)}" alt="${p.name}, page principale" /></div>
-		${p.metrics.length ? `<div class="wrap"><div class="metrics">${p.metrics.map((m) => `<div><b>${m.value}</b><span>${esc(m.label)}</span></div>`).join("")}</div></div>` : ""}
-		<section class="wrap overview">
-			<div><span class="mono">Aperçu</span><p>${esc(p.summary)}</p></div>
-			<div class="challenge"><span class="mono">Le défi</span><p>${esc(p.challenge)}</p></div>
-		</section>
-		${sec("Ce que j'ai construit", "Les briques du projet", `<div class="built">${p.built.map((b) => `<article><h3>${esc(b.title)}</h3><p>${esc(b.body)}</p></article>`).join("")}</div>`)}
-		${p.layers.length ? sec("Architecture", "Comment c'est assemblé", `<dl class="layers">${p.layers.map((l) => `<div><dt class="mono">${esc(l.label)}</dt><dd>${esc(l.value)}</dd></div>`).join("")}</dl>`) : ""}
-		${p.gallery.length ? sec("Écrans", "En images", `<div class="gallery">${row(false)}${row(true)}</div>`) : ""}
-		${sec("Stack", "Les outils", `<ul class="chips big">${p.stack.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>`)}
-		<div class="wrap"><a class="next" href="${projectUrl(next.slug)}">
-			<span class="mono">Projet suivant</span>
-			<span class="next-row">${hex(next)}<span><b>${next.name}</b><span>${esc(next.line)}</span></span><span class="arr" aria-hidden="true"><span class="ic"></span></span></span>
-		</a></div>`;
-
 	// Gallery lightbox: a native <dialog> (focus trap, Esc to close), arrows / swipe to move between screenshots.
+	// The screenshots come from the pre-rendered gallery links, in the project's order (data-i).
+	const shots = [...document.querySelectorAll(".gallery a[data-i]")].sort((a, b) => a.dataset.i - b.dataset.i)
+		.map((a) => ({ src: a.getAttribute("href"), t: a.querySelector("img").alt, d: a.dataset.d }));
 	const box = document.getElementById("lightbox");
 	const img = box.querySelector("img"), title = box.querySelector("h2"), desc = box.querySelector("figcaption p"), count = box.querySelector(".lb-count");
 	let cur = 0;
 	const fig = box.querySelector("figure");
 	// dir: 1 = next (slides in from the right), -1 = previous, 0 = opening
 	const show = (i, dir = 0) => {
-		cur = (i + p.gallery.length) % p.gallery.length;
-		const g = p.gallery[cur], [t, d] = cap(g);
-		img.src = shot(g); img.alt = t; title.textContent = t; desc.textContent = d;
-		count.textContent = `${cur + 1} / ${p.gallery.length}`;
+		cur = (i + shots.length) % shots.length;
+		const s = shots[cur];
+		img.src = s.src; img.alt = s.t; title.textContent = s.t; desc.textContent = s.d;
+		count.textContent = `${cur + 1} / ${shots.length}`;
 		fig.style.transform = "";
 		fig.animate([{ opacity: 0, transform: dir ? `translateX(${dir * 60}px)` : "scale(.98)" }, { opacity: 1, transform: "none" }], { duration: 280, easing: "cubic-bezier(.2, .9, .3, 1)" });
 	};
-	box.classList.toggle("single", p.gallery.length < 2);
+	box.classList.toggle("single", shots.length < 2);
 	document.querySelector(".gallery")?.addEventListener("click", (e) => {
 		const a = e.target.closest("a[data-i]");
 		if (!a) return;
